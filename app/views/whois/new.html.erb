@@ -1,0 +1,25 @@
+<h1>Whois</h1>
+<div class="row">
+  <div class="large-6 large-offset-3">
+    <%= form_tag(controller: "whois", action: "create") do %>
+      <div class="row collapse">
+        <div class="small-10 columns">
+          <%= text_field_tag :name %>
+        </div>
+        <div class="small-2 columns">
+          <%= submit_tag "Go", class: "button postfix" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @domain %>
+  <row>
+    <div class="large-8 large-offset-2">
+      <% @domain.whois.to_s.each_line do |line| %>
+        <%= line %> <br>
+      <% end %>
+    </div>
+  </row>
+<% end %>

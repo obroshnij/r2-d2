@@ -15,3 +15,9 @@
  *= require foundation_and_overrides
 
  */
+
+/* universal */
+
+h1 {
+  text-align: center;
+}

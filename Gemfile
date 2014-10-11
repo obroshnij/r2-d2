@@ -26,7 +26,9 @@ gem 'spring',        group: :development
 
 gem 'rails-html-sanitizer'
 gem 'foundation-rails'
+
 gem 'whois'
+gem 'public_suffix'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

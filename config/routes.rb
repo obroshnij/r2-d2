@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  get 'whois' => 'whois#new'
+  post 'whois' => 'whois#create'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
