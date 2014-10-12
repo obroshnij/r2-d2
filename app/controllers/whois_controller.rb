@@ -3,7 +3,10 @@ class WhoisController < ApplicationController
   end
 
   def create
-  	@domain = Domain.new(params[:name])
+  	@record = Whois.whois(params[:name])
   	render 'new'
+  rescue Exception => ex
+  	flash.now[:alert] = "#{ex.class}: #{ex.message}"
+    render 'new'
   end
 end

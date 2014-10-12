@@ -1,3 +1,5 @@
+<% provide(:title, "Whois") %>
+
 <h1>Whois</h1>
 <div class="row">
   <div class="large-6 large-offset-3">
@@ -14,12 +16,18 @@
   </div>
 </div>
 
-<% if @domain %>
+<% if @record %>
   <row>
-    <div class="large-8 large-offset-2">
-      <% @domain.whois.to_s.each_line do |line| %>
+    <div class="large-10 large-offset-1 whois-box panel">
+      <% @record.to_s.each_line do |line| %>
         <%= line %> <br>
       <% end %>
+    </div>
+  </row>
+<% else %>
+  <row>
+    <div class="large-10 large-offset-1 whois-box panel callout">
+      <p>I can look up Whois records for domains, TLDs and IP addresses</p>
     </div>
   </row>
 <% end %>
