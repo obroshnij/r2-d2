@@ -18,7 +18,7 @@
 
 <% if @record %>
   <row>
-    <div class="large-10 large-offset-1 whois-box panel">
+    <div class="large-10 large-offset-1 panel whois-box">
       <% @record.each_line do |line| %>
         <%= line %> <br>
       <% end %>
@@ -26,8 +26,8 @@
   </row>
 <% else %>
   <row>
-    <div class="large-10 large-offset-1 whois-box panel callout">
-      <p>I can look up Whois records for domains, TLDs and IP addresses</p>
+    <div class="large-10 large-offset-1 panel callout">
+      <p>I can look up domains, TLDs and IP addresses</p>
     </div>
   </row>
 <% end %>
