@@ -19,7 +19,7 @@
 <% if @record %>
   <row>
     <div class="large-10 large-offset-1 whois-box panel">
-      <% @record.to_s.each_line do |line| %>
+      <% @record.each_line do |line| %>
         <%= line %> <br>
       <% end %>
     </div>

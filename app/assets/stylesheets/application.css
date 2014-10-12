@@ -24,4 +24,5 @@ h1 {
 
 .whois-box {
   font-size: 0.95em;
+  word-wrap: break-word
 }
