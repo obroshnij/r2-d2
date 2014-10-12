@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'whois' => 'whois#new'
   post 'whois' => 'whois#create'
 
+  get 'alerts' => 'maintenance_alerts#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -13,16 +13,16 @@
   <body>
     <%= render 'layouts/header' %>
     <div class="row">
-      <div class="large-12 columns"><br>
+      <div class="small-8 small-offset-2 columns"><br>
         <% flash.each do |key, value| %>
           <div data-alert class="alert-box <%= key %>">
             <%= value %>
             <a href="#" class="close">&times;</a>
           </div>
         <% end %>
-        <%= yield %>
       </div>
     </div>
+    <%= yield %>
     <%= javascript_include_tag "application" %>
   </body>
 </html>

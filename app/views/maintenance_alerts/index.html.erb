@@ -1,0 +1,28 @@
+<% provide(:title, "Maintenance Alerts") %>
+
+<h1>eNom Maintenance Alerts</h1>
+
+<% if @alerts %>
+  <div class="row">
+    <table>
+      <thead>
+        <tr>
+          <th width="200">TLDs</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @alerts.each do |alert| %>
+          <tr>
+            <td><%= alert[:tlds] %></td>
+            <td>
+              <% alert[:message].each_line do |line| %>
+                <%= line %><br>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

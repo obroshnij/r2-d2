@@ -145,6 +145,7 @@ DEPENDENCIES
   foundation-rails
   jbuilder (~> 2.0)
   jquery-rails
+  nokogiri
   pg
   public_suffix
   rails (= 4.1.6)

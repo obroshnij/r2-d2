@@ -30,6 +30,8 @@ gem 'foundation-rails'
 gem 'whois'
 gem 'public_suffix'
 
+gem 'nokogiri'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
