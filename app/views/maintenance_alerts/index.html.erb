@@ -7,8 +7,8 @@
     <table>
       <thead>
         <tr>
-          <th width="200">TLDs</th>
-          <th>Message</th>
+          <th width="200">TLD</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -16,8 +16,9 @@
           <tr>
             <td><%= alert[:tlds] %></td>
             <td>
+              <strong><%= alert[:timeframe] %></strong><br>
               <% alert[:message].each_line do |line| %>
-                <%= line %><br>
+                <br><%= line %>
               <% end %>
             </td>
           </tr>
