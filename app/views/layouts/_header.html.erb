@@ -8,8 +8,8 @@
   <section class="top-bar-section">
     <ul class="left">
       <li class="divider"></li>
-      <li class=<%= selected?("Whois", yield(:title)) %>><%= link_to "Whois", whois_path %></li>
-      <li class=<%= selected?("Maintenance Alerts", yield(:title)) %>><%= link_to "Maintenance Alerts", alerts_path %></li>
+      <%= content_tag(:li, (link_to "Whois", whois_path), class: selected?("Whois", yield(:title))) %>
+      <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path), class: selected?("Maintenance Alerts", yield(:title))) %>
     </ul>
   </section>
 

@@ -4,26 +4,37 @@
 
 <% if @alerts %>
   <div class="row">
-    <table>
-      <thead>
-        <tr>
-          <th width="200">TLD</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @alerts.each do |alert| %>
+    <div class="large-12 columns">
+      <table>
+        <thead>
           <tr>
-            <td><%= alert[:tlds] %></td>
-            <td>
-              <strong><%= alert[:timeframe] %></strong><br>
-              <% alert[:message].each_line do |line| %>
-                <br><%= line %>
-              <% end %>
-            </td>
+            <th width="200">TLD</th>
+            <th>Status</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @alerts.each do |alert| %>
+            <tr>
+              <td><%= alert[:tlds] %></td>
+              <td>
+                <strong><%= alert[:timeframe] %></strong><br>
+                <% alert[:message].each_line do |line| %>
+                  <br><%= line %>
+                <% end %><br><br>
+                <%= link_to "More info", '#', data: { :'reveal-id' => alert_id(alert) } %>
+                <div id=<%= alert_id(alert) %> class="reveal-modal" data-reveal>
+                  <%= render partial: "alert_details", locals: {alert: alert} %>
+                  <a class="close-reveal-modal">&#215;</a>
+                </div>
+                <div id=<%= post_id(alert) %> class="reveal-modal" data-reveal>
+                  <%= render partial: "status_post", locals: {alert: alert} %>
+                <a class="close-reveal-modal">&#215;</a>
+              </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% end %>

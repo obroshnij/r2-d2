@@ -2,13 +2,13 @@
 
 <h1>Whois</h1>
 <div class="row">
-  <div class="small-4 small-offset-4 columns">
+  <div class="large-6 large-offset-3 columns">
     <%= form_tag(controller: "whois", action: "create") do %>
       <div class="row collapse">
-        <div class="small-10 columns">
+        <div class="large-10 columns">
           <%= text_field_tag :name %>
         </div>
-        <div class="small-2 columns">
+        <div class="large-2 columns">
           <%= submit_tag "Go", class: "button postfix" %>
         </div>
       </div>
@@ -17,17 +17,17 @@
 </div>
 
 <% if @record %>
-  <row>
-    <div class="small-6 large-offset-3 panel whois-box">
+  <div class="row">
+    <div class="large-10 large-offset-1 panel whois-box">
       <% @record.each_line do |line| %>
         <%= line %> <br>
       <% end %>
     </div>
-  </row>
+  </div>
 <% else %>
-  <row>
-    <div class="large-6 large-offset-3 panel callout">
+  <div class="row">
+    <div class="large-10 large-offset-1 panel callout">
       <p>I can look up domains, TLDs and IP addresses</p>
     </div>
-  </row>
+  </div>
 <% end %>

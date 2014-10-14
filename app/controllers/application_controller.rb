@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   #------------- Maintenance Alerts Helpers -------------
 
-  # Parse eNom maintenance from http://www.enom.com/registrynews.asp
+  # Parse eNom maintenance alerts from http://www.enom.com/registrynews.asp
   def parse_alerts
     alerts = []
     maintenance_page = Nokogiri::HTML(open("http://www.enom.com/registrynews.asp"))

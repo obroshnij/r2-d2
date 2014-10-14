@@ -26,3 +26,7 @@ h1 {
   font-size: 0.95em;
   word-wrap: break-word
 }
+
+.red-text {
+  color: red;
+}

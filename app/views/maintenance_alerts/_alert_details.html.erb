@@ -1,0 +1,30 @@
+<% update_alert(alert) %>
+
+<p class="lead">Details:</p>
+<table width="100%">
+  <tr>
+    <td><strong>TLDs</strong></td>
+    <td><%= alert[:tlds] %></td>
+  </tr>
+  <% if valid?(alert) %>
+    <% timeframes(alert).each do |key, value| %>
+      <tr>
+        <td><strong><%= key %></strong></td>
+        <td><%= value %></td>
+      </tr>
+    <% end %>
+  <% else %>
+    <tr>
+      <td><strong>Timeframe</strong></td>
+      <td><%= alert[:timeframe] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if !valid?(alert) %>
+  <p class="lead red-text">
+    I may be wrong, but the timeframe posted by eNom just doesn't look right
+  </p>
+<% elsif !permanent?(alert) %>
+  <%= link_to "Generate a status post", '#', data: { :'reveal-id' => post_id(alert) } %>
+<% end %>
