@@ -124,7 +124,7 @@ module MaintenanceAlertsHelper
   end
 
   def post_content(alert)
-    "Dear Customers,\n\nThis is to let you know that on <b>#{post_timeframes(alert)[1]}</b> the registry of #{tlds(alert[:tlds])} domains will be processing a scheduled maintenance.\n\nThe time frame for the maintenance is as follows:\n\n<b>#{post_timeframes(alert)[0]}</b>\n\nDomain availability check, registrations, renewals and updates will not be possible throughout the maintenance window. DNS and WHOIS services will continue to operate normally.\n\nPlease allow time until the maintenance is finished and then feel free to modify your existing #{tlds(alert[:tlds])} domains or register a new one.\n\nThank you for your patience and understanding.\n\nKind regards,\nNamecheap Support Team"
+    "Dear Customers,\n\nThis is to let you know that on <b>#{post_timeframes(alert)[1]}</b> the registry of #{tlds(alert[:tlds])} domains will be processing a scheduled maintenance.\n\nThe time frame for the maintenance is as follows:\n\n<b>#{post_timeframes(alert)[0]}</b>\n\nDomain availability checks, registrations, renewals and updates will not be possible throughout the maintenance window. DNS and WHOIS services will continue to operate normally.\n\nPlease allow time until the maintenance is finished and then feel free to modify your existing #{tlds(alert[:tlds])} domains or register a new one.\n\nThank you for your patience and understanding.\n\nKind regards,\nNamecheap Support Team"
   end
 
 end
