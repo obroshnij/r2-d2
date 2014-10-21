@@ -120,7 +120,7 @@ module MaintenanceAlertsHelper
     tlds = string.gsub(' and ', ', ').split(', ')
     return "<b>#{tlds.first}</b>" if tlds.count == 1
     return "<b>#{tlds.first}</b> and <b>#{tlds.last}</b>" if tlds.count == 2
-    "<b>#{tlds[0..-2].join(', ')}</b> and <b>tlds.last</b>"
+    "<b>#{tlds[0..-2].join(', ')}</b> and <b>#{tlds.last}</b>"
   end
 
   def post_content(alert)

@@ -1,0 +1,19 @@
+<% if tlds %>
+  <p class="lead">TLDs Count</p>
+  <table width="100%">
+    <thead>
+      <tr>
+        <th>TLD</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tlds.each do |tld, count| %>
+        <tr>
+          <td><%= tld %></td>
+          <td><%= count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

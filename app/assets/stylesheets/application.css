@@ -30,3 +30,11 @@ h1 {
 .red-text {
   color: red;
 }
+
+textarea {
+	resize: none;
+}
+
+input[type='checkbox'] {
+	margin-bottom: 0px;
+}

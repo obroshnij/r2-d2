@@ -10,6 +10,7 @@
       <li class="divider"></li>
       <%= content_tag(:li, (link_to "Whois", whois_path), class: selected?("Whois", yield(:title))) %>
       <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path), class: selected?("Maintenance Alerts", yield(:title))) %>
+      <%= content_tag(:li, (link_to "Extract Domains", extract_domains_path), class: selected?("Extract Domains", yield(:title))) %>
     </ul>
   </section>
 

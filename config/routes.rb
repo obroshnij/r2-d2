@@ -5,6 +5,12 @@ Rails.application.routes.draw do
 
   get 'alerts' => 'maintenance_alerts#index'
 
+  get 'extract_domains' => 'domain_box#new'
+  post 'extract_domains' => 'domain_box#create'
+  
+  get 'extract_domains_csv' => 'domain_box#export'
+  post 'extract_domains_csv' => 'domain_box#parse'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

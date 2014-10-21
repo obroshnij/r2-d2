@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   # Perform Whois lookup and return the record
   def lookup(str)
     begin
+      raise Whois::ServerNotFound if PublicSuffix.parse(str).tld == "link" # TODO: refactor / create a separate method
       Whois.whois(str).to_s
     rescue Whois::ServerNotFound
       begin
@@ -21,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   # Get Whois server for the given TLD
   def whois_server(tld)
-    return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc"
+    return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc" # TODO: refactor / create a separate method
     host = Whois.whois(".#{tld}").match(/whois.+/).to_s.split.last
     raise "Unable to find a WHOIS server for .#{tld.upcase}" unless host
     Whois::Server.factory :tld, ".#{tld}", host
@@ -53,6 +54,17 @@ class ApplicationController < ActionController::Base
       break if table.next_element.text == "Product Maintenance Schedule"
     end
     alerts
+  end
+
+  #------------- Domains Info CSV Helpers -------------
+
+  # Parse the CSV file and replace firstanme and lastname with fullname
+  def parse_domains_info(csv_file)
+    csv = SmarterCSV.process(csv_file.tempfile, strip_chars_from_headers: /'/)
+    csv.each do |hash|
+      name = hash[:firstname] + " " + hash[:lastname]
+      hash.except!(:firstname, :lastname).merge!({ fullname: name })
+    end
   end
 
 end

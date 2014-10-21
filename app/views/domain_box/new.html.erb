@@ -1,0 +1,43 @@
+<% provide(:title, "Extract Domains") %>
+
+<h1>Extract Domains</h1>
+<div class="row">
+  <div class="large-12 columns">
+    <%= form_tag(controller: "domain_box", action: "create") do %>
+      <fieldset>
+        <div class="row">
+          <div class="large-8 columns">
+            <%= text_area_tag(:query, content(@domains), size: "20x20") %>
+          </div>
+          <div class="large-4 columns">
+            <%= check_box_tag(:remove_subdomains) %>
+            <%= label_tag(:remove_subdomains, "Remove Subdomains") %><br>
+            <%= check_box_tag(:count_occurrences) %>
+            <%= label_tag(:count_occurrences, "Count Occurrences") %><br>
+            <%= check_box_tag(:count_tlds) %>
+            <%= label_tag(:count_tlds, "Count TLDs") %><br><br>
+            <%= submit_tag "Submit", class: "button postfix" %>
+    <% end %>
+            <% if !@occurrences_count.blank? || !@tlds_count.blank? %><hr><% end %>
+
+            <% unless @occurrences_count.blank? %>
+              <%= link_to "Occurrences Count", '#', data: { :'reveal-id' => "occurrences" } %>
+              <div id="occurrences" class="reveal-modal" data-reveal>
+                <%= render partial: "occurrences_count", locals: {occurrences: @occurrences_count} %>
+                <a class="close-reveal-modal">&#215;</a>
+              </div><br>
+            <% end %>
+
+            <% unless @tlds_count.blank? %>
+              <%= link_to "TLDs Count", '#', data: { :'reveal-id' => "tlds" } %>
+              <div id="tlds" class="reveal-modal" data-reveal>
+                <%= render partial: "tlds_count", locals: {tlds: @tlds_count} %>
+                <a class="close-reveal-modal">&#215;</a>
+              </div><br>
+            <% end %>
+
+          </div>
+        </div>
+      </fieldset>
+  </div>
+</div>
