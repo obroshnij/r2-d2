@@ -29,7 +29,7 @@ class DomainBoxController < ApplicationController
     end
 
     @domains = domains.uniq.inject("") { |result, domain| result + "#{domain}\n" }.chomp
-
+  
     render 'new'
   end
 
@@ -42,7 +42,7 @@ class DomainBoxController < ApplicationController
     csv = parse_domains_info(params[:domains_info])
     @result = []
     csv.each do |line|
-      hash = { :domainname => line[:domainname], :count => domains_count[line[:domainname]] }
+      hash = { domainname: line[:domainname], count: domains_count[line[:domainname]] }
       params[:csv_options].each { |option| hash[option] = line[option.to_sym] }
       @result << hash
     end

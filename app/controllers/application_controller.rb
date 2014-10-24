@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   def lookup(str)
     begin
       raise Whois::ServerNotFound if PublicSuffix.parse(str).tld == "link" # TODO: refactor / create a separate method
+      raise Whois::ServerNotFound if PublicSuffix.parse(str).tld == "trade"
       Whois.whois(str).to_s
     rescue Whois::ServerNotFound
       begin
@@ -23,6 +24,7 @@ class ApplicationController < ActionController::Base
   # Get Whois server for the given TLD
   def whois_server(tld)
     return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc" # TODO: refactor / create a separate method
+    return Whois::Server.factory :tld, ".trade", "whois.nic.trade" if tld == "trade"
     host = Whois.whois(".#{tld}").match(/whois.+/).to_s.split.last
     raise "Unable to find a WHOIS server for .#{tld.upcase}" unless host
     Whois::Server.factory :tld, ".#{tld}", host
