@@ -6,12 +6,20 @@
   </ul>
 
   <section class="top-bar-section">
-    <ul class="left">
+    <ul class="right">
       <li class="divider"></li>
       <%= content_tag(:li, (link_to "Whois", whois_path), class: selected?("Whois", yield(:title))) %>
+      <li class="divider"></li>
       <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path), class: selected?("Maintenance Alerts", yield(:title))) %>
+      <li class="divider"></li>
       <%= content_tag(:li, (link_to "Extract Domains", extract_domains_path), class: selected?("Extract Domains", yield(:title))) %>
     </ul>
   </section>
 
 </nav>
+
+<header>
+  <%= image_tag "logo.png", class: "logo" %>
+  <br>
+  <h1><%= yield(:title) %></h1>
+</header>
