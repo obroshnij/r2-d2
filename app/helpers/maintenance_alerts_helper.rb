@@ -109,6 +109,7 @@ module MaintenanceAlertsHelper
       timeframes[0] += end_est.strftime("%B %-d, %I:%M %p %Z ") + start_utc.strftime("(%B %-d, %H:%M - ") + end_utc.strftime("%H:%M %Z)")
       timeframes[1] = start_est.strftime("%B %-d - ") + end_est.strftime("%-d (%Z) / ") + start_utc.strftime("%B %-d (%Z)")
     end
+    timeframes.each { |item| item.gsub!("UTC", "GMT") }
     timeframes
   end
 

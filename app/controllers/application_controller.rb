@@ -6,25 +6,29 @@ class ApplicationController < ActionController::Base
   #------------- Whois Helpers -------------
 
   # Perform Whois lookup and return the record
-  def lookup(str)
-    begin
-      raise Whois::ServerNotFound if PublicSuffix.parse(str).tld == "link" # TODO: refactor / create a separate method
-      raise Whois::ServerNotFound if PublicSuffix.parse(str).tld == "trade"
-      Whois.whois(str).to_s
-    rescue Whois::ServerNotFound
-      begin
-        tld = PublicSuffix.parse(str).tld
-      rescue PublicSuffix::DomainInvalid
-        raise "\"#{str}\" is not a valid entry"
-      end
-      whois_server(tld).lookup(str).to_s
-    end
+  def whois_lookup(str)
+    str = str.strip.downcase
+    PublicSuffix::List.private_domains = false
+    # Check if the provided sting is a valid domain, TLD or IP address
+    raise "\"#{str}\" is not a valid entry" unless IPAddress.valid?(str) || PublicSuffix.valid?(str)
+    # Perform Whois lookup if the string is an IP address
+    return Whois.whois(IPAddress.parse(str).address).to_s if IPAddress.valid?(str)
+    # Perform Whois lookup if the string is a TLD
+    return Whois.whois(str).to_s unless PublicSuffix.parse(str).sld
+    # Otherwise, lookup the domain using appropriate server
+    whois_server(str).lookup(str).to_s
   end
 
-  # Get Whois server for the given TLD
-  def whois_server(tld)
-    return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc" # TODO: refactor / create a separate method
+  def whois_server(str)
+    tld = PublicSuffix.parse(str).tld
+    # TLDs that have no Whois server listed at IANA
+    return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc"
     return Whois::Server.factory :tld, ".trade", "whois.nic.trade" if tld == "trade"
+    # Bug in the Whois gem - incorrect server is returned
+    return Whois::Server.factory :tld, ".link", "whois.uniregistry.net" if tld == "link"
+    # Get the Whois server
+    Whois::Server.guess(str)
+  rescue Whois::ServerNotFound
     host = Whois.whois(".#{tld}").match(/whois.+/).to_s.split.last
     raise "Unable to find a WHOIS server for .#{tld.upcase}" unless host
     Whois::Server.factory :tld, ".#{tld}", host
@@ -60,7 +64,7 @@ class ApplicationController < ActionController::Base
 
   #------------- Domains Info CSV Helpers -------------
 
-  # Parse the CSV file and replace firstanme and lastname with fullname
+  # Parse the CSV file + replace firstanme and lastname with fullname
   def parse_domains_info(csv_file)
     csv = SmarterCSV.process(csv_file.tempfile, strip_chars_from_headers: /'/)
     csv.each do |hash|

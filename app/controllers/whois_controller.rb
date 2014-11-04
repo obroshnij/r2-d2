@@ -5,7 +5,7 @@ class WhoisController < ApplicationController
 
   def create
     begin
-      @record = lookup params[:name].strip
+      @record = whois_lookup params[:name]
     rescue Exception => ex
       flash.now[:alert] = "Error: #{ex.message}"
     end

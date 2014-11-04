@@ -29,6 +29,7 @@ gem 'foundation-rails'
 
 gem 'whois'
 gem 'public_suffix'
+gem 'ipaddress'
 
 gem 'nokogiri'
 gem 'smarter_csv'
