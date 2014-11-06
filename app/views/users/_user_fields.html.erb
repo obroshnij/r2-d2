@@ -1,0 +1,19 @@
+<label>Name
+  <%= f.text_field :name %>
+</label>
+ 
+<label>Email Address
+  <%= f.text_field :email %>
+</label>
+ 
+<% if can? :read, Role %>
+	<label>Roles
+  	<ul>
+  		<%= hidden_field_tag "user[role_ids][]", nil %>
+      <% @accessible_roles.each do |role| %>
+        <%= check_box_tag "user[role_ids][]", role.id, @user.role_ids.include?(role.id), id: dom_id(role) %>
+        <%= label_tag dom_id(role), role.name %>
+      <% end %>
+  	</ul>
+  </label>
+<% end %>

@@ -1,0 +1,24 @@
+<%= provide(:title, "Register User") %>
+
+<div class="row">
+  <div class="large-6 large-offset-3 columns">
+ 
+    <%= form_for(@user) do |f| %>
+      <fieldset>
+        <legend>Register user</legend>
+      
+        <%= render :partial => 'user_fields', :locals => { :f => f } %>
+       
+        <label>Password
+          <%= f.password_field :password %>
+        </label>
+       
+        <label>Password Confirmation
+          <%= f.password_field :password_confirmation %>
+        </label>
+       
+        <br><%= f.submit "Register", class: "button postfix" %>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  devise_for :users
+  resources :users
+
+  get 'edit_password' => 'users#edit_password'
+  patch 'update_password' => 'users#update_password'
+  
   get 'whois' => 'whois#new'
   post 'whois' => 'whois#create'
 
@@ -10,6 +16,9 @@ Rails.application.routes.draw do
   
   get 'extract_domains_csv' => 'domain_box#export'
   post 'extract_domains_csv' => 'domain_box#parse'
+
+  get 'compare' => 'comparator#new'
+  post 'compare' => 'comparator#create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

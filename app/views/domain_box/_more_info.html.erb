@@ -1,0 +1,41 @@
+<p class="lead">Details</p>
+
+<% unless duplicates.empty? %>
+  <p>Duplicate Domains</p>
+  <table width="100%">
+    <thead>
+      <tr>
+        <th width="90%">Domain</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% duplicates.each do |domain, count| %>
+        <tr>
+          <td><%= domain %></td>
+          <td><%= count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<p>TLDs Count</p>
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="90%">TLD</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tlds.each do |tld, count| %>
+      <tr>
+        <td><%= tld %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><%= duplicates.empty? ? "Domains count: " : "Domains count (with no duplicates): " %><%= domains.split.count %></p>

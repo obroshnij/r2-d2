@@ -1,0 +1,56 @@
+<% provide(:title, "Compare Domain Lists") %>
+
+<div class="row">
+  <div class="large-12 columns">
+    <%= form_tag(controller: "comparator", action: "create") do %>
+      <% if @result %>
+        <div class="row">
+          <fieldset>
+            <div class="large-4 columns">
+              <label>List 1
+                <%= text_area_tag(:list_one, @list_one, size: "20x25") %>
+                <%= pluralize(@list_one.split.count, 'domain') %>
+              </label>
+            </div>
+            <div class="large-4 columns">
+              <label>List 2
+                <%= text_area_tag(:list_two, @list_two, size: "20x25") %>
+                <%= pluralize(@list_two.split.count, 'domain') %>
+              </label>
+            </div>
+            <div class="large-4 columns">
+              <label>Result
+                <%= text_area_tag(:result, @result, size: "20x25") %>
+                <%= pluralize(@result.split.count, 'domain') %>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      <% else %>
+        <div class="row">
+          <div class="large-8 large-offset-2 columns">
+            <div class="row">
+              <fieldset>
+                <div class="large-6 columns">
+                  <label>List 1
+                    <%= text_area_tag(:list_one, "", size: "20x25") %>
+                  </label>
+                </div>
+                <div class="large-6 columns">
+                  <label>List 2
+                    <%= text_area_tag(:list_two, "", size: "20x25") %>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="large-2 large-offset-5 columns">
+          <%= submit_tag "Submit", class: "button postfix" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

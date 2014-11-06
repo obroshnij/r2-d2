@@ -16,6 +16,8 @@
 
  */
 
+@import 'foundation-icons';
+
 /* universal */
 
 h1 {
@@ -59,4 +61,11 @@ header {
   height: 100px;
   width: 100px;
   margin-right: -100px;
-} 
+}
+
+i {
+  font-size: 2rem;
+  color: #5C8382;
+  margin-left: 5px;
+  margin-right: 5px;
+}

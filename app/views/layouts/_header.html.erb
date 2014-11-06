@@ -6,15 +6,43 @@
   </ul>
 
   <section class="top-bar-section">
-    <ul class="right">
+    <ul class="left">
       <li class="divider"></li>
-      <%= content_tag(:li, (link_to "Whois", whois_path), class: selected?("Whois", yield(:title))) %>
+      <li class="has-dropdown">
+        <%= link_to "Domains", whois_path %>
+        <ul class="dropdown">
+          <%= content_tag(:li, (link_to "Whois", whois_path)) %>
+          <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path)) %>
+          <%= content_tag(:li, (link_to "Parse Domains", extract_domains_path)) %>
+          <%= content_tag(:li, (link_to "Compare Lists", compare_path)) %>
+        </ul>
+      </li>
       <li class="divider"></li>
-      <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path), class: selected?("Maintenance Alerts", yield(:title))) %>
-      <li class="divider"></li>
-      <%= content_tag(:li, (link_to "Extract Domains", extract_domains_path), class: selected?("Extract Domains", yield(:title))) %>
     </ul>
   </section>
+
+  <% if user_signed_in? %>
+    <section class="top-bar-section">
+      <ul class="right">
+        <li class="divider"></li>
+        <li class="has-dropdown">
+          <a><%= current_user.name %></a>
+          <ul class="dropdown">
+            <li><%= link_to("Change password", edit_password_path) %></li>
+            <li><%= link_to("Sign out", destroy_user_session_path, method: :delete) %></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  <% else %>
+    <section class="top-bar-section">
+      <ul class="right">
+        <li class="has-form">
+          <%= link_to("Sign in", new_user_session_path, class: "button") %>
+        </li>
+      </ul>
+    </section>
+  <% end %>
 
 </nav>
 
