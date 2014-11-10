@@ -1,0 +1,25 @@
+<% provide(:title, "Parse Domains") %>
+
+<div class="row">
+  <div class="large-8 large-offset-2 columns">
+    <%= form_tag(controller: "la_tools", action: "parse") do %>
+      <fieldset>
+        <%= text_area_tag(:query, content(@domains), size: "20x20") %>
+        <div class="row">
+          <div class="large-4 columns">
+            <%= submit_tag "Submit", class: "button postfix" %>
+          </div>
+    <% end %>
+          <% unless @domains.blank? %>
+            <div class="large-4 columns">
+              <%= link_to "Upload CSV", '#', data: { :'reveal-id' => "la_more_info" }, class: "button postfix" %>
+              <div id="la_more_info" class="reveal-modal" data-reveal>
+                <%= render partial: "la_more_info", locals: {occurrences: @occurrences_count, domains: @domains} %>
+                <a class="close-reveal-modal">&#215;</a>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </fieldset>
+  </div>
+</div>

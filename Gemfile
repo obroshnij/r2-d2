@@ -34,6 +34,7 @@ gem 'cancancan'
 gem 'whois'
 gem 'public_suffix'
 gem 'ipaddress'
+gem 'net-dns', git: 'https://github.com/bonsaiviking/net-dns.git', branch: 'txt'
 
 gem 'nokogiri'
 gem 'smarter_csv'

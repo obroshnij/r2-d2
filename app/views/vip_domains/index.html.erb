@@ -1,0 +1,30 @@
+<% provide(:title, "VIP Domains") %>
+
+<div class="row">
+  <div class="large-12 columns">
+    <%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %>
+    <table width="100%">
+      <thead>
+        <th>Domain Name</th>
+        <th>Username</th>
+        <th>Category</th>
+        <th>Notes</th>
+        <% if can?(:manage, VipDomain) %><th>Actions</th><% end %>
+      </thead>
+      <tbody>
+        <% @vip_domains.each do |vip_domain| %>
+          <tr>
+            <td><%= vip_domain.domain %></td>
+            <td><%= vip_domain.username %></td>
+            <td><%= vip_domain.category %></td>
+            <td><%= vip_domain.notes %></td>
+            <% if can?(:manage, VipDomain) %><td>
+              <%= link_to content_tag(:i, "", class: "fi-pencil"), edit_vip_domain_path(vip_domain.id) %>
+              <%= link_to content_tag(:i, "", class: "fi-x"), vip_domain, method: :delete, data: { confirm: "Are you sure?" } %>
+            </td><% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

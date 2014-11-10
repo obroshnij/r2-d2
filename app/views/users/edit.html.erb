@@ -5,7 +5,7 @@
     <fieldset>
       <legend>Edit user</legend>
       <%= form_for(@user, html: { method: :patch }) do |f| %>
-      	<%= render :partial => 'user_fields', :locals => { :f => f } %>
+      	<%= render partial: 'user_fields', locals: { f: f } %>
         <%= f.submit "Update", class: "button postfix" %>
       <% end %>
     </fieldset>

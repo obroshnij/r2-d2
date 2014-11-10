@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy!
+    flash[:notice] = "The user has been deleted" if @user.destroy
     redirect_to action: :index
   end
 

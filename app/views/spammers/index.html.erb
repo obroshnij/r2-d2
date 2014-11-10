@@ -1,0 +1,25 @@
+<% provide(:title, "Spammer Blacklist") %>
+
+<div class="row">
+  <div class="large-12 columns">
+    <%= link_to "Add new", new_spammer_path, class: "button tiny right" %>
+    <table width="100%">
+      <thead>
+        <th>Username</th>
+        <th>Comments</th>
+        <% if can?(:manage, Spammer) %><th>Actions</th><% end %>
+      </thead>
+      <tbody>
+        <% @spammers.each do |spammer| %>
+          <tr>
+            <td><%= spammer.username %></td>
+            <td><%= spammer.comment %></td>
+            <% if can?(:manage, Spammer) %><td>
+              <%= link_to content_tag(:i, "", class: "fi-x"), spammer, method: :delete, data: { confirm: "Are you sure?" } %>
+            </td><% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 
 <fieldset>
   <legend>Options</legend>
-  <%= form_tag({ controller: :domain_box, action: :parse }, multipart: true) do %>
+  <%= form_tag({ controller: :la_tools, action: :append_csv }, multipart: true) do %>
     <%= hidden_field_tag(:domains_count, occurrences) %>
     <div class="row">
       <div class="large-12 columns">

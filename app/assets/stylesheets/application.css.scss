@@ -18,8 +18,6 @@
 
 @import 'foundation-icons';
 
-/* universal */
-
 h1 {
   text-align: center;
   color: white;
@@ -68,4 +66,16 @@ i {
   color: #5C8382;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+tr#red {
+ background: #f4d0d7;
+}
+
+tr#blue {
+  background: #d0ecf8;
+}
+
+th {
+  background: #e1eaea;
 }

@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105143936) do
+ActiveRecord::Schema.define(version: 20141107233415) do
+
+  create_table "canned_replies", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -23,6 +32,15 @@ ActiveRecord::Schema.define(version: 20141105143936) do
     t.integer "role_id"
     t.integer "user_id"
   end
+
+  create_table "spammers", force: true do |t|
+    t.string   "username"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -38,9 +56,21 @@ ActiveRecord::Schema.define(version: 20141105143936) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "cache"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "vip_domains", force: true do |t|
+    t.string   "domain"
+    t.string   "username"
+    t.string   "category"
+    t.string   "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "vip_domains", ["domain"], name: "index_vip_domains_on_domain", unique: true
 
 end

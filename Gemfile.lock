@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/bonsaiviking/net-dns.git
+  revision: 930ec2b9749f54c9d943632d1b3c4beaf383f2a7
+  branch: txt
+  specs:
+    net-dns (0.7.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -168,6 +175,7 @@ DEPENDENCIES
   ipaddress
   jbuilder (~> 2.0)
   jquery-rails
+  net-dns!
   nokogiri
   pg
   public_suffix

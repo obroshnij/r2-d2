@@ -1,0 +1,26 @@
+<% provide(:title, "Cached Data") %>
+
+<% headers = @cache.flat_map(&:keys).uniq %>
+
+<div class="row">
+  <div clss="large-12 columns">
+    Updated at: <%= current_user.updated_at.in_time_zone("Kyiv").strftime("%B %-d, %H:%M") %>
+    <%= link_to "Generate Canned Replies", cache_dbl_surbl_path, class: "right" %><br><br>
+    <table width="100%">
+      <thead>
+        <% headers.each do |header| %>
+          <th><%= header.to_s.camelize %></th>
+        <% end %>
+      </thead>
+      <tbody>
+        <% @cache.each do |line| %>
+          <%= content_tag(:tr, id: color(line)) do %>
+            <% headers.each do |header| %>
+              <td><%= line[header] %></td>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -13,10 +13,26 @@
         <ul class="dropdown">
           <%= content_tag(:li, (link_to "Whois", whois_path)) %>
           <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path)) %>
-          <%= content_tag(:li, (link_to "Parse Domains", extract_domains_path)) %>
+          <%= content_tag(:li, (link_to "Parse Domains", parse_domains_path)) %>
           <%= content_tag(:li, (link_to "Compare Lists", compare_path)) %>
+          <%= content_tag(:li, (link_to "Bulk Dig", bulk_dig_path)) %>
         </ul>
       </li>
+      <li class="divider"></li>
+      <li class="has-dropdown">
+        <%= link_to "Legal & Abuse", la_parse_path %>
+        <ul class="dropdown">
+          <%= content_tag(:li, (link_to "Parse Domains", la_parse_path)) %>
+          <%= content_tag(:li, (link_to "DBL/SURBL Check", dbl_surbl_path)) %>
+          <%= content_tag(:li, (link_to "VIP Domains", vip_domains_path)) %>
+          <%= content_tag(:li, (link_to "Spammer Blacklist", spammers_path)) %>
+          <%= content_tag(:li, (link_to "Cache", cache_path)) %>
+        </ul>
+      </li>
+      <li class="divider"></li>
+      <li><%= link_to "User Management", users_path %></li>
+      <li class="divider"></li>
+      <li><%= link_to "Canned Replies", canned_replies_path %></li>
       <li class="divider"></li>
     </ul>
   </section>

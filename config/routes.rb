@@ -11,14 +11,25 @@ Rails.application.routes.draw do
 
   get 'alerts' => 'maintenance_alerts#index'
 
-  get 'extract_domains' => 'domain_box#new'
-  post 'extract_domains' => 'domain_box#create'
+  get 'parse_domains' => 'domain_box#new'
+  post 'parse_domains' => 'domain_box#create'
+  get 'bulk_dig' => 'domain_box#bulk_dig'
+  post 'bulk_dig' => 'domain_box#perform_bulk_dig'
   
-  get 'extract_domains_csv' => 'domain_box#export'
-  post 'extract_domains_csv' => 'domain_box#parse'
-
   get 'compare' => 'comparator#new'
   post 'compare' => 'comparator#create'
+
+  get 'la_parse' => 'la_tools#new'
+  post 'la_parse' => 'la_tools#parse'
+  post 'append_csv' => 'la_tools#append_csv'
+  get 'cache' => 'la_tools#show_cache'
+  get 'dbl_surbl' => 'la_tools#dbl_surbl'
+  post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
+  get 'cache_dbl_surbl' => 'la_tools#cache_dbl_surbl'
+
+  resources :vip_domains, except: :show
+  resources :spammers, only: [:index, :new, :create, :destroy]
+  resources :canned_replies
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

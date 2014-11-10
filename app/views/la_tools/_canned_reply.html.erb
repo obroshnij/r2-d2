@@ -1,0 +1,11 @@
+<% canned_reply = get_canned_reply(data) %>
+
+<form>
+  <div class="row">
+    <div class="large-12 columns">
+      <% if data[:email] %><%= tag(:input, { type: "text", value: data[:email] } ) %><% end %>
+      <%= tag(:input, { type: "text", value: canned_reply.title } ) %>
+      <%= content_tag(:textarea, canned_reply.body, { rows: "15" }) %>
+    </div>
+  </div>
+</form>

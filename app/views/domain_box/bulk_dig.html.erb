@@ -1,0 +1,60 @@
+<% provide(:title, "Bulk Dig") %>
+
+<div class="row">
+  <div class="large-8 large-offset-2 columns">
+    <%= form_tag(controller: "domain_box", action: "perform_bulk_dig") do %>
+      <fieldset>
+        <div class="row">
+          <div class="large-8 columns">
+            <%= text_area_tag(:query, content(@host_names), size: "20x20") %>
+          </div>
+          <div class="large-4 columns">
+            <%= check_box_tag('record_types[]', :a) %><%= label_tag(:a, "A / CNAME") %><br>
+            <%= check_box_tag('record_types[]', :aaaa) %><%= label_tag(:aaaa, "AAAA") %><br>
+            <%= check_box_tag('record_types[]', :mx) %><%= label_tag(:mx, "MX") %><br>
+            <%= check_box_tag('record_types[]', :txt) %><%= label_tag(:txt, "TXT") %><br>
+            <%= check_box_tag('record_types[]', :ns) %><%= label_tag(:ns, "NS") %><br>
+            <%= check_box_tag('record_types[]', :ptr) %><%= label_tag(:ptr, "PTR") %><br>
+            <hr>
+            <%= radio_button_tag(:ns, "default", checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
+            <%= radio_button_tag(:ns, "google") %><%= label_tag(:ns_google, "Google Public DNS") %><br>
+            <%= radio_button_tag(:ns, "open") %><%= label_tag(:ns_open, "OpenDNS") %><br>
+          </div>
+        </div>
+      </fieldset>
+      <div class="row">
+        <div class="large-4 large-offset-4 columns">
+          <%= submit_tag "Go", class: "button postfix" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @result %>
+  <% headers = @result.flat_map(&:keys).uniq %>
+  <div class="row">
+    <div clss="large-12 columns">
+      <table width="100%">
+        <thead>
+          <% headers.each do |header| %>
+            <th><%= header %></th>
+          <% end %>
+        </thead>
+        <tbody>
+          <% @result.each do |line| %>
+            <%= content_tag :tr do %>
+              <% headers.each do |header| %>
+                <td>
+                  <% line[header].each do |record| %>
+                    <%= record %><br>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

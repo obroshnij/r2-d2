@@ -1,5 +1,31 @@
 module MaintenanceAlertsHelper
 
+  # Parse eNom maintenance alerts from http://www.enom.com/registrynews.asp
+  def parse_alerts
+    alerts = []
+    maintenance_page = Nokogiri::HTML(open("http://www.enom.com/registrynews.asp"))
+    maintenance_page.css('div.sCnt3.sFL').css('table').each do |table|
+      alert = {}
+      # Parse TLD (the left column)
+      alert[:tlds] = "." + table.css('tbody').css('tr').css('td')[0].text.upcase
+      # Parse message (the right column)
+      alert[:message] = table.css('tbody').css('tr').css('td')[1].text.gsub(/(\r?\n){3,}/, '\1\1')
+      # Extract :tlds from the message if needed
+      alert[:tlds] = /.+and\s\.\w+/.match(alert[:message]).to_s if alert[:message] =~ /and\s\.\w+/
+      # Remove :tlds from the message if needed
+      alert[:message].gsub!(/.+and\s\.\w+/, '')
+      # Extract the timeframe from the message
+      alert[:timeframe] = /\w+\s\d+,\s\d{4}?.+/.match(alert[:message]).to_s
+      # Remove the time frame from the message
+      alert[:message].gsub!(/.+\w+\s\d+,\s\d{4}?.+\n/, '')
+      # Remove extra spaces from the message
+      alert[:message] = alert[:message].gsub(/(\r?\n){3,}/, '\1\1').strip
+      alerts << alert
+      break if table.next_element.text == "Product Maintenance Schedule"
+    end
+    alerts
+  end
+
   def alert_id(alert)
     alert[:tlds].split.first.scan(/\w/).join + alert[:timeframe].split(' (').first.scan(/\w/).join
   end

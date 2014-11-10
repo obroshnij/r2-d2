@@ -1,0 +1,18 @@
+<% provide(:title, @canned_reply.name) %>
+
+<div class="row">
+  <div class="large-12 columns">
+    <%= link_to "Edit", edit_canned_reply_path(@canned_reply.id), class: "button tiny right" %>
+    <p><%= @canned_reply.description %></p>
+    <fieldset style="width: 100%;">
+      <legend>Title</legend>
+      <%= @canned_reply.title %>
+    </fieldset>
+    <fieldset>
+      <legend>Body</legend>
+      <% @canned_reply.body.each_line do |line| %>
+        <%= line %><br>
+      <% end %>
+    </fieldset>
+  </div>
+</div>
