@@ -2,12 +2,14 @@
 
 <div class="row">
   <div class="large-8 large-offset-2 columns">
-    <%= form_tag(controller: "domain_box", action: "create") do %>
+    <%= form_tag(controller: "domain_box", action: "perform_parsing") do %>
       <fieldset>
-        <%= text_area_tag(:query, content(@domains), size: "20x20") %>
+        <%= text_area_tag(:text, content(@domains), size: "20x20") %>
         <div class="row">
           <div class="large-4 columns">
             <%= check_box_tag(:remove_subdomains) %><%= label_tag(:remove_subdomains, "Remove Subdomains") %>
+            <%= hidden_field_tag :count_tlds, '1' %>
+            <%= hidden_field_tag :count_duplicates, '1' %>
           </div>
           <% unless @domains.blank? %>
             <div class="large-2 columns">

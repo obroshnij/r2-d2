@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="large-6 large-offset-3 columns">
-    <%= form_tag(controller: "whois", action: "create") do %>
+    <%= form_tag controller: "domain_box", action: "whois_lookup" do %>
       <div class="row collapse">
         <div class="large-10 columns">
           <%= text_field_tag :name %>

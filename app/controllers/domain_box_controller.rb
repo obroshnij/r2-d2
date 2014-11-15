@@ -1,38 +1,55 @@
 class DomainBoxController < ApplicationController
 
-  def new
+  def whois
   end
 
-  def create
-    query = extract_host_names(params[:query])
-    domains = params[:remove_subdomains] ? parse_valid_domains(query) : parse_valid_subdomains(query)
-    @tlds_count = count_tlds(domains)
-    @duplicates_count = count_duplicates(domains)
-    @domains = domains.uniq.inject("") { |result, domain| result + "#{domain}\n" }.chomp
-    render 'new'
+  def whois_lookup
+    begin
+      @record = R2D2::Whoiz.lookup params[:name]
+    rescue Exception => ex
+      flash.now[:alert] = "Error: #{ex.message}"
+    end
+    render action: :whois
+  end
+
+  def parse_domains
+  end
+
+  def perform_parsing
+    hash = R2D2::Parser.parse_domains(params.permit(:text, :remove_subdomains, :count_tlds, :count_duplicates))
+    @domains = hash[:domains]
+    @tlds_count = hash[:tlds_count]
+    @duplicates_count = hash[:duplicates_count]
+    render action: :parse_domains
   end
 
   def bulk_dig
   end
 
   def perform_bulk_dig
-    resolver = initialize_resolver(params[:ns])
+    resolver = R2D2::DNS::Resolver.new(type: params[:ns])
     host_names = params[:query].downcase.split
-    record_types = params[:record_types] ? params[:record_types] : ["a", "mx", "ns"]
-    record_types = record_types.collect { |type| type.to_s.upcase }
-    @result = Array.new
-    host_names.each do |host|
+    record_types = params[:record_types] ? params[:record_types] : [:a, :mx, :ns]
+    @result = host_names.each_with_object(Array.new) do |host, array|
       hash = Hash["Host Name", [host]]
-      record_types.each do |rec|
-        hash[rec] = []
-        resolver.search(host, record_type(rec)).answer.each { |answer| hash[rec] << answer.value }
-      end
-      @result << hash
+      record_types.each { |record| hash[record.to_s.upcase] = resolver.dig(host: host, record: record) }
+      array << hash
     end
     render action: :bulk_dig
   rescue Exception => ex
     flash.now[:alert] = "Error: #{ex.message}"
     render action: :bulk_dig
+  end
+
+  def compare_lists
+  end
+
+  def perform_comparison
+    list_one, list_two = params[:list_one].downcase.split, params[:list_two].downcase.split
+    @result = list_one.each_with_object(Array.new) { |domain, array| array << domain unless list_two.include?(domain) }.join("\n")
+    @list_one = list_one.join("\n")
+    @list_two = list_two.join("\n")
+    render action: :compare_lists
   end
 
 end

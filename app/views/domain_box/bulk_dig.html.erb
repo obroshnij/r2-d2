@@ -16,9 +16,9 @@
             <%= check_box_tag('record_types[]', :ns) %><%= label_tag(:ns, "NS") %><br>
             <%= check_box_tag('record_types[]', :ptr) %><%= label_tag(:ptr, "PTR") %><br>
             <hr>
-            <%= radio_button_tag(:ns, "default", checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
-            <%= radio_button_tag(:ns, "google") %><%= label_tag(:ns_google, "Google Public DNS") %><br>
-            <%= radio_button_tag(:ns, "open") %><%= label_tag(:ns_open, "OpenDNS") %><br>
+            <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
+            <%= radio_button_tag(:ns, :google) %><%= label_tag(:ns_google, "Google Public DNS") %><br>
+            <%= radio_button_tag(:ns, :open) %><%= label_tag(:ns_open, "OpenDNS") %><br>
           </div>
         </div>
       </fieldset>

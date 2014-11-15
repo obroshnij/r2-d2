@@ -6,18 +6,16 @@ Rails.application.routes.draw do
   get 'edit_password' => 'users#edit_password'
   patch 'update_password' => 'users#update_password'
   
-  get 'whois' => 'whois#new'
-  post 'whois' => 'whois#create'
-
   get 'alerts' => 'maintenance_alerts#index'
 
-  get 'parse_domains' => 'domain_box#new'
-  post 'parse_domains' => 'domain_box#create'
+  get 'whois' => 'domain_box#whois'
+  post 'whois' => 'domain_box#whois_lookup'
+  get 'parse_domains' => 'domain_box#parse_domains'
+  post 'parse_domains' => 'domain_box#perform_parsing'
   get 'bulk_dig' => 'domain_box#bulk_dig'
   post 'bulk_dig' => 'domain_box#perform_bulk_dig'
-  
-  get 'compare' => 'comparator#new'
-  post 'compare' => 'comparator#create'
+  get 'compare' => 'domain_box#compare_lists'
+  post 'compare' => 'domain_box#perform_comparison'
 
   get 'la_parse' => 'la_tools#new'
   post 'la_parse' => 'la_tools#parse'
@@ -35,7 +33,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'whois#new'
+  root 'domain_box#whois'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

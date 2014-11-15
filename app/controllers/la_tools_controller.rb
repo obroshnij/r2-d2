@@ -6,11 +6,10 @@ class LaToolsController < ApplicationController
   end
 
   def parse
-    query = extract_host_names(params[:query])
-    domains = parse_valid_domains(query)
-    @occurrences_count = count_occurrences(domains)
-    @domains = domains.uniq.inject("") { |result, domain| result + "#{domain}\n" }.chomp
-    render 'new'
+    hash = R2D2::Parser.parse_domains(params.permit(:text, :count_occurrences, :remove_subdomains))
+    @occurrences_count = hash[:occurrences_count]
+    @domains = hash[:domains]
+    render action: :new
   end
 
   def append_csv
@@ -34,24 +33,20 @@ class LaToolsController < ApplicationController
   end
 
   def dbl_surbl_check
-    dbl, surbl = DblChecker.new, SurblChecker.new
+    checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
     if params[:use_cache]
       cache = get_cache
       cache.each do |hash|
-        hash[:dbl] = dbl.listed?(hash[:domainname]) ? "YES" : "NO"
-        hash[:surbl] = surbl.listed?(hash[:domainname]) ? "YES" : "NO"
+        checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(hash[:domainname]) ? "YES" : "NO" }
       end
       cache(cache)
       redirect_to action: :show_cache
     else
-      @result = []
       domains = params[:query].downcase.split
-      domains.each do |domain|
-        hash = {}
-        hash[:domainname] = domain
-        hash[:dbl] = dbl.listed?(domain) ? "YES" : "NO"
-        hash[:surbl] = surbl.listed?(domain) ? "YES" : "NO"
-        @result << hash
+      @result = domains.each_with_object(Array.new) do |domain, array|
+        hash = Hash[:domainname, domain]
+        checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(domain) ? "YES" : "NO" }
+        array << hash
       end
       @domains = domains.join("\n")
       render action: :dbl_surbl
