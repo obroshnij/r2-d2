@@ -16,7 +16,7 @@ module R2D2
     end
 
     def self.epp_status(domain)
-      if %w{ mobi }.include? PublicSuffix.parse(domain.downcase).tld
+      if %w{ mobi me }.include? PublicSuffix.parse(domain.downcase).tld
         self.lookup(domain).to_s.scan(/(?<=Status:)[a-zA-Z[[:blank:]]]+/)
       else
         self.lookup(domain).to_s.scan(/(?<=Status:)[[:blank:]]*[a-zA-Z]+[[:blank:]]*/).each { |s| s.gsub!(/[[:space:]]/, '') }.uniq

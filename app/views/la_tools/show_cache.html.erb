@@ -1,4 +1,4 @@
-<% provide(:title, "Cached Data") %>
+<% provide(:title, "Parsed Data") %>
 
 <% headers = @cache.flat_map(&:keys).uniq %>
 
@@ -9,7 +9,7 @@
     <table width="100%">
       <thead>
         <% headers.each do |header| %>
-          <th><%= header.to_s.camelize %></th>
+          <th><%= header.to_s.titleize %></th>
         <% end %>
       </thead>
       <tbody>

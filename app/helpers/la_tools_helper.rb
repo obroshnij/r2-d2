@@ -10,16 +10,38 @@ module LaToolsHelper
 
   # Parse the CSV file + replace firstanme and lastname with fullname
   def parse_domains_info(csv_file)
-    csv = SmarterCSV.process(csv_file.tempfile, strip_chars_from_headers: /'/)
+    mapping = { domainname: :domain_name, lasttransaction: :last_transaction, expire_datetime: :expiration_date,
+              email: :email_address, user_createdatetime: :signup_date, lastlogin: :last_login, orderid: :order_id }
+    csv = SmarterCSV.process(csv_file, strip_chars_from_headers: /'/, key_mapping: mapping)
     csv.each do |hash|
-      name = hash[:firstname] + " " + hash[:lastname]
-      hash.except!(:firstname, :lastname).merge!({ fullname: name })
+      hash[:full_name] = [hash[:firstname], hash[:lastname]].join(" ")
+      hash.delete(:firstname); hash.delete(:lastname)
+    end
+    csv
+  end
+
+  def dbl_surbl_bulk_check(array)
+    checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
+    array.each do |hash|
+      checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(hash[:domain_name]) ? "YES" : "NO" }
+    end
+  end
+
+  def epp_status_bulk_check(array)
+    array.each { |hash| hash[:epp_status] = R2D2::Whoiz.epp_status(hash[:domain_name]).join(", ") }
+  end
+
+  def dns_bulk_check(array)
+    resolver = R2D2::DNS::Resolver.new(type: :default)
+    array.each do |hash|
+      hash[:ns_record] = resolver.dig(host: hash[:domain_name], record: :ns).join(" ")
+      hash[:a_record] = resolver.dig(host: hash[:domain_name], record: :a).join(" ")
     end
   end
 
   def color(hash)
     return "red" if Spammer.find_by(username: hash[:username].try(:downcase))
-    return "blue" if VipDomain.find_by(domain: hash[:domainname].try(:downcase))
+    return "blue" if VipDomain.find_by(domain: hash[:domain_name].try(:downcase))
     ""
   end
 
@@ -32,7 +54,7 @@ module LaToolsHelper
   end
 
   def transform_dbl_array(array)
-    domains = array.collect { |hash| hash[:domainname] if !vip_domain?(hash[:domainname]) && hash[:dbl] == "YES" || hash[:surbl] == "YES" }.compact
+    domains = array.collect { |hash| hash[:domain_name] if !vip_domain?(hash[:domain_name]) && hash[:dbl] == "YES" || hash[:surbl] == "YES" }.compact
     Hash[:domains, domains]
   end
 
@@ -41,7 +63,7 @@ module LaToolsHelper
     # DBL/SURBL check with no cache -> no username
     if data[:dbl] && !data[:username]
       # VIP domain?
-      if vip_domain?(data[:domainname])
+      if vip_domain?(data[:domain_name])
         reply = CannedReply.find_by(name: "dbl_surbl/vip_domain")
       else
         reply = CannedReply.find_by(name: "dbl_surbl/to_client")
@@ -58,8 +80,8 @@ module LaToolsHelper
   end
 
   def substitute_domains(reply, data)
-    if data[:domainname]
-      reply.body = reply.body.gsub("$domains$", data[:domainname])
+    if data[:domain_name]
+      reply.body = reply.body.gsub("$domains$", data[:domain_name])
     elsif data[:domains]
       reply.body = reply.body.gsub("$domains$", data[:domains].join("\n"))
     end

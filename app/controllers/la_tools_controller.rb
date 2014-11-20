@@ -14,14 +14,19 @@ class LaToolsController < ApplicationController
 
   def append_csv
     domains_count = Hash[*params[:domains_count].split]
-    csv = parse_domains_info(params[:domains_info])
-    result = []
+    csv = parse_domains_info(params[:domains_info].tempfile)
+    data = Array.new
     csv.each do |line|
-      hash = { domainname: line[:domainname], count: domains_count[line[:domainname]] }
+      hash = { domain_name: line[:domain_name], count: domains_count[line[:domain_name]] }
       params[:csv_options].each { |option| hash[option.to_sym] = line[option.to_sym] }
-      result << hash
+      data << hash
     end
-    cache(result)
+
+    data = dbl_surbl_bulk_check(data) if params[:checkers].include? "dbl_surbl"
+    data = epp_status_bulk_check(data) if params[:checkers].include? "epp_status"
+    data = dns_bulk_check(data) if params[:checkers].include? "dns"
+
+    cache(data)
     redirect_to action: :show_cache
   end
 
@@ -33,18 +38,15 @@ class LaToolsController < ApplicationController
   end
 
   def dbl_surbl_check
-    checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
     if params[:use_cache]
-      cache = get_cache
-      cache.each do |hash|
-        checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(hash[:domainname]) ? "YES" : "NO" }
-      end
+      cache = dbl_surbl_bulk_check(get_cache)
       cache(cache)
       redirect_to action: :show_cache
     else
+      checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
       domains = params[:query].downcase.split
       @result = domains.each_with_object(Array.new) do |domain, array|
-        hash = Hash[:domainname, domain]
+        hash = Hash[:domain_name, domain]
         checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(domain) ? "YES" : "NO" }
         array << hash
       end
@@ -62,8 +64,8 @@ class LaToolsController < ApplicationController
     @result = []
     usernames.each do |username|
       hash = Hash[:username, username]
-      hash[:email] = cache[cache.find_index { |hash| hash[:username] == username }][:email]
-      hash[:domains] = cache.collect { |hash| hash[:domainname] if hash[:username] == username }.compact
+      hash[:email_address] = cache[cache.find_index { |hash| hash[:username] == username }][:email_address]
+      hash[:domains] = cache.collect { |hash| hash[:domain_name] if hash[:username] == username }.compact
       hash[:vip_domains] = hash[:domains].collect { |domain| domain if vip_domain?(domain) }.compact
       hash[:domains] -= hash[:vip_domains]
       @result << hash

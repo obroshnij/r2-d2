@@ -11,7 +11,7 @@
       <tbody>
         <% @result.each do |hash| %>
           <tr id=<%= color(hash) %>>
-            <td><%= "#{hash[:username]} / #{hash[:email]}" %></td>
+            <td><%= "#{hash[:username]} / #{hash[:email_address]}" %></td>
             <td>
               <% hash[:domains].each do |domain| %>
                 <%= domain %><br>

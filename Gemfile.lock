@@ -68,6 +68,7 @@ GEM
       sass (>= 3.2.0)
     hike (1.2.3)
     i18n (0.6.11)
+    icalendar (2.2.0)
     ipaddress (0.8.0)
     jbuilder (2.2.2)
       activesupport (>= 3.0.0, < 5)
@@ -121,6 +122,7 @@ GEM
       json (~> 1.4)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
+    ruby-progressbar (1.6.0)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -172,6 +174,7 @@ DEPENDENCIES
   devise
   foundation-icons-sass-rails
   foundation-rails
+  icalendar
   ipaddress
   jbuilder (~> 2.0)
   jquery-rails
@@ -182,6 +185,7 @@ DEPENDENCIES
   rails (= 4.1.6)
   rails-html-sanitizer
   rails_12factor
+  ruby-progressbar
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   smarter_csv

@@ -24,6 +24,8 @@ module R2D2
         raise ArgumentError, "Host is required" unless options[:host]
         options[:record] = :a unless options[:record]
         @resolver.search(options[:host], R2D2::DNS.record_type(options[:record])).answer.each_with_object(Array.new) { |answer, array| array << answer.value }
+      rescue Net::DNS::Resolver::NoResponseError
+        ["No Response"]
       end
 
     end
