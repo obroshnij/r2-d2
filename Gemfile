@@ -40,7 +40,6 @@ gem 'nokogiri'
 gem 'smarter_csv'
 
 gem 'icalendar'
-gem 'ruby-progressbar'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
