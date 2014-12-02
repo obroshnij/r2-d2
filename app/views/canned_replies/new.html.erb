@@ -5,8 +5,8 @@
     <fieldset>
       <legend>Add Canned Reply</legend>
       <%= form_for @canned_reply, url: { action: 'create' } do |f| %>
-        <%= render partial: "canned_replies_fields", locals: { f: f } %>
-        <br><%= f.submit "Add", class: "button postfix" %>
+        <%= render partial: "canned_reply_fields", locals: { f: f } %><br>
+        <%= f.submit "Add", class: "button postfix" %>
       <% end %>
     </fieldset>
   </div>

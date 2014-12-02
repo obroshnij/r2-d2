@@ -4,15 +4,21 @@
   <div class="large-12 columns">
     <%= link_to "Edit", edit_canned_reply_path(@canned_reply.id), class: "button tiny right" %>
     <p><%= @canned_reply.description %></p>
-    <fieldset style="width: 100%;">
-      <legend>Title</legend>
-      <%= @canned_reply.title %>
-    </fieldset>
-    <fieldset>
-      <legend>Body</legend>
-      <% @canned_reply.body.each_line do |line| %>
-        <%= line %><br>
-      <% end %>
-    </fieldset>
+    <table width="100%">
+      <thead>
+        <th>Name</th>
+        <th>Dependency</th>
+        <th>Text</th>
+      </thead>
+      <tbody>
+        <% @canned_reply.canned_parts.each do |part| %>
+          <tr>
+            <td><%= part.name %></td>
+            <td><%= part.dependency %></td>
+            <td><%= part.text %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

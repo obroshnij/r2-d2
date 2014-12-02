@@ -1,0 +1,15 @@
+<div class="nested-fields">
+  <fieldset>
+    <legend>Canned Part</legend>
+    <label>Name
+      <%= f.text_field :name %>
+    </label>
+    <label>Dependency
+      <%= f.text_field :dependency %>
+    </label>
+    <label>Text
+      <%= f.text_area :text, rows: 5 %>
+    </label>
+    <%= link_to_remove_association "Remove Canned Part", f %>
+  </fieldset>
+</div>

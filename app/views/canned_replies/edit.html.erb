@@ -5,7 +5,7 @@
     <fieldset>
       <legend>Update Canned Reply</legend>
       <%= form_for @canned_reply, url: { action: 'update' } do |f| %>
-        <%= render partial: "canned_replies_fields", locals: { f: f } %>
+        <%= render partial: "canned_reply_fields", locals: { f: f } %>
         <br><%= f.submit "Update", class: "button postfix" %>
       <% end %>
     </fieldset>

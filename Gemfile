@@ -27,6 +27,7 @@ gem 'spring',        group: :development
 gem 'rails-html-sanitizer'
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
+gem 'cocoon'
 
 gem 'devise'
 gem 'cancancan'
@@ -43,9 +44,6 @@ gem 'icalendar'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

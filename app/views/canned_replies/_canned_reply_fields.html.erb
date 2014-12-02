@@ -1,0 +1,16 @@
+<label>Name
+  <%= f.text_field :name %>
+</label>
+<label>Description
+  <%= f.text_area :description, rows: 5 %>
+</label>
+
+<div class="fields">
+  <%= f.fields_for :canned_parts do |canned_part| %>
+    <%= render partial: "canned_part_fields", locals: { f: canned_part } %>
+  <% end %>
+  
+  <div class="links">
+    <%= link_to_add_association "Add Canned Part", f, :canned_parts %>
+  </div>
+</div>

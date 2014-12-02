@@ -49,7 +49,7 @@ class CannedRepliesController < ApplicationController
   private
 
   def canned_reply_params
-    params.require(:canned_reply).permit(:name, :description, :title, :body)
+    params.require(:canned_reply).permit(:name, :description, { canned_parts_attributes: [:id, :name, :dependency, :text, :_destroy] } )
   end
 
 end
