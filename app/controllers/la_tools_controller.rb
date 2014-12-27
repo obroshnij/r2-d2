@@ -1,75 +1,70 @@
 class LaToolsController < ApplicationController
 
   before_action :authenticate_user!
-
+  
+  # Legal & Abuse > Spam
   def new
   end
-
+  
+  # Legal & Abuse > Spam, submit the form
   def parse
     hash = R2D2::Parser.parse_domains(params.permit(:text, :count_occurrences, :remove_subdomains))
     @occurrences_count = hash[:occurrences_count]
     @domains = hash[:domains]
     render action: :new
   end
-
+  
+  # Legal & Abuse > Spam, submit the form with CSV
   def append_csv
     domains_count = Hash[*params[:domains_count].split]
     csv = parse_domains_info(params[:domains_info].tempfile)
     data = Array.new
     csv.each do |line|
-      hash = { domain_name: line[:domain_name], count: domains_count[line[:domain_name]] }
-      params[:csv_options].each { |option| hash[option.to_sym] = line[option.to_sym] }
+      hash = { domain_name: line[:domain_name], occurrences_count: domains_count[line[:domain_name]] }
+      [:username, :full_name, :email_address].each { |option| hash[option] = line[option] }
       data << hash
     end
-
-    data = dbl_surbl_bulk_check(data) if params[:checkers].include? "dbl_surbl"
-    data = epp_status_bulk_check(data) if params[:checkers].include? "epp_status"
-    data = dns_bulk_check(data) if params[:checkers].include? "dns"
-
-    cache(data)
-    redirect_to action: :show_cache
+    
+    data = dbl_surbl_bulk_check data
+    data = epp_status_bulk_check data
+    data = dns_bulk_check data
+    data = internal_lists_bulk_check data
+    data = suspension_bulk_check data
+    
+    current_user.reported_domains.all.delete_all unless current_user.reported_domains.blank?
+    current_user.reported_domains.create data
+    
+    redirect_to action: :spam_result
   end
-
-  def show_cache
-    @cache = get_cache
+  
+  # Legal & Abuse > Parsed Data
+  def spam_result
+    data = current_user.reported_domains.to_a
+    respond_to do |format|
+      format.html
+      format.csv { send_data generate_csv(data) }
+    end
   end
-
+  
+  # Legal & Abuse > DBL/SURBL Check
   def dbl_surbl
   end
-
+  
+  # Legal & Abuse > DBL/SURBL Check, submit the form
   def dbl_surbl_check
-    if params[:use_cache]
-      cache = dbl_surbl_bulk_check(get_cache)
-      cache(cache)
-      redirect_to action: :show_cache
-    else
-      checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
-      domains = params[:query].downcase.split
-      @result = domains.each_with_object(Array.new) do |domain, array|
-        hash = Hash[:domain_name, domain]
-        checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(domain) ? "YES" : "NO" }
-        array << hash
-      end
-      @domains = domains.join("\n")
-      render action: :dbl_surbl
+    checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
+    domains = params[:query].downcase.split
+    @result = domains.each_with_object(Array.new) do |domain, array|
+      hash = Hash[:domain_name, domain]
+      checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(domain) }
+      hash[:blacklisted] = hash[:dbl] || hash[:surbl] ? true : false
+      array << hash
     end
+    @domains = domains.join("\n")
+    render action: :dbl_surbl
   rescue Exception => ex
     flash.now[:alert] = "Error: #{ex.message}"
     render action: :dbl_surbl
-  end
-
-  def cache_dbl_surbl
-    cache = get_cache.delete_if { |hash| hash[:dbl] == "NO" && hash[:surbl] == "NO" }
-    usernames = cache.collect { |hash| hash[:username] }.uniq
-    @result = []
-    usernames.each do |username|
-      hash = Hash[:username, username]
-      hash[:email_address] = cache[cache.find_index { |hash| hash[:username] == username }][:email_address]
-      hash[:domains] = cache.collect { |hash| hash[:domain_name] if hash[:username] == username }.compact
-      hash[:vip_domains] = hash[:domains].collect { |domain| domain if vip_domain?(domain) }.compact
-      hash[:domains] -= hash[:vip_domains]
-      @result << hash
-    end
   end
 
 end

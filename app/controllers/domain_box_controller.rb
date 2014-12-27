@@ -32,8 +32,13 @@ class DomainBoxController < ApplicationController
     record_types = params[:record_types] ? params[:record_types] : [:a, :mx, :ns]
     @result = host_names.each_with_object(Array.new) do |host, array|
       hash = Hash["Host Name", [host]]
-      record_types.each { |record| hash[record.to_s.upcase] = resolver.dig(host: host, record: record) }
+      record_types.each do |record|
+        hash[record.to_s.upcase] = resolver.dig(host: host, record: record)
+      end
       array << hash
+    end
+    if params[:epp_status]
+      @result.each { |hash| hash["EPP Status"] = R2D2::Whoiz.epp_status(hash["Host Name"].first) }
     end
     render action: :bulk_dig
   rescue Exception => ex

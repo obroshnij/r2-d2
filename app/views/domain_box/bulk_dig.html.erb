@@ -15,6 +15,7 @@
             <%= check_box_tag('record_types[]', :txt) %><%= label_tag(:txt, "TXT") %><br>
             <%= check_box_tag('record_types[]', :ns) %><%= label_tag(:ns, "NS") %><br>
             <%= check_box_tag('record_types[]', :ptr) %><%= label_tag(:ptr, "PTR") %><br>
+            <%= check_box_tag(:epp_status) %><%= label_tag(:epp_status, "EPP Status") %><br>
             <hr>
             <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
             <%= radio_button_tag(:ns, :google) %><%= label_tag(:ns_google, "Google Public DNS") %><br>

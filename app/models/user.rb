@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
 
   has_and_belongs_to_many :roles
+  has_many :reported_domains
 
   validates :name, :role_ids, presence: true
 

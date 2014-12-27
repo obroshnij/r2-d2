@@ -17,13 +17,12 @@ Rails.application.routes.draw do
   get 'compare' => 'domain_box#compare_lists'
   post 'compare' => 'domain_box#perform_comparison'
 
-  get 'la_parse' => 'la_tools#new'
-  post 'la_parse' => 'la_tools#parse'
+  get 'spam' => 'la_tools#new'
+  post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
-  get 'cache' => 'la_tools#show_cache'
+  get 'spam_result' => 'la_tools#spam_result'
   get 'dbl_surbl' => 'la_tools#dbl_surbl'
   post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
-  get 'cache_dbl_surbl' => 'la_tools#cache_dbl_surbl'
 
   resources :vip_domains, except: :show
   resources :spammers, only: [:index, :new, :create, :destroy]

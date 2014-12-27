@@ -4,8 +4,7 @@
   <div class="large-6 large-offset-3 columns">
     <%= form_tag(controller: "la_tools", action: "dbl_surbl_check") do %>
       <fieldset>
-        <%= text_area_tag(:query, content(@domains), size: "20x10") %>
-        <%= check_box_tag(:use_cache) %><%= label_tag(:use_cache, "Use Cache Instead") %>
+        <%= text_area_tag(:query, content(@domains), size: "20x20") %>
       </fieldset>
       <div class="row">
         <div class="large-4 large-offset-4 columns">
@@ -24,7 +23,7 @@
           <th>Domain Name</th>
           <th>DBL</th>
           <th>SURBL</th>
-          <th>
+          <!-- <th>
             <% if @result.index { |hash| hash[:dbl] == "YES" || hash[:surbl] == "YES" } %>
               <%= link_to "Canned Reply", '#', data: { :'reveal-id' => "canned" } %>
               <div id="canned" class="reveal-modal" data-reveal>
@@ -34,25 +33,25 @@
             <% else %>
               Canned Reply
             <% end %>
-          </th>
+          </th> -->
         </thead>
         <tbody>
           <% @result.each do |hash| %>
             <%= content_tag(:tr, id: color(hash)) do %>
-              <td><%= hash[:domainname] %></td>
+              <td><%= hash[:domain_name] %></td>
               <td><%= hash[:dbl] %></td>
               <td><%= hash[:surbl] %></td>
-              <% if hash[:dbl] == "YES" || hash[:surbl] == "YES" %>
+              <!-- <% if hash[:dbl] || hash[:surbl] %>
                 <td>
-                  <%= link_to "Show", '#', data: { :'reveal-id' => "modal_" + hash[:domainname].gsub(/[.-]/, '_') } %>
-                  <div id=<%= "modal_" + hash[:domainname].gsub(/[.-]/, '_') %> class="reveal-modal" data-reveal>
+                  <%= link_to "Show", '#', data: { :'reveal-id' => "modal_" + hash[:domain_name].gsub(/[.-]/, '_') } %>
+                  <div id=<%= "modal_" + hash[:domain_name].gsub(/[.-]/, '_') %> class="reveal-modal" data-reveal>
                     <%= render partial: "canned_reply", locals: { data: hash } %>
                     <a class="close-reveal-modal">&#215;</a>
                   </div>
                 </td>
               <% else %>
                 <td></td>
-              <% end %>
+              <% end %> -->
             <% end %>
           <% end %>
         </tbody>

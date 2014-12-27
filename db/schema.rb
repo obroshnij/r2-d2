@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120163724) do
+ActiveRecord::Schema.define(version: 20141225084640) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "canned_parts", force: true do |t|
     t.integer  "canned_reply_id"
@@ -25,6 +28,34 @@ ActiveRecord::Schema.define(version: 20141120163724) do
   create_table "canned_replies", force: true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reported_domains", force: true do |t|
+    t.integer  "user_id"
+    t.string   "domain_name"
+    t.integer  "occurrences_count"
+    t.string   "username"
+    t.string   "email_address"
+    t.string   "full_name"
+    t.boolean  "dbl"
+    t.boolean  "surbl"
+    t.boolean  "blacklisted"
+    t.string   "epp_status"
+    t.string   "nameservers"
+    t.string   "ns_record"
+    t.string   "a_record"
+    t.string   "mx_record"
+    t.boolean  "vip_domain"
+    t.boolean  "has_vip_domains"
+    t.boolean  "spammer"
+    t.boolean  "suspended_by_registry"
+    t.boolean  "suspended_by_enom"
+    t.boolean  "suspended_by_namecheap"
+    t.boolean  "suspended_for_whois"
+    t.boolean  "expired"
+    t.boolean  "inactive"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -47,7 +78,7 @@ ActiveRecord::Schema.define(version: 20141120163724) do
     t.datetime "updated_at"
   end
 
-  add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true
+  add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -63,11 +94,10 @@ ActiveRecord::Schema.define(version: 20141120163724) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "cache"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "vip_domains", force: true do |t|
     t.string   "domain"
@@ -78,6 +108,6 @@ ActiveRecord::Schema.define(version: 20141120163724) do
     t.datetime "updated_at"
   end
 
-  add_index "vip_domains", ["domain"], name: "index_vip_domains_on_domain", unique: true
+  add_index "vip_domains", ["domain"], name: "index_vip_domains_on_domain", unique: true, using: :btree
 
 end

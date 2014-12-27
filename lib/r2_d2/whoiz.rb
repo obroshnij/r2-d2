@@ -23,6 +23,14 @@ module R2D2
       end
     end
 
+    def self.nameservers(domain)
+      if %w{ me }.include? PublicSuffix.parse(domain.downcase).tld
+        self.lookup(domain).to_s.scan(/(?<=Nameservers:).+/).each { |ns| ns.strip!.downcase! }.uniq
+      else
+        self.lookup(domain).to_s.scan(/(?<=Name Server:)[[:blank:]]*.+/).each { |ns| ns.strip!.downcase! }.uniq
+      end
+    end
+
     private
 
     # Get Whois server for the specified TLD

@@ -1,5 +1,5 @@
 class CannedPart < ActiveRecord::Base
 
-belongs_to :canned_reply
+  belongs_to :canned_reply
 
 end
