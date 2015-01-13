@@ -1,11 +1,13 @@
-<% canned_reply = get_canned_reply(data) %>
+<% canned_reply = get_canned_reply_for_spam_case(data) %>
 
 <form>
   <div class="row">
     <div class="large-12 columns">
-      <% if data[:email_address] %><%= tag(:input, { type: "text", value: data[:email_address] } ) %><% end %>
-      <%= tag(:input, { type: "text", value: canned_reply.title } ) %>
-      <%= content_tag(:textarea, canned_reply.body, { rows: "15" }) %>
+      <%= tag :input, { type: "text", value: data[:email_address] } %>
+      <%= tag :input, { type: "text", value: canned_reply[:title] } %>
+      
+      <%= content_tag(:textarea, canned_reply[:body], { rows: "25" }) %>
+      
     </div>
   </div>
 </form>

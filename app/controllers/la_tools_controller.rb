@@ -41,8 +41,10 @@ class LaToolsController < ApplicationController
   def spam_result
     data = current_user.reported_domains.to_a
     respond_to do |format|
-      format.html
       format.csv { send_data generate_csv(data) }
+      format.html do
+        @spam_data_for_owners = transform_spam_data_for_owners data
+      end
     end
   end
   

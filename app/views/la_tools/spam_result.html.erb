@@ -2,6 +2,55 @@
 
 <div class="row">
   <div class="large-column-12">
-    <%= link_to "Export Domains Info", spam_result_path(format: "csv") %>
+    <div class="right">
+      Export domains info: <%= link_to "CSV", spam_result_path(format: "csv") %>
+    </div><br><hr>
+    <% if @spam_data_for_owners %>
+      <h3>To Domain Owners</h3>
+      <table width="100%">
+        <thead>
+          <th>User</th>
+          <th>Reported Domains</th>
+          <th>Canned Reply</th>
+        </thead>
+        <tbody>
+          <% @spam_data_for_owners.each do |user| %>
+            <tr id=<%= color(user) %>>
+              <td>
+                Username: <%= user[:username] %><br>
+                Email Address: <%= user[:email_address] %><br>
+                <%= user[:has_vip_domains] ? "<strong>Has VIP domains</strong>".html_safe : "Doesn't have VIP domains" %><br>
+                <%= user[:spammer] ? "<strong>Spammer</strong>".html_safe : "Not a spammer" %>
+              </td>
+              <td>
+                <% [:blacklisted_domains, :not_blacklisted_domains].each do |title| %>
+                  <% unless user[title].empty? %>
+                    <h6><%= title.to_s.titleize %>:</h6>
+                    <% user[title].each do |domain| %>
+                      <% if user[:vip_domains].include?(domain) %>
+                        <%= "<span class='vip'>#{domain}</span>".html_safe %><br>
+                      <% elsif user[:already_suspended].include?(domain) %>
+                        <%= "<span class='suspended'>#{domain}</span>".html_safe %><br>
+                      <% else %>
+                        <%= domain %><br>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% unless (user[:blacklisted_domains] - user[:already_suspended]).empty? %>
+                  <%= link_to "Get Reply", '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
+                  <div id=<%= "modal_#{user[:username]}" %> class="reveal-modal" data-reveal>
+                    <%= render partial: "canned_reply", locals: { data: user } %>
+                    <a class="close-reveal-modal">&#215;</a>
+                  </div>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   </div>
 </div>

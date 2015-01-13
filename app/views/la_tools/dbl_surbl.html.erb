@@ -23,17 +23,7 @@
           <th>Domain Name</th>
           <th>DBL</th>
           <th>SURBL</th>
-          <!-- <th>
-            <% if @result.index { |hash| hash[:dbl] == "YES" || hash[:surbl] == "YES" } %>
-              <%= link_to "Canned Reply", '#', data: { :'reveal-id' => "canned" } %>
-              <div id="canned" class="reveal-modal" data-reveal>
-                <%= render partial: "canned_reply", locals: { data: transform_dbl_array(@result) } %>
-                <a class="close-reveal-modal">&#215;</a>
-              </div>
-            <% else %>
-              Canned Reply
-            <% end %>
-          </th> -->
+
         </thead>
         <tbody>
           <% @result.each do |hash| %>
@@ -41,17 +31,7 @@
               <td><%= hash[:domain_name] %></td>
               <td><%= hash[:dbl] %></td>
               <td><%= hash[:surbl] %></td>
-              <!-- <% if hash[:dbl] || hash[:surbl] %>
-                <td>
-                  <%= link_to "Show", '#', data: { :'reveal-id' => "modal_" + hash[:domain_name].gsub(/[.-]/, '_') } %>
-                  <div id=<%= "modal_" + hash[:domain_name].gsub(/[.-]/, '_') %> class="reveal-modal" data-reveal>
-                    <%= render partial: "canned_reply", locals: { data: hash } %>
-                    <a class="close-reveal-modal">&#215;</a>
-                  </div>
-                </td>
-              <% else %>
-                <td></td>
-              <% end %> -->
+ 
             <% end %>
           <% end %>
         </tbody>
