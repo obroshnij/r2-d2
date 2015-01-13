@@ -5,10 +5,19 @@ class Ability
 
   	user ||= User.new # guest user (not logged in)
 
-    if user.role? :admin
-      can :manage, :all
+    if user.role? :legal_and_abuse_manager
+      can :read, Role
+      can :manage, User
+      can :manage, VipDomain
+      can :manage, Spammer
+      can :manage, :la_tool
+    elsif user.role? :legal_and_abuse_c_s
+      can :read, VipDomain
+      can :read, Spammer
+      can [:edit_password, :update_password], User
+      can :manage, :la_tool
     else
-      can :read, :all
+      can [:edit_password, :update_password], User
     end
 
     # Define abilities for the passed in user here. For example:

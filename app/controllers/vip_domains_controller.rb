@@ -1,6 +1,7 @@
 class VipDomainsController < ApplicationController
 
   before_action :authenticate_user!
+  authorize_resource
 
   def index
     @vip_domains = VipDomain.all

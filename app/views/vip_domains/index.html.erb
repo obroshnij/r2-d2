@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %>
+    <% if can?(:manage, VipDomain) %><%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %><% end %>
     <table width="100%">
       <thead>
         <th>Domain Name</th>

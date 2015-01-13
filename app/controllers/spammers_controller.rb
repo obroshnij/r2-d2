@@ -1,6 +1,7 @@
 class SpammersController < ApplicationController
 
   before_action :authenticate_user!
+  authorize_resource
 
   def index
     @spammers = Spammer.all

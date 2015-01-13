@@ -19,22 +19,24 @@
         </ul>
       </li>
       <li class="divider"></li>
-      <li class="has-dropdown">
-        <%= link_to "Legal & Abuse", spam_path %>
-        <ul class="dropdown">
-          <%= content_tag(:li, (link_to "DBL/SURBL Check", dbl_surbl_path)) %>
-          <%= content_tag(:li, (link_to "VIP Domains", vip_domains_path)) %>
-          <%= content_tag(:li, (link_to "Spammer Blacklist", spammers_path)) %>
-          <li class="divider"></li>
-          <%= content_tag(:li, (link_to "Spam", spam_path)) %>
-          <%= content_tag(:li, (link_to "Parsed Data", spam_result_path)) %>
-				</ul>
-      </li>
-      <li class="divider"></li>
-      <li><%= link_to "User Management", users_path %></li>
-      <li class="divider"></li>
-      <li><%= link_to "Canned Replies", canned_replies_path %></li>
-      <li class="divider"></li>
+      <% if can?(:manage, :la_tool) %>
+        <li class="has-dropdown">
+          <%= link_to "Legal & Abuse", spam_path %>
+          <ul class="dropdown">
+            <%= content_tag(:li, (link_to "DBL/SURBL Check", dbl_surbl_path)) %>
+            <%= content_tag(:li, (link_to "VIP Domains", vip_domains_path)) %>
+            <%= content_tag(:li, (link_to "Spammer Blacklist", spammers_path)) %>
+            <li class="divider"></li>
+            <%= content_tag(:li, (link_to "Spam", spam_path)) %>
+            <%= content_tag(:li, (link_to "Parsed Data", spam_result_path)) %>
+  				</ul>
+        </li>
+        <li class="divider"></li>
+      <% end %>
+      <% if can?(:manage, User) %>
+        <li><%= link_to "User Management", users_path %></li>
+        <li class="divider"></li>
+      <% end %>
     </ul>
   </section>
 
