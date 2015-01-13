@@ -18,6 +18,7 @@ class CreateReportedDomains < ActiveRecord::Migration
       t.boolean    :vip_domain
       t.boolean    :has_vip_domains
       t.boolean    :spammer
+      t.boolean    :internal_account
       t.boolean    :suspended_by_registry
       t.boolean    :suspended_by_enom
       t.boolean    :suspended_by_namecheap

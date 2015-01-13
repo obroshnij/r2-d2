@@ -1,0 +1,2 @@
+module InternalAccountsHelper
+end

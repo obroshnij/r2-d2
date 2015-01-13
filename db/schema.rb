@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141225084640) do
+ActiveRecord::Schema.define(version: 20150113144057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 20141225084640) do
     t.datetime "updated_at"
   end
 
+  create_table "internal_accounts", force: true do |t|
+    t.string   "username"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "internal_accounts", ["username"], name: "index_internal_accounts_on_username", unique: true, using: :btree
+
   create_table "reported_domains", force: true do |t|
     t.integer  "user_id"
     t.string   "domain_name"
@@ -50,6 +59,7 @@ ActiveRecord::Schema.define(version: 20141225084640) do
     t.boolean  "vip_domain"
     t.boolean  "has_vip_domains"
     t.boolean  "spammer"
+    t.boolean  "internal_account"
     t.boolean  "suspended_by_registry"
     t.boolean  "suspended_by_enom"
     t.boolean  "suspended_by_namecheap"

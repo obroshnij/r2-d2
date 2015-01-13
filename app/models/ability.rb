@@ -10,10 +10,12 @@ class Ability
       can :manage, User
       can :manage, VipDomain
       can :manage, Spammer
+      can :manage, InternalAccount
       can :manage, :la_tool
     elsif user.role? :legal_and_abuse_c_s
       can :read, VipDomain
       can :read, Spammer
+      can :read, InternalAccount
       can [:edit_password, :update_password], User
       can :manage, :la_tool
     else

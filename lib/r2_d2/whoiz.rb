@@ -25,7 +25,7 @@ module R2D2
 
     def self.nameservers(domain)
       if %w{ me }.include? PublicSuffix.parse(domain.downcase).tld
-        self.lookup(domain).to_s.scan(/(?<=Nameservers:).+/).each { |ns| ns.strip!.downcase! }.uniq
+        self.lookup(domain).to_s.scan(/(?<=Nameservers:).+/).each { |ns| ns.strip!.downcase! }.uniq.delete_if { |ns| ns.empty? }
       else
         self.lookup(domain).to_s.scan(/(?<=Name Server:)[[:blank:]]*.+/).each { |ns| ns.strip!.downcase! }.uniq
       end

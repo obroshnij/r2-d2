@@ -1,0 +1,18 @@
+<% provide(:title, "Internal Accounts") %>
+
+<div class="row">
+  <div class="large-6 large-offset-3 columns">
+    <fieldset>
+      <legend>Add Internal Account</legend>
+      <%= form_for @internal_account, url: { action: 'create' } do |f| %>
+        <label>Username
+          <%= f.text_field :username %>
+        </label>
+        <label>Comments
+          <%= f.text_area :comment, rows: 5 %>
+        </label>
+        <br><%= f.submit "Add", class: "button postfix" %>
+      <% end %>
+    </fieldset>
+  </div>
+</div>

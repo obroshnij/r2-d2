@@ -70,6 +70,7 @@ module LaToolsHelper
       hash[:vip_domain] = vip_domain? hash[:domain_name]
       hash[:has_vip_domains] = has_vip_domains? hash[:username]
       hash[:spammer] = spammer? hash[:username]
+      hash[:internal_account] = internal_account? hash[:username]
     end
   end
   
@@ -112,11 +113,16 @@ module LaToolsHelper
   def spammer?(username)
     Spammer.find_by(username: username.try(:downcase)) ? true : false
   end
+  
+  def internal_account?(username)
+    InternalAccount.find_by(username: username.try(:downcase)) ? true : false
+  end
 
   # Used in views to highlight table rows
   def color(hash)
     return "red" if hash[:spammer]
     return "blue" if hash[:has_vip_domains]
+    return "green" if hash[:internal_account]
     ""
   end
   
@@ -129,9 +135,10 @@ module LaToolsHelper
       hash[:email_address] = array.collect { |domain| domain.email_address if domain.username == username }.compact.first
       hash[:has_vip_domains] = array.collect { |domain| domain.has_vip_domains if domain.username == username }.compact.first
       hash[:spammer] = array.collect { |domain| domain.spammer if domain.username == username }.compact.first
+      hash[:internal_account] = array.collect { |domain| domain.internal_account if domain.username == username }.compact.first
       hash[:blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && domain.blacklisted }.compact
       hash[:not_blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.blacklisted }.compact
-      hash[:vip_domains] = array.collect { |domain| domain.domain_name if domain.username == username && domain.vip_domain }
+      hash[:vip_domains] = array.collect { |domain| domain.domain_name if domain.username == username && domain.vip_domain }.compact
       hash[:already_suspended] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_by_namecheap }.compact
       hash[:dbl] = array.collect { |domain| domain.domain_name if domain.username == username && domain.dbl && !domain.surbl && !domain.suspended_by_namecheap }.compact
       hash[:dbl] = hash[:dbl].empty? ? nil : hash[:dbl]

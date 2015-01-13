@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   resources :vip_domains, except: :show
   resources :spammers, only: [:index, :new, :create, :destroy]
+  resources :internal_accounts, only: [:index, :new, :create, :destroy]
   # resources :canned_replies
 
   # The priority is based upon order of creation: first created -> highest priority.

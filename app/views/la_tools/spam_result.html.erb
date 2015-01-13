@@ -20,7 +20,11 @@
                 Username: <%= user[:username] %><br>
                 Email Address: <%= user[:email_address] %><br>
                 <%= user[:has_vip_domains] ? "<strong>Has VIP domains</strong>".html_safe : "Doesn't have VIP domains" %><br>
-                <%= user[:spammer] ? "<strong>Spammer</strong>".html_safe : "Not a spammer" %>
+                <% if user[:internal_account] %>
+                  <%= "<strong>Internal Account</strong>".html_safe %>
+                <% else %>
+                  <%= user[:spammer] ? "<strong>Spammer</strong>".html_safe : "Not a spammer" %>
+                <% end %>
               </td>
               <td>
                 <% [:blacklisted_domains, :not_blacklisted_domains].each do |title| %>

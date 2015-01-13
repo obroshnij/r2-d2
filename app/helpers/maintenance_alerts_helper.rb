@@ -15,7 +15,8 @@ module MaintenanceAlertsHelper
       # Remove :tlds from the message if needed
       alert[:message].gsub!(/.+and\s\.\w+/, '')
       # Extract the timeframe from the message
-      alert[:timeframe] = /\w+\s\d+,\s\d{4}?.+/.match(alert[:message]).to_s
+      # alert[:timeframe] = /\w+\s\d+,\s\d{4}?.+/.match(alert[:message]).to_s
+      alert[:timeframe] = /\w+\s\d+.+/.match(alert[:message]).to_s
       # Remove the time frame from the message
       alert[:message].gsub!(/.+\w+\s\d+,\s\d{4}?.+\n/, '')
       # Remove extra spaces from the message
