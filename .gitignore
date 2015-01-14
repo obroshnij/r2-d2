@@ -18,8 +18,8 @@
 .DS_Store
 /**/.DS_store
 
-config/database.yml
-config/secrets.yml
+/config/database.yml
+/config/secrets.yml
 /Procfile
 /config/deploy/
 /shared/
