@@ -20,3 +20,6 @@
 
 config/database.yml
 config/secrets.yml
+/Procfile
+/config/deploy/
+/shared/
