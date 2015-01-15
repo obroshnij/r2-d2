@@ -54,6 +54,8 @@ group :development do
   gem 'capistrano-rvm'
 end
 
+gem 'foreman'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
