@@ -99,8 +99,9 @@ namespace :deploy do
 
       upload!('shared/database.yml', "#{shared_path}/config/database.yml")
       
+      upload!('shared/secrets.yml', "#{shared_path}/config/secrets.yml")
+      
       upload!('shared/Procfile', "#{shared_path}/Procfile")
-
 
       upload!('shared/nginx.conf', "#{shared_path}/nginx.conf")
       sudo 'stop nginx'
@@ -120,6 +121,7 @@ namespace :deploy do
   task :symlink do
     on roles(:all) do
       execute "ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+      execute "ln -s #{shared_path}/config/secrets.yml #{release_path}/config/secrets.yml"
       execute "ln -s #{shared_path}/Procfile #{release_path}/Procfile"
       execute "ln -s #{shared_path}/system #{release_path}/public/system"
     end
@@ -164,6 +166,6 @@ namespace :deploy do
   before :setup, 'deploy:updating'
   before :setup, 'bundler:install'
   
-  before :deploy, 'git:deploy'
+  # before :deploy, 'git:deploy'
 
 end
