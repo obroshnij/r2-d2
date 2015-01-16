@@ -8,7 +8,7 @@ listen "/var/www/apps/r2-d2/socket/.unicorn.sock", :backlog => 64
 listen 8080, :tcp_nopush => true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
-timeout 3600
+timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
 pid "/var/www/apps/r2-d2/run/unicorn.pid"
