@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
 
-  get 'edit_password' => 'users#edit_password'
+  get 'change_password' => 'users#edit_password'
   patch 'update_password' => 'users#update_password'
   
   get 'alerts' => 'maintenance_alerts#index'

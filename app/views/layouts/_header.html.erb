@@ -48,7 +48,7 @@
         <li class="has-dropdown">
           <a><%= current_user.name %></a>
           <ul class="dropdown">
-            <li><%= link_to("Change password", edit_password_path) %></li>
+            <li><%= link_to("Change password", change_password_path) %></li>
             <li><%= link_to("Sign out", destroy_user_session_path, method: :delete) %></li>
           </ul>
         </li>
