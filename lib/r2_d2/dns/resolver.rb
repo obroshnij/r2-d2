@@ -16,6 +16,8 @@ module R2D2
           else; raise ArgumentError, "Invalid nameserver type: #{options[:type].inspect}"
         end
         @type = options[:type].to_s.camelize
+        @resolver.tcp_timeout = 2
+        @resolver.udp_timeout = 2
       end
 
       # Dig specified host name, A record by default

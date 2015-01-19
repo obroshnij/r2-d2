@@ -89,8 +89,14 @@ module LaToolsHelper
       hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dns101.registrar-servers.com"
       
       unless hash[:a_record].blank?
-        hash[:expired] = true if hash[:nameservers].include?("name-services.com") && IPAddress("64.74.223.1/24").network.include?(IPAddress(hash[:a_record].split(", ").last)) || IPAddress("8.5.1.1/24").network.include?(IPAddress(hash[:a_record].split(", ").last))
-        hash[:suspended_for_whois] = true if hash[:nameservers].include?("name-services.com") && hash[:a_record] == "98.124.253.216"
+        ip_address = hash[:a_record].split(", ").last
+        if IPAddress.valid? ip_address
+          hash[:expired] = true if hash[:nameservers].include?("name-services.com") && IPAddress("64.74.223.1/24").network.include?(IPAddress(ip_address)) || IPAddress("8.5.1.1/24").network.include?(IPAddress(ip_address))
+          hash[:suspended_for_whois] = true if hash[:nameservers].include?("name-services.com") && hash[:a_record] == "98.124.253.216"
+        else
+          hash[:expired] = false
+          hash[:suspended_for_whois] = false
+        end
       end
       
       hash[:inactive] = true if hash[:suspended_by_registry] || hash[:suspended_by_enom] || hash[:suspended_by_namecheap] || hash[:expired] || hash[:suspended_for_whois]

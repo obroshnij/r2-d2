@@ -67,7 +67,7 @@ namespace :deploy do
       sudo "service nginx stop"
       sudo "rm -f /etc/nginx/nginx.conf"
       sudo "ln -s #{shared_path}/nginx.conf /etc/nginx/nginx.conf"
-      sudo "ln -s #{shared_path}nginx_server_block /etc/nginx/sites-enabled/r2-d2.nmchp.com"
+      sudo "ln -s #{shared_path}/nginx_server_block /etc/nginx/sites-enabled/r2-d2.nmchp.com"
       sudo "service nginx start"
       
       sudo "ln -s #{shared_path}/unicorn_init.sh /etc/init.d/unicorn_r2d2"
