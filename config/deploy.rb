@@ -61,11 +61,13 @@ namespace :deploy do
       upload!('shared/database.yml', "#{shared_path}/config/database.yml")
       upload!('shared/secrets.yml', "#{shared_path}/config/secrets.yml")
       upload!('shared/nginx.conf', "#{shared_path}/nginx.conf")
+      upload!('shared/nginx_server_block', "#{shared_path}/nginx_server_block")
       upload!('shared/unicorn_init.sh', "#{shared_path}/unicorn_init.sh")
       
       sudo "service nginx stop"
       sudo "rm -f /etc/nginx/nginx.conf"
       sudo "ln -s #{shared_path}/nginx.conf /etc/nginx/nginx.conf"
+      sudo "ln -s #{shared_path}nginx_server_block /etc/nginx/sites-enabled/r2-d2.nmchp.com"
       sudo "service nginx start"
       
       sudo "ln -s #{shared_path}/unicorn_init.sh /etc/init.d/unicorn_r2d2"
