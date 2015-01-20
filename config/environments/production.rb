@@ -59,6 +59,11 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
+  
+  config.action_mailer.default_url_options = { host: 'r2-d2.nmchp.com' }
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default charset: "utf-8"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -75,21 +80,5 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.action_mailer.default_url_options = { host: 'r2-d2.nmchp.com' }
-  
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default charset: "utf-8"
-  
-  config.action_mailer.smtp_settings = {
-    address: "server92.web-hosting.com",
-    port: 26,
-    domain: "nmchp.com",
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: Rails.application.secrets.smtp_username,
-    password: Rails.application.secrets.smtp_password
-  }
-    
+      
 end
