@@ -44,8 +44,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      sudo "service unicorn_r2d2 stop"
-      sudo "service unicorn_r2d2 start"
+      sudo "service unicorn_r2d2 restart"
     end
   end
   
@@ -89,6 +88,16 @@ namespace :deploy do
     end
   end
   
+  desc 'Update secrets.yml'
+  task :secrets do
+    on roles(:all) do
+      execute "rm /var/www/apps/r2-d2/current/config/secrets.yml"
+      execute "rm /var/www/apps/r2-d2/shared/config/secrets.yml"
+      upload!('shared/secrets.yml', '/var/www/apps/r2-d2/shared/config/secrets.yml')
+      execute "ln -s /var/www/apps/r2-d2/shared/config/secrets.yml /var/www/apps/r2-d2/current/config/secrets.yml"
+    end
+  end
+  
   after :finishing, 'deploy:cleanup'
   after :finishing, 'deploy:restart'
 
@@ -99,5 +108,7 @@ namespace :deploy do
   before :setup, 'deploy:starting'
   before :setup, 'deploy:updating'
   before :setup, 'bundler:install'
+  
+  after :secrets, 'deploy:restart'
 
 end
