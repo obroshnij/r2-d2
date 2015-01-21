@@ -55,7 +55,7 @@
                     <% unless user[title].empty? %>
                       <h6><%= title.to_s.titleize %>:</h6>
                       <% user[title].each do |domain| %>
-                        <%= domain %>
+                        <%= domain %><br>
                       <% end %>
                     <% end %>
                   <% end %>
