@@ -5,22 +5,24 @@
     <% if can?(:manage, VipDomain) %><%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %><% end %>
     <table width="100%">
       <thead>
+        <th>#</th>
         <th>Domain Name</th>
         <th>Username</th>
         <th>Category</th>
-        <th>Notes</th>
+        <th width="30%">Notes</th>
         <% if can?(:manage, VipDomain) %><th>Actions</th><% end %>
       </thead>
       <tbody>
-        <% @vip_domains.each do |vip_domain| %>
+        <% @vip_domains.each_with_index do |vip_domain, index| %>
           <tr>
+            <td><%= index + 1 %></td>
             <td><%= vip_domain.domain %></td>
             <td><%= vip_domain.username %></td>
             <td><%= vip_domain.category %></td>
             <td><%= vip_domain.notes %></td>
             <% if can?(:manage, VipDomain) %><td>
-              <%= link_to content_tag(:i, "", class: "fi-pencil"), edit_vip_domain_path(vip_domain.id) %>
-              <%= link_to content_tag(:i, "", class: "fi-x"), vip_domain, method: :delete, data: { confirm: "Are you sure?" } %>
+              <%= link_to content_tag(:i, "", class: "fi-pencil action"), edit_vip_domain_path(vip_domain.id) %>
+              <%= link_to content_tag(:i, "", class: "fi-x action"), vip_domain, method: :delete, data: { confirm: "Are you sure?" } %>
             </td><% end %>
           </tr>
         <% end %>

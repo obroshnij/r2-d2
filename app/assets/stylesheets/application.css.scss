@@ -61,11 +61,15 @@ header {
   margin-right: -100px;
 }
 
-i {
+i.action {
   font-size: 2rem;
   color: #5C8382;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+i.inline {
+  margin-right: 3px;
 }
 
 tr#red {
@@ -85,16 +89,5 @@ th {
 }
 
 span.vip {
-//  font-weight: bold;
   color: blue;
-}
-
-span.suspended {
-//  font-weight: bold;
-  color: red;
-}
-
-h6 {
-//  font-weight: bold;
-  font-style: italic;
 }

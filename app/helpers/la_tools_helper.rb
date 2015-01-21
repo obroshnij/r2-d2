@@ -142,18 +142,28 @@ module LaToolsHelper
       hash[:has_vip_domains] = array.collect { |domain| domain.has_vip_domains if domain.username == username }.compact.first
       hash[:spammer] = array.collect { |domain| domain.spammer if domain.username == username }.compact.first
       hash[:internal_account] = array.collect { |domain| domain.internal_account if domain.username == username }.compact.first
-      hash[:blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && domain.blacklisted }.compact
-      hash[:not_blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.blacklisted }.compact
       hash[:vip_domains] = array.collect { |domain| domain.domain_name if domain.username == username && domain.vip_domain }.compact
-      hash[:already_suspended] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_by_namecheap }.compact
-      hash[:dbl] = array.collect { |domain| domain.domain_name if domain.username == username && domain.dbl && !domain.surbl && !domain.suspended_by_namecheap }.compact
-      hash[:dbl] = hash[:dbl].empty? ? nil : hash[:dbl]
-      hash[:surbl] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.dbl && domain.surbl && !domain.suspended_by_namecheap }.compact
-      hash[:surbl] = hash[:surbl].empty? ? nil : hash[:surbl]
-      hash[:dbl_surbl] = array.collect { |domain| domain.domain_name if domain.username == username && domain.dbl && domain.surbl && !domain.suspended_by_namecheap }.compact
-      hash[:dbl_surbl] = hash[:dbl_surbl].empty? ? nil : hash[:dbl_surbl]
+      
+      hash[:active] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.inactive }.compact
+      
+      hash[:blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.inactive && domain.blacklisted }.compact
+      hash[:not_blacklisted_domains] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.inactive && !domain.blacklisted }.compact
+      
+      hash[:inactive] = array.collect { |domain| domain.domain_name if domain.username == username && domain.inactive }.compact
+      
       hash[:suspended_by_registry] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_by_registry && !domain.suspended_by_namecheap }.compact
-      hash[:suspended_by_registry] = hash[:suspended_by_registry].empty? ? nil : hash[:suspended_by_registry]
+      hash[:suspended_by_enom] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_by_enom && !domain.suspended_by_registry && !domain.suspended_by_namecheap }.compact
+      hash[:suspended_for_whois_verification] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_for_whois }.compact
+      hash[:suspended_by_namecheap] = array.collect { |domain| domain.domain_name if domain.username == username && domain.suspended_by_namecheap }.compact
+      hash[:expired] = array.collect { |domain| domain.domain_name if domain.username == username && domain.expired }.compact
+      
+      hash[:dbl] = array.collect { |domain| domain.domain_name if domain.username == username && domain.dbl && !domain.surbl && !domain.inactive }.compact
+      hash[:dbl] = hash[:dbl].empty? ? nil : hash[:dbl]
+      hash[:surbl] = array.collect { |domain| domain.domain_name if domain.username == username && !domain.dbl && domain.surbl && !domain.inactive }.compact
+      hash[:surbl] = hash[:surbl].empty? ? nil : hash[:surbl]
+      hash[:dbl_surbl] = array.collect { |domain| domain.domain_name if domain.username == username && domain.dbl && domain.surbl && !domain.inactive }.compact
+      hash[:dbl_surbl] = hash[:dbl_surbl].empty? ? nil : hash[:dbl_surbl]
+      
       result << hash
     end
     result
@@ -167,8 +177,8 @@ module LaToolsHelper
     reply[:title] += count > 1 ? "for your domains" : "for #{data[:blacklisted_domains].first} domain"
     
     reply[:body] = "Hello,\n\n"
-    reply[:body] += "We regret to inform you that your " + "#{count > 1 ? "domains are" : "domain is"}" + " reported as involved into unsolicited email activity. "
-    reply[:body] += "Generally domains involved into unsolicited email activities might be spamvertised (advertised via spam emails), "
+    reply[:body] += "We regret to inform you that your " + "#{count > 1 ? "domains are" : "domain is"}" + " reported as involved into unsolicited email activity.\n\n"
+    reply[:body] += "FYI: Generally domains involved into unsolicited email activities might be spamvertised (advertised via spam emails), "
     reply[:body] += "assigned to mailboxes or servers that are used to transmit spam emails. In other words recipients of such emails do not want to "
     reply[:body] += "receive them and refer to service providers and anti-spam organisations in order to stop the unsolicited mailing.\n\n"
     
@@ -184,7 +194,7 @@ module LaToolsHelper
       reply[:body] += "\n"
     end
     if data[:dbl_surbl]
-      reply[:body] += "Both Spamhaus DBL and SURBL Listings:\n\n"
+      reply[:body] += "#{data[:dbl] && data[:surbl] ? "Both " : ""}Spamhaus DBL and SURBL Listings:\n\n"
       data[:dbl_surbl].each { |domain| reply[:body] += domain + "\n" }
       reply[:body] += "\n"
     end
@@ -206,7 +216,7 @@ module LaToolsHelper
       reply[:body] += "Unfortunately, due to persistent incidents of spam reported for your services with us we are forced to suspend the "
       reply[:body] += "domain".pluralize(count) + " until " + "#{count > 1 ? "they are" : "it is"}" + " removed form the " + "blacklist".pluralize(listing_count) + ".\n\n"
     end
-    if data[:suspended_by_registry]
+    unless data[:suspended_by_registry].empty?
       reply[:body] += "Additionally it is revealed that the following " + "#{data[:suspended_by_registry].count > 1 ? "domains have" : "domain has"}"
       reply[:body] += " already been suspended by the Registry, to our regret:\n\n"
       data[:suspended_by_registry].each do |domain|
@@ -219,7 +229,7 @@ module LaToolsHelper
       reply[:body] += "Kindly let us know if there is any question."
     end
     unless data[:spammer]
-      reply[:body] += "In order to avoid any confusion please let us once again emphasise that the reputation of your " + "domain".pluralize(count)
+      reply[:body] += "Please let us once again emphasise that the reputation of your " + "domain".pluralize(count)
       reply[:body] += " must be improved during the next 48 hours in order to avoid any service interruption."
       if data[:suspended_by_registry]
         reply[:body] +=  " As for the " + "domain".pluralize(data[:suspended_by_registry].count) + " placed on hold, we will unlock "

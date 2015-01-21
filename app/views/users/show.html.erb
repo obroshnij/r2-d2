@@ -30,7 +30,7 @@
         </tr>
       <% end %>
     </table>
-    <% if can?(:edit, @user) %><%= link_to content_tag(:i, "", class: "fi-pencil"), edit_user_path(@user.id) %><% end %>
-    <% if can?(:delete, @user) %><%= link_to content_tag(:i, "", class: "fi-x"), @user, method: :delete, data: { confirm: "Are you sure?" } %><% end %>
+    <% if can?(:edit, @user) %><%= link_to content_tag(:i, "", class: "fi-pencil action"), edit_user_path(@user.id) %><% end %>
+    <% if can?(:delete, @user) %><%= link_to content_tag(:i, "", class: "fi-x action"), @user, method: :delete, data: { confirm: "Are you sure?" } %><% end %>
   </div>
 </div>

@@ -5,17 +5,19 @@
     <% if can?(:manage, InternalAccount) %><%= link_to "Add new", new_internal_account_path, class: "button tiny right" %><% end %>
     <table width="100%">
       <thead>
+        <th>#</th>
         <th>Username</th>
         <th>Comments</th>
         <% if can?(:manage, InternalAccount) %><th>Actions</th><% end %>
       </thead>
       <tbody>
-        <% @internal_accounts.each do |account| %>
+        <% @internal_accounts.each_with_index do |account, index| %>
           <tr>
+            <td><%= index + 1 %></td>
             <td><%= account.username %></td>
             <td><%= account.comment %></td>
             <% if can?(:manage, InternalAccount) %><td>
-              <%= link_to content_tag(:i, "", class: "fi-x"), account, method: :delete, data: { confirm: "Are you sure?" } %>
+              <%= link_to content_tag(:i, "", class: "fi-x action"), account, method: :delete, data: { confirm: "Are you sure?" } %>
             </td><% end %>
           </tr>
         <% end %>

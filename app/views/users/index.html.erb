@@ -5,21 +5,23 @@
     <%= link_to "Add new", new_user_path, class: "button tiny right" %>
     <table width="100%">
       <thead>
+        <th>#</th>
         <th>Name</th>
         <th>Email Address</th>
         <th>Roles</th>
         <th>Actions</th>
       </thead>
       <tbody>
-        <% @users.each do |user| %>
+        <% @users.each_with_index do |user, index| %>
           <tr>
+            <td><%= index + 1 %></td>
             <td><%= "#{user.name}" %></td>
             <td><%= "#{user.email}" %></td>
             <td><%= "#{user.roles.collect { |r| r.name }.join(", ")}" %></td>
             <td>
-              <%= link_to content_tag(:i, "", class: "fi-magnifying-glass"), user_path(user.id) %>
-              <%= link_to content_tag(:i, "", class: "fi-pencil"), edit_user_path(user.id) %>
-              <%= link_to content_tag(:i, "", class: "fi-x"), user, method: :delete, data: { confirm: "Are you sure?" } %>
+              <%= link_to content_tag(:i, "", class: "fi-magnifying-glass action"), user_path(user.id) %>
+              <%= link_to content_tag(:i, "", class: "fi-pencil action"), edit_user_path(user.id) %>
+              <%= link_to content_tag(:i, "", class: "fi-x action"), user, method: :delete, data: { confirm: "Are you sure?" } %>
             </td>
           </tr>
         <% end %>

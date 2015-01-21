@@ -5,17 +5,19 @@
     <% if can?(:manage, Spammer) %><%= link_to "Add new", new_spammer_path, class: "button tiny right" %><% end %>
     <table width="100%">
       <thead>
+        <th>#</th>
         <th>Username</th>
         <th>Comments</th>
         <% if can?(:manage, Spammer) %><th>Actions</th><% end %>
       </thead>
       <tbody>
-        <% @spammers.each do |spammer| %>
+        <% @spammers.each_with_index do |spammer, index| %>
           <tr>
+            <td><%= index + 1 %></td>
             <td><%= spammer.username %></td>
             <td><%= spammer.comment %></td>
             <% if can?(:manage, Spammer) %><td>
-              <%= link_to content_tag(:i, "", class: "fi-x"), spammer, method: :delete, data: { confirm: "Are you sure?" } %>
+              <%= link_to content_tag(:i, "", class: "fi-x action"), spammer, method: :delete, data: { confirm: "Are you sure?" } %>
             </td><% end %>
           </tr>
         <% end %>
