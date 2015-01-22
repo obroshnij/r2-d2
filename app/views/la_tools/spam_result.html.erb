@@ -24,15 +24,15 @@
               <td>
                 <i class="fa fa-user fa-fw inline"></i><%= user[:username] %><br>
                 <i class="fa fa-at fa-fw inline"></i><%= user[:email_address] %><br>
-                <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"VIP account\">
-                  <i class=\"fa fa-money action\"></i></span>".html_safe if user[:vip] %>
                 <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Blacklisted account\">
                   <i class=\"fa fa-trash-o action\"></i></span>".html_safe if user[:spammer] %>
+                <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"VIP account\">
+                  <i class=\"fi-crown action\"></i></span>".html_safe if user[:has_vip_domains] %>
                 <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Internal account\">
                   <i class=\"fa fa-home action\"></i></span>".html_safe if user[:internal_account] %>
                 <div class="right">
                   <% unless user[:blacklisted_domains].empty? %>
-                    <%= link_to "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Generate canned reply\">
+                    <%= link_to "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Generate a canned reply\">
                       <i class=\"fa fa-send-o action\"></i></span>".html_safe, '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
                     <div id=<%= "modal_#{user[:username]}" %> class="reveal-modal" data-reveal>
                       <%= render partial: "canned_reply", locals: { data: user } %>
