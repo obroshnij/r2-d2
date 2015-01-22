@@ -7,7 +7,7 @@
     </div><br><hr>
     <% if @spam_data_for_owners %>
       <h3>To Domain Owners</h3>
-      <table width="100%">
+      <table width="100%" class="borders">
         <thead>
           <tr>
             <th rowspan="2">User</th>
@@ -24,12 +24,16 @@
               <td>
                 <i class="fa fa-user fa-fw inline"></i><%= user[:username] %><br>
                 <i class="fa fa-at fa-fw inline"></i><%= user[:email_address] %><br>
-                <%= "<i class=\"fa fa-money action\"></i>".html_safe if user[:vip] %>
-                <%= "<i class=\"fa fa-trash-o action\"></i>".html_safe if user[:spammer] %>
-                <%= "<i class=\"fa fa-home action\"></i>".html_safe if user[:internal_account] %>
+                <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"VIP account\">
+                  <i class=\"fa fa-money action\"></i></span>".html_safe if user[:vip] %>
+                <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Blacklisted account\">
+                  <i class=\"fa fa-trash-o action\"></i></span>".html_safe if user[:spammer] %>
+                <%= "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Internal account\">
+                  <i class=\"fa fa-home action\"></i></span>".html_safe if user[:internal_account] %>
                 <div class="right">
                   <% unless user[:blacklisted_domains].empty? %>
-                    <%= link_to "<i class=\"fa fa-send-o action\"></i>".html_safe, '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
+                    <%= link_to "<span data-tooltip aria-haspopup=\"true\" class=\"has-tip\" title=\"Generate canned reply\">
+                      <i class=\"fa fa-send-o action\"></i></span>".html_safe, '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
                     <div id=<%= "modal_#{user[:username]}" %> class="reveal-modal" data-reveal>
                       <%= render partial: "canned_reply", locals: { data: user } %>
                       <a class="close-reveal-modal">&#215;</a>
