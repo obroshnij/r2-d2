@@ -139,7 +139,7 @@ module LaToolsHelper
     return "<i class=\"fa fa-thumbs-o-down inline\"></i>".html_safe if title == :suspended_by_enom
     return "<i class=\"fa fa-terminal inline\"></i>".html_safe if title == :suspended_for_whois_verification
     return "<i class=\"fa fa-lock inline\"></i>".html_safe if title == :suspended_by_namecheap
-    return "<i class=\"fa fa-clock inline\"></i>".html_safe if title == :expired
+    return "<i class=\"fa fa-clock-o inline\"></i>".html_safe if title == :expired
   end
   
   # TODO
