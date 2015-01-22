@@ -11,9 +11,10 @@ module MaintenanceAlertsHelper
       # Parse message (the right column)
       alert[:message] = table.css('tbody').css('tr').css('td')[1].text.gsub(/(\r?\n){3,}/, '\1\1')
       # Extract :tlds from the message if needed
-      alert[:tlds] = /.+and\s\.\w+/.match(alert[:message]).to_s if alert[:message] =~ /and\s\.\w+/
+      alert[:tlds] = /^\.\w+.+\.\w+/.match(alert[:message]).to_s if alert[:message] =~ /^\.\w+.+\.\w+/
+      alert[:tlds] = alert[:tlds].split(" and ").each { |part| part.upcase! }.join(" and ")
       # Remove :tlds from the message if needed
-      alert[:message].gsub!(/.+and\s\.\w+/, '')
+      alert[:message].gsub!(/^\.\w+.+\.\w+/, '')
       # Extract the timeframe from the message
       # alert[:timeframe] = /\w+\s\d+,\s\d{4}?.+/.match(alert[:message]).to_s
       alert[:timeframe] = /\w+\s\d+.+/.match(alert[:message]).to_s
