@@ -131,6 +131,16 @@ module LaToolsHelper
     return "green" if hash[:internal_account]
     ""
   end
+
+  def get_icon(title)
+    return "<i class=\"fa fa-file-text-o inline\"></i>".html_safe if title == :blacklisted_domains
+    return "<i class=\"fa fa-file-o inline\"></i>".html_safe if title == :not_blacklisted_domains
+    return "<i class=\"fa fa-thumbs-down inline\"></i>".html_safe if title == :suspended_by_registry
+    return "<i class=\"fa fa-thumbs-o-down inline\"></i>".html_safe if title == :suspended_by_enom
+    return "<i class=\"fa fa-terminal inline\"></i>".html_safe if title == :suspended_for_whois_verification
+    return "<i class=\"fa fa-lock inline\"></i>".html_safe if title == :suspended_by_namecheap
+    return "<i class=\"fa fa-clock inline\"></i>".html_safe if title == :expired
+  end
   
   # TODO
   # Refactor the method below

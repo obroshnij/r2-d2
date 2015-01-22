@@ -44,7 +44,9 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      sudo "service unicorn_r2d2 restart"
+      sudo "service unicorn_r2d2 stop"
+      sleep 1
+      sudo "service unicorn_r2d2 start"
     end
   end
   

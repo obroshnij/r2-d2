@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
  *= require foundation_and_overrides
 
  */
@@ -70,6 +71,7 @@ i.action {
 
 i.inline {
   margin-right: 3px;
+  color: #5C8382;
 }
 
 tr#red {
@@ -90,4 +92,8 @@ th {
 
 span.vip {
   color: blue;
+}
+
+h6 {
+  font-style: italic
 }

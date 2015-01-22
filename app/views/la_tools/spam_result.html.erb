@@ -22,14 +22,14 @@
           <% @spam_data_for_owners.each do |user| %>
             <tr id=<%= color user %>>
               <td>
-                <%= user[:username] %><br>
-                <%= user[:email_address] %><br>
-                <%= "<i class=\"fi-crown action\"></i>".html_safe if user[:vip] %>
-                <%= "<i class=\"fi-skull action\"></i>".html_safe if user[:spammer] %>
-                <%= "<i class=\"fi-shield action\"></i>".html_safe if user[:internal_account] %>
+                <i class="fa fa-user fa-fw inline"></i><%= user[:username] %><br>
+                <i class="fa fa-at fa-fw inline"></i><%= user[:email_address] %><br>
+                <%= "<i class=\"fa fa-money action\"></i>".html_safe if user[:vip] %>
+                <%= "<i class=\"fa fa-trash-o action\"></i>".html_safe if user[:spammer] %>
+                <%= "<i class=\"fa fa-home action\"></i>".html_safe if user[:internal_account] %>
                 <div class="right">
                   <% unless user[:blacklisted_domains].empty? %>
-                    <%= link_to "<i class=\"fi-page-export action\"></i>".html_safe, '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
+                    <%= link_to "<i class=\"fa fa-send-o action\"></i>".html_safe, '#', data: { :'reveal-id' => "modal_#{user[:username]}" } %>
                     <div id=<%= "modal_#{user[:username]}" %> class="reveal-modal" data-reveal>
                       <%= render partial: "canned_reply", locals: { data: user } %>
                       <a class="close-reveal-modal">&#215;</a>
@@ -39,26 +39,34 @@
               </td>
               <td>
                 <% unless user[:active].empty? %>
+                  <% cell = [] %>
                   <% [:blacklisted_domains, :not_blacklisted_domains].each do |title| %>
                     <% unless user[title].empty? %>
-                      <h6><%= title == :blacklisted_domains ? "<i class=\"fi-alert inline\"></i>".html_safe : "<i class=\"fi-info inline\"></i>".html_safe %><%= title.to_s.titleize %>:</h6>
+                      <% domains = "" %>
+                      <% domains << "<h6>#{get_icon(title) + title.to_s.titleize}</h6>" %>
                       <% user[title].each do |domain| %>
-                        <%= domain %><br>
+                        <% domains << "#{domain}<br>" %>
                       <% end %>
+                      <% cell << domains %>
                     <% end %>
                   <% end %>
+                  <%= cell.join("<hr>").html_safe %>
                 <% end %>
               </td>
               <td>
                 <% unless user[:inactive].empty? %>
+                  <% cell = [] %>
                   <% [:suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired].each do |title| %>
                     <% unless user[title].empty? %>
-                      <h6><%= title.to_s.titleize %>:</h6>
+                      <% domains = "" %>
+                      <% domains << "<h6>#{get_icon(title) + title.to_s.titleize}</h6>" %>
                       <% user[title].each do |domain| %>
-                        <%= domain %><br>
+                        <% domains << "#{domain}<br>" %>
                       <% end %>
+                      <% cell << domains %>
                     <% end %>
                   <% end %>
+                  <%= cell.join("<hr>").html_safe %>
                 <% end %>
               </td>
             </tr>

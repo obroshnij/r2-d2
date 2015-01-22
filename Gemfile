@@ -26,6 +26,7 @@ gem 'spring',        group: :development
 gem 'rails-html-sanitizer'
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
+gem 'font-awesome-rails'
 gem 'cocoon'
 
 gem 'pg'
