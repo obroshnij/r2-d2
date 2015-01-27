@@ -224,7 +224,7 @@ module LaToolsHelper
     end
     if data[:spammer]
       reply[:body] += "Unfortunately, due to persistent incidents of spam reported for your services with us we are forced to suspend the "
-      reply[:body] += "domain".pluralize(count) + " until " + "#{count > 1 ? "they are" : "it is"}" + " removed form the " + "blacklist".pluralize(listing_count) + ".\n\n"
+      reply[:body] += "domain".pluralize(count) + " until " + "#{count > 1 ? "they are" : "it is"}" + " removed from the " + "blacklist".pluralize(listing_count) + ".\n\n"
     end
     unless data[:suspended_by_registry].empty?
       reply[:body] += "Additionally it is revealed that the following " + "#{data[:suspended_by_registry].count > 1 ? "domains have" : "domain has"}"
@@ -241,7 +241,7 @@ module LaToolsHelper
     unless data[:spammer]
       reply[:body] += "Please let us once again emphasise that the reputation of your " + "domain".pluralize(count)
       reply[:body] += " must be improved during the next 48 hours in order to avoid any service interruption."
-      if data[:suspended_by_registry]
+      unless data[:suspended_by_registry].empty?
         reply[:body] +=  " As for the " + "domain".pluralize(data[:suspended_by_registry].count) + " placed on hold, we will unlock "
         reply[:body] +=  "#{data[:suspended_by_registry].count > 1 ? "them" : "it"}" + " upon the confirmation of hold removal."
       end
