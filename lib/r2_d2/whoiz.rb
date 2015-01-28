@@ -41,23 +41,21 @@ module R2D2
 
     # Get Whois server for the specified TLD
     def self.get_whois_server(string)
-      Retriable.retriable on: Errno::ECONNRESET, tries: 5, base_interval: 1 do
-        tld = PublicSuffix.parse(string).tld
-        # TLDs that have no Whois server listed at IANA
-        return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc"
-        return Whois::Server.factory :tld, ".trade", "whois.nic.trade" if tld == "trade"
-        # Bug in the Whois gem - incorrect server is returned
-        return Whois::Server.factory :tld, ".link", "whois.uniregistry.net" if tld == "link"
-        # Get the Whois server
-        Whois::Server.guess(string)
-      rescue Whois::ServerNotFound
-        # Try to parse the server from a Whois record for the TLD
-        host = Whois.whois(".#{tld}").match(/whois.+/).to_s.split.last
-        # Raise exception if no server is found
-        raise Whois::ServerNotFound, "Unable to find a Whois server for .#{tld.upcase}" unless host
-        # Return Whois::Server instance
-        Whois::Server.factory :tld, ".#{tld}", host
-      end
+      tld = PublicSuffix.parse(string).tld
+      # TLDs that have no Whois server listed at IANA
+      return Whois::Server.factory :tld, ".nyc", "whois.nic.nyc" if tld == "nyc"
+      return Whois::Server.factory :tld, ".trade", "whois.nic.trade" if tld == "trade"
+      # Bug in the Whois gem - incorrect server is returned
+      return Whois::Server.factory :tld, ".link", "whois.uniregistry.net" if tld == "link"
+      # Get the Whois server
+      Whois::Server.guess(string)
+    rescue Whois::ServerNotFound
+      # Try to parse the server from a Whois record for the TLD
+      host = Whois.whois(".#{tld}").match(/whois.+/).to_s.split.last
+      # Raise exception if no server is found
+      raise Whois::ServerNotFound, "Unable to find a Whois server for .#{tld.upcase}" unless host
+      # Return Whois::Server instance
+      Whois::Server.factory :tld, ".#{tld}", host
     end
 
   end
