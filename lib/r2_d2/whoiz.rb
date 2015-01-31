@@ -19,6 +19,7 @@ module R2D2
 
     def self.epp_status(domain)
       result = []
+      counter = 0
       while result.empty?
         Retriable.retriable on: Errno::ECONNRESET, tries: 5, base_interval: 1 do
           if %w{ mobi me }.include? PublicSuffix.parse(domain.downcase).tld
@@ -27,12 +28,15 @@ module R2D2
             result = self.lookup(domain).to_s.scan(/(?<=Status:)[[:blank:]]*[a-zA-Z]+[[:blank:]]*/).each { |s| s.gsub!(/[[:space:]]/, '') }.uniq
           end
         end
+        counter += 1
+        break if counter > 15
       end
       result
     end
 
     def self.nameservers(domain)
       result = []
+      counter = 0
       while result.empty?
         Retriable.retriable on: Errno::ECONNRESET, tries: 5, base_interval: 1 do
           if %w{ me }.include? PublicSuffix.parse(domain.downcase).tld
@@ -41,6 +45,8 @@ module R2D2
             result = self.lookup(domain).to_s.scan(/(?<=Name Server:)[[:blank:]]*.+/).each { |ns| ns.strip!.downcase! }.uniq
           end
         end
+        counter += 1
+        break if counter > 15
       end
       result
     end
