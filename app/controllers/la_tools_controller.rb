@@ -19,7 +19,7 @@ class LaToolsController < ApplicationController
   def append_csv
     domains_count = Hash[*params[:domains_count].split]
     csv = parse_domains_info(params[:domains_info].tempfile)
-    data = Array.new
+    data = []
     csv.each do |line|
       hash = { domain_name: line[:domain_name], occurrences_count: domains_count[line[:domain_name]] }
       [:username, :full_name, :email_address].each { |option| hash[option] = line[option] }
@@ -36,6 +36,9 @@ class LaToolsController < ApplicationController
     current_user.reported_domains.create data
     
     redirect_to action: :spam_result
+  rescue Exception => ex
+    flash.now[:alert] = "#{ex.class}: #{ex.message}"
+    render action: :new
   end
   
   # Legal & Abuse > Parsed Data
