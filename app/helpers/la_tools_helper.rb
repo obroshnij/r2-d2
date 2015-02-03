@@ -41,8 +41,11 @@ module LaToolsHelper
   
   # Appends :epp_status and :nameservers keys; example value: "clientTransferProhibited, addPeriod", "ns1.p18.dynect.net, ns2.p18.dynect.net"
   def epp_status_bulk_check(array)
-    array.each { |hash| hash[:epp_status] = R2D2::Whoiz.epp_status(hash[:domain_name]).join(", ") }
-    array.each { |hash| hash[:nameservers] = R2D2::Whoiz.nameservers(hash[:domain_name]).join(", ") }
+    array.each do |hash|
+      whois_record = R2D2::Whoiz.lookup hash[:domain_name]
+      hash[:epp_status] = R2D2::Whoiz.epp_status(hash[:domain_name], whois_record).join(", ")
+      hash[:nameservers] = R2D2::Whoiz.nameservers(hash[:domain_name], whois_record).join(", ")
+    end
   end
   
   # Appends :ns_record, :a_record and :mx_record keys; example value: "dns1.namecheaphosting.com, dns2.namecheaphosting.com"
@@ -66,6 +69,7 @@ module LaToolsHelper
   
   # Appends :vip_domain, :has_vip_domains and :spammer keys; possible values: true, false
   def internal_lists_bulk_check(array)
+    
     array.each do |hash|
       hash[:vip_domain] = vip_domain? hash[:domain_name]
       hash[:has_vip_domains] = has_vip_domains? hash[:username]
@@ -85,8 +89,13 @@ module LaToolsHelper
       
       hash[:suspended_by_enom] = true if hash[:epp_status].downcase.split(", ").include?("clienthold")
       
-      hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dummysecondary.pleasecontactsupport.com"
-      hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dns101.registrar-servers.com"
+      if hash[:nameservers].empty?
+        hash[:suspended_by_namecheap] = true if hash[:ns_record].include? "dummysecondary.pleasecontactsupport.com"
+        hash[:suspended_by_namecheap] = true if hash[:ns_record].include? "dns101.registrar-servers.com"
+      else
+        hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dummysecondary.pleasecontactsupport.com"
+        hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dns101.registrar-servers.com"
+      end
       
       unless hash[:a_record].blank?
         ip_address = hash[:a_record].split(", ").last
