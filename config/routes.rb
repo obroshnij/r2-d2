@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'spam_result' => 'la_tools#spam_result'
   get 'dbl_surbl' => 'la_tools#dbl_surbl'
   post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
+  
+  get 'monthly_reports' => 'manager_tools#monthly_reports'
+  post 'monthly_reports' => 'manager_tools#generate_monthly_reports'
 
   resources :vip_domains, except: :show
   resources :spammers, only: [:index, :new, :create, :destroy]

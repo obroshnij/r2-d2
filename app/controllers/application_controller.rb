@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include MaintenanceAlertsHelper
   include DomainBoxHelper
   include LaToolsHelper
+  include ManagerToolsHelper
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:alert] = exception.message
