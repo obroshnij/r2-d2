@@ -75,10 +75,25 @@ class Ability
       can [:edit_password, :update_password], User
       can :manage, :manager_tool
       
+    elsif user.role? :q_a_manager
+      can :read, Role, ["name LIKE ?", "%QA%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%QA%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
+    elsif user.role? :training_manager
+      can :read, Role, ["name LIKE ?", "%Training%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%Training%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
     elsif user.role? :admin
       can :manage, :all
             
     end
-
   end
 end
