@@ -47,11 +47,13 @@
             </table>
           </div>
           <div class="large-8 columns">
-            <%= text_area_tag (employee["Name"] + "Canned").gsub(" ", "_").underscore.to_sym, generate_canned(employee, @month, @norm), rows: 20 %>
+            <%= text_area_tag (employee["Name"] + "Canned").gsub(" ", "_").underscore.to_sym, generate_canned(employee, @month.split.first, @norm), rows: 20 %>
+            <a class="button tiny" onclick="sendCanned(this);">Send email</a>
           </div>
         </div>
       </div>
       <% end %>
     </div>
   </div>
+  <div id="month" hidden><%= @month %></div>
 <% end %>

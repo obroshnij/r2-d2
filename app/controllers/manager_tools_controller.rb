@@ -1,5 +1,8 @@
 class ManagerToolsController < ApplicationController
   
+  before_action :authenticate_user!
+  authorize_resource class: false
+  
   def monthly_reports
   end
   
@@ -16,7 +19,7 @@ class ManagerToolsController < ApplicationController
       end
     end
     
-    @month = Date.parse(sheet.sheets.last.split.first).strftime("%B")
+    @month = Date.parse(sheet.sheets.last).strftime("%B %Y")
     @norm = params[:norm].blank? ? "NO ONE KNOWS HOW MANY" : params[:norm]
     @employees = (array - [array.first]).map do |row|
       hash = {}

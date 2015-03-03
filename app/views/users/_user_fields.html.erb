@@ -11,8 +11,10 @@
   	<ul>
   		<%= hidden_field_tag "user[role_ids][]", nil %>
       <% @accessible_roles.each do |role| %>
-        <%= check_box_tag "user[role_ids][]", role.id, @user.role_ids.include?(role.id), id: dom_id(role) %>
-        <%= label_tag dom_id(role), role.name %>
+        <div class="roleRadio">
+          <%= radio_button_tag "user[role_ids][]", role.id, @user.role_ids.include?(role.id), id: dom_id(role) %>
+          <%= label_tag dom_id(role), role.name %>
+        </div>
       <% end %>
   	</ul>
   </label>

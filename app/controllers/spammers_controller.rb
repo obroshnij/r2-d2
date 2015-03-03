@@ -4,7 +4,7 @@ class SpammersController < ApplicationController
   authorize_resource
 
   def index
-    @spammers = Spammer.all
+    @spammers = Spammer.search(params[:search_by], params[:search], params[:page], params[:per_page])
   end
 
   def new

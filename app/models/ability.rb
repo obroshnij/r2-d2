@@ -4,49 +4,81 @@ class Ability
   def initialize(user)
 
   	user ||= User.new # guest user (not logged in)
-
+    
     if user.role? :legal_and_abuse_manager
-      can :read, Role
-      can :manage, User
+      can :read, Role, ["name LIKE ?", "%LegalAndAbuse%"] { |role| }
+      can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%LegalAndAbuse%") do
+        true
+      end
+      can :manage, :manager_tool
+      can :manage, :la_tool
       can :manage, VipDomain
       can :manage, Spammer
       can :manage, InternalAccount
-      can :manage, :la_tool
+      
     elsif user.role? :legal_and_abuse_c_s
+      can [:edit_password, :update_password], User
+      can :manage, :la_tool
       can :read, VipDomain
       can :read, Spammer
       can :read, InternalAccount
+      
+    elsif user.role? :risk_management_manager
+      can :read, Role, ["name LIKE ?", "%RiskManagement%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%RiskManagement%") do
+      #   true
+      # end
       can [:edit_password, :update_password], User
-      can :manage, :la_tool
-    else
+      can :manage, :manager_tool
+      
+    elsif user.role? :domains_manager
+      can :read, Role, ["name LIKE ?", "%Domains%"] { |role| }
+      can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%Domains%") do
+        true
+      end
+      can :manage, :manager_tool
+      can :read, :maintenance_alert
+      
+    elsif user.role? :domains_s_l
       can [:edit_password, :update_password], User
+      can :read, :maintenance_alert
+      
+    elsif user.role? :hosting_manager
+      can :read, Role, ["name LIKE ?", "%Hosting%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%Hosting%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
+    elsif user.role? :s_s_l_manager
+      can :read, Role, ["name LIKE ?", "%SSL%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%SSL%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
+    elsif user.role? :transfer_concierge_manager
+      can :read, Role, ["name LIKE ?", "%TransferConcierge%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%TransferConcierge%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
+    elsif user.role? :billing_manager
+      can :read, Role, ["name LIKE ?", "%Billing%"] { |role| }
+      # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%Billing%") do
+      #   true
+      # end
+      can [:edit_password, :update_password], User
+      can :manage, :manager_tool
+      
+    elsif user.role? :admin
+      can :manage, :all
+            
     end
 
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
 end

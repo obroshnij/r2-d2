@@ -2,18 +2,54 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <% if can?(:manage, InternalAccount) %><%= link_to "Add new", new_internal_account_path, class: "button tiny right" %><% end %>
+    
+    <%= form_tag('/internal_accounts', method: :get) do %>
+      <div class="row">
+        <div class="large-2 columns">
+          <div class="row collapse">
+            <div class="large-6 columns">
+              <span class="prefix">Per Page</span>
+            </div>
+            <div class="large-6 columns">
+              <%= select_tag :per_page, options_for_select([25, 50, 75, 100], params[:per_page]), onchange: "this.form.submit();" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-2 columns">
+          <div class="row collapse">
+            <div class="large-5 columns">
+              <span class="prefix">Search by</span>
+            </div>
+            <div class="large-7 columns">
+              <%= select_tag :search_by, options_for_select(["username", "comment"], params[:search_by]), onchange: "this.form.submit();" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-3 columns">
+          <div class="row collapse">
+            <div class="large-9 columns">
+              <%= text_field_tag :search, params[:search], placeholder: "Search", onchange: "this.form.submit();" %>
+            </div>
+            <div class="large-3 columns">
+              <%= submit_tag "Go", name: nil, class: "button postfix tiny" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-4 columns">
+          <% if can?(:manage, InternalAccount) %><%= link_to "Add new", new_internal_account_path, class: "button tiny right" %><% end %>
+        </div>
+      </div>
+    <% end %>
+    
     <table width="100%">
       <thead>
-        <th>#</th>
         <th>Username</th>
         <th>Comments</th>
         <% if can?(:manage, InternalAccount) %><th>Actions</th><% end %>
       </thead>
       <tbody>
-        <% @internal_accounts.each_with_index do |account, index| %>
+        <% @internal_accounts.each do |account| %>
           <tr>
-            <td><%= index + 1 %></td>
             <td><%= account.username %></td>
             <td><%= account.comment %></td>
             <% if can?(:manage, InternalAccount) %><td>
@@ -23,5 +59,7 @@
         <% end %>
       </tbody>
     </table>
+    <span class="pageInfo"><%= page_entries_info @internal_accounts %></span>
+    <%= will_paginate @internal_accounts, renderer: FoundationPagination::Rails, class: "right" %>
   </div>
 </div>

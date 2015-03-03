@@ -64,7 +64,7 @@ class UsersController < ApplicationController
   private
 
   def accessible_roles
-    @accessible_roles = Role.accessible_by(current_ability, :read)
+    @accessible_roles = Role.accessible_by(current_ability, :read).order(name: :asc)
   end
  
   def get_user

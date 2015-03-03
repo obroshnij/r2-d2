@@ -26,5 +26,7 @@
     I may be wrong, but the timeframe posted by eNom just doesn't look right
   </p>
 <% elsif !permanent?(alert) %>
-  <%= link_to "Generate a status post", '#', data: { :'reveal-id' => post_id(alert) } %>
+  <% if can?(:read, :maintenance_alert) %>
+    <%= link_to "Generate a status post", '#', data: { :'reveal-id' => post_id(alert) } %>
+  <% end %>
 <% end %>

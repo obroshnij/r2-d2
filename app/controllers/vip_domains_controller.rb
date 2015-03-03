@@ -4,7 +4,7 @@ class VipDomainsController < ApplicationController
   authorize_resource
 
   def index
-    @vip_domains = VipDomain.all
+    @vip_domains = VipDomain.search(params[:search_by], params[:search], params[:page], params[:per_page])
   end
 
   def new

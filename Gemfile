@@ -28,6 +28,7 @@ gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
 gem 'font-awesome-rails'
 gem 'cocoon'
+gem 'will_paginate-foundation'
 
 gem 'pg'
 gem 'devise'
@@ -42,7 +43,6 @@ gem 'retriable'
 
 gem 'nokogiri'
 gem 'smarter_csv'
-
 gem 'icalendar'
 gem 'roo'
 

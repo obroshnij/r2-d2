@@ -2,10 +2,47 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <% if can?(:manage, VipDomain) %><%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %><% end %>
+    
+    <%= form_tag('/vip_domains', method: :get) do %>
+      <div class="row">
+        <div class="large-2 columns">
+          <div class="row collapse">
+            <div class="large-6 columns">
+              <span class="prefix">Per Page</span>
+            </div>
+            <div class="large-6 columns">
+              <%= select_tag :per_page, options_for_select([25, 50, 75, 100], params[:per_page]), onchange: "this.form.submit();" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-2 columns">
+          <div class="row collapse">
+            <div class="large-5 columns">
+              <span class="prefix">Search by</span>
+            </div>
+            <div class="large-7 columns">
+              <%= select_tag :search_by, options_for_select(["domain", "username", "category", "notes"], params[:search_by]), onchange: "this.form.submit();" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-3 columns">
+          <div class="row collapse">
+            <div class="large-9 columns">
+              <%= text_field_tag :search, params[:search], placeholder: "Search", onchange: "this.form.submit();" %>
+            </div>
+            <div class="large-3 columns">
+              <%= submit_tag "Go", name: nil, class: "button postfix tiny" %>
+            </div>
+          </div>
+        </div>
+        <div class="large-4 columns">
+          <% if can?(:manage, VipDomain) %><%= link_to "Add new", new_vip_domain_path, class: "button tiny right" %><% end %>
+        </div>
+      </div>
+    <% end %>
+    
     <table width="100%">
       <thead>
-        <th>#</th>
         <th>Domain Name</th>
         <th>Username</th>
         <th>Category</th>
@@ -13,9 +50,8 @@
         <% if can?(:manage, VipDomain) %><th>Actions</th><% end %>
       </thead>
       <tbody>
-        <% @vip_domains.each_with_index do |vip_domain, index| %>
+        <% @vip_domains.each do |vip_domain| %>
           <tr>
-            <td><%= index + 1 %></td>
             <td><%= vip_domain.domain %></td>
             <td><%= vip_domain.username %></td>
             <td><%= vip_domain.category %></td>
@@ -28,5 +64,7 @@
         <% end %>
       </tbody>
     </table>
+    <span class="pageInfo"><%= page_entries_info @vip_domains %></span>
+    <%= will_paginate @vip_domains, renderer: FoundationPagination::Rails, class: "right" %>
   </div>
 </div>

@@ -59,6 +59,7 @@ module ManagerToolsHelper
     
     canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one).\n\n"
     canned << "Regards,\n"
+    canned << current_user.name
   end
   
 end

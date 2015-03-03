@@ -4,7 +4,7 @@ class InternalAccountsController < ApplicationController
   authorize_resource
 
   def index
-    @internal_accounts = InternalAccount.all
+    @internal_accounts = InternalAccount.search(params[:search_by], params[:search], params[:page], params[:per_page])
   end
 
   def new

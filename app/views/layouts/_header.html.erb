@@ -9,7 +9,7 @@
     <ul class="left">
       <li class="divider"></li>
       <li class="has-dropdown">
-        <%= link_to "Domains", whois_path %>
+        <%= link_to "Domains & General", whois_path %>
         <ul class="dropdown">
           <%= content_tag(:li, (link_to "Whois", whois_path)) %>
           <%= content_tag(:li, (link_to "Maintenance Alerts", alerts_path)) %>
@@ -34,8 +34,16 @@
         </li>
         <li class="divider"></li>
       <% end %>
-      <% if can?(:manage, User) %>
-        <li><%= link_to "User Management", users_path %></li>
+      <% if can?(:manage, :manager_tool) %>
+        <li class="has-dropdown">
+          <%= link_to "Management" %>
+          <ul class="dropdown">
+            <% if can?(:manage, User) %>
+              <li><%= link_to "User Management", users_path %></li>
+            <% end %>
+            <%= content_tag(:li, (link_to "Monthly Reports", monthly_reports_path)) %>
+          </ul>
+        </li>
         <li class="divider"></li>
       <% end %>
     </ul>
