@@ -29,6 +29,9 @@ class ManagerToolsController < ApplicationController
       hash
     end
     render action: :monthly_reports
+  rescue Exception => ex
+    flash.now[:alert] = "#{ex.class}: #{ex.message}"
+    render action: :monthly_reports
   end
   
 end
