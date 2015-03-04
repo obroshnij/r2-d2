@@ -8,7 +8,7 @@ module ManagerToolsHelper
     end
   end
   
-  def generate_canned(employee, month, norm)
+  def generate_canned(employee, month, norm, signature)
     canned = "Hello " + employee["Name"].split.first + ",\n\n"
     canned << "Please find your work report for " + month + ".\n\n"
     
@@ -38,10 +38,14 @@ module ManagerToolsHelper
       canned << "\n\n"
     end
     
-    bonus = if employee["To be paid"].split.count != 3
+    bonus = if !employee["To be paid"] || employee["To be paid"] == 0
       "INVALID FORMAT"
     else
-      employee["To be paid"].split[1] == "-" ? employee["To be paid"].split[2].to_f * -1 : employee["To be paid"].split[2].to_f
+      if employee["To be paid"].split.count != 3
+        "INVALID FORMAT"
+      else
+        employee["To be paid"].split[1] == "-" ? employee["To be paid"].split[2].to_f * -1 : employee["To be paid"].split[2].to_f
+      end
     end
     bonus = format_field(bonus)
     
@@ -58,8 +62,7 @@ module ManagerToolsHelper
     canned << "Unfortunately, there will be a #{employee["Fines"].match(/\$[[:alnum:]]+/).to_s} fine for ...\n\n" if employee["Fines"]
     
     canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one).\n\n"
-    canned << "Regards,\n"
-    canned << current_user.name
+    canned << signature
   end
   
 end

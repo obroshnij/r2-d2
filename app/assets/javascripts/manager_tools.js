@@ -7,5 +7,6 @@ function sendCanned(link) {
   var fullName = $(link).closest('div.employee-container').find('h3').text();
   var month = $('div#month').text();
   var subject = "Salary Report %7C " + fullName + " - " + month;
-  window.open("mailto:?body=" + body + "&subject=" + subject + "&cc=ncgm@namecheap.com", "_self");
+  var cc = $('div#cc').text();
+  window.open("mailto:?body=" + body + "&subject=" + subject + "&cc=" + cc, "_self");
 }
