@@ -90,9 +90,12 @@ module ManagerToolsHelper
     canned << "You can calculate the cost of your regular shift by dividing your monthly wages by the number of working shifts "
     canned << "(the norm for #{month} was #{norm} #{"shift".pluralize(norm.to_i)}).\n\n"
     
-    if employee["Additional Responsibilities"] && employee["Additional Responsibilities"].match(BONUS_FINE_REGEX) ||
-      employee["Additional Tasks/Comments"] && employee["Additional Tasks/Comments"].match(BONUS_FINE_REGEX)
-      canned << "Additionally you will get ...\n\n"
+    if employee["Additional Responsibilities"] && employee["Additional Responsibilities"].match(BONUS_FINE_REGEX)
+      canned << "Additionally you will get a #{employee["Additional Responsibilities"].gsub("+", "")}.\n\n"
+    end
+    
+    if employee["Additional Tasks/Comments"] && employee["Additional Tasks/Comments"].match(BONUS_FINE_REGEX)
+      canned << "Also, you will get a #{employee["Additional Tasks/Comments"].match(BONUS_FINE_REGEX).to_s} bonus for ...\n\n"
     end
     
     canned << "Unfortunately, there will be a #{employee["Fines"].match(BONUS_FINE_REGEX).to_s} fine for ...\n\n" if employee["Fines"] && employee["Fines"].match(BONUS_FINE_REGEX)
