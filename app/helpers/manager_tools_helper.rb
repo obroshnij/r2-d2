@@ -1,5 +1,7 @@
 module ManagerToolsHelper
   
+  BONUS_FINE_REGEX = /\$\d+|\d+\$/
+  
   def format_field(field)
     if field.is_a? Float
       field.modulo(1) == 0 ? field.round : field
@@ -8,7 +10,44 @@ module ManagerToolsHelper
     end
   end
   
+  def parse_excel_file(file)
+    excel_file = Roo::Excelx.new(file.path, nil, :ignore)
+    excel_hash = {}
+    excel_file.sheets.each_with_index do |sheet, index|
+      excel_file.default_sheet = excel_file.sheets[index]
+      excel_hash[sheet] = delete_extra_lines excel_file.to_a
+      excel_hash[sheet][0][0] = "Name"
+    end
+    excel_hash
+  end
+  
+  def delete_extra_lines(excel_array)
+    excel_array.delete_if { |el| el.compact.count < 2 || el.first && el.first.include?("orms of") }
+  end
+  
+  def format_table_fields(excel_array)
+    excel_array.flatten.each do |el|
+      unless el.nil?
+        el.to_s.gsub!(/[\n]/, " ")
+        el.strip! unless el.is_a? Float
+      end
+    end
+    excel_array
+  end
+  
+  def transform_excel_data_to_hash(excel_array)
+    (excel_array - [excel_array.first]).map do |row|
+      hash = {}
+      excel_array.first.each_with_index do |key, index|
+        hash[key] = format_field(row[index]) unless row[index].nil? || row[index].blank?
+      end
+      hash
+    end
+  end
+  
   def generate_canned(employee, month, norm, signature)
+    return "INSUFFICIENT DATA" if employee["To be paid"].nil? || employee["Working Shifts"].nil?
+    
     canned = "Hello " + employee["Name"].split.first + ",\n\n"
     canned << "Please find your work report for " + month + ".\n\n"
     
@@ -38,31 +77,41 @@ module ManagerToolsHelper
       canned << "\n\n"
     end
     
-    bonus = if !employee["To be paid"] || employee["To be paid"] == 0
-      "INVALID FORMAT"
-    else
-      if employee["To be paid"].split.count != 3
-        "INVALID FORMAT"
-      else
-        employee["To be paid"].split[1] == "-" ? employee["To be paid"].split[2].to_f * -1 : employee["To be paid"].split[2].to_f
-      end
-    end
-    bonus = format_field(bonus)
+    bonus = calculate_bonus employee["To be paid"]
+    bonus = format_field bonus
     
     canned << "This makes your full salary "
     unless bonus.is_a? String || bonus == 0
       canned << "plus #{bonus} additional regular #{"shift".pluralize(bonus)} " if bonus > 0
-      canned << "excluding #{bonus} regular #{"shift".pluralize(bonus)} " if bonus < 0
+      canned << "excluding #{bonus * -1} regular #{"shift".pluralize(bonus)} " if bonus < 0
     end
     canned << bonus + " " if bonus.is_a? String
     canned << "to be paid. "
     canned << "You can calculate the cost of your regular shift by dividing your monthly wages by the number of working shifts "
     canned << "(the norm for #{month} was #{norm} #{"shift".pluralize(norm.to_i)}).\n\n"
     
-    canned << "Unfortunately, there will be a #{employee["Fines"].match(/\$[[:alnum:]]+/).to_s} fine for ...\n\n" if employee["Fines"]
+    if employee["Additional Responsibilities"] && employee["Additional Responsibilities"].match(BONUS_FINE_REGEX) ||
+      employee["Additional Tasks/Comments"] && employee["Additional Tasks/Comments"].match(BONUS_FINE_REGEX)
+      canned << "Additionally you will get ...\n\n"
+    end
+    
+    canned << "Unfortunately, there will be a #{employee["Fines"].match(BONUS_FINE_REGEX).to_s} fine for ...\n\n" if employee["Fines"] && employee["Fines"].match(BONUS_FINE_REGEX)
     
     canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one).\n\n"
     canned << signature
+  end
+  
+  def calculate_bonus(to_be_paid)
+    if to_be_paid.is_a? String
+      return "INVALID FORMAT" if to_be_paid.split(" ").count != 3
+      to_be_paid.split[1] == "-" ? to_be_paid.split[2].to_f * -1 : to_be_paid.split[2].to_f
+    elsif to_be_paid.is_a? Float
+      to_be_paid
+    elsif to_be_paid.is_a? Fixnum
+      to_be_paid
+    else
+      "INVALID FORMAT"
+    end
   end
   
 end

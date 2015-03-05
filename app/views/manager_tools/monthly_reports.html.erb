@@ -47,7 +47,15 @@
                   <%= label_tag :cc, "CC", class: "right inline" %>
                 </div>
                 <div class="small-7 columns">
-                  <%= text_field_tag :cc, "ncgm@namecheap.com", placeholder: "one@nc.com, two@nc.com" %>
+                  <%= text_field_tag :cc, "", placeholder: "one@nc.com, two@nc.com" %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-5 columns">
+                  <%= label_tag :bcc, "BCC", class: "right inline" %>
+                </div>
+                <div class="small-7 columns">
+                  <%= text_field_tag :bcc, "ncgm@namecheap.com", placeholder: "one@nc.com, two@nc.com" %>
                 </div>
               </div>
               <div class="row">
@@ -117,4 +125,5 @@
   </div>
   <div id="month" hidden><%= @month %></div>
   <div id="cc" hidden><%= params[:cc] %></div>
+  <div id="bcc" hidden><%= params[:bcc] %></div>
 <% end %>

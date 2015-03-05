@@ -259,5 +259,10 @@ module LaToolsHelper
     
     reply
   end
+  
+  def linkify(url)
+    url = (url[0..4] == "http:" || url[0..5] == "https:") ? url : "http://" + url
+    "<a href=\"#{url}\">#{url}</a>".html_safe
+  end
 
 end

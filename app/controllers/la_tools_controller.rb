@@ -72,5 +72,23 @@ class LaToolsController < ApplicationController
     flash.now[:alert] = "Error: #{ex.message}"
     render action: :dbl_surbl
   end
+  
+  def bulk_curl
+  end
+  
+  def perform_bulk_curl
+    urls = params[:urls].strip.split
+    easy_options = {follow_location: true, useragent: "curb"}
+    multi_options = {pipeline: true}
+    @result = []
+    Curl::Multi.get(urls, easy_options, multi_options) do |easy|
+      Retriable.retriable do
+        hash = {"URL" => easy.url, "Last Effective URL" => easy.last_effective_url, "Response Code" => easy.response_code}
+        hash["Title"] = easy.body_str.match(/<title>.+<\/title>/).to_s[7..-9]
+        @result << hash
+      end
+    end
+    render action: :bulk_curl
+  end
 
 end

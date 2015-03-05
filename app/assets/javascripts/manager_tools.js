@@ -8,5 +8,6 @@ function sendCanned(link) {
   var month = $('div#month').text();
   var subject = "Salary Report %7C " + fullName + " - " + month;
   var cc = $('div#cc').text();
-  window.open("mailto:?body=" + body + "&subject=" + subject + "&cc=" + cc, "_self");
+  var bcc = $('div#bcc').text();
+  window.open("mailto:?body=" + body + "&subject=" + subject + "&cc=" + cc + "&bcc=" + bcc, "_self");
 }
