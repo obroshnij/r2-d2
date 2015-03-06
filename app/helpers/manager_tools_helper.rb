@@ -80,7 +80,7 @@ module ManagerToolsHelper
     bonus = calculate_bonus employee["To be paid"]
     bonus = format_field bonus
     
-    canned << "This makes your full salary "
+    canned << "This makes it your full salary "
     unless bonus.is_a? String || bonus == 0
       canned << "plus #{bonus} additional regular #{"shift".pluralize(bonus)} " if bonus > 0
       canned << "excluding #{bonus * -1} regular #{"shift".pluralize(bonus)} " if bonus < 0
