@@ -100,8 +100,9 @@ module ManagerToolsHelper
     
     canned << "Unfortunately, there will be a #{employee["Fines"].match(BONUS_FINE_REGEX).to_s} fine for ...\n\n" if employee["Fines"] && employee["Fines"].match(BONUS_FINE_REGEX)
     
-    canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one).\n\n"
-    canned << signature
+    canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one)."
+    canned << "\n\n#{signature}" unless signature.blank?
+    canned
   end
   
   def calculate_bonus(to_be_paid)
