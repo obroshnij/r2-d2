@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150113144057) do
+ActiveRecord::Schema.define(version: 20150306203929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,19 +43,19 @@ ActiveRecord::Schema.define(version: 20150113144057) do
 
   create_table "reported_domains", force: true do |t|
     t.integer  "user_id"
-    t.string   "domain_name"
+    t.text     "domain_name"
     t.integer  "occurrences_count"
-    t.string   "username"
-    t.string   "email_address"
-    t.string   "full_name"
+    t.text     "username"
+    t.text     "email_address"
+    t.text     "full_name"
     t.boolean  "dbl"
     t.boolean  "surbl"
     t.boolean  "blacklisted"
-    t.string   "epp_status"
-    t.string   "nameservers"
-    t.string   "ns_record"
-    t.string   "a_record"
-    t.string   "mx_record"
+    t.text     "epp_status"
+    t.text     "nameservers"
+    t.text     "ns_record"
+    t.text     "a_record"
+    t.text     "mx_record"
     t.boolean  "vip_domain"
     t.boolean  "has_vip_domains"
     t.boolean  "spammer"
