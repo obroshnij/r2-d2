@@ -51,7 +51,7 @@ class Ability
       can [:edit_password, :update_password], User
       can :manage, :manager_tool
       
-    elsif user.role? :hosting_manager
+    elsif user.role? :level2_manager
       can :read, Role, ["name LIKE ?", "%Level2%"] { |role| }
       # can :manage, User, User.joins(:roles).where("roles.name LIKE ?", "%Level2%") do
       #   true
