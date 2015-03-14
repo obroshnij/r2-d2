@@ -91,10 +91,10 @@ module LaToolsHelper
       
       if hash[:nameservers].empty?
         hash[:suspended_by_namecheap] = true if hash[:ns_record].include? "dummysecondary.pleasecontactsupport.com"
-        hash[:suspended_by_namecheap] = true if hash[:ns_record].include? "dns101.registrar-servers.com"
+        # hash[:suspended_by_namecheap] = true if hash[:ns_record].include? "dns101.registrar-servers.com"
       else
         hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dummysecondary.pleasecontactsupport.com"
-        hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dns101.registrar-servers.com"
+        # hash[:suspended_by_namecheap] = true if hash[:nameservers].include? "dns101.registrar-servers.com"
       end
       
       unless hash[:a_record].blank?

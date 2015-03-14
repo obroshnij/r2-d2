@@ -33,11 +33,13 @@ module R2D2
 
     def self.nameservers(domain, whois_record)
       Retriable.retriable on: Errno::ECONNRESET, tries: 10, base_interval: 1 do
-        if %w{ me }.include? PublicSuffix.parse(domain.downcase).tld
+        ns = if %w{ me }.include? PublicSuffix.parse(domain.downcase).tld
           whois_record.scan(/(?<=Nameservers:).+/).each { |ns| ns.strip!.downcase! }.uniq.delete_if { |ns| ns.empty? }
         else
           whois_record.scan(/(?<=Name Server:)[[:blank:]]*.+/).each { |ns| ns.strip!.downcase! }.uniq
         end
+        ns = Whois.whois(domain).nameservers.map { |ns| ns.name } if ns.empty?
+        ns
       end
     end
 
