@@ -23,7 +23,7 @@ module R2D2
 
     def self.epp_status(domain, whois_record)
       Retriable.retriable on: Errno::ECONNRESET, tries: 10, base_interval: 1 do
-        if %w{ mobi me }.include? PublicSuffix.parse(domain.downcase).tld
+        if %w{ mobi me in }.include? PublicSuffix.parse(domain.downcase).tld
           whois_record.scan(/(?<=Status:)[a-zA-Z[[:blank:]]]+/)
         else
           whois_record.scan(/(?<=Status:)[[:blank:]]*[a-zA-Z]+[[:blank:]]*/).each { |s| s.gsub!(/[[:space:]]/, '') }.uniq

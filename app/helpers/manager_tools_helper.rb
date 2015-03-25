@@ -22,7 +22,7 @@ module ManagerToolsHelper
   end
   
   def delete_extra_lines(excel_array)
-    excel_array.delete_if { |el| el.compact.count < 2 || el.first && el.first.include?("orms of") }
+    excel_array.delete_if { |el| el.compact.count < 2 || el.first && el.first.to_s.include?("orms of") }
   end
   
   def format_table_fields(excel_array)
