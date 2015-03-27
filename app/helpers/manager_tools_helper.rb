@@ -15,8 +15,10 @@ module ManagerToolsHelper
     excel_hash = {}
     excel_file.sheets.each_with_index do |sheet, index|
       excel_file.default_sheet = excel_file.sheets[index]
-      excel_hash[sheet] = delete_extra_lines excel_file.to_a
-      excel_hash[sheet][0][0] = "Name"
+      unless excel_file.to_s == "nil"
+        excel_hash[sheet] = delete_extra_lines excel_file.to_a
+        excel_hash[sheet][0][0] = "Name"
+      end
     end
     excel_hash
   end
