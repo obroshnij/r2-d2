@@ -37,9 +37,6 @@ class DomainBoxController < ApplicationController
       end
       array << hash
     end
-    if params[:epp_status]
-      @result.each { |hash| hash["EPP Status"] = R2D2::Whoiz.epp_status(hash["Host Name"].first) }
-    end
     render action: :bulk_dig
   rescue Exception => ex
     flash.now[:alert] = "Error: #{ex.message}"
