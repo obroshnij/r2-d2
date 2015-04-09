@@ -3,7 +3,7 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
 function sendCanned(link) {
-  var body = $(link).prev().val().split('\n').join('%0A');
+  var body = $(link).prev().val().split('\n').join('%0A').replace(/&/g, "%26");
   var fullName = $(link).closest('div.employee-container').find('h3').text();
   var month = $('div#month').text();
   var subject = "Salary Report %7C " + fullName + " - " + month;
