@@ -51,7 +51,7 @@ module ManagerToolsHelper
     return "INSUFFICIENT DATA" if employee["To be paid"].nil? || employee["Working Shifts"].nil?
     
     canned = "Hello " + employee["Name"].split.first + ",\n\n"
-    canned << "Please find your work report for " + month + ".\n\n"
+    canned << "Please find your salary report for " + month + ".\n\n"
     
     shifts = []
     shifts << "You had " + employee["Working Shifts"].to_s + " working shifts in " + month
