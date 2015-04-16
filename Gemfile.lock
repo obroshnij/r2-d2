@@ -138,7 +138,7 @@ GEM
       json (~> 1.4)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
-    retriable (1.4.1)
+    retriable (2.0.2)
     roo (1.13.2)
       nokogiri
       rubyzip
@@ -219,7 +219,7 @@ DEPENDENCIES
   public_suffix
   rails (= 4.1.6)
   rails-html-sanitizer
-  retriable
+  retriable (~> 2.0)
   roo
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

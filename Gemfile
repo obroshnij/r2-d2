@@ -40,7 +40,7 @@ gem 'ipaddress'
 gem 'net-dns', git: 'https://github.com/bonsaiviking/net-dns.git', branch: 'txt'
 gem 'curb'
 
-gem 'retriable'
+gem 'retriable', '~> 2.0'
 
 gem 'nokogiri'
 gem 'smarter_csv'
