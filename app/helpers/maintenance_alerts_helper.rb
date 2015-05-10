@@ -4,7 +4,7 @@ module MaintenanceAlertsHelper
   def parse_alerts
     alerts = []
     maintenance_page = Nokogiri::HTML(open("http://www.enom.com/registrynews.asp"))
-    maintenance_page.css('div.sCnt3.sFL').css('table').each do |table|
+    maintenance_page.css('.container.container-box').css('table').each do |table|
       alert = {}
       # Parse TLD (the left column)
       alert[:tlds] = "." + table.css('tbody').css('tr').css('td')[0].text.upcase
@@ -89,7 +89,7 @@ module MaintenanceAlertsHelper
   end
 
   def permanent?(alert)
-    alert[:start_utc] == alert[:end_utc] ? true : false
+    alert[:start_utc] == alert[:end_utc]
   end
 
   def timeframes(alert)
