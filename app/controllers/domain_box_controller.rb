@@ -55,7 +55,7 @@ class DomainBoxController < ApplicationController
   end
   
   def unauthorized
-    render text: "Forbidden", status: 403
+    render text: request.inspect, status: 403
   end
 
 end
