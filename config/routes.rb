@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
+  # get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
 
   devise_for :users
   resources :users
