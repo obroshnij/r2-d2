@@ -53,5 +53,9 @@ class DomainBoxController < ApplicationController
     @list_two = list_two.join("\n")
     render action: :compare_lists
   end
+  
+  def unauthorized
+    render text: "Forbidden", status: 403
+  end
 
 end
