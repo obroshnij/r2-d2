@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+gem 'rails', '4.2.1'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -23,6 +23,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
+gem "slim-rails"
 gem 'rails-html-sanitizer'
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
@@ -34,13 +35,15 @@ gem 'pg'
 gem 'devise'
 gem 'cancancan'
 
-gem 'whois'
-gem 'public_suffix'
+gem 'public_suffix', git: 'https://github.com/stas-tanko/publicsuffix-ruby.git', branch: 'master'
 gem 'ipaddress'
 gem 'net-dns', git: 'https://github.com/bonsaiviking/net-dns.git', branch: 'txt'
 gem 'curb'
 
 gem 'retriable', '~> 2.0'
+
+gem 'resque'
+gem 'resque-scheduler'
 
 gem 'nokogiri'
 gem 'smarter_csv'
@@ -52,6 +55,7 @@ gem 'roo'
 
 # Use Capistrano for deployment
 group :development do
+  gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'

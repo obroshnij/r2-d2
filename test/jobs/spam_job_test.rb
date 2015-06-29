@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CannedPartTest < ActiveSupport::TestCase
+class SpamJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end

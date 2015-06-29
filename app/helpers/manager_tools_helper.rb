@@ -11,7 +11,7 @@ module ManagerToolsHelper
   end
   
   def parse_excel_file(file)
-    excel_file = Roo::Excelx.new(file.path, nil, :ignore)
+    excel_file = Roo::Excelx.new(file.path)
     excel_hash = {}
     excel_file.sheets.each_with_index do |sheet, index|
       excel_file.default_sheet = excel_file.sheets[index]

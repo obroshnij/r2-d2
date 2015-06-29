@@ -9,47 +9,38 @@ class LaToolsController < ApplicationController
   
   # Legal & Abuse > Spam, submit the form
   def parse
-    hash = R2D2::Parser.parse_domains(params.permit(:text, :count_occurrences, :remove_subdomains))
-    @occurrences_count = hash[:occurrences_count]
-    @domains = hash[:domains]
+    @domains = DomainName.parse_multiple params[:text].downcase, remove_subdomains: true
+    BackgroundJob.where(user_id: current_user.id, status: "Insufficient data").delete_all
+    current_user.background_jobs.create status: "Insufficient data", info: "CSV file has not been uploaded", data: DomainName.multiple_to_hash(@domains)
     render action: :new
   end
-  
+
   # Legal & Abuse > Spam, submit the form with CSV
   def append_csv
-    domains_count = Hash[*params[:domains_count].split]
-    csv = parse_domains_info(params[:domains_info].tempfile)
-    data = []
-    csv.each do |line|
-      hash = { domain_name: line[:domain_name], occurrences_count: domains_count[line[:domain_name]] }
-      [:username, :full_name, :email_address].each { |option| hash[option] = line[option] }
-      data << hash
-    end
-    
-    data = dbl_surbl_bulk_check data
-    data = epp_status_bulk_check data
-    data = dns_bulk_check data
-    data = internal_lists_bulk_check data
-    data = suspension_bulk_check data
-    
-    current_user.reported_domains.all.delete_all unless current_user.reported_domains.blank?
-    current_user.reported_domains.create data
-    
-    redirect_to action: :spam_result
-  rescue Exception => ex
-    flash.now[:alert] = "#{ex.class}: #{ex.message}"
-    render action: :new
+    job = BackgroundJob.find_by(user_id: current_user.id, status: "Insufficient data")
+    data = SpamProcessor.parse_domains_info params[:domains_info].tempfile, job.data
+    job.update_attributes data: data, status: "Pending", info: "Background job has been enqueued"
+    SpamJob.perform_later(job)
+    flash[:notice] = "Your request has been enqueued"
+    redirect_to action: :spam_jobs
   end
   
-  # Legal & Abuse > Parsed Data
-  def spam_result
-    data = current_user.reported_domains.to_a
-    respond_to do |format|
-      format.csv { send_data generate_csv(data) }
-      format.html do
-        @spam_data_for_owners = transform_spam_data_for_owners data
-      end
+  def spam_jobs
+    @jobs = current_user.background_jobs.order(created_at: :desc)
+  end
+  
+  def show_spam_job
+    @job = BackgroundJob.find params[:id]
+  end
+  
+  def delete_spam_job
+    @job = BackgroundJob.find params[:id]
+    if @job.delete
+      flash[:noite] = "Spam report has been successfully deleted"
+    else
+      flash[:alert] = "Unable to delete spam report"
     end
+    redirect_to action: :spam_jobs
   end
   
   # Legal & Abuse > DBL/SURBL Check
@@ -58,18 +49,8 @@ class LaToolsController < ApplicationController
   
   # Legal & Abuse > DBL/SURBL Check, submit the form
   def dbl_surbl_check
-    checkers = [R2D2::DNS::DBL.new, R2D2::DNS::SURBL.new]
-    domains = params[:query].downcase.split
-    @result = domains.each_with_object(Array.new) do |domain, array|
-      hash = Hash[:domain_name, domain]
-      checkers.each { |checker| hash[checker.type.downcase.to_sym] = checker.listed?(domain) }
-      hash[:blacklisted] = hash[:dbl] || hash[:surbl] ? true : false
-      array << hash
-    end
-    @domains = domains.join("\n")
-    render action: :dbl_surbl
-  rescue Exception => ex
-    flash.now[:alert] = "Error: #{ex.message}"
+    @domains = DomainName.parse_multiple params[:query].downcase
+    DNS::SpamBase.check_multiple @domains
     render action: :dbl_surbl
   end
   
@@ -77,17 +58,7 @@ class LaToolsController < ApplicationController
   end
   
   def perform_bulk_curl
-    urls = params[:urls].strip.split
-    easy_options = {follow_location: true, useragent: "curb"}
-    multi_options = {pipeline: true}
-    @result = []
-    Curl::Multi.get(urls, easy_options, multi_options) do |easy|
-      Retriable.retriable do
-        hash = {"URL" => easy.url, "Last Effective URL" => easy.last_effective_url, "Response Code" => easy.response_code}
-        hash["Title"] = easy.body_str.match(/<title>.+<\/title>/).to_s[7..-9]
-        @result << hash
-      end
-    end
+    @result = CurlClient.process_multiple params[:urls].strip.split
     render action: :bulk_curl
   end
 

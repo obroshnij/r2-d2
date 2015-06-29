@@ -25,9 +25,9 @@ class ManagerToolsController < ApplicationController
       @norm = params[:norm].blank? ? "NO ONE KNOWS HOW MANY" : params[:norm]
     end
     render action: :monthly_reports
-  rescue Exception => ex
-    flash.now[:alert] = "#{ex.class}: #{ex.message}"
-    render action: :monthly_reports
+  # rescue Exception => ex
+  #   flash.now[:alert] = "#{ex.class}: #{ex.message}"
+  #   render action: :monthly_reports
   end
   
 end

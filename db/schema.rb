@@ -11,29 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526095203) do
+ActiveRecord::Schema.define(version: 20150629104943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "canned_parts", force: true do |t|
-    t.integer  "canned_reply_id"
-    t.string   "name"
-    t.string   "dependency"
-    t.text     "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "background_jobs", force: :cascade do |t|
+    t.integer  "user_id"
+    t.jsonb    "data"
+    t.string   "status"
+    t.string   "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "canned_replies", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "internal_accounts", force: true do |t|
-    t.string   "username"
+  create_table "internal_accounts", force: :cascade do |t|
+    t.string   "username",   limit: 255
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -41,87 +34,59 @@ ActiveRecord::Schema.define(version: 20150526095203) do
 
   add_index "internal_accounts", ["username"], name: "index_internal_accounts_on_username", unique: true, using: :btree
 
-  create_table "reported_domains", force: true do |t|
-    t.integer  "user_id"
-    t.text     "domain_name"
-    t.integer  "occurrences_count"
-    t.text     "username"
-    t.text     "email_address"
-    t.text     "full_name"
-    t.boolean  "dbl"
-    t.boolean  "surbl"
-    t.boolean  "blacklisted"
-    t.text     "epp_status"
-    t.text     "nameservers"
-    t.text     "ns_record"
-    t.text     "a_record"
-    t.text     "mx_record"
-    t.boolean  "vip_domain"
-    t.boolean  "has_vip_domains"
-    t.boolean  "spammer"
-    t.boolean  "internal_account"
-    t.boolean  "suspended_by_registry"
-    t.boolean  "suspended_by_enom"
-    t.boolean  "suspended_by_namecheap"
-    t.boolean  "suspended_for_whois"
-    t.boolean  "expired"
-    t.boolean  "inactive"
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "roles", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "roles_users", id: false, force: true do |t|
+  create_table "roles_users", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
   end
 
-  create_table "spammers", force: true do |t|
-    t.string   "username"
-    t.string   "comment"
+  create_table "spammers", force: :cascade do |t|
+    t.string   "username",   limit: 255
+    t.string   "comment",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true, using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "name",                   limit: 255
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb    "cache"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "vip_domains", force: true do |t|
-    t.string   "domain"
-    t.string   "username"
-    t.string   "category"
-    t.string   "notes"
+  create_table "vip_domains", force: :cascade do |t|
+    t.string   "domain",     limit: 255
+    t.string   "username",   limit: 255
+    t.string   "category",   limit: 255
+    t.string   "notes",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "vip_domains", ["domain"], name: "index_vip_domains_on_domain", unique: true, using: :btree
 
-  create_table "whitelisted_addresses", force: true do |t|
-    t.string   "value"
+  create_table "whitelisted_addresses", force: :cascade do |t|
+    t.string   "value",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

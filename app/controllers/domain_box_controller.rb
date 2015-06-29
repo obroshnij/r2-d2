@@ -5,7 +5,7 @@ class DomainBoxController < ApplicationController
 
   def whois_lookup
     begin
-      @record = R2D2::Whoiz.lookup params[:name]
+      @record = Whois.lookup params[:name].strip.downcase
     rescue Exception => ex
       flash.now[:alert] = "Error: #{ex.message}"
     end
@@ -16,10 +16,7 @@ class DomainBoxController < ApplicationController
   end
 
   def perform_parsing
-    hash = R2D2::Parser.parse_domains(params.permit(:text, :remove_subdomains, :count_tlds, :count_duplicates))
-    @domains = hash[:domains]
-    @tlds_count = hash[:tlds_count]
-    @duplicates_count = hash[:duplicates_count]
+    @domains = DomainName.parse_multiple params[:text], remove_subdomains: params[:remove_subdomains].present?
     render action: :parse_domains
   end
 
@@ -27,19 +24,9 @@ class DomainBoxController < ApplicationController
   end
 
   def perform_bulk_dig
-    resolver = R2D2::DNS::Resolver.new(type: params[:ns])
-    host_names = params[:query].downcase.split
-    record_types = params[:record_types] ? params[:record_types] : [:a, :mx, :ns]
-    @result = host_names.each_with_object(Array.new) do |host, array|
-      hash = Hash["Host Name", [host]]
-      record_types.each do |record|
-        hash[record.to_s.upcase] = resolver.dig(host: host, record: record)
-      end
-      array << hash
-    end
-    render action: :bulk_dig
-  rescue Exception => ex
-    flash.now[:alert] = "Error: #{ex.message}"
+    @domains = DomainName.parse_multiple params[:query]
+    records = params[:record_types].present? ? params[:record_types] : [:a, :mx, :ns]
+    DNS::Resolver.dig_multiple @domains, type: params[:ns].to_sym, records: records
     render action: :bulk_dig
   end
 

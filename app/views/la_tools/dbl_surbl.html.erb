@@ -4,7 +4,7 @@
   <div class="large-6 large-offset-3 columns">
     <%= form_tag(controller: "la_tools", action: "dbl_surbl_check") do %>
       <fieldset>
-        <%= text_area_tag(:query, content(@domains), size: "20x20") %>
+        <%= text_area_tag(:query, domain_list(@domains), size: "20x20") %>
       </fieldset>
       <div class="row">
         <div class="large-4 large-offset-4 columns">
@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<% unless @result.blank? %>
+<% if @domains.present? %>
   <div class="row">
     <div class="large-12 columns">
       <table width="100%">
@@ -23,17 +23,15 @@
           <th>Domain Name</th>
           <th>DBL</th>
           <th>SURBL</th>
-
         </thead>
         <tbody>
-          <% @result.each do |hash| %>
-            <%= content_tag(:tr, id: color(hash)) do %>
-              <td><%= hash[:domain_name] %></td>
-              <td><%= hash[:dbl] %></td>
-              <td><%= hash[:surbl] %></td>
- 
+          <% @domains.each do |domain| %>
+            <tr>
+              <td><%= domain.name %></td>
+              <td><%= domain.extra_attr[:dbl] ? "YES" : "NO" %></td>
+              <td><%= domain.extra_attr[:surbl] ? "YES" : "NO" %></td>
             <% end %>
-          <% end %>
+          </tr>
         </tbody>
       </table>
     </div>

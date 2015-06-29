@@ -1,0 +1,58 @@
+- provide :title, "Spam Reports"
+
+.row
+  .large-column-12
+    h3 To Domain Owners
+    table.borders width="100%"
+      thead
+        tr
+          th rowspan="2" User
+          th colspan="2" Domains
+        tr
+          th Active
+          th Inactive
+      tbody
+        - transform_job_data(@job.data).each do |username, user_hash|
+          tr class=row_color(user_hash)
+            td
+              div
+                i.fa.fa-user.fa-fw.inline
+                = username
+              div
+                i.fa.fa-at.fa-fw.inline
+                = user_hash[:email_address]
+              - if user_hash[:spammer]
+                span.has-tip data-tooltip='' aria-haspopup="true" title="Blacklisted account"
+                  i.fa.fa-trash-o.action
+              - if user_hash[:has_vip_domains]
+                span.has-tip data-tooltip='' aria-haspopup="true" title="VIP account"
+                  i.fi-crown.action
+              - if user_hash[:internal_account]
+                span.has-tip data-tooltip='' aria-haspopup="true" title="Internal account"
+                  i.fa.fa-home.action
+              - if user_hash[:blacklisted].present?
+                .right
+                  = link_to '#', data: { :'reveal-id' => "modal_" + username } do
+                    = content_tag(:span, class: "has-tip", :'data-tooltip' => '', :'aria-haspopup' => 'true', title: "Generate a canned reply" ) do
+                      i.fa.fa-send-o.action
+                  = render partial: 'canned_reply', locals: { username: username, data: user_hash }
+            td
+              - if user_hash[:active].present?
+                - cell = []
+                - [:blacklisted, :not_blacklisted].each do |title| 
+                  - if user_hash[title].present?
+                    - domains = "<h6>#{icon_title(title) + title.to_s.titleize}</h6>"
+                    - user_hash[title].each do |domain|
+                      - domains << domain + "<br>"
+                    - cell << domains
+                = cell.join("<hr>").html_safe
+            td
+              - if user_hash[:inactive].present?
+                - cell = []
+                - [:suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired].each do |title| 
+                  - if user_hash[title].present?
+                    - domains = "<h6>#{icon_title(title) + title.to_s.titleize}</h6>"
+                    - user_hash[title].each do |domain|
+                      - domains << domain + "<br>"
+                    - cell << domains
+                = cell.join("<hr>").html_safe

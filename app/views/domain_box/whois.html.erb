@@ -5,7 +5,7 @@
     <%= form_tag controller: "domain_box", action: "whois_lookup" do %>
       <div class="row collapse">
         <div class="large-10 columns">
-          <%= text_field_tag :name %>
+          <%= text_field_tag :name, "", placeholder: "example.net, .com or 128.172.34.108" %>
         </div>
         <div class="large-2 columns">
           <%= submit_tag "Go", class: "button postfix" %>

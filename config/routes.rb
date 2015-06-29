@@ -1,7 +1,13 @@
+require 'resque'
+require 'resque-scheduler'
+require 'resque/scheduler/server'
+
 Rails.application.routes.draw do
   
   # get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
 
+  mount Resque::Server.new, :at => '/resque'
+  
   devise_for :users
   resources :users
 
@@ -22,7 +28,6 @@ Rails.application.routes.draw do
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
-  get 'spam_result' => 'la_tools#spam_result'
   get 'dbl_surbl' => 'la_tools#dbl_surbl'
   post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
   get 'bulk_curl' => 'la_tools#bulk_curl'
@@ -34,8 +39,11 @@ Rails.application.routes.draw do
   resources :vip_domains, except: :show
   resources :spammers, only: [:index, :new, :create, :destroy]
   resources :internal_accounts, only: [:index, :new, :create, :destroy]
-  # resources :canned_replies
-
+  
+  get 'spam_reports'        => 'la_tools#spam_jobs', as: 'spam_reports'
+  get 'spam_reports/:id'    => 'la_tools#show_spam_job', as: 'show_spam_report'
+  delete 'spam_reports/:id' => 'la_tools#delete_spam_job', as: 'delete_spam_report'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

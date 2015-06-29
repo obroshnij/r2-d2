@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CannedReplyTest < ActiveSupport::TestCase
+class BackgroundJobTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

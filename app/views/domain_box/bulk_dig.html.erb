@@ -6,7 +6,7 @@
       <fieldset>
         <div class="row">
           <div class="large-8 columns">
-            <%= text_area_tag(:query, content(@host_names), size: "20x20") %>
+            <%= text_area_tag(:query, domain_list(@domains, nil), size: "20x20") %>
           </div>
           <div class="large-4 columns">
             <%= check_box_tag('record_types[]', :a) %><%= label_tag(:a, "A / CNAME") %><br>
@@ -16,9 +16,9 @@
             <%= check_box_tag('record_types[]', :ns) %><%= label_tag(:ns, "NS") %><br>
             <%= check_box_tag('record_types[]', :ptr) %><%= label_tag(:ptr, "PTR") %><br>
             <hr>
-            <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
-            <%= radio_button_tag(:ns, :google) %><%= label_tag(:ns_google, "Google Public DNS") %><br>
-            <%= radio_button_tag(:ns, :open) %><%= label_tag(:ns_open, "OpenDNS") %><br>
+            <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:default, "Default Nameservers") %><br>
+            <%= radio_button_tag(:ns, :google) %><%= label_tag(:google, "Google Public DNS") %><br>
+            <%= radio_button_tag(:ns, :open) %><%= label_tag(:open, "OpenDNS") %><br>
           </div>
         </div>
       </fieldset>
@@ -31,22 +31,24 @@
   </div>
 </div>
 
-<% if @result %>
-  <% headers = @result.flat_map(&:keys).uniq %>
+<% if @domains %>
+  <% headers = @domains.first.extra_attr[:host_records].keys %>
   <div class="row">
     <div clss="large-12 columns">
       <table width="100%">
         <thead>
+          <th>Domain Name</th>
           <% headers.each do |header| %>
-            <th><%= header %></th>
+            <th><%= header.to_s.upcase %></th>
           <% end %>
         </thead>
         <tbody>
-          <% @result.each do |line| %>
+          <% @domains.each do |domain| %>
             <%= content_tag :tr do %>
+              <td><%= domain.name %></td>
               <% headers.each do |header| %>
                 <td>
-                  <% line[header].each do |record| %>
+                  <% domain.extra_attr[:host_records][header].each do |record| %>
                     <%= record %><br>
                   <% end %>
                 </td>

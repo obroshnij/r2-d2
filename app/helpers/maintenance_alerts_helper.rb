@@ -1,9 +1,11 @@
+require 'open-uri'
+
 module MaintenanceAlertsHelper
 
   # Parse eNom maintenance alerts from http://www.enom.com/registrynews.asp
   def parse_alerts
     alerts = []
-    maintenance_page = Nokogiri::HTML(open("http://www.enom.com/registrynews.asp"))
+    maintenance_page = Nokogiri::HTML(open("http://www.enom.com/registrynews.asp").read)
     maintenance_page.css('.container.container-box').css('table').each do |table|
       alert = {}
       # Parse TLD (the left column)

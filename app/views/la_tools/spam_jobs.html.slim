@@ -1,0 +1,22 @@
+- provide :title, "Spam Reports"
+
+.row
+  .large-column-12
+    - if @jobs.present?
+      table width="100%"
+        thead
+          th Status
+          th Info
+          th Creation Date
+          th Actions
+        tbody
+          - @jobs.each do |job|
+            tr
+              td = job.status
+              td = job.info
+              td = job.created_at.strftime('%d %b %Y %H:%M')
+              td
+                - if job.successful?
+                  = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), show_spam_report_path(job)
+                - unless job.pending?
+                  = link_to content_tag(:i, "", class: "fi-x action"), delete_spam_report_path(job), method: :delete, data: { confirm: "Are you sure?" }

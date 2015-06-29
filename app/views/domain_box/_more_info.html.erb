@@ -1,6 +1,8 @@
 <p class="lead">Details</p>
 
-<% unless duplicates.empty? %>
+<% duplicates = count_duplicates(domains) %>
+
+<% if duplicates.present? %>
   <p>Duplicate Domains</p>
   <table width="100%">
     <thead>
@@ -10,10 +12,10 @@
       </tr>
     </thead>
     <tbody>
-      <% duplicates.each do |domain, count| %>
+      <% duplicates.each do |domain| %>
         <tr>
-          <td><%= domain %></td>
-          <td><%= count %></td>
+          <td><%= domain.name %></td>
+          <td><%= domain.extra_attr[:occurrences_count] %></td>
         </tr>
       <% end %>
     </tbody>
@@ -29,7 +31,7 @@
     </tr>
   </thead>
   <tbody>
-    <% tlds.each do |tld, count| %>
+    <% count_tlds(domains).each do |tld, count| %>
       <tr>
         <td><%= tld %></td>
         <td><%= count %></td>
@@ -38,4 +40,4 @@
   </tbody>
 </table>
 
-<p><%= duplicates.empty? ? "Domains count: " : "Domains count (with no duplicates): " %><%= domains.split.count %></p>
+<p><%= duplicates.empty? ? "Domains count: " : "Domains count (with no duplicates): " %><%= domains.count %></p>
