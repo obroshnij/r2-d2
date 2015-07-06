@@ -101,6 +101,10 @@ i.inline {
   color: #5C8382;
 }
 
+table {
+  width: 100%;
+}
+
 table tbody tr.red {
  background: #f4d0d7;
 }
@@ -133,4 +137,12 @@ span.pageInfo {
   display: inline-block;
   font-size: .875em;
   color: #999;
+}
+
+form ul.large-block-grid-4 li {
+  padding-bottom: 0;
+}
+
+.pagination .arrow.unavailable a {
+  cursor: not-allowed;
 }

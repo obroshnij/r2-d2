@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629104943) do
+ActiveRecord::Schema.define(version: 20150702122244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20150629104943) do
   end
 
   add_index "internal_accounts", ["username"], name: "index_internal_accounts_on_username", unique: true, using: :btree
+
+  create_table "permissions", force: :cascade do |t|
+    t.integer  "role_id"
+    t.string   "subject_class"
+    t.string   "actions",                    array: true
+    t.integer  "subject_ids",                array: true
+    t.boolean  "enabled"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255

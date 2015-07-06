@@ -22,3 +22,6 @@
 /config/secrets.yml
 /config/deploy/
 /shared/
+/Vagrantfile
+
+dump.rdb

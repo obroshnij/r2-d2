@@ -33,7 +33,8 @@ gem 'will_paginate-foundation'
 
 gem 'pg'
 gem 'devise'
-gem 'cancancan'
+gem 'cancancan', '~> 1.10'
+gem 'ransack'
 
 gem 'public_suffix', git: 'https://github.com/stas-tanko/publicsuffix-ruby.git', branch: 'master'
 gem 'ipaddress'

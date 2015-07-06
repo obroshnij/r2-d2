@@ -1,0 +1,10 @@
+.reveal-modal.small data-reveal='' id="people-assigned-to-#{role.name.gsub(" ", "").downcase}"
+
+  h4 = "People assigned to the '" + role.name + "' role"
+  
+  .row: large-12.columns
+    ul
+      - role.users.each do |user|
+        li = user.name
+  
+  a.close-reveal-modal &#215;

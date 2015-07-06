@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="large-4 columns">
-          <% if can?(:manage, InternalAccount) %><%= link_to "Add new", new_internal_account_path, class: "button tiny right" %><% end %>
+          <%= link_to "Add new", new_internal_account_path, class: "button tiny right" if can? :create, InternalAccount %>
         </div>
       </div>
     <% end %>
@@ -45,16 +45,16 @@
       <thead>
         <th>Username</th>
         <th>Comments</th>
-        <% if can?(:manage, InternalAccount) %><th>Actions</th><% end %>
+        <% if can?(:delete, InternalAccount) %><th>Actions</th><% end %>
       </thead>
       <tbody>
         <% @internal_accounts.each do |account| %>
           <tr>
             <td><%= account.username %></td>
             <td><%= account.comment %></td>
-            <% if can?(:manage, InternalAccount) %><td>
-              <%= link_to content_tag(:i, "", class: "fi-x action"), account, method: :delete, data: { confirm: "Are you sure?" } %>
-            </td><% end %>
+            <% if can?(:delete, account) %>
+              <td><%= link_to content_tag(:i, "", class: "fi-x action"), account, method: :delete, data: { confirm: "Are you sure?" } %></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

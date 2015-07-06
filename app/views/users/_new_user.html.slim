@@ -1,0 +1,43 @@
+#new-user-modal.reveal-modal.small data-reveal=''
+
+  = form_for User.new do |f|
+    fieldset
+      legend New User
+      
+      .row
+        .large-3.columns
+          = f.label :name, "Name", class: "right inline"
+        .large-9.columns
+          = f.text_field :name, placeholder: "Name"
+          
+      .row
+        .large-3.columns
+          = f.label :email, "Email Address", class: "right inline"
+        .large-9.columns
+          = f.text_field :email, placeholder: "Email Address"
+          
+      .row
+        .large-3.columns
+          label.right Role
+        .large-9.columns
+          = hidden_field_tag "user[role_ids][]", nil
+          - current_user.accessible_roles.each do |role| 
+            div
+              = radio_button_tag "user[role_ids][]", role.id, false, id: dom_id(role)
+              = label_tag dom_id(role), role.name
+          
+      .row
+        .large-3.columns
+          = f.label :password, "Password", class: "right inline"
+        .large-9.columns
+          = f.password_field :password, placeholder: "Password"
+      
+      .row
+        .large-3.columns
+          = f.label :password_confirmation, "Password confirmation", class: "right inline"
+        .large-9.columns
+          = f.password_field :password_confirmation, placeholder: "Password confirmation"
+          
+    = f.submit "Save", class: "button tiny"
+  
+  a.close-reveal-modal &#215;

@@ -1,0 +1,45 @@
+- provide :title, "Roles and Permissions"
+
+.row: .large-12-columns
+
+  h3 = "Your role".pluralize current_user.roles.count
+  p = current_user.roles.map(&:name).join(", ")
+  
+  - unless current_user.roles.map(&:name).include? "Admin"
+    h3 Your permissions
+    table
+      thead
+        td Resource
+        td Actions
+      tbody
+        - current_user.permissions.each do |p|
+          - unless p.actions.blank? || p.subject_class == Role
+            tr
+              td = t p.subject_class.to_s.underscore
+              td = p.actions.map(&:capitalize).join(", ")
+     
+  h3 Roles you can manage
+  - if can? :create, Role
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-role-modal", class: "button tiny right"
+    = render partial: 'new_role'
+  - if @roles.present?
+    table
+      thead
+        th Role
+        th colspan="2" Users Assigned
+        - if can?(:update, Role) || can?(:delete, Role)
+          th Actions
+      tbody
+        - @roles.each do |role|
+          tr
+            td = can?(:update, User) ? role.name : role.name + " [Read only]"
+            td = role.users.count
+            td
+              - if role.users.count > 0
+                = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), '#', :'data-reveal-id' => "people-assigned-to-#{role.name.gsub(" ", "").downcase}"
+                = render partial: 'people_assigned', locals: { role: role }
+            - if can?(:update, Role) || can?(:delete, Role)
+              td
+                = link_to content_tag(:i, "", class: "fi-pencil action"), edit_role_path(role) if can? :update, role
+                = link_to content_tag(:i, "", class: "fi-x action"), role, method: :delete, data: { confirm: "Are you sure?" } if can? :delete, role
+                

@@ -1,45 +1,50 @@
 class UsersController < ApplicationController
   
   before_action :authenticate_user!
-  before_filter :get_user, only: [:index, :new, :edit]
-  before_filter :accessible_roles, only: [:new, :edit, :show, :update, :create]
   load_and_authorize_resource
 
   def index
-    @users = User.accessible_by(current_ability, :index)
-  end
-
-  def new
+    @search = User.ransack params[:q]
+    @per_page = params[:per_page].blank? ? 25 : params[:per_page]
+    @users = @search.result(distinct: true).accessible_by(current_ability).paginate(page: params[:page], per_page: @per_page)
   end
 
   def show
+    @user = User.find params[:id]
   end
 
   def edit
+    @user = User.find params[:id]
   end
 
   def destroy
-    flash[:notice] = "The user has been deleted" if @user.destroy
+    @user = User.find params[:id]
+    if @user.destroy
+      flash[:notice] = "User account has been successfully deleted"
+    else
+      flash[:alert] = "Unable to delete user account: #{@user.errors.full_messages.join("; ")}"
+    end
     redirect_to action: :index
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new user_params
     if @user.save
-      flash[:notice] = "The account has been created"
+      flash[:notice] = "User account has been successfully created"
       redirect_to action: :index
     else
-      flash.now[:alert] = @user.errors.full_messages.join("; ")
-      render action: :new
+      flash[:alert] = "Unable to create user account: #{@user.errors.full_messages.join("; ")}"
+      redirect_to action: :index
     end
   end
 
   def update
-    if @user.update_attributes(user_params)
-      flash[:notice] = "The account has been updated"
+    @user = User.find params[:id]
+    if @user.update_attributes user_params
+      flash[:notice] = "User account has been successfully updated"
       redirect_to action: :index
     else
-      flash.now[:alert] = @user.errors.full_messages.join("; ")
+      flash.now[:alert] = "Unable to update user account: #{@user.errors.full_messages.join("; ")}"
       render action: :edit
     end
   end
@@ -49,27 +54,19 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    @user = User.find(current_user.id)
-    if @user.update_with_password(user_params)
+    @user = current_user
+    if @user.update_with_password user_params
       # Sign in the user by passing validation in case their password changed
       sign_in @user, bypass: true
-      flash[:notice] = "Password has been updated"
+      flash[:notice] = "Password has been successfully updated"
       redirect_to action: :edit_password
     else
-      flash.now[:alert] = @user.errors.full_messages.join("; ")
-      render "edit_password"
+      flash.now[:alert] = "Unable to update password: #{@user.errors.full_messages.join("; ")}"
+      render action: :edit_password
     end
   end
 
   private
-
-  def accessible_roles
-    @accessible_roles = Role.accessible_by(current_ability, :read).order(name: :asc)
-  end
- 
-  def get_user
-    @current_user = current_user
-  end
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :name, role_ids: [])

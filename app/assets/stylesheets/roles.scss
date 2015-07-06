@@ -1,0 +1,49 @@
+// Place all the styles related to the roles controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.permissions {
+  width: 100%;
+}
+
+table.permissions td,
+table.permissions th {
+  text-align: center;
+}
+
+table.permissions td[scope="row"],
+table.permissions th[scope="row"] {
+  text-align: left;
+  font-weight: bold;
+}
+
+table.permissions th[scope="row"] {
+  width: 20%;
+}
+
+table.permissions .switch {
+  display: inline-block;
+  margin: 0.5em 0;
+}
+
+table.permissions td ul {
+  text-align: left;
+  font-size: 0.9em;
+}
+
+table.permissions td ul li {
+  padding-bottom: 0;
+  margin: 0.5em 0;
+}
+
+table.permissions .role-container {
+  text-align: center;
+}
+
+table.permissions .switch.tiny input[disabled] + label {
+  cursor: not-allowed;
+}
+
+.button[disabled] {
+  cursor: not-allowed;
+}

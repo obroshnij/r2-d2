@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   
   devise_for :users
   resources :users
+  
+  resources :roles
 
   get 'change_password' => 'users#edit_password'
   patch 'update_password' => 'users#update_password'

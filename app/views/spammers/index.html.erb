@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="large-4 columns">
-          <% if can?(:manage, Spammer) %><%= link_to "Add new", new_spammer_path, class: "button tiny right" %><% end %>
+          <%= link_to "Add new", new_spammer_path, class: "button tiny right" if can? :create, Spammer %>
         </div>
       </div>
     <% end %>
@@ -45,16 +45,16 @@
       <thead>
         <th>Username</th>
         <th>Comments</th>
-        <% if can?(:manage, Spammer) %><th>Actions</th><% end %>
+        <% if can?(:delete, Spammer) %><th>Actions</th><% end %>
       </thead>
       <tbody>
         <% @spammers.each do |spammer| %>
           <tr>
             <td><%= spammer.username %></td>
             <td><%= spammer.comment %></td>
-            <% if can?(:manage, Spammer) %><td>
-              <%= link_to content_tag(:i, "", class: "fi-x action"), spammer, method: :delete, data: { confirm: "Are you sure?" } %>
-            </td><% end %>
+            <% if can?(:delete, spammer) %>
+              <td><%= link_to content_tag(:i, "", class: "fi-x action"), spammer, method: :delete, data: { confirm: "Are you sure?" } %></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

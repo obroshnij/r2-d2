@@ -1,0 +1,12 @@
+#new-role-modal.reveal-modal.small data-reveal=''
+  = form_for Role.new do |f|
+    fieldset
+      legend New Role
+      .row
+        .large-2.columns
+          = f.label :name, "Name", class: "right inline"
+        .large-10.columns
+          = f.text_field :name, placeholder: "Role name"
+    = f.submit "Save", class: "button tiny"
+
+  a.close-reveal-modal &#215;

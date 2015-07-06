@@ -20,4 +20,21 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  will_paginate:
+    previous_label: "&#171; Previous"
+    next_label: "Next &#187;"
+    models:
+      user:
+        zero: Users
+        one: User
+        few: Users
+        other: Users
+  
+  vip_domain: "L&A :: VIP domains list"
+  spammer: "L&A :: Spammer blacklist"
+  internal_account: "L&A :: Internal accounts list"
+  la_tool: "Legal and Abuse tools"
+  manager_tool: "Management tools"
+  user: "Users"
+  role: "Roles"
+  maintenance_alert: "Maintenance alerts"

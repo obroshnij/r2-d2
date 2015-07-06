@@ -1,9 +1,5 @@
 class Whois
   
-  def initialize
-    load_definitions
-  end
-  
   def self.lookup(object)
     self.new.lookup object
   end
@@ -56,13 +52,15 @@ class Whois
   def lookup_string_domain(string)
     domain = PublicSuffix.parse string
     server = get_whois_server domain.tld
-    return "Whois server was not found" if server.blank?
+    # TODO create a notification if whois server is not found
+    return nil if server.blank?
     record = server == "whois.verisign-grs.com" ? execute(server, "domain #{domain.name}") : execute(server, domain.name)
     if server == "whois.verisign-grs.com"
       registrar_whois = record.match(/Whois Server:.+/).to_s.split.last
       record << execute(registrar_whois, domain.name) if registrar_whois.present?
     end
-    record
+    raise Errno::ECONNRESET if record.include? "Your request is being rate limited"
+    record.force_encoding "UTF-8"
   end
   
   def lookup_string_nameserver(string)
