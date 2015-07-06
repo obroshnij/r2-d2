@@ -23,5 +23,6 @@
 /config/deploy/
 /shared/
 /Vagrantfile
+/.vagrant
 
 /dump.rdb
