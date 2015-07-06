@@ -18,4 +18,12 @@
     Permission.where(role_id: self.role_ids, subject_class: "role").map { |p| Role.where id: p.subject_ids }.flatten.uniq
   end
   
+  def role_id
+    self.role_ids.first
+  end
+  
+  def role_id=(id)
+    self.role_ids = id.present? ? [id] : []
+  end
+  
 end

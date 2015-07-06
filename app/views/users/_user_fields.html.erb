@@ -7,12 +7,6 @@
 </label>
  
 <% if can? :read, Role %>
-	<label>Roles</label>
-  <%= hidden_field_tag "user[role_ids][]", nil %>
-  <% current_user.accessible_roles.each do |role| %>
-    <div>
-      <%= radio_button_tag "user[role_ids][]", role.id, @user.role_ids.include?(role.id), id: dom_id(role) %>
-      <%= label_tag dom_id(role), role.name %>
-    </div>
-  <% end %>
+  <%= f.label :role_id, "Role" %>
+  <%= f.collection_select :role_id, current_user.accessible_roles, :id, :name %>
 <% end %>

@@ -18,13 +18,9 @@
           
       .row
         .large-3.columns
-          label.right Role
+          = f.label :'role_id', "Role", class: "right inline"
         .large-9.columns
-          = hidden_field_tag "user[role_ids][]", nil
-          - current_user.accessible_roles.each do |role| 
-            div
-              = radio_button_tag "user[role_ids][]", role.id, false, id: dom_id(role)
-              = label_tag dom_id(role), role.name
+          = f.collection_select :'role_id', current_user.accessible_roles, :id, :name, { include_blank: "Please select" }
           
       .row
         .large-3.columns
