@@ -15,7 +15,7 @@
 /log/*.log
 /tmp
 
-.DS_Store
+/.DS_Store
 /**/.DS_store
 
 /config/database.yml
@@ -24,4 +24,4 @@
 /shared/
 /Vagrantfile
 
-dump.rdb
+/dump.rdb
