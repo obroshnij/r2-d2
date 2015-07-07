@@ -42,6 +42,7 @@ gem 'net-dns', git: 'https://github.com/bonsaiviking/net-dns.git', branch: 'txt'
 gem 'curb'
 
 gem 'retriable', '~> 2.0'
+gem 'thread'
 
 gem 'resque'
 gem 'resque-scheduler'

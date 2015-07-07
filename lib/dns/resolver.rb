@@ -1,3 +1,5 @@
+require 'thread/pool'
+
 module DNS
   class Resolver
 
@@ -24,15 +26,17 @@ module DNS
     end
     
     def self.dig_multiple(domains, params = {})
-      threads = domains.map do |domain_name|
-        Thread.new(domain_name) do |domain|
+      pool = Thread.pool 100
+      domains.each do |domain|
+        pool.process(domain) do |domain|
           resolver = DNS::Resolver.new type: params[:type]
           domain.extra_attr[:host_records] ||= {}
           params[:records].each do |record|
             domain.extra_attr[:host_records][record] = resolver.dig domain.name, record: record
           end
         end
-      end.each(&:join)
+      end
+      pool.shutdown
     end
 
   end
