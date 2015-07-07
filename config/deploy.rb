@@ -44,13 +44,13 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      sudo "/etc/init.d/unicorn_r2d2 stop"
-      sudo "/etc/init.d/rescue_worker stop"
-      sudo "/etc/init.d/rescue_scheduler stop"
+      sudo "service unicorn_r2d2 stop"
+      sudo "service resque_worker_r2d2 stop"
+      sudo "service resque_scheduler_r2d2 stop"
       
-      sudo "/etc/init.d/unicorn_r2d2 start"
-      sudo "/etc/init.d/rescue_worker start"
-      sudo "/etc/init.d/rescue_scheduler start"
+      sudo "service unicorn_r2d2 start"
+      sudo "service resque_worker_r2d2 start"
+      sudo "service resque_scheduler_r2d2 start"
     end
   end
   
