@@ -20,7 +20,10 @@ nav.top-bar data-topbar='' role="navigation"
       
       - if can?(:access, :la_tool) || can?(:read, VipDomain) || can?(:read, Spammer) || can?(:read, InternalAccount)
         li.has-dropdown.not-click
-          a href='#' Legal & Abuse
+          - if can? :access, :la_tool
+            = link_to "Legal & Abuse", spam_path
+          - else
+            a href='#' Legal & Abuse
           ul.dropdown
           
             - if can? :access, :la_tool

@@ -44,9 +44,13 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      sudo "service unicorn_r2d2 stop"
-      sleep 1
-      sudo "service unicorn_r2d2 start"
+      sudo "/etc/init.d/unicorn_r2d2 stop"
+      sudo "/etc/init.d/rescue_worker stop"
+      sudo "/etc/init.d/rescue_scheduler stop"
+      
+      sudo "/etc/init.d/unicorn_r2d2 start"
+      sudo "/etc/init.d/rescue_worker start"
+      sudo "/etc/init.d/rescue_scheduler start"
     end
   end
   
@@ -64,6 +68,8 @@ namespace :deploy do
       upload!('shared/nginx.conf', "#{shared_path}/nginx.conf")
       upload!('shared/nginx_server_block', "#{shared_path}/nginx_server_block")
       upload!('shared/unicorn_init.sh', "#{shared_path}/unicorn_init.sh")
+      upload!('shared/resque_scheduler_init.sh', "#{shared_path}/resque_scheduler_init.sh")
+      upload!('shared/resque_worker_init.sh', "#{shared_path}/resque_worker_init.sh")
       
       sudo "service nginx stop"
       sudo "rm -f /etc/nginx/nginx.conf"
@@ -72,6 +78,8 @@ namespace :deploy do
       sudo "service nginx start"
       
       sudo "ln -s #{shared_path}/unicorn_init.sh /etc/init.d/unicorn_r2d2"
+      sudo "ln -s #{shared_path}/resque_scheduler_init.sh /etc/init.d/resque_scheduler_r2d2"
+      sudo "ln -s #{shared_path}/resque_worker_init.sh /etc/init.d/resque_worker_r2d2"
 
       within release_path do
         with rails_env: fetch(:rails_env) do
