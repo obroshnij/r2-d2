@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
   get 'bulk_curl' => 'la_tools#bulk_curl'
   post 'bulk_curl' => 'la_tools#perform_bulk_curl'
+  get 'hosting_abuse' => 'la_tools#hosting_abuse'
   
   get 'monthly_reports' => 'manager_tools#monthly_reports'
   post 'monthly_reports' => 'manager_tools#generate_monthly_reports'

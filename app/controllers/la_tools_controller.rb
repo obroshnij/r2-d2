@@ -61,5 +61,8 @@ class LaToolsController < ApplicationController
     @result = CurlClient.process_multiple params[:urls].strip.split
     render action: :bulk_curl
   end
+  
+  def hosting_abuse
+  end
 
 end

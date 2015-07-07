@@ -47,10 +47,6 @@ namespace :deploy do
       sudo "service unicorn_r2d2 stop"
       sudo "service resque_worker_r2d2 stop"
       sudo "service resque_scheduler_r2d2 stop"
-      
-      sudo "service unicorn_r2d2 start"
-      sudo "service resque_worker_r2d2 start"
-      sudo "service resque_scheduler_r2d2 start"
     end
   end
   
