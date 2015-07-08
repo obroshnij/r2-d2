@@ -2,7 +2,7 @@ class UserRelation < ActiveRecord::Base
   
   belongs_to :nc_user
   belongs_to :related_user, class_name: "NcUser"
-  belongs_to :relation_type
+  has_and_belongs_to_many :relation_type
   has_and_belongs_to_many :abuse_reports
   
   def self.link_users(username1, username2, relation_type)

@@ -1,5 +1,5 @@
 class RelationType < ActiveRecord::Base
   
-  has_many :user_relations
+  has_and_belongs_to_many :user_relations
   
 end
