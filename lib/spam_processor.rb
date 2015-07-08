@@ -48,9 +48,9 @@ class SpamProcessor
   def self.internal_lists_bulk_check(domains)
     domains.each do |domain|
       domain.extra_attr[:vip_domain] = VipDomain.find_by(domain: domain.name).present?
-      domain.extra_attr[:has_vip_domains] = VipDomain.find_by(username: domain.extra_attr["username"]).present?
-      domain.extra_attr[:spammer] = Spammer.find_by(username: domain.extra_attr["username"]).present?
-      domain.extra_attr[:internal_account] = InternalAccount.find_by(username: domain.extra_attr["username"]).present?
+      domain.extra_attr[:has_vip_domains] = VipDomain.find_by(username: domain.extra_attr["username"].downcase).present?
+      domain.extra_attr[:spammer] = Spammer.find_by(username: domain.extra_attr["username"].downcase).present?
+      domain.extra_attr[:internal_account] = InternalAccount.find_by(username: domain.extra_attr["username"].downcase).present?
     end
   end
   
