@@ -1,0 +1,27 @@
+= f.fields_for :user_relations, UserRelation.new do |ff| 
+
+  = ff.label :related_user, "Related user"
+  = ff.text_field :related_user
+  
+  = ff.label :relation_type, "Related by"
+  = ff.collection_select :relation_type, RelationType.all, :id, :name, { prompt: "Please select" }
+  
+= f.fields_for :spammer_info, SpammerInfo.new do |ff| 
+
+  = ff.label :registered_domains, "Registered domains"
+  = ff.text_field :registered_domains
+
+  = ff.label :abused_domains, "Abused domains"
+  = ff.text_field :abused_domains
+
+  = ff.label :cfc_status, "CFC Status"
+  = ff.text_field :cfc_status
+
+  = ff.label :amount_spent, "Amount Spent"
+  = ff.text_field :amount_spent
+
+  = ff.label :responded_previously, "Responded previously"
+  = ff.text_field :responded_previously
+
+  = ff.label :reference, "Reference"
+  = ff.text_field :reference

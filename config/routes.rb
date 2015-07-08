@@ -47,6 +47,9 @@ Rails.application.routes.draw do
   get 'spam_reports/:id'    => 'la_tools#show_spam_job', as: 'show_spam_report'
   delete 'spam_reports/:id' => 'la_tools#delete_spam_job', as: 'delete_spam_report'
   
+  resources :abuse_reports
+  get 'update_abuse_report_form' => 'abuse_reports#update_abuse_report_form'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

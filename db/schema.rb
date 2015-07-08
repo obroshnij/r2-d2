@@ -11,10 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702122244) do
+ActiveRecord::Schema.define(version: 20150708135014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abuse_report_statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "abuse_report_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "abuse_reports", force: :cascade do |t|
+    t.integer  "nc_user_id"
+    t.integer  "abuse_report_status_id"
+    t.integer  "abuse_report_type_id"
+    t.integer  "reported_by"
+    t.integer  "processed_by"
+    t.text     "comment"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "abuse_reports_user_relations", id: false, force: :cascade do |t|
+    t.integer "abuse_reports_id"
+    t.integer "user_relations_id"
+  end
 
   create_table "background_jobs", force: :cascade do |t|
     t.integer  "user_id"
@@ -34,14 +62,41 @@ ActiveRecord::Schema.define(version: 20150702122244) do
 
   add_index "internal_accounts", ["username"], name: "index_internal_accounts_on_username", unique: true, using: :btree
 
+  create_table "nc_service_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nc_services", force: :cascade do |t|
+    t.integer  "nc_user_id"
+    t.integer  "nc_service_type_id"
+    t.string   "name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "nc_users", force: :cascade do |t|
+    t.integer  "status_id"
+    t.string   "username"
+    t.date     "signed_up_on"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.integer  "role_id"
     t.string   "subject_class"
     t.string   "actions",                    array: true
     t.integer  "subject_ids",                array: true
-    t.boolean  "enabled"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "relation_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -55,6 +110,18 @@ ActiveRecord::Schema.define(version: 20150702122244) do
     t.integer "user_id"
   end
 
+  create_table "spammer_infos", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.integer  "registered_domains"
+    t.integer  "abused_domains"
+    t.string   "cfc_status"
+    t.float    "amount_spent"
+    t.boolean  "responded_previously"
+    t.string   "reference"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
   create_table "spammers", force: :cascade do |t|
     t.string   "username",   limit: 255
     t.string   "comment",    limit: 255
@@ -63,6 +130,20 @@ ActiveRecord::Schema.define(version: 20150702122244) do
   end
 
   add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true, using: :btree
+
+  create_table "statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_relations", force: :cascade do |t|
+    t.integer  "nc_user_id"
+    t.integer  "related_user_id"
+    t.integer  "relation_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   limit: 255
