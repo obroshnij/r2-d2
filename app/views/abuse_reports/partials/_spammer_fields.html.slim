@@ -1,27 +1,81 @@
-= f.fields_for :user_relations, UserRelation.new do |ff| 
-
-  = ff.label :related_user, "Related user"
-  = ff.text_field :related_user
-  
-  = ff.label :relation_type, "Related by"
-  = ff.collection_select :relation_type, RelationType.all, :id, :name, { prompt: "Please select" }
-  
 = f.fields_for :spammer_info, SpammerInfo.new do |ff| 
 
-  = ff.label :registered_domains, "Registered domains"
-  = ff.text_field :registered_domains
-
-  = ff.label :abused_domains, "Abused domains"
-  = ff.text_field :abused_domains
-
-  = ff.label :cfc_status, "CFC Status"
-  = ff.text_field :cfc_status
-
-  = ff.label :amount_spent, "Amount Spent"
-  = ff.text_field :amount_spent
-
-  = ff.label :responded_previously, "Responded previously"
-  = ff.text_field :responded_previously
-
-  = ff.label :reference, "Reference"
-  = ff.text_field :reference
+  .row
+    .large-6.columns
+      fieldset
+        legend Account related
+        .row
+          = f.fields_for :nc_user, NcUser.new do |fff| 
+            .large-6.columns
+              = fff.label :username, "Username"
+              = fff.text_field :username, placeholder: "spammachine", class: "error"
+            .large-6.columns
+              = fff.label :signed_up_on, "Sign up date"
+              = fff.text_field :signed_up_on, placeholder: "12/12/2012"
+        .row
+          .large-6.columns
+            = ff.label :amount_spent, "Amount spent"
+            = ff.text_field :amount_spent, placeholder: "321.25"
+          .large-6.columns
+            = ff.label :last_signed_in_on, "Last login date"
+            = ff.text_field :last_signed_in_on, placeholder: "12/12/2012"
+      fieldset
+        legend Previous correspondence / comments
+        .row
+          .large-4.columns.responded-previously-buttons
+            = ff.label :responded_previously, "Responded previously"
+            = ff.radio_button :responded_previously, "1"
+            = ff.label :responded_previously_1, "Yes"
+            = ff.radio_button :responded_previously, "0"
+            = ff.label :responded_previously_0, "No"
+          .large-8.columns.reference-fields
+            = ff.label :reference_ticket_id, "Reference ticket ID"
+            = ff.text_field :reference_ticket_id, placeholder: "LOL-123-45678"
+        .row
+          .large-12.columns
+            = f.label :comment, "Additional comments"
+            = f.text_area :comment, placeholder: "Comments"
+      fieldset
+        legend CFC related
+        .row
+          .large-3.columns
+            = ff.label :cfc_status, "CFC status"
+            div
+              = ff.radio_button :cfc_status, "1", style: "margin-bottom:0;"
+              = ff.label :cfc_status_1, "Locked"
+            div
+              = ff.radio_button :cfc_status, "0", style: "margin-bottom:0;"
+              = ff.label :cfc_status_0, "Unlocked"
+          .large-9.columns
+            = ff.label :cfc_comment, "CFC comment"
+            = ff.text_area :cfc_comment, placeholder: "Comments from CFC"
+    .large-6.columns
+      fieldset
+        legend Domains related
+        .row
+          .large-6.columns
+            = ff.label :registered_domains, "Registered domains"
+            = ff.text_field :registered_domains, placeholder: "4123"
+          .large-6.columns
+            = ff.label :abused_domains, "Abused domains"
+            = ff.text_field :abused_domains, placeholder: "432"
+        .row
+          .large-6.columns
+            = ff.label :locked_domains, "Locked domains"
+            = ff.text_field :locked_domains, placeholder: "312"
+          .large-6.columns
+            = ff.label :abused_locked_domains, "Abused / Locked (reported in total)"
+            = ff.text_field :abused_locked_domains, placeholder: "732"
+      fieldset
+        legend Related accounts
+        #bulk-relations
+          = f.fields_for :bulk_relations do |ffff| 
+            = render "abuse_reports/partials/bulk_relation_fields", f: ffff
+        .links: .row
+          .large-11.columns
+          .large-1.columns
+            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :bulk_relations, partial: "abuse_reports/partials/bulk_relation_fields", :'data-association-insertion-node' => '#bulk-relations',
+              :'data-association-insertion-method' => 'after'
+.text-center          
+  = f.submit "Submit", class: "button tiny"

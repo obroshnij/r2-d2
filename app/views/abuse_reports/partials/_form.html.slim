@@ -1,15 +1,8 @@
 = form_for abuse_report do |f| 
 
-  = f.label :abuse_report_type, "Report type"
-  = f.collection_select :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }
+  .row: .large-3.columns
+    = f.label :abuse_report_type, "Report type"
+    = f.collection_select :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }
   
-  = f.fields_for :nc_user, NcUser.new do |ff| 
-    
-    = ff.label :username, "Username"
-    = ff.text_field :username
-    
-    = ff.label :signed_up_on, "Sign up date"
-    = ff.text_field :signed_up_on
-    
-    = render partial: "abuse_reports/partials/#{abuse_report.abuse_report_type.name.downcase}_fields", locals: { f: f }
+  = render partial: "abuse_reports/partials/#{abuse_report.abuse_report_type.name.downcase}_fields", locals: { f: f }
   

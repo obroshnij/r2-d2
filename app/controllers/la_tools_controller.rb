@@ -62,7 +62,7 @@ class LaToolsController < ApplicationController
     render action: :bulk_curl
   end
   
-  def hosting_abuse
+  def resource_abuse
   end
 
 end

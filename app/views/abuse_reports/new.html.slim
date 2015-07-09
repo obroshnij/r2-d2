@@ -1,6 +1,7 @@
 - provide :title, "Report Abuse"
 
-.row: .large-4.large-offset-4.columns
+.row: .large-12.columns
   #abuse_report_form
-    = label_tag :abuse_report_type, "Report type"
-    = collection_select :abuse_report, :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }
+    .row: .large-3.columns
+      = label_tag :abuse_report_type, "Report type"
+      = collection_select :abuse_report, :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }

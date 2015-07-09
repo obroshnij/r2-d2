@@ -32,6 +32,7 @@ gem 'cocoon'
 gem 'will_paginate-foundation'
 
 gem 'pg'
+gem 'postgres_ext'
 gem 'devise'
 gem 'cancancan', '~> 1.10'
 gem 'ransack'
@@ -57,6 +58,7 @@ gem 'roo'
 
 # Use Capistrano for deployment
 group :development do
+  gem 'pry-rails'
   gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'

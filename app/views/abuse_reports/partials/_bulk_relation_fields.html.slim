@@ -1,0 +1,14 @@
+.nested-fields
+  .row
+    .large-12.columns
+      = f.label :usernames, "Username(s)"
+      = f.text_area :usernames, placeholder: "username1, username2"
+  .row
+    .large-11.columns
+      = f.label :relation_type_ids, "Relation types"
+      = f.collection_check_boxes :relation_type_ids, RelationType.all, :id, :name do |b|
+        = b.check_box style: "margin-bottom:0;"
+        = b.label
+    .large-1.columns
+      = link_to_remove_association content_tag(:i, "", class: "fa fa-minus-square-o action", style: "padding-top:0.5em;", title: "Remove fieldset"), f
+  hr

@@ -32,7 +32,7 @@ nav.top-bar data-topbar='' role="navigation"
                 ul.dropdown
                   li = link_to "DBL/SURBL Check", dbl_surbl_path if can? :access, :la_tool
                   li = link_to "Bulk CURL", bulk_curl_path if can? :access, :la_tool
-                  li = link_to "Hosting Abuse", hosting_abuse_path if can? :access, :la_tool
+                  li = link_to "Resource Abuse", resource_abuse_path if can? :access, :la_tool
                   li = link_to "Process Spam", spam_path if can? :access, :la_tool
                   li = link_to "Spam Reports", spam_reports_path if can? :access, :la_tool
                   

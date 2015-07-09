@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708200724) do
+ActiveRecord::Schema.define(version: 20150709123623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,6 @@ ActiveRecord::Schema.define(version: 20150708200724) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "abuse_reports_user_relations", id: false, force: :cascade do |t|
-    t.integer "abuse_reports_id"
-    t.integer "user_relations_id"
-  end
-
   create_table "background_jobs", force: :cascade do |t|
     t.integer  "user_id"
     t.jsonb    "data"
@@ -51,6 +46,15 @@ ActiveRecord::Schema.define(version: 20150708200724) do
     t.string   "info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bulk_relations", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.integer  "nc_user_ids",                    array: true
+    t.integer  "relation_type_ids",              array: true
+    t.string   "value"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "internal_accounts", force: :cascade do |t|
@@ -93,15 +97,16 @@ ActiveRecord::Schema.define(version: 20150708200724) do
     t.datetime "updated_at",    null: false
   end
 
-  create_table "relation_types", force: :cascade do |t|
+  create_table "reference_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "relations_types_user_relations", id: false, force: :cascade do |t|
-    t.integer "relations_types_id"
-    t.integer "user_relations_id"
+  create_table "relation_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -119,12 +124,16 @@ ActiveRecord::Schema.define(version: 20150708200724) do
     t.integer  "abuse_report_id"
     t.integer  "registered_domains"
     t.integer  "abused_domains"
-    t.string   "cfc_status"
+    t.integer  "locked_domains"
+    t.integer  "abused_locked_domains"
+    t.boolean  "cfc_status"
+    t.string   "cfc_comment"
     t.float    "amount_spent"
+    t.date     "last_signed_in_on"
     t.boolean  "responded_previously"
-    t.string   "reference"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "reference_ticket_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "spammers", force: :cascade do |t|
@@ -146,6 +155,7 @@ ActiveRecord::Schema.define(version: 20150708200724) do
     t.integer  "nc_user_id"
     t.integer  "related_user_id"
     t.integer  "relation_type_id"
+    t.string   "value"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end

@@ -1,3 +1,20 @@
 $("#abuse_report_form").html("<%= j(render partial: 'abuse_reports/partials/form', locals: { abuse_report: @abuse_report }) %>");
 
 $("#abuse_report_nc_user_signed_up_on").fdatepicker();
+$("#abuse_report_spammer_info_last_signed_in_on").fdatepicker();
+
+// Spammer fields
+
+toggleReferenceFields();
+
+$(".responded-previously-buttons").find("input[type='radio']").change(function(){
+  toggleReferenceFields(this);
+});
+
+function toggleReferenceFields(radio) {
+  if ($(radio).val() == 0) {
+    $(".reference-fields").find("input").val("").attr("disabled", true);
+  } else {
+    $(".reference-fields").find("input").attr("disabled", false);
+  }
+}
