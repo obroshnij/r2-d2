@@ -1,20 +1,59 @@
 $("#abuse_report_form").html("<%= j(render partial: 'abuse_reports/partials/form', locals: { abuse_report: @abuse_report }) %>");
 
-$("#abuse_report_nc_user_signed_up_on").fdatepicker();
-$("#abuse_report_spammer_info_last_signed_in_on").fdatepicker();
+$(".date-picker").fdatepicker()
+  .on('changeDate', function(ev){
+    $(ev.target).change().focusout();
+  });
+
+$("form").validate();
 
 // Spammer fields
-
-toggleReferenceFields();
 
 $(".responded-previously-buttons").find("input[type='radio']").change(function(){
   toggleReferenceFields(this);
 });
+toggleReferenceFields($(".responded-previously-buttons").find("input[type='radio']:checked")[0]);
+
+$(".cfc-related-inputs").find("input[type='radio']").change(function(){
+  validateCfcCommentField(this);
+});
+validateCfcCommentField($(".cfc-related-inputs").find("input[type='radio']:checked")[0]);
+
+$("#bulk-relations").on('cocoon:after-insert', function(ev, el) {
+  $(el).find('textarea').enableClientSideValidations();
+});
+
+$("form.new_abuse_report").submit(function(event) {
+  var checked = true;
+  $(".relation-type-check-boxes").each(function(index, element) {
+    if ($(element).find("input[type='checkbox']:checked")[0] === undefined) {
+      checked = false;
+    }
+  });
+  if (checked === false) {
+    event.preventDefault();
+    alert("Please make sure at least one relation type is selected");
+  }
+});
+
 
 function toggleReferenceFields(radio) {
   if ($(radio).val() == 0) {
-    $(".reference-fields").find("input").val("").attr("disabled", true);
+    $(".reference-fields").find("input").val("foo").change().focusout().disableClientSideValidations().val("").attr("disabled", true);
   } else {
-    $(".reference-fields").find("input").attr("disabled", false);
+    $(".reference-fields").find("input").attr("disabled", false).enableClientSideValidations();
   }
-}
+};
+
+function validateCfcCommentField(radio) {
+  $field = $("#abuse_report_spammer_info_attributes_cfc_comment");
+  if ($(radio).val() == 0) {
+    if (/^\s*$/.test($field.val())) {
+      $field.val("foo").change().focusout().disableClientSideValidations().val("");
+    } else {
+      $field.disableClientSideValidations();
+    }
+  } else {
+    $field.enableClientSideValidations();
+  }
+};

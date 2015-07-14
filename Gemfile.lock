@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/DavyJonesLocker/client_side_validations.git
+  revision: 4f43c922f2065054bba2cd56965270c81c4347be
+  specs:
+    client_side_validations (4.2.0)
+      jquery-rails (>= 3.1.2, < 5.0.0)
+      rails (>= 4.0.0, < 4.3.0)
+
+GIT
   remote: https://github.com/bonsaiviking/net-dns.git
   revision: 930ec2b9749f54c9d943632d1b3c4beaf383f2a7
   branch: txt
@@ -279,6 +287,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
+  client_side_validations!
   cocoon
   coffee-rails (~> 4.0.0)
   curb

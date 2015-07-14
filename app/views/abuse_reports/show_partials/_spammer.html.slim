@@ -1,0 +1,62 @@
+- info = report.spammer_info
+
+fieldset style="margin:0;"
+  .row
+    .large-3.columns
+      .info-row.row
+        span.left Sign up date:
+        span.right = report.nc_user.signed_up_on.strftime "%d %B %Y"
+      .info-row.row
+        span.left Last login date:
+        span.right = info.last_signed_in_on.try(:strftime, "%d %B %Y")
+      .info-row.row
+        span.left Amount spent:
+        span.right = info.amount_spent
+      .info-row.row
+        span.left Additional comments:
+        span.right = report.comment
+  
+    .large-3.columns
+      .info-row.row
+        span.left Responded previously:
+        span.right = info.responded_previously ? "Yes" : "No"
+      .info-row.row
+        span.left Reference ticket ID:
+        span.right = info.reference_ticket_id
+      .info-row.row
+        span.left CFC status:
+        span.right = info.cfc_status ? "Yes" : "No"
+      .info-row.row
+        span.left CFC comment:
+        span.right = info.cfc_comment
+
+    .large-3.columns
+      .info-row.row
+        span.left Registered domains:
+        span.right = info.registered_domains
+      .info-row.row
+        span.left Abused domains:
+        span.right = info.abused_domains
+      .info-row.row
+        span.left Locked domains:
+        span.right = info.locked_domains
+      .info-row.row
+        span.left Abused / locked:
+        span.right = info.abused_locked_domains
+      
+    .large-3.columns
+      - report.bulk_relations.each do |relation|
+        .info-row.row
+          span.left Related users:
+          span.right = relation.usernames.join(", ")
+        .info-row.row
+          span.left Related by:
+          span.right = relation.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
+  
+  - unless report.processed
+    = form_for report do |f|
+      = f.hidden_field :processed, value: 1
+      = f.hidden_field :processed_by, value: current_user.id
+      = f.fields_for :nc_user, child_index: report.nc_user.id do |ff|
+        = ff.hidden_field :new_status, value: Status.find_by(name: "Spammer").id
+      = f.submit "Approve", class: "button tiny right", style: "margin:0;"

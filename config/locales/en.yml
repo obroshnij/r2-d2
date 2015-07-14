@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  
   will_paginate:
     previous_label: "&#171; Previous"
     next_label: "Next &#187;"
@@ -29,6 +30,11 @@ en:
         one: User
         few: Users
         other: Users
+      abuse_report:
+        zero: Abuse reports
+        one: Abuse report
+        few: Abuse reports
+        other: Abuse reports
   
   vip_domain: "L&A :: VIP domains list"
   spammer: "L&A :: Spammer blacklist"

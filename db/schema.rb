@@ -16,12 +16,6 @@ ActiveRecord::Schema.define(version: 20150709123623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "abuse_report_statuses", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "abuse_report_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -30,13 +24,13 @@ ActiveRecord::Schema.define(version: 20150709123623) do
 
   create_table "abuse_reports", force: :cascade do |t|
     t.integer  "nc_user_id"
-    t.integer  "abuse_report_status_id"
     t.integer  "abuse_report_type_id"
     t.integer  "reported_by"
     t.integer  "processed_by"
+    t.boolean  "processed"
     t.text     "comment"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "background_jobs", force: :cascade do |t|
@@ -52,7 +46,6 @@ ActiveRecord::Schema.define(version: 20150709123623) do
     t.integer  "abuse_report_id"
     t.integer  "nc_user_ids",                    array: true
     t.integer  "relation_type_ids",              array: true
-    t.string   "value"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -81,11 +74,11 @@ ActiveRecord::Schema.define(version: 20150709123623) do
   end
 
   create_table "nc_users", force: :cascade do |t|
-    t.integer  "status_id"
     t.string   "username"
+    t.integer  "status_ids",   default: [],              array: true
     t.date     "signed_up_on"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -155,7 +148,6 @@ ActiveRecord::Schema.define(version: 20150709123623) do
     t.integer  "nc_user_id"
     t.integer  "related_user_id"
     t.integer  "relation_type_id"
-    t.string   "value"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end

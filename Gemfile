@@ -30,6 +30,7 @@ gem 'foundation-icons-sass-rails'
 gem 'font-awesome-rails'
 gem 'cocoon'
 gem 'will_paginate-foundation'
+gem 'client_side_validations', github: 'DavyJonesLocker/client_side_validations'
 
 gem 'pg'
 gem 'postgres_ext'

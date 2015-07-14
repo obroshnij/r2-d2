@@ -1,3 +1,5 @@
+= f.hidden_field :abuse_report_type_id, value: AbuseReportType.find_by_name("Spammer").id
+= f.hidden_field :processed, value: 0 
 = f.fields_for :spammer_info, SpammerInfo.new do |ff| 
 
   .row
@@ -6,19 +8,19 @@
         legend Account related
         .row
           = f.fields_for :nc_user, NcUser.new do |fff| 
-            .large-6.columns
+            .large-6.columns.form-field
               = fff.label :username, "Username"
-              = fff.text_field :username, placeholder: "spammachine", class: "error"
-            .large-6.columns
-              = fff.label :signed_up_on, "Sign up date"
-              = fff.text_field :signed_up_on, placeholder: "12/12/2012"
+              = fff.text_field :username, placeholder: "spammachine"
+            .large-6.columns.form-field
+              = fff.label :signed_up_on_string, "Sign up date"
+              = fff.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
         .row
-          .large-6.columns
+          .large-6.columns.form-field
             = ff.label :amount_spent, "Amount spent"
             = ff.text_field :amount_spent, placeholder: "321.25"
-          .large-6.columns
-            = ff.label :last_signed_in_on, "Last login date"
-            = ff.text_field :last_signed_in_on, placeholder: "12/12/2012"
+          .large-6.columns.form-field
+            = ff.label :last_signed_in_on_string, "Last login date"
+            = ff.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
       fieldset
         legend Previous correspondence / comments
         .row
@@ -26,11 +28,11 @@
             = ff.label :responded_previously, "Responded previously"
             = ff.radio_button :responded_previously, "1"
             = ff.label :responded_previously_1, "Yes"
-            = ff.radio_button :responded_previously, "0"
+            = ff.radio_button :responded_previously, "0", checked: true
             = ff.label :responded_previously_0, "No"
-          .large-8.columns.reference-fields
+          .large-8.columns.reference-fields.form-field
             = ff.label :reference_ticket_id, "Reference ticket ID"
-            = ff.text_field :reference_ticket_id, placeholder: "LOL-123-45678"
+            = ff.text_field :reference_ticket_id, placeholder: "LOL-123-45678", validate: true
         .row
           .large-12.columns
             = f.label :comment, "Additional comments"
@@ -38,32 +40,32 @@
       fieldset
         legend CFC related
         .row
-          .large-3.columns
+          .large-3.columns.cfc-related-inputs
             = ff.label :cfc_status, "CFC status"
             div
               = ff.radio_button :cfc_status, "1", style: "margin-bottom:0;"
               = ff.label :cfc_status_1, "Locked"
             div
-              = ff.radio_button :cfc_status, "0", style: "margin-bottom:0;"
+              = ff.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
               = ff.label :cfc_status_0, "Unlocked"
-          .large-9.columns
+          .large-9.columns.form-field
             = ff.label :cfc_comment, "CFC comment"
-            = ff.text_area :cfc_comment, placeholder: "Comments from CFC"
+            = ff.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
     .large-6.columns
       fieldset
         legend Domains related
         .row
-          .large-6.columns
+          .large-6.columns.form-field
             = ff.label :registered_domains, "Registered domains"
             = ff.text_field :registered_domains, placeholder: "4123"
-          .large-6.columns
+          .large-6.columns.form-field
             = ff.label :abused_domains, "Abused domains"
             = ff.text_field :abused_domains, placeholder: "432"
         .row
-          .large-6.columns
+          .large-6.columns.form-field
             = ff.label :locked_domains, "Locked domains"
             = ff.text_field :locked_domains, placeholder: "312"
-          .large-6.columns
+          .large-6.columns.form-field
             = ff.label :abused_locked_domains, "Abused / Locked (reported in total)"
             = ff.text_field :abused_locked_domains, placeholder: "732"
       fieldset
@@ -76,6 +78,6 @@
           .large-1.columns
             = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
               :bulk_relations, partial: "abuse_reports/partials/bulk_relation_fields", :'data-association-insertion-node' => '#bulk-relations',
-              :'data-association-insertion-method' => 'after'
+              :'data-association-insertion-method' => 'append'
 .text-center          
   = f.submit "Submit", class: "button tiny"

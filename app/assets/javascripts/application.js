@@ -15,6 +15,7 @@
 //= require foundation
 //= require foundation-datepicker
 //= require cocoon
+//= require rails.validations
 //= require_tree .
 
 $(function() {

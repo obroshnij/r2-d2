@@ -1,0 +1,61 @@
+- provide :title, "Abuse Reports"
+
+.row: .large-12.columns
+  
+  = search_form_for @search do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :abuse_report_type_id_eq, "Report type"
+          = f.collection_select :abuse_report_type_id_eq, AbuseReportType.all, :id, :name, { include_blank: "Any" }
+          
+        li
+          = f.label :nc_user_username_cont, "Namecheap username contains"
+          = f.text_field :nc_user_username_cont, placeholder: "Namecheap username"
+          
+        li
+          = f.label :reported_by_eq, "Reported by"
+          = f.collection_select :reported_by_eq, AbuseReport.select(:reported_by).distinct.map { |r| User.find r.reported_by }, :id, :name, { include_blank: "Anyone" }
+        
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+        
+        li
+          = f.label :processed_true, "Processed?"
+          .switch.tiny style="padding-top: 0.4em"
+            = f.check_box :processed_true
+            = f.label :processed_true
+    
+    = f.submit "Search", class: "button tiny left"
+
+  = link_to "Submit New", new_abuse_report_path, class: "button tiny right"
+
+  - if @abuse_reports.present?
+    table
+      thead
+        th Type
+        th Namecheap user
+        th Reported by
+        th Reported on
+        th Processed?
+        th Actions
+      tbody
+        - @abuse_reports.each do |report|
+          tr
+            td = report.abuse_report_type.try(:name)
+            td = report.try(:nc_user).try(:username)
+            td = User.find(report.reported_by).name
+            td = report.created_at.strftime("%d %B %Y at %H:%M")
+            td = report.processed ? "Yes" : "No"
+            td: a onclick="toggleAbuseReportRow('.abuse-report-#{report.id}');" Show / hide
+          tr style="display:none"
+          tr style="display:none" class="abuse-report-#{report.id}"
+            td colspan="6"
+              = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase}", locals: { report: report }
+                
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @abuse_reports
+  = will_paginate @abuse_reports, renderer: FoundationPagination::Rails, class: "right"
