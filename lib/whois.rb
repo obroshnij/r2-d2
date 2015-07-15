@@ -117,7 +117,7 @@ class Whois
   def execute(host, query)
     addr = Addrinfo.tcp host, 43
     Timeout::timeout(5) do
-      addr.connect do |socket|
+      addr.connect_from("162.213.253.186", 4649) do |socket|
         socket.write "#{query}\r\n"
         socket.read
       end
