@@ -40,9 +40,7 @@ class Whois
   
   def lookup_domain(domain)
     whois_record = begin
-      Retriable.retriable tries: 5, base_interval: 2 do
-        lookup_string_domain(domain.name)
-      end
+      lookup_string_domain(domain.name)
     rescue
       nil
     end
