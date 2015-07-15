@@ -1,0 +1,2 @@
+module NcUsersHelper
+end

@@ -35,6 +35,16 @@ en:
         one: Abuse report
         few: Abuse reports
         other: Abuse reports
+      nc_user:
+        zero: Namecheap users
+        one: Namecheap user
+        few: Namecheap users
+        other: Namecheap users
+      nc_service:
+        zero: Namecheap services
+        one: Namecheap service
+        few: Namecheap services
+        other: Namecheap services
   
   vip_domain: "L&A :: VIP domains list"
   spammer: "L&A :: Spammer blacklist"

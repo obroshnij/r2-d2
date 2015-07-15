@@ -1,0 +1,12 @@
+#new-nc-user-comment-modal.reveal-modal.small data-reveal=''
+
+  = form_for nc_user do |f| 
+    = f.fields_for :comments, Comment.new do |ff| 
+      fieldset
+        legend New Comment
+        = ff.label :content, "Content"
+        = ff.text_area :content
+        
+        = ff.hidden_field :user_id, value: current_user.id
+    
+    = f.submit "Save", class: "button tiny left"

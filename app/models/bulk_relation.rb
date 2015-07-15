@@ -19,7 +19,7 @@ class BulkRelation < ActiveRecord::Base
   end
   
   def usernames=(usernames)
-    self.nc_user_ids = usernames.downcase.split.map { |username| NcUser.find_or_create_by(username: username) }.map(&:id)
+    self.nc_user_ids = usernames.downcase.scan(/[a-z0-9]+/).map { |username| NcUser.find_or_create_by(username: username) }.map(&:id)
   end
   
 end

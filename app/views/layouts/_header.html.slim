@@ -44,6 +44,8 @@ nav.top-bar data-topbar='' role="navigation"
                   li = link_to "Spammer Blacklist", spammers_path if can? :read, Spammer
                   li = link_to "Internal Accounts", internal_accounts_path if can? :read, InternalAccount
             li = link_to "Abuse Reports", abuse_reports_path
+            li = link_to "Namecheap Users", nc_users_path
+            li = link_to "Namecheap Domains", domains_path
         li.divider
         
       - if can? :access, :manager_tool

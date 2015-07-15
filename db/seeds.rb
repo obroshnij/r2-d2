@@ -5,3 +5,23 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+%w{ Spammer }.each do |name|
+  AbuseReportType.create name: name
+end
+
+%w{ Spammer Internal\ Account Has\ VIP\ Domains }.each do |name|
+  Status.create name: name
+end
+
+%w{ IP\ Address Payment Password }.each do |name|
+  RelationType.create name: name
+end
+
+%w{ Domain }.each do |name|
+  NcServiceType.create name: name
+end
+
+%w{ VIP }.each do |name|
+  ServiceStatus.create name: name
+end

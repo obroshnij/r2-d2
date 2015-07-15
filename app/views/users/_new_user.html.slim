@@ -1,6 +1,6 @@
-#new-user-modal.reveal-modal.small data-reveal=''
+#new-user-modal.reveal-modal.tiny data-reveal=''
 
-  = form_for User.new do |f|
+  = form_for User.new, validate: true do |f|
     fieldset
       legend New User
       
@@ -35,5 +35,4 @@
           = f.password_field :password_confirmation, placeholder: "Password confirmation"
           
     = f.submit "Save", class: "button tiny"
-  
   a.close-reveal-modal &#215;

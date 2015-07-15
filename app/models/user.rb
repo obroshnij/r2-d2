@@ -6,8 +6,10 @@
   has_and_belongs_to_many :roles
   has_many :permissions, through: :roles
   has_many :background_jobs
+  has_many :comments
 
   validates :name, :role_ids, presence: true
+  validates :email, uniqueness: { case_sensitive: false }
   
   def admin?
     self.role_ids.include? Role.find_by_name("Admin").id

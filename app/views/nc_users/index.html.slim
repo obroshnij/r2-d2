@@ -1,0 +1,60 @@
+- provide :title, "Namecheap Users"
+
+.row: .large-12.columns
+
+  = search_form_for @search do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :username_cont, "Username contains"
+          = f.text_field :username_cont, placeholder: "Username"
+          
+        li
+          = f.label :status_ids_arr_cont, "Has status"
+          = f.collection_select :status_ids_arr_cont, Status.all, :id, :name, { include_blank: "Any" }
+          
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+        
+    = f.submit "Search", class: "button tiny left"
+    
+  = link_to 'Add new', '#', :'data-reveal-id' => "new-nc-user-modal", class: "button tiny right"
+  = render partial: 'new_nc_user'
+    
+  - if @nc_users.present?
+    table
+      thead
+        th Username
+        th Status
+        th Signup date
+        th Actions
+      tbody
+        - @nc_users.each do |user| 
+          tr
+            td = user.username
+            td = user.status_names
+            td = user.signed_up_on.try(:strftime, "%d %B %Y")
+            td
+              a onclick="toggleTableRow('.nc-user-#{user.id}', this);"
+                i.fa.fa-eye.action
+              = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_user_path(user.id)
+          tr style="display:none"
+          tr style="display:none" class="nc-user-#{user.id}"
+            td colspan="4"
+              - if user.comments.present?
+                fieldset style="margin:0;"
+                  legend Comments
+                  - user.comments.each do |comment|
+                    .row = comment.user.name + " on " + comment.created_at.strftime("%d %B %Y at %H:%M") + ": " + comment.content
+              - latest_report = user.abuse_reports.last
+              - if latest_report.present?
+                fieldset style="margin:0;"
+                  legend = latest_report.abuse_report_type.name + " report / latest"
+                  = render partial: "abuse_reports/show_partials/#{latest_report.abuse_report_type.name.downcase}", locals: { report: latest_report }
+            
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @тс_users
+  = will_paginate @тс_users, renderer: FoundationPagination::Rails, class: "right"

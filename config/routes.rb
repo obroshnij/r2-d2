@@ -49,6 +49,8 @@ Rails.application.routes.draw do
   
   resources :abuse_reports
   get 'update_abuse_report_form' => 'abuse_reports#update_abuse_report_form'
+  resources :nc_users
+  resources :nc_services, as: 'domains', path: '/domains', controller: 'domains'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

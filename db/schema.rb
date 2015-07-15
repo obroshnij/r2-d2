@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709123623) do
+ActiveRecord::Schema.define(version: 20150714195231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20150709123623) do
     t.datetime "updated_at",        null: false
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "user_id"
+    t.text     "content"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
+
   create_table "internal_accounts", force: :cascade do |t|
     t.string   "username",   limit: 255
     t.text     "comment"
@@ -68,9 +79,10 @@ ActiveRecord::Schema.define(version: 20150709123623) do
   create_table "nc_services", force: :cascade do |t|
     t.integer  "nc_user_id"
     t.integer  "nc_service_type_id"
+    t.integer  "status_ids",         default: [],              array: true
     t.string   "name"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "nc_users", force: :cascade do |t|
@@ -111,6 +123,12 @@ ActiveRecord::Schema.define(version: 20150709123623) do
   create_table "roles_users", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
+  end
+
+  create_table "service_statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "spammer_infos", force: :cascade do |t|

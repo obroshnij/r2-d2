@@ -1,0 +1,51 @@
+- provide :title, @nc_user.username
+
+.row
+  .large-12.columns
+    
+    = link_to 'Leave comment', '#', :'data-reveal-id' => "new-nc-user-comment-modal", class: "button tiny right"
+    = render partial: 'new_nc_user_comment', locals: { nc_user: @nc_user }
+
+    h3 Account details
+    .row
+      | Signup date: 
+      = @nc_user.signed_up_on.try(:strftime, "%d %B %Y")
+    .row
+      | Status: 
+      = @nc_user.status_names
+    
+    - if @nc_user.related_users.present?
+      h3 Related Users
+      .row: .large-12.columns
+        - @nc_user.related_users_hash.each do |user, relations|
+          .row = user + ": " + relations.join(", ")
+    
+    - if @nc_user.abuse_reports.present?
+      h3 Abuse Reports
+      .row
+        table
+          thead
+            th Type
+            th Reported by
+            th Reported on
+            th Processed?
+            th Actions
+          tbody
+            - @nc_user.abuse_reports.each do |report|
+              tr
+                td = report.abuse_report_type.try(:name)
+                td = User.find(report.reported_by).name
+                td = report.created_at.strftime("%d %B %Y at %H:%M")
+                td = report.processed ? "Yes" : "No"
+                td: a onclick="toggleTableRow('.abuse-report-#{report.id}');" Show / hide
+              tr style="display:none"
+              tr style="display:none" class="abuse-report-#{report.id}"
+                td colspan="5"
+                  fieldset style="margin:0;"
+                    = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase}", locals: { report: report }
+                    
+    - if @nc_user.comments.present?
+      h3 Comments
+      .row: .large-12.columns
+        - @nc_user.comments.each do |comment|
+          .row = comment.user.name + " on " + comment.created_at.strftime("%d %B %Y at %H:%M") + ": " + comment.content

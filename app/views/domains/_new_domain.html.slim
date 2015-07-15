@@ -1,0 +1,28 @@
+#new-domain-modal.reveal-modal.tiny data-reveal=''
+
+  = form_for NcService.new, url: { controller: :domains }, validate: true do |f|
+    fieldset
+      legend New Domain
+      
+      = f.hidden_field :nc_service_type_id, value: 1
+      
+      .row.form-field
+        .large-3.columns
+          = f.label :name, "Name", class: "right inline"
+        .large-9.columns
+          = f.text_field :name, placeholder: "Name"
+          
+      .row.form-field
+        .large-3.columns
+          = f.label :new_status, "Status", class: "right inline"
+        .large-9.columns
+          = f.collection_select :new_status, ServiceStatus.all, :id, :name, { include_blank: "None" }
+          
+      .row.form-field
+        .large-3.columns
+          = f.label :username, "Namecheap username", class: "right inline"
+        .large-9.columns
+          = f.text_field :username, placeholder: "Username"
+          
+    = f.submit "Save", class: "button tiny"
+  a.close-reveal-modal &#215;

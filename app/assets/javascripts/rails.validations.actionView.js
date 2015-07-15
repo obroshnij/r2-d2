@@ -5,7 +5,7 @@ window.ClientSideValidations.formBuilders['ActionView::Helpers::FormBuilder'] = 
     if (formField.find('small.error')[0] == null) {
       var small = $('<small></small>').text(message).addClass('error');
       formField.addClass('error');
-      formField.append(small);
+      element.after(small);
     } else {
       formField.find('small.error').text(message);
     }

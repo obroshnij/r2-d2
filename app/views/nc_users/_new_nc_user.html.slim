@@ -1,0 +1,26 @@
+#new-nc-user-modal.reveal-modal.tiny data-reveal=''
+
+  = form_for NcUser.new, validate: true do |f| 
+    fieldset
+      legend New Namecheap User
+      
+      .row.form-field
+        .large-3.columns
+          = f.label :username, "Username", class: "right inline"
+        .large-9.columns
+          = f.text_field :username, placeholder: "Username"
+          
+      .row.form-field
+        .large-3.columns
+          = f.label :new_status, "Status", class: "right inline"
+        .large-9.columns
+          = f.collection_select :new_status, Status.all, :id, :name, { include_blank: "None" }
+        
+      .row.form-field
+        .large-3.columns
+          = f.label :signed_up_on_string, "Signup date", class: "right inline"
+        .large-9.columns
+          = f.text_field :signed_up_on_string, placeholder: "month/day/year", class: "date-picker"
+    
+    = f.submit "Save", class: "button tiny left"
+  a.close-reveal-modal &#215;
