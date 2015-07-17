@@ -45,6 +45,11 @@ en:
         one: Namecheap service
         few: Namecheap services
         other: Namecheap services
+      rbl:
+        zero: RBLs
+        one: RBL
+        few: RBLs
+        other: RBLs
   
   vip_domain: "L&A :: VIP domains list"
   spammer: "L&A :: Spammer blacklist"

@@ -2,9 +2,10 @@
 
   .row: .large-3.columns
     = f.label :abuse_report_type, "Report type"
-    = f.collection_select :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }
+    = f.collection_select :abuse_report_type_id, AbuseReportType.all, :id, :name,
+                          { prompt: "Please select" }, { onchange: "updateAbuseReportFields(this);" }
     
   = f.hidden_field :reported_by, value: current_user.id
   
-  = render partial: "abuse_reports/partials/#{abuse_report.abuse_report_type.name.downcase}_fields", locals: { f: f }
+  = render partial: "abuse_reports/partials/#{abuse_report.abuse_report_type.name.downcase.gsub(' ', '_')}_fields", locals: { f: f }
   

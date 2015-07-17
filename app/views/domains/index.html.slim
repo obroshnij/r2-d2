@@ -8,7 +8,7 @@
       ul.large-block-grid-4
         
         li
-          = f.label :name_cont, "Nameame contains"
+          = f.label :name_cont, "Name contains"
           = f.text_field :name_cont, placeholder: "Name"
           
         li
@@ -24,18 +24,20 @@
   = link_to 'Add new', '#', :'data-reveal-id' => "new-domain-modal", class: "button tiny right"
   = render partial: 'new_domain'
 
-  - if @domains.present?
+  - if @services.present?
     table
       thead
         th Domain name
         th Namecheap user
+        th Abuse Reports
         th Status
       tbody
-        - @domains.each do |domain|
+        - @services.each do |domain|
           tr
             td = domain.name
             td = domain.nc_user.try(:username)
+            td = domain.abuse_reports.direct.count
             td = domain.status_names
 .row: .large-12.columns
-  span.pageInfo = page_entries_info @domains
-  = will_paginate @domains, renderer: FoundationPagination::Rails, class: "right"
+  span.pageInfo = page_entries_info @services
+  = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

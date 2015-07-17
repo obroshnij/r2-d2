@@ -1,0 +1,78 @@
+= f.hidden_field :processed, value: 1 
+= f.hidden_field :processed_by, value: current_user.id
+= f.fields_for :ddos_info, DdosInfo.new do |di| 
+
+  .row
+    .large-6.columns
+      fieldset
+        legend Account related
+        .row
+          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+            = ra.hidden_field :reportable_type, value: "NcUser"
+            = ra.hidden_field :report_assignment_type_id, value: 1 
+            = ra.fields_for :reportable, NcUser.new do |nu| 
+              = nu.hidden_field :new_status, value: Status.find_by_name("DDoSer").id
+              .large-6.columns.form-field
+                = nu.label :username, "Username"
+                = nu.text_field :username, placeholder: "ddosninja"
+              .large-6.columns.form-field
+                = nu.label :signed_up_on_string, "Sign up date"
+                = nu.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
+        .row
+          .large-6.columns.form-field
+            = di.label :amount_spent, "Amount spent"
+            = di.text_field :amount_spent, placeholder: "321.25"
+          .large-6.columns.form-field
+            = di.label :last_signed_in_on_string, "Last login date"
+            = di.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
+      fieldset
+        legend Domains related
+        .row
+          .large-6.columns.form-field
+            = di.label :registered_domains, "Registered domains"
+            = di.text_field :registered_domains, placeholder: "4123"
+          .large-6.columns.form-field
+            = di.label :free_dns_domains, "Free DNS domains"
+            = di.text_field :free_dns_domains, placeholder: "432"
+      fieldset
+        legend CFC related
+        .row
+          .large-3.columns.cfc-related-inputs
+            = di.label :cfc_status, "CFC status"
+            div
+              = di.radio_button :cfc_status, "1", style: "margin-bottom:0;"
+              = di.label :cfc_status_1, "Locked"
+            div
+              = di.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
+              = di.label :cfc_status_0, "Unlocked"
+          .large-9.columns.form-field.cfc-comment
+            = di.label :cfc_comment, "CFC comment"
+            = di.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
+      fieldset
+        legend Tickets
+        .row
+          .large-6.columns.form-field
+            = di.label :client_ticket_id, "Ticket to customer"
+            = di.text_field :client_ticket_id, placeholder: "LOL-123-45678"
+          .large-6.columns.form-field
+            = di.label :vendor_ticket_id, "Ticket to service provider"
+            = di.text_field :vendor_ticket_id, placeholder: "LOL-123-45678"
+        .row
+          .large-12.columns.form-field
+            = f.label :comment, "Additional comments"
+            = f.text_area :comment, placeholder: "Comments"
+          
+    .large-6.columns
+      fieldset
+        legend Related accounts
+        #report-assignments
+          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+            = render "abuse_reports/partials/ddos_assignment_filds", f: ra
+        .links: .row
+          .large-11.columns
+          .large-1.columns
+            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :report_assignments, partial: "abuse_reports/partials/ddos_assignment_filds", :'data-association-insertion-node' => '#report-assignments',
+              :'data-association-insertion-method' => 'append'
+.text-center          
+  = f.submit "Submit", class: "button tiny"

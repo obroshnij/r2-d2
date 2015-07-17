@@ -1,7 +1,6 @@
 class SpammerInfo < ActiveRecord::Base
   
   belongs_to :abuse_report
-  has_one :reference_type
   
   validates :amount_spent, :registered_domains, :abused_domains, :locked_domains, :abused_locked_domains, presence: true
   validates :amount_spent, numericality: true

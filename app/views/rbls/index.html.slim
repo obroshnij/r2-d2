@@ -1,0 +1,46 @@
+- provide :title, "Multi RBL"
+
+.row: .large-12.columns
+
+  = search_form_for @search do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :name_cont, "Name contains"
+          = f.text_field :name_cont, placeholder: "Name"
+          
+        li
+          = f.label :url_cont, "URL contains"
+          = f.text_field :url_cont, placeholder: "URL"
+        
+        li
+          = f.label :rbl_status_eq, "Status"
+          = f.collection_select :rbl_status_id_eq, RblStatus.all, :id, :name, { include_blank: "Any" }
+          
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+    
+    = f.submit "Search", class: "button tiny left"
+    
+  = link_to 'Add new', '#', :'data-reveal-id' => "new-rbl-modal", class: "button tiny right"
+  = render partial: 'new_rbl'
+    
+  - if @rbls.present?
+    table
+      thead
+        th Name
+        th URL
+        th Status
+      tbody
+        - @rbls.each do |rbl| 
+          tr
+            td = rbl.name
+            td = rbl.url
+            td = rbl.status
+            
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @rbls
+  = will_paginate @rbls, renderer: FoundationPagination::Rails, class: "right"

@@ -4,4 +4,5 @@
   #abuse_report_form
     .row: .large-3.columns
       = label_tag :abuse_report_type, "Report type"
-      = collection_select :abuse_report, :abuse_report_type, AbuseReportType.all, :id, :name, { prompt: "Please select" }
+      = collection_select :abuse_report, :abuse_report_type, AbuseReportType.all, :id, :name,
+                          { prompt: "Please select" }, { onchange: "updateAbuseReportFields(this);" }

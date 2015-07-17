@@ -1,0 +1,31 @@
+= f.hidden_field :processed, value: 1 
+= f.hidden_field :processed_by, value: current_user.id
+= f.fields_for :abuse_notes_info, AbuseNotesInfo.new do |ani| 
+
+  .row
+    .large-6.columns
+      fieldset
+        legend Reported by
+        .row
+          .large-12.columns
+            = ani.label :reported_by, "Reported by / ticket ID"
+            = ani.text_field :reported_by, placeholder: "LOL-123-45678"
+          .large-12.columns
+            = f.label :comment, "Additional comments"
+            = f.text_area :comment, placeholder: "Comments"
+            
+    .large-6.columns
+      fieldset
+        legend Domain names
+        #report-assignments
+          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+            = render "abuse_reports/partials/abuse_notes_assignment_filds", f: ra
+        .links: .row
+          .large-11.columns
+          .large-1.columns
+            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :report_assignments, partial: "abuse_reports/partials/abuse_notes_assignment_filds", :'data-association-insertion-node' => '#report-assignments',
+              :'data-association-insertion-method' => 'append'
+              
+.text-center          
+  = f.submit "Submit", class: "button tiny"

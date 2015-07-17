@@ -20,7 +20,7 @@
         - @nc_user.related_users_hash.each do |user, relations|
           .row = user + ": " + relations.join(", ")
     
-    - if @nc_user.abuse_reports.present?
+    - if @nc_user.abuse_reports.direct.present?
       h3 Abuse Reports
       .row
         table
@@ -31,18 +31,48 @@
             th Processed?
             th Actions
           tbody
-            - @nc_user.abuse_reports.each do |report|
+            - @nc_user.abuse_reports.direct.each do |report|
               tr
                 td = report.abuse_report_type.try(:name)
                 td = User.find(report.reported_by).name
                 td = report.created_at.strftime("%d %B %Y at %H:%M")
                 td = report.processed ? "Yes" : "No"
-                td: a onclick="toggleTableRow('.abuse-report-#{report.id}');" Show / hide
+                td
+                  a onclick="toggleTableRow('.abuse-report-#{report.id}', this);"
+                    i.fa.fa-eye.action
               tr style="display:none"
               tr style="display:none" class="abuse-report-#{report.id}"
                 td colspan="5"
                   fieldset style="margin:0;"
-                    = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase}", locals: { report: report }
+                    = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase.gsub(' ', '_')}", locals: { report: report }
+                    
+    - if @nc_user.abuse_reports.indirect.present?
+      h3 Related Abuse Reports
+      .row
+        table
+          thead
+            th Type
+            th Username / Domain
+            th Reported by
+            th Reported on
+            th Processed?
+            th Actions
+          tbody
+            - @nc_user.abuse_reports.indirect.each do |report|
+              tr
+                td = report.abuse_report_type.try(:name)
+                td = report.reportable_name
+                td = User.find(report.reported_by).name
+                td = report.created_at.strftime("%d %B %Y at %H:%M")
+                td = report.processed ? "Yes" : "No"
+                td
+                  a onclick="toggleTableRow('.abuse-report-#{report.id}', this);"
+                    i.fa.fa-eye.action
+              tr style="display:none"
+              tr style="display:none" class="abuse-report-#{report.id}"
+                td colspan="6"
+                  fieldset style="margin:0;"
+                    = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase.gsub(' ', '_')}", locals: { report: report }
                     
     - if @nc_user.comments.present?
       h3 Comments

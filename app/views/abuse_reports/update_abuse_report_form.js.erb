@@ -7,8 +7,6 @@ $(".date-picker").fdatepicker()
 
 $("form").validate();
 
-// Spammer fields
-
 $(".responded-previously-buttons").find("input[type='radio']").change(function(){
   toggleReferenceFields(this);
 });
@@ -19,7 +17,7 @@ $(".cfc-related-inputs").find("input[type='radio']").change(function(){
 });
 validateCfcCommentField($(".cfc-related-inputs").find("input[type='radio']:checked")[0]);
 
-$("#bulk-relations").on('cocoon:after-insert', function(ev, el) {
+$("#report-assignments").on('cocoon:after-insert', function(ev, el) {
   $(el).find('textarea').enableClientSideValidations();
 });
 
@@ -46,7 +44,7 @@ function toggleReferenceFields(radio) {
 };
 
 function validateCfcCommentField(radio) {
-  $field = $("#abuse_report_spammer_info_attributes_cfc_comment");
+  $field = $(".cfc-comment textarea");
   if ($(radio).val() == 0) {
     if (/^\s*$/.test($field.val())) {
       $field.val("foo").change().focusout().disableClientSideValidations().val("");

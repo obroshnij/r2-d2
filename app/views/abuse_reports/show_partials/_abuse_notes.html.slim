@@ -1,0 +1,15 @@
+- info = report.abuse_notes_info
+
+.row
+  .large-6.columns
+    .info-row.row
+      span.left Domains:
+      span.right = report.nc_services.direct.map(&:name).join(', ')
+  
+  .large-6.columns
+    .info-row.row
+      span.left Reported by:
+      span.right = info.reported_by
+    .info-row.row
+      span.left Additional comments:
+      span.right = report.comment

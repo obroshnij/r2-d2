@@ -1,0 +1,26 @@
+#new-rbl-modal.reveal-modal.tiny data-reveal=''
+
+  = form_for Rbl.new, validate: true do |f|
+    fieldset
+      legend New RBL
+      
+      .row
+        .large-3.columns
+          = f.label :name, "Name", class: "right inline"
+        .large-9.columns
+          = f.text_field :name, placeholder: "Name"
+          
+      .row
+        .large-3.columns
+          = f.label :url, "URL", class: "right inline"
+        .large-9.columns
+          = f.text_field :url, placeholder: "URL"
+          
+      .row
+        .large-3.columns
+          = f.label :'role_id', "Status", class: "right inline"
+        .large-9.columns
+          = f.collection_select :rbl_status, RblStatus.all, :id, :name, { include_blank: "Please select" }
+          
+    = f.submit "Save", class: "button tiny"
+  a.close-reveal-modal &#215;

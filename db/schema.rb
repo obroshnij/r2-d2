@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714195231) do
+ActiveRecord::Schema.define(version: 20150717221341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abuse_notes_infos", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.string   "reported_by"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "abuse_report_types", force: :cascade do |t|
     t.string   "name"
@@ -23,7 +30,6 @@ ActiveRecord::Schema.define(version: 20150714195231) do
   end
 
   create_table "abuse_reports", force: :cascade do |t|
-    t.integer  "nc_user_id"
     t.integer  "abuse_report_type_id"
     t.integer  "reported_by"
     t.integer  "processed_by"
@@ -60,6 +66,40 @@ ActiveRecord::Schema.define(version: 20150714195231) do
   end
 
   add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
+
+  create_table "ddos_infos", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.integer  "registered_domains"
+    t.integer  "free_dns_domains"
+    t.boolean  "cfc_status"
+    t.string   "cfc_comment"
+    t.float    "amount_spent"
+    t.date     "last_signed_in_on"
+    t.string   "vendor_ticket_id"
+    t.string   "client_ticket_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "ddos_related_infos", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.integer  "main_report_id"
+    t.integer  "registered_domains"
+    t.integer  "free_dns_domains"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "ddos_relations", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.integer  "nc_user_id"
+    t.integer  "relation_type_ids",               array: true
+    t.integer  "registered_domains"
+    t.integer  "free_dns_domains"
+    t.text     "comment"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "internal_accounts", force: :cascade do |t|
     t.string   "username",   limit: 255
@@ -102,6 +142,29 @@ ActiveRecord::Schema.define(version: 20150714195231) do
     t.datetime "updated_at",    null: false
   end
 
+  create_table "private_email_infos", force: :cascade do |t|
+    t.integer  "abuse_report_id"
+    t.boolean  "suspended"
+    t.string   "reported_by"
+    t.string   "warning_ticket_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "rbl_statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rbls", force: :cascade do |t|
+    t.integer  "rbl_status_id"
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "reference_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -113,6 +176,24 @@ ActiveRecord::Schema.define(version: 20150714195231) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "report_assignment_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "report_assignments", force: :cascade do |t|
+    t.integer  "reportable_id"
+    t.string   "reportable_type"
+    t.integer  "abuse_report_id"
+    t.integer  "report_assignment_type_id"
+    t.jsonb    "meta_data",                 default: {}
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  add_index "report_assignments", ["reportable_type", "reportable_id"], name: "index_report_assignments_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255

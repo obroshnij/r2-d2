@@ -1,0 +1,26 @@
+- info = report.private_email_info
+
+.row
+  .large-3.columns
+    .info-row.row
+      span.left Username:
+      span.right = report.nc_users.indirect.first.username
+    .info-row.row
+      span.left Sign up date:
+      span.right = report.nc_users.indirect.first.signed_up_on.strftime "%d %B %Y"
+    .info-row.row
+      span.left Additional comments:
+      span.right = report.comment
+      
+  .large-3.columns
+    .info-row.row
+      span.left Suspended:
+      span.right = info.suspended ? "Yes" : "No"
+    .info-row.row
+      span.left Reported by:
+      span.right = info.reported_by
+    .info-row.row
+      span.left Warning ticket ID:
+      span.right = info.warning_ticket_id
+      
+  .large-6.columns

@@ -4,7 +4,7 @@
   .large-3.columns
     .info-row.row
       span.left Sign up date:
-      span.right = report.nc_user.signed_up_on.strftime "%d %B %Y"
+      span.right = report.nc_users.direct.first.signed_up_on.strftime("%d %B %Y")
     .info-row.row
       span.left Last login date:
       span.right = info.last_signed_in_on.try(:strftime, "%d %B %Y")
@@ -44,18 +44,20 @@
       span.right = info.abused_locked_domains
     
   .large-3.columns
-    - report.bulk_relations.each do |relation|
+    - report.report_assignments.indirect.each do |assignment|
       .info-row.row
-        span.left Related users:
-        span.right = relation.usernames.join(", ")
+        span.left Related user:
+        span.right = assignment.reportable.username
       .info-row.row
         span.left Related by:
-        span.right = relation.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
+        span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
 
 - unless report.processed
   = form_for report do |f|
     = f.hidden_field :processed, value: 1
     = f.hidden_field :processed_by, value: current_user.id
-    = f.fields_for :nc_user, child_index: report.nc_user.id do |ff|
-      = ff.hidden_field :new_status, value: Status.find_by(name: "Spammer").id
+    = f.fields_for :report_assignments, report.report_assignments.direct do |ff|
+      = ff.hidden_field :reportable_type, value: "NcUser"
+      = ff.fields_for :reportable do |fff|
+        = fff.hidden_field :new_status, value: Status.find_by(name: "Spammer").id
     = f.submit "Approve", class: "button tiny right", style: "margin:0;"

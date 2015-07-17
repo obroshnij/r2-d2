@@ -1,0 +1,43 @@
+- provide :title, "Private Emails"
+
+.row: .large-12.columns
+
+  = search_form_for @search, url: { controller: :private_emails } do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :name_cont, "Name contains"
+          = f.text_field :name_cont, placeholder: "Name"
+          
+        li
+          = f.label :status_ids_arr_cont, "Has status"
+          = f.collection_select :status_ids_arr_cont, ServiceStatus.all, :id, :name, { include_blank: "Any" }
+          
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+        
+    = f.submit "Search", class: "button tiny left"
+
+  = link_to 'Add new', '#', :'data-reveal-id' => "new-private-email-modal", class: "button tiny right"
+  = render partial: 'new_private_email'
+
+  - if @services.present?
+    table
+      thead
+        th Host name
+        th Namecheap user
+        th Abuse reports
+        th Status
+      tbody
+        - @services.each do |private_email|
+          tr
+            td = private_email.name
+            td = private_email.nc_user.try(:username)
+            td = private_email.abuse_reports.direct.count
+            td = private_email.status_names
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @services
+  = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

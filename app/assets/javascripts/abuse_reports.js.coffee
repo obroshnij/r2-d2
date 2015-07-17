@@ -4,5 +4,6 @@
 
 $(document).ready ->
   
-  $("#abuse_report_abuse_report_type").change ->
-    $.get "/update_abuse_report_form", { abuse_report_type_id: $(this).val() }
+    
+@updateAbuseReportFields = (sel) ->
+  $.get "/update_abuse_report_form", { abuse_report_type_id: $(sel).val() }

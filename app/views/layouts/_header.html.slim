@@ -46,6 +46,8 @@ nav.top-bar data-topbar='' role="navigation"
             li = link_to "Abuse Reports", abuse_reports_path
             li = link_to "Namecheap Users", nc_users_path
             li = link_to "Namecheap Domains", domains_path
+            li = link_to "Private Emails", private_emails_path
+            li = link_to "Multi RBL", rbls_path
         li.divider
         
       - if can? :access, :manager_tool

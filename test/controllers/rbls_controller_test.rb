@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ReferenceTypeTest < ActiveSupport::TestCase
+class RblsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

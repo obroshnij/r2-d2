@@ -1,0 +1,53 @@
+- info = report.ddos_info
+
+.row
+  .large-3.columns
+    .info-row.row
+      span.left Sign up date:
+      span.right = report.nc_users.direct.first.signed_up_on.strftime "%d %B %Y"
+    .info-row.row
+      span.left Last login date:
+      span.right = info.last_signed_in_on.try(:strftime, "%d %B %Y")
+    .info-row.row
+      span.left Amount spent:
+      span.right = info.amount_spent
+    .info-row.row
+      span.left Additional comments:
+      span.right = report.comment
+      
+  .large-3.columns
+    .info-row.row
+      span.left Registered domains:
+      span.right = info.registered_domains
+    .info-row.row
+      span.left FreeDNS domains:
+      span.right = info.free_dns_domains
+    .info-row.row
+      span.left CFC status:
+      span.right = info.cfc_status ? "Yes" : "No"
+    .info-row.row
+      span.left CFC comment:
+      span.right = info.cfc_comment
+      
+  .large-3.columns
+    .info-row.row
+      span.left Ticket to customer: 
+      span.right = info.client_ticket_id
+    .info-row.row
+      span.left Ticket to service provider: 
+      span.right = info.vendor_ticket_id
+  
+  .large-3.columns
+    - report.report_assignments.indirect.each do |assignment|
+      .info-row.row
+        span.left Related user: 
+        span.right = assignment.reportable.username
+      .info-row.row
+        span.left Relation types:
+        span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
+      .info-row.row
+        span.left Registered / FreeDNS: 
+        span.right = assignment.registered_domains.to_s + " / " + assignment.free_dns_domains.to_s
+      .info-row.row
+        span.left Additional comments: 
+        span.right = assignment.comment

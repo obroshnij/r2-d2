@@ -1,0 +1,14 @@
+.nested-fields
+  = f.hidden_field :reportable_type, value: "NcService"
+  = f.hidden_field :report_assignment_type_id, value: 1 
+  .row
+    .large-11.columns.form-field
+      = f.label :username, "Username"
+      = f.text_field :username, placeholder: "username"
+  .row
+    .large-11.columns
+      = f.label :domains, "Domains"
+      = f.text_area :domains, placeholder: "domain.info, domain.io"
+    .large-1.columns
+      = link_to_remove_association content_tag(:i, "", class: "fa fa-minus-square-o action", style: "padding-top:1.5em;", title: "Remove fieldset"), f
+  hr

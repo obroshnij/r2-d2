@@ -12,8 +12,12 @@
           = f.collection_select :abuse_report_type_id_eq, AbuseReportType.all, :id, :name, { include_blank: "Any" }
           
         li
-          = f.label :nc_user_username_cont, "Namecheap username contains"
-          = f.text_field :nc_user_username_cont, placeholder: "Namecheap username"
+          = f.label :nc_users_username_cont, "Username contains"
+          = f.text_field :nc_users_username_cont, placeholder: "username"
+          
+        li
+          = f.label :nc_services_name_cont, "Service name contains"
+          = f.text_field :nc_services_name_cont, placeholder: "example.com"
           
         li
           = f.label :reported_by_eq, "Reported by"
@@ -37,7 +41,7 @@
     table
       thead
         th Type
-        th Namecheap user
+        th Username / Domain
         th Reported by
         th Reported on
         th Processed?
@@ -46,7 +50,7 @@
         - @abuse_reports.each do |report|
           tr
             td = report.abuse_report_type.try(:name)
-            td = report.try(:nc_user).try(:username)
+            td = report.reportable_name
             td = User.find(report.reported_by).name
             td = report.created_at.strftime("%d %B %Y at %H:%M")
             td = report.processed ? "Yes" : "No"
@@ -57,7 +61,7 @@
           tr style="display:none" class="abuse-report-#{report.id}"
             td colspan="6"
               fieldset style="margin:0;"
-                = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase}", locals: { report: report }
+                = render partial: "abuse_reports/show_partials/#{report.abuse_report_type.name.downcase.gsub(' ', '_')}", locals: { report: report }
                 
 .row: .large-12.columns
   span.pageInfo = page_entries_info @abuse_reports

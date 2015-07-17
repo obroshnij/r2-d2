@@ -1,0 +1,52 @@
+= f.hidden_field :processed, value: 1 
+= f.hidden_field :reportable_type, value: "NcUser"
+= f.fields_for :private_email_info, PrivateEmailInfo.new do |pei| 
+
+  .row
+    .large-6.columns
+      fieldset
+        legend Account related
+        .row
+          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+            = ra.hidden_field :reportable_type, value: "NcUser"
+            = ra.hidden_field :report_assignment_type_id, value: 2 
+            = ra.fields_for :reportable, NcUser.new do |nu| 
+              .large-6.columns.form-field
+                = nu.label :username, "Username"
+                = nu.text_field :username, placeholder: "spammachine"
+              .large-6.columns.form-field
+                = nu.label :signed_up_on_string, "Sign up date"
+                = nu.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
+        .row
+          .large-12.columns
+            = f.label :comment, "Additional comments"
+            = f.text_area :comment, placeholder: "Comments"
+                
+    .large-6.columns
+      fieldset
+        legend Host name related
+        .row
+          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+            = ra.hidden_field :reportable_type, value: "NcService"
+            = ra.hidden_field :report_assignment_type_id, value: 1 
+            = ra.fields_for :reportable, NcService.new do |ns| 
+              = ns.hidden_field :nc_service_type_id, value: 2 
+              .large-6.columns
+                = ns.label :name, "Host name"
+                = ns.text_field :name, placeholder: "sub.domain.io"
+              .large-6.columns
+                = pei.label :suspended, "Suspended"
+                = pei.radio_button :suspended, "1"
+                = pei.label :suspended_1, "Yes"
+                = pei.radio_button :suspended, "0", checked: true
+                = pei.label :suspended_0, "No"
+        .row
+          .large-6.columns
+            = pei.label :reported_by, "Reported by / ticket ID"
+            = pei.text_field :reported_by, placeholder: "Tech's name"
+          .large-6.columns
+            = pei.label :warning_ticket_id, "Warning ticket ID"
+            = pei.text_field :warning_ticket_id, placeholder: "LOL-123-45678"
+            
+.text-center          
+  = f.submit "Submit", class: "button tiny"
