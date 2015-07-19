@@ -59,5 +59,9 @@
     = f.fields_for :report_assignments, report.report_assignments.direct do |ff|
       = ff.hidden_field :reportable_type, value: "NcUser"
       = ff.fields_for :reportable do |fff|
-        = fff.hidden_field :new_status, value: Status.find_by(name: "Spammer").id
+        = fff.hidden_field :new_status, value: Status.find_by_name("Internal Spammer").id
+    = f.fields_for :report_assignments, report.report_assignments.indirect do |ff|
+      = ff.hidden_field :reportable_type, value: "NcUser"
+      = ff.fields_for :reportable do |fff|
+        = fff.hidden_field :new_status, value: Status.find_by_name("Spammer Related").id
     = f.submit "Approve", class: "button tiny right", style: "margin:0;"

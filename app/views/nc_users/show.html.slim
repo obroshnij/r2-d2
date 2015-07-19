@@ -12,7 +12,7 @@
       = @nc_user.signed_up_on.try(:strftime, "%d %B %Y")
     .row
       | Status: 
-      = @nc_user.status_names
+      = @nc_user.status_icons
     
     - if @nc_user.related_users.present?
       h3 Related Users
@@ -39,7 +39,7 @@
                 td = report.processed ? "Yes" : "No"
                 td
                   a onclick="toggleTableRow('.abuse-report-#{report.id}', this);"
-                    i.fa.fa-eye.action
+                    i.fa.fa-angle-down.action
               tr style="display:none"
               tr style="display:none" class="abuse-report-#{report.id}"
                 td colspan="5"
@@ -67,7 +67,7 @@
                 td = report.processed ? "Yes" : "No"
                 td
                   a onclick="toggleTableRow('.abuse-report-#{report.id}', this);"
-                    i.fa.fa-eye.action
+                    i.fa.fa-angle-down.action
               tr style="display:none"
               tr style="display:none" class="abuse-report-#{report.id}"
                 td colspan="6"

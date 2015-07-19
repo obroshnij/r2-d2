@@ -1,4 +1,5 @@
 class SpammerInfo < ActiveRecord::Base
+  # Internal Spammer Blacklist
   
   belongs_to :abuse_report
   

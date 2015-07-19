@@ -26,12 +26,6 @@
         li
           = label_tag :per_page, "Entries per page"
           = text_field_tag :per_page, @per_page, placeholder: "Per page"
-        
-        li
-          = f.label :processed_true, "Processed?"
-          .switch.tiny style="padding-top: 0.4em;"
-            = f.check_box :processed_true
-            = f.label :processed_true
     
     = f.submit "Search", class: "button tiny left"
 
@@ -44,19 +38,20 @@
         th Username / Domain
         th Reported by
         th Reported on
-        th Processed?
         th Actions
       tbody
         - @abuse_reports.each do |report|
           tr
-            td = report.abuse_report_type.try(:name)
+            td
+              = report.abuse_report_type.try(:name)
+              - unless report.processed
+                i.fa.fa-question-circle.action.right
             td = report.reportable_name
             td = User.find(report.reported_by).name
             td = report.created_at.strftime("%d %B %Y at %H:%M")
-            td = report.processed ? "Yes" : "No"
             td
               a onclick="toggleTableRow('.abuse-report-#{report.id}', this);"
-                i.fa.fa-eye.action
+                i.fa.fa-angle-down.action
           tr style="display:none"
           tr style="display:none" class="abuse-report-#{report.id}"
             td colspan="6"

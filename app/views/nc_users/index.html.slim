@@ -36,25 +36,12 @@
         - @nc_users.each do |user| 
           tr
             td = user.username
-            td = user.status_names
+            td = user.status_icons
             td = ('Direct: ' + user.abuse_reports.direct.count.to_s + '<br>' + 'Related: ' + user.abuse_reports.indirect.count.to_s).html_safe
             td = user.signed_up_on.try(:strftime, "%d %B %Y")
             td
               = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_user_path(user.id)
-          / tr style="display:none"
-          / tr style="display:none" class="nc-user-#{user.id}"
-          /   td colspan="4"
-          /     - if user.comments.present?
-          /       fieldset style="margin:0;"
-          /         legend Comments
-          /         - user.comments.each do |comment|
-          /           .row = comment.user.name + " on " + comment.created_at.strftime("%d %B %Y at %H:%M") + ": " + comment.content
-          /     - latest_report = user.abuse_reports.direct.last
-          /     - if latest_report.present?
-          /       fieldset style="margin:0;"
-          /         legend = latest_report.abuse_report_type.name + " report / latest"
-          /         = render partial: "abuse_reports/show_partials/#{latest_report.abuse_report_type.name.downcase.gsub(' ', '_')}", locals: { report: latest_report }
-            
+                          
 .row: .large-12.columns
   span.pageInfo = page_entries_info @тс_users
   = will_paginate @тс_users, renderer: FoundationPagination::Rails, class: "right"

@@ -4,23 +4,23 @@
     fieldset
       legend New RBL
       
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :name, "Name", class: "right inline"
         .large-9.columns
           = f.text_field :name, placeholder: "Name"
           
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :url, "URL", class: "right inline"
         .large-9.columns
           = f.text_field :url, placeholder: "URL"
           
-      .row
+      .row.form-field
         .large-3.columns
-          = f.label :'role_id', "Status", class: "right inline"
+          = f.label :rbl_status_id, "Status", class: "right inline"
         .large-9.columns
-          = f.collection_select :rbl_status, RblStatus.all, :id, :name, { include_blank: "Please select" }
+          = f.collection_select :rbl_status_id, RblStatus.all, :id, :name
           
     = f.submit "Save", class: "button tiny"
   a.close-reveal-modal &#215;

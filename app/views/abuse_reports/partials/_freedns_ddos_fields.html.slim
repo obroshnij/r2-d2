@@ -11,7 +11,7 @@
             = ra.hidden_field :reportable_type, value: "NcUser"
             = ra.hidden_field :report_assignment_type_id, value: 1 
             = ra.fields_for :reportable, NcUser.new do |nu| 
-              = nu.hidden_field :new_status, value: Status.find_by_name("DDoSer").id
+              = nu.hidden_field :new_status, value: Status.find_by_name("FreeDNS DDoSer").id
               .large-6.columns.form-field
                 = nu.label :username, "Username"
                 = nu.text_field :username, placeholder: "ddosninja"

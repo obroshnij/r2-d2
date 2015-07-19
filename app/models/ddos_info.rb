@@ -1,4 +1,5 @@
 class DdosInfo < ActiveRecord::Base
+  # FreeDNS DDoS
   
   belongs_to :abuse_report
   

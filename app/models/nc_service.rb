@@ -6,20 +6,16 @@ class NcService < ActiveRecord::Base
   has_many :abuse_reports, through: :report_assignments
   has_many :comments, as: :commentable
   
+  validates :name, presence: true
+  
   before_save do
     self.name = self.name.strip.downcase
+    self.status_ids.uniq!
   end
   
   after_save do
     if self.nc_service_type.id == 1 && self.status_ids.include?(1)
       self.nc_user.new_status = Status.find_by(name: "Has VIP Domains").id
-      self.nc_user.save
-    end
-  end
-  
-  after_destroy do
-    if self.nc_service_type.id == 1 && self.status_ids.include?(1) && self.nc_user.nc_services.where(nc_service_type_id: 1).where.contains(status_ids: [1]).blank?
-      self.nc_user.delete_status = Status.find_by(name: "Has VIP Domains").id
       self.nc_user.save
     end
   end
@@ -36,7 +32,7 @@ class NcService < ActiveRecord::Base
   end
   
   def status_names
-    self.status_ids.map { |id| ServiceStatus.find id }.map(&:name).join(', ')
+    self.status_ids.map { |id| ServiceStatus.find id }.map(&:name)
   end
   
   def username
@@ -45,6 +41,17 @@ class NcService < ActiveRecord::Base
   
   def username=(username)
     self.nc_user = NcUser.find_or_create_by(username: username.strip.downcase)
+  end
+  
+  def status_icons
+    status_names.map { |name| status_icon(name) }.join(' ').html_safe if status_names.present?
+  end
+  
+  private
+  
+  def status_icon(status_name)
+    return ActionController::Base.helpers.content_tag(:i, '', class: 'fa fa-diamond action', title: status_name) if status_name == "VIP"
+    return ActionController::Base.helpers.content_tag(:i, '', class: 'fa fa-fire action', title: status_name)    if status_name == "Abused out"
   end
   
 end

@@ -31,7 +31,7 @@ $ ->
   $row = $(css_selector)
   if $row.css('display') == 'none'
     $row.css('display', 'table-row')
-    $(link).find('i').removeClass('fa-eye').addClass('fa-eye-slash')
+    $(link).find('i').removeClass('fa-angle-down').addClass('fa-angle-up')
   else
     $row.css('display', 'none')
-    $(link).find('i').removeClass('fa-eye-slash').addClass('fa-eye')
+    $(link).find('i').removeClass('fa-angle-up').addClass('fa-angle-down')

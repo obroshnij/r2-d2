@@ -1,10 +1,11 @@
 .nested-fields
+  = f.hidden_field :abuse_report_type, value: "Internal Spammer Blacklist"
   = f.hidden_field :reportable_type, value: "NcUser"
   = f.hidden_field :report_assignment_type_id, value: 2 
   .row
     .large-12.columns.form-field
       = f.label :usernames, "Username(s)"
-      = f.text_area :usernames, placeholder: "username1, username2"
+      = f.text_area :usernames, placeholder: "username1, username2", validate: true
   .row
     .large-11.columns.relation-type-check-boxes
       = f.label :relation_type_ids, "Relation types"

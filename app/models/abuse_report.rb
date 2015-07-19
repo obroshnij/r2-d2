@@ -35,7 +35,7 @@ class AbuseReport < ActiveRecord::Base
       self.report_assignments.direct.first.reportable.name
     when 4 # abuse notes
       count = self.report_assignments.direct.count
-      count.to_s + " domains".pluralize(count)
+      count.to_s + " domain".pluralize(count)
     end
   end
   

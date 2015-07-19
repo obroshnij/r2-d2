@@ -11,6 +11,7 @@
             = ra.hidden_field :reportable_type, value: "NcUser"
             = ra.hidden_field :report_assignment_type_id, value: 2 
             = ra.fields_for :reportable, NcUser.new do |nu| 
+              = nu.hidden_field :new_status, value: Status.find_by_name("PE Abuser").id
               .large-6.columns.form-field
                 = nu.label :username, "Username"
                 = nu.text_field :username, placeholder: "spammachine"
@@ -31,7 +32,7 @@
             = ra.hidden_field :report_assignment_type_id, value: 1 
             = ra.fields_for :reportable, NcService.new do |ns| 
               = ns.hidden_field :nc_service_type_id, value: 2 
-              .large-6.columns
+              .large-6.columns.form-field
                 = ns.label :name, "Host name"
                 = ns.text_field :name, placeholder: "sub.domain.io"
               .large-6.columns
@@ -41,10 +42,10 @@
                 = pei.radio_button :suspended, "0", checked: true
                 = pei.label :suspended_0, "No"
         .row
-          .large-6.columns
+          .large-6.columns.form-field
             = pei.label :reported_by, "Reported by / ticket ID"
             = pei.text_field :reported_by, placeholder: "Tech's name"
-          .large-6.columns
+          .large-6.columns.form-field
             = pei.label :warning_ticket_id, "Warning ticket ID"
             = pei.text_field :warning_ticket_id, placeholder: "LOL-123-45678"
             

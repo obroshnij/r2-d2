@@ -44,7 +44,8 @@ class AbuseReportsController < ApplicationController
   end
   
   def report_assignments_params
-    [:id, :reportable_type, :report_assignment_type_id, :username, :usernames, :registered_domains, :free_dns_domains, :domains, :comment,
+    [:id, :reportable_type, :report_assignment_type_id, :username, :usernames, :registered_domains,
+     :free_dns_domains, :domains, :comment, :new_user_status, :abuse_report_type,
      relation_type_ids: [], reportable_attributes: reportable_params]
   end
   

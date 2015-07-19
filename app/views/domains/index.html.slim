@@ -37,7 +37,7 @@
             td = domain.name
             td = domain.nc_user.try(:username)
             td = domain.abuse_reports.direct.count
-            td = domain.status_names
+            td = domain.status_icons
 .row: .large-12.columns
   span.pageInfo = page_entries_info @services
   = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

@@ -1,16 +1,19 @@
 .nested-fields
+  = f.hidden_field :abuse_report_type, value: "FreeDNS DDoS"
   = f.hidden_field :reportable_type, value: "NcUser"
   = f.hidden_field :report_assignment_type_id, value: 2 
   .row
-    .large-4.columns.form-field
-      = f.label :username, "Username"
-      = f.text_field :username, placeholder: "username"
+    = f.fields_for :reportable, NcUser.new do |nu| 
+      = nu.hidden_field :new_status, value: Status.find_by_name("DDoSer Related").id
+      .large-4.columns.form-field
+        = nu.label :username, "Username"
+        = nu.text_field :username, placeholder: "username"
     .large-4.columns.form-field
       = f.label :registered_domains, "Registered domains"
-      = f.text_field :registered_domains, placeholder: "11"
+      = f.text_field :registered_domains, placeholder: "11", validate: true
     .large-4.columns.form-field
       = f.label :free_dns_domains, "FreeDNS domains"
-      = f.text_field :free_dns_domains, placeholder: "312"
+      = f.text_field :free_dns_domains, placeholder: "312", validate: true
   .row
     .large-12.columns
       = f.label :comment, "Additional Comments"
