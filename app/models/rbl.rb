@@ -5,7 +5,7 @@ class Rbl < ActiveRecord::Base
   validates :name, :rbl_status_id, presence: true
   
   before_save do
-    self.url = self.url.strip.downcase
+    self.url = self.url.strip.downcase if self.url.present?
     self.name.strip!
   end
   
