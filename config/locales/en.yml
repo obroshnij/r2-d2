@@ -51,10 +51,14 @@ en:
         few: RBLs
         other: RBLs
   
-  vip_domain: "L&A :: VIP domains list"
-  spammer: "L&A :: Spammer blacklist"
-  internal_account: "L&A :: Internal accounts list"
+  vip_domain: "L&A : VIP domains list"
+  spammer: "L&A : Spammer blacklist"
+  internal_account: "L&A : Internal accounts list"
   la_tool: "Legal and Abuse tools"
+  abuse_report: "L&A : Abuse Reports"
+  nc_user: "L&A : Namecheap Users"
+  nc_service: "L&A : Namecheap Services"
+  rbl: "Multi RBL list"
   manager_tool: "Management tools"
   user: "Users"
   role: "Roles"

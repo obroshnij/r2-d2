@@ -21,8 +21,9 @@
         
     = f.submit "Search", class: "button tiny left"
 
-  = link_to 'Add new', '#', :'data-reveal-id' => "new-private-email-modal", class: "button tiny right"
-  = render partial: 'new_private_email'
+  - if can? :create, NcService
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-private-email-modal", class: "button tiny right"
+    = render partial: 'new_private_email'
 
   - if @services.present?
     table

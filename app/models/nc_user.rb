@@ -9,6 +9,7 @@ class NcUser < ActiveRecord::Base
   
   validates :username, presence: true
   validates :username, format: { with: /\A[a-zA-Z0-9]+\z/ }
+  validates :username, uniqueness: { case_sensitive: false, message: 'has already been added' }
   validates :signed_up_on_string, format: { with: /\d{1,2}\/\d{1,2}\/\d{4}/, message: "can't be blank / is invalid" }, allow_nil: true
   
   accepts_nested_attributes_for :comments

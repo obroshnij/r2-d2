@@ -2,7 +2,7 @@ class Rbl < ActiveRecord::Base
   
   belongs_to :rbl_status
   
-  validates :name, :url, :rbl_status_id, presence: true
+  validates :name, :rbl_status_id, presence: true
   
   before_save do
     self.url = self.url.strip.downcase

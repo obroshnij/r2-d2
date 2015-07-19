@@ -52,7 +52,7 @@
         span.left Related by:
         span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
 
-- unless report.processed
+- if !report.processed && can?(:approve, AbuseReport)
   = form_for report do |f|
     = f.hidden_field :processed, value: 1
     = f.hidden_field :processed_by, value: current_user.id

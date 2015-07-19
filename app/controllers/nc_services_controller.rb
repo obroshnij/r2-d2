@@ -1,5 +1,8 @@
 class NcServicesController < ApplicationController
   
+  before_action :authenticate_user!
+  authorize_resource class: 'NcService'
+  
   def index
     @search = NcService.ransack params[:q]
     @per_page = params[:per_page].blank? ? 25 : params[:per_page]

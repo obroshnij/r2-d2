@@ -9,6 +9,10 @@ class Ability
     vip_domain:        %i( read update create delete ),
     spammer:           %i( read update create delete ),
     internal_account:  %i( read update create delete ),
+    abuse_report:      %i( read create approve ),
+    nc_user:           %i( read create comment ),
+    nc_service:        %i( read create ),
+    rbl:               %i( read create ),
     ## Controllers
     la_tool:           %i( access ),
     manager_tool:      %i( access ),
@@ -22,8 +26,11 @@ class Ability
     
     can :manage, :all and return if user.admin?
     
-    alias_action :destroy, to: :delete
-    alias_action :manage, to: :access
+    alias_action :destroy,                  to: :delete
+    alias_action :manage,                   to: :access
+    alias_action :update,                   to: :approve
+    alias_action :update,                   to: :comment
+    alias_action :update_abuse_report_form, to: :create
     
     user.permissions.each do |permission|
       

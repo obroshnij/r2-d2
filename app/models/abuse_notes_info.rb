@@ -7,6 +7,7 @@ class AbuseNotesInfo < ActiveRecord::Base
   
   after_create do
     self.abuse_report.report_assignments.direct.select { |a| a.username.present? }.each do |assignment|
+      # TODO This overrides current domain owner if the domain has already been added
       assignment.reportable.update_attributes nc_user_id: NcUser.find_by(username: assignment.username).id
     end
     self.abuse_report.nc_services.each do |domain|

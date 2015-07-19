@@ -20,9 +20,10 @@
           = text_field_tag :per_page, @per_page, placeholder: "Per page"
         
     = f.submit "Search", class: "button tiny left"
-
-  = link_to 'Add new', '#', :'data-reveal-id' => "new-domain-modal", class: "button tiny right"
-  = render partial: 'new_domain'
+    
+  - if can? :create, NcService
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-domain-modal", class: "button tiny right"
+    = render partial: 'new_domain'
 
   - if @services.present?
     table

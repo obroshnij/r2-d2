@@ -20,9 +20,10 @@
           = text_field_tag :per_page, @per_page, placeholder: "Per page"
         
     = f.submit "Search", class: "button tiny left"
-    
-  = link_to 'Add new', '#', :'data-reveal-id' => "new-nc-user-modal", class: "button tiny right"
-  = render partial: 'new_nc_user'
+  
+  - if can? :create, NcUser
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-nc-user-modal", class: "button tiny right"
+    = render partial: 'new_nc_user'
     
   - if @nc_users.present?
     table
