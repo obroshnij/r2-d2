@@ -114,10 +114,17 @@ class Whois
     response.match(/whois:.+/).to_s.split.last
   end
   
-  def execute(host, query)
-    addr = Addrinfo.tcp host, 43
+  ## Socket handler
+  
+  def local_ips
+    Socket.ip_address_list.collect { |addr| addr.ip_address if addr.ip_address.match(/\d+\.\d+\.\d+\.\d+/) }.compact - ['127.0.0.1']
+  end
+  
+  def execute(remote, query)
+    addr = Addrinfo.tcp remote, 43
     Timeout::timeout(5) do
-      addr.connect_from("162.213.253.186", rand(60000..65000)) do |socket|
+      addr.connect_from(local_ips.sample, rand(55000..65000)) do |socket|
+        Rails.logger.debug "Looking up '#{query}' from '#{socket.local_address.inspect_sockaddr}'"
         socket.write "#{query}\r\n"
         socket.read
       end
