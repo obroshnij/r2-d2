@@ -124,7 +124,7 @@ class Whois
     addr = Addrinfo.tcp remote, 43
     Timeout::timeout(5) do
       addr.connect_from(local_ips.sample, rand(55000..65000)) do |socket|
-        Rails.logger.debug "Looking up '#{query}' from '#{socket.local_address.inspect_sockaddr}'"
+        Rails.logger.info "Looking up '#{query}' from '#{socket.local_address.inspect_sockaddr}'"
         socket.write "#{query}\r\n"
         socket.read
       end
