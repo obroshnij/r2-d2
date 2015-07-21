@@ -75,3 +75,4 @@ group :development, :test do
 end
 
 gem 'unicorn'
+gem 'unicorn-worker-killer'
