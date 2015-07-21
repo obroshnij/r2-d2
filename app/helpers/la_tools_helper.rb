@@ -1,20 +1,20 @@
 module LaToolsHelper
 
-  def row_color(user_hash)
-    return "red"   if user_hash[:spammer]
-    return "blue"  if user_hash[:has_vip_domains]
-    return "green" if user_hash[:internal_account]
-    ""
+  def row_color(nc_user)
+    return 'red'   if nc_user.try(:status_names).try(:include?, 'Internal Spammer').present?
+    return 'green' if nc_user.try(:status_names).try(:include?, 'Internal Account').present?
+    return 'blue'  if nc_user.try(:status_names).try(:include?, 'Has VIP Domains').present? || nc_user.try(:status_names).try(:include?, 'VIP').present?
+    ''
   end
 
   def icon_title(title)
-    return content_tag(:i, "", class: "fa fa-file-text-o inline")   if title == :blacklisted
-    return content_tag(:i, "", class: "fa fa-file-o inline")        if title == :not_blacklisted
-    return content_tag(:i, "", class: "fa fa-thumbs-down inline")   if title == :suspended_by_registry
-    return content_tag(:i, "", class: "fa fa-thumbs-o-down inline") if title == :suspended_by_enom
-    return content_tag(:i, "", class: "fa fa-terminal inline")      if title == :suspended_for_whois_verification
-    return content_tag(:i, "", class: "fa fa-lock inline")          if title == :suspended_by_namecheap
-    return content_tag(:i, "", class: "fa fa-clock-o inline")       if title == :expired
+    return content_tag(:i, '', class: 'fa fa-file-text-o inline')   if title == :blacklisted
+    return content_tag(:i, '', class: 'fa fa-file-o inline')        if title == :not_blacklisted
+    return content_tag(:i, '', class: 'fa fa-thumbs-down inline')   if title == :suspended_by_registry
+    return content_tag(:i, '', class: 'fa fa-thumbs-o-down inline') if title == :suspended_by_enom
+    return content_tag(:i, '', class: 'fa fa-terminal inline')      if title == :suspended_for_whois_verification
+    return content_tag(:i, '', class: 'fa fa-lock inline')          if title == :suspended_by_namecheap
+    return content_tag(:i, '', class: 'fa fa-clock-o inline')       if title == :expired
   end
   
   def transform_job_data(data)
@@ -24,10 +24,7 @@ module LaToolsHelper
       result[val["username"]] ||= {}
       user ||= result[val["username"]]
       
-      user[:email_address]      = val["email_address"]
-      user[:has_vip_domains]  ||= val["vip_domain"]
-      user[:spammer]          ||= val["spammer"]
-      user[:internal_account] ||= val["internal_account"]
+      user[:email_address]  = val["email_address"]
       
       [:vip, :active, :inactive, :blacklisted, :not_blacklisted,
        :suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired,
@@ -54,8 +51,9 @@ module LaToolsHelper
     result
   end
   
-  def get_canned_reply_for_spam_case(data)
+  def get_canned_reply_for_spam_case(nc_user, data)
     reply = {}
+    data[:spammer] = nc_user.try(:status_names).try(:include?, 'Internal Spammer').present?
     count = data[:blacklisted].count
     listing_count = (data[:dbl] && !data[:surbl] && !data[:dbl_surbl]) || (!data[:dbl] && data[:surbl] && !data[:dbl_surbl]) ? 1 : 2
     

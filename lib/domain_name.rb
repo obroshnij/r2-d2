@@ -1,6 +1,6 @@
 class DomainName
   
-  DOMAIN_REGEX = /(?:(?:[a-z0-9]+[a-z0-9\-]*)*[a-z0-9]+\.)+[a-z]+/
+  DOMAIN_REGEX = /(?:(?>[a-z0-9]+[a-z0-9\-]*[a-z0-9]+|[a-z0-9]*)\.)+[a-z]+/i
   
   attr_accessor :tld, :sld, :prefix, :extra_attr
   

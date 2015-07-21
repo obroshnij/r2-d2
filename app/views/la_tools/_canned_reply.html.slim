@@ -1,0 +1,8 @@
+- canned_reply = get_canned_reply_for_spam_case(nc_user, data)
+
+.reveal-modal id="modal_#{username}" data-reveal=''
+  form: .row: .large-12.columns
+    = tag :input, { type: "text", value: data[:email_address] }
+    = tag :input, { type: "text", value: canned_reply[:title] }
+    = content_tag(:textarea, canned_reply[:body], { rows: "25" })
+  a.close-reveal-modal &#215;

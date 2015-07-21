@@ -13,7 +13,9 @@
           th Inactive
       tbody
         - transform_job_data(@job.data).each do |username, user_hash|
-          tr class=row_color(user_hash)
+          - nc_user = NcUser.find_by_username(username.downcase)
+          tr class=row_color(nc_user)
+          
             td
               div
                 i.fa.fa-user.fa-fw.inline
@@ -21,21 +23,14 @@
               div
                 i.fa.fa-at.fa-fw.inline
                 = user_hash[:email_address]
-              - if user_hash[:spammer]
-                span.has-tip data-tooltip='' aria-haspopup="true" title="Blacklisted account"
-                  i.fa.fa-trash-o.action
-              - if user_hash[:has_vip_domains]
-                span.has-tip data-tooltip='' aria-haspopup="true" title="VIP account"
-                  i.fi-crown.action
-              - if user_hash[:internal_account]
-                span.has-tip data-tooltip='' aria-haspopup="true" title="Internal account"
-                  i.fa.fa-home.action
+              = nc_user.try(:status_icons)
+              
               - if user_hash[:blacklisted].present?
                 .right
                   = link_to '#', data: { :'reveal-id' => "modal_" + username } do
-                    = content_tag(:span, class: "has-tip", :'data-tooltip' => '', :'aria-haspopup' => 'true', title: "Generate a canned reply" ) do
-                      i.fa.fa-send-o.action
-                  = render partial: 'canned_reply', locals: { username: username, data: user_hash }
+                    i.fa.fa-send-o.action title='Generate a canned reply'
+                  = render partial: 'canned_reply', locals: { nc_user: nc_user, username: username, data: user_hash }
+                  
             td
               - if user_hash[:active].present?
                 - cell = []
@@ -46,6 +41,7 @@
                       - domains << domain + "<br>"
                     - cell << domains
                 = cell.join("<hr>").html_safe
+                
             td
               - if user_hash[:inactive].present?
                 - cell = []

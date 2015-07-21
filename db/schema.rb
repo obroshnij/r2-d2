@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717221341) do
+ActiveRecord::Schema.define(version: 20150721142632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,15 +100,6 @@ ActiveRecord::Schema.define(version: 20150717221341) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
-
-  create_table "internal_accounts", force: :cascade do |t|
-    t.string   "username",   limit: 255
-    t.text     "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "internal_accounts", ["username"], name: "index_internal_accounts_on_username", unique: true, using: :btree
 
   create_table "nc_service_types", force: :cascade do |t|
     t.string   "name"
@@ -228,15 +219,6 @@ ActiveRecord::Schema.define(version: 20150717221341) do
     t.datetime "updated_at",            null: false
   end
 
-  create_table "spammers", force: :cascade do |t|
-    t.string   "username",   limit: 255
-    t.string   "comment",    limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "spammers", ["username"], name: "index_spammers_on_username", unique: true, using: :btree
-
   create_table "statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -270,17 +252,6 @@ ActiveRecord::Schema.define(version: 20150717221341) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "vip_domains", force: :cascade do |t|
-    t.string   "domain",     limit: 255
-    t.string   "username",   limit: 255
-    t.string   "category",   limit: 255
-    t.string   "notes",      limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "vip_domains", ["domain"], name: "index_vip_domains_on_domain", unique: true, using: :btree
 
   create_table "whitelisted_addresses", force: :cascade do |t|
     t.string   "value",      limit: 255

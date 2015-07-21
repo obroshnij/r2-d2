@@ -16,7 +16,6 @@ class SpamProcessor
     abort_if_whois_is_blank domains
     DNS::Resolver.dig_multiple domains, records: [:a, :mx, :ns]
     DNS::SpamBase.check_multiple domains
-    internal_lists_bulk_check domains
     suspension_bulk_check domains
     job.update_attributes status: "Completed", data: DomainName.multiple_to_hash(domains), info: "Completed on #{DateTime.now.strftime('%d %b %Y at %H:%M')}"
   rescue Exception => e
@@ -43,15 +42,6 @@ class SpamProcessor
     domains_with_no_whois = domains.select { |d| d.whois.record.blank? }
     count = domains_with_no_whois.count
     raise "Failed to get whois data for " + count.to_s + " domain".pluralize(count) + ": " + domains_with_no_whois.map(&:name).join(", ") if count > 0
-  end
-  
-  def self.internal_lists_bulk_check(domains)
-    domains.each do |domain|
-      domain.extra_attr[:vip_domain] = VipDomain.find_by(domain: domain.name).present?
-      domain.extra_attr[:has_vip_domains] = VipDomain.find_by(username: domain.extra_attr["username"].to_s.downcase).present?
-      domain.extra_attr[:spammer] = Spammer.find_by(username: domain.extra_attr["username"].to_s.downcase).present?
-      domain.extra_attr[:internal_account] = InternalAccount.find_by(username: domain.extra_attr["username"].to_s.downcase).present?
-    end
   end
   
   def self.suspension_bulk_check(domains)

@@ -38,10 +38,6 @@ Rails.application.routes.draw do
   
   get 'monthly_reports' => 'manager_tools#monthly_reports'
   post 'monthly_reports' => 'manager_tools#generate_monthly_reports'
-
-  resources :vip_domains, except: :show
-  resources :spammers, only: [:index, :new, :create, :destroy]
-  resources :internal_accounts, only: [:index, :new, :create, :destroy]
   
   get 'spam_reports'        => 'la_tools#spam_jobs', as: 'spam_reports'
   get 'spam_reports/:id'    => 'la_tools#show_spam_job', as: 'show_spam_report'

@@ -18,8 +18,7 @@ nav.top-bar data-topbar='' role="navigation"
           li = link_to "Bulk Dig", bulk_dig_path
       li.divider
       
-      - if can?(:access, :la_tool) || can?(:read, VipDomain) || can?(:read, Spammer) || can?(:read, InternalAccount) || \
-           can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
+      - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
         li.has-dropdown.not-click
           - if can? :access, :la_tool
             = link_to "Legal & Abuse", spam_path
@@ -37,18 +36,15 @@ nav.top-bar data-topbar='' role="navigation"
                   li = link_to "Process Spam", spam_path if can? :access, :la_tool
                   li = link_to "Spam Reports", spam_reports_path if can? :access, :la_tool
                   
-            - if can?(:read, VipDomain) || can?(:read, Spammer) || can?(:read, InternalAccount)
+            - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
               li.has-dropdown.not-click
                 a href='#' Lists
                 ul.dropdown
-                  li = link_to "VIP Domains", vip_domains_path if can? :read, VipDomain
-                  li = link_to "Spammer Blacklist", spammers_path if can? :read, Spammer
-                  li = link_to "Internal Accounts", internal_accounts_path if can? :read, InternalAccount
-            li = link_to "Abuse Reports", abuse_reports_path if can? :read, AbuseReport
-            li = link_to "Namecheap Users", nc_users_path if can? :read, NcUser
-            li = link_to "Namecheap Domains", domains_path if can? :read, NcService
-            li = link_to "Private Emails", private_emails_path if can? :read, NcService
-            li = link_to "Multi RBL", rbls_path if can? :read, Rbl
+                  li = link_to "Abuse Reports", abuse_reports_path if can? :read, AbuseReport
+                  li = link_to "Namecheap Users", nc_users_path if can? :read, NcUser
+                  li = link_to "Namecheap Domains", domains_path if can? :read, NcService
+                  li = link_to "Private Emails", private_emails_path if can? :read, NcService
+                  li = link_to "Multi RBL", rbls_path if can? :read, Rbl
         li.divider
         
       - if can? :access, :manager_tool

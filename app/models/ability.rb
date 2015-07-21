@@ -6,9 +6,6 @@ class Ability
     ## Models
     user:              %i( read update create delete ),
     role:              %i( ), # actions are assigned in the before_save callback of the Permission model depending on whether any roles are are chosen
-    vip_domain:        %i( read update create delete ),
-    spammer:           %i( read update create delete ),
-    internal_account:  %i( read update create delete ),
     abuse_report:      %i( read create approve ),
     nc_user:           %i( read create comment ),
     nc_service:        %i( read create comment ),
