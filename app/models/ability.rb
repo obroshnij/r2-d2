@@ -11,7 +11,7 @@ class Ability
     internal_account:  %i( read update create delete ),
     abuse_report:      %i( read create approve ),
     nc_user:           %i( read create comment ),
-    nc_service:        %i( read create ),
+    nc_service:        %i( read create comment ),
     rbl:               %i( read create ),
     ## Controllers
     la_tool:           %i( access ),

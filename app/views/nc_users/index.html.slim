@@ -40,8 +40,7 @@
             td = user.status_icons
             td = ('Direct: ' + user.abuse_reports.direct.count.to_s + '<br>' + 'Related: ' + user.abuse_reports.indirect.count.to_s).html_safe
             td = user.signed_up_on.try(:strftime, "%d %B %Y")
-            td
-              = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_user_path(user.id)
+            td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_user_path(user.id)
                           
 .row: .large-12.columns
   span.pageInfo = page_entries_info @тс_users

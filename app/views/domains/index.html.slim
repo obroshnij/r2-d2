@@ -12,6 +12,10 @@
           = f.text_field :name_cont, placeholder: "Name"
           
         li
+          = f.label :nc_user_username_cont, 'Username contains'
+          = f.text_field :nc_user_username_cont, placeholder: 'username'
+          
+        li
           = f.label :status_ids_arr_cont, "Has status"
           = f.collection_select :status_ids_arr_cont, ServiceStatus.all, :id, :name, { include_blank: "Any" }
           
@@ -32,6 +36,7 @@
         th Namecheap user
         th Abuse Reports
         th Status
+        th Actions
       tbody
         - @services.each do |domain|
           tr
@@ -39,6 +44,7 @@
             td = domain.nc_user.try(:username)
             td = domain.abuse_reports.direct.count
             td = domain.status_icons
+            td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), domain_path(domain.id)
 .row: .large-12.columns
   span.pageInfo = page_entries_info @services
   = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

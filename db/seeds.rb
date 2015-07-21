@@ -5,7 +5,7 @@
   AbuseReportType.create name: name
 end
 
-['Internal Spammer', 'Spammer Related', 'FreeDNS DDoSer', 'DDoSer Related', 'PE Abuser', 'Has Abuse Notes', 'Has VIP Domains', 'Internal Account'].each do |name|
+['Internal Spammer', 'Spammer Related', 'FreeDNS DDoSer', 'DDoSer Related', 'PE Abuser', 'Has Abuse Notes', 'Has VIP Domains', 'Internal Account', 'VIP'].each do |name|
   Status.create name: name
 end
 

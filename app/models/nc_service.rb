@@ -9,6 +9,8 @@ class NcService < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false, scope: :nc_service_type, message: 'has already been added' }
   
+  accepts_nested_attributes_for :comments
+  
   before_save do
     self.name = self.name.strip.downcase
     self.status_ids.uniq!

@@ -62,13 +62,14 @@ class NcUser < ActiveRecord::Base
   def status_icon(status_name)
     helpers = ActionController::Base.helpers
     return helpers.content_tag(:i, '', class: 'fa fa-user-secret action', title: status_name) if status_name == "Internal Spammer"
-    return helpers.content_tag(:i, '', class: 'fi-link action', title: status_name) if status_name == "Spammer Related"
-    return helpers.content_tag(:i, '', class: 'fi-skull action', title: status_name) if status_name == "FreeDNS DDoSer"
-    return helpers.content_tag(:i, '', class: 'fa fa-link action', title: status_name) if status_name == "DDoSer Related"
-    return helpers.content_tag(:i, '', class: 'fi-mail action', title: status_name) if status_name == "PE Abuser"
-    return helpers.content_tag(:i, '', class: 'fa fa-fire action', title: status_name) if status_name == "Has Abuse Notes"
-    return helpers.content_tag(:i, '', class: 'fi-crown action', title: status_name) if status_name == "Has VIP Domains"
-    return helpers.content_tag(:i, '', class: 'fa fa-home action', title: status_name) if status_name == "Internal Account"
+    return helpers.content_tag(:i, '', class: 'fi-link action', title: status_name)           if status_name == "Spammer Related"
+    return helpers.content_tag(:i, '', class: 'fi-skull action', title: status_name)          if status_name == "FreeDNS DDoSer"
+    return helpers.content_tag(:i, '', class: 'fa fa-link action', title: status_name)        if status_name == "DDoSer Related"
+    return helpers.content_tag(:i, '', class: 'fi-mail action', title: status_name)           if status_name == "PE Abuser"
+    return helpers.content_tag(:i, '', class: 'fa fa-fire action', title: status_name)        if status_name == "Has Abuse Notes"
+    return helpers.content_tag(:i, '', class: 'fi-crown action', title: status_name)          if status_name == "Has VIP Domains"
+    return helpers.content_tag(:i, '', class: 'fa fa-home action', title: status_name)        if status_name == "Internal Account"
+    return helpers.content_tag(:i, '', class: 'fa fa-diamond action', title: status_name)     if status_name == "VIP"
   end
   
 end
