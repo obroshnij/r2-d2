@@ -117,7 +117,7 @@ class Whois
   ## Socket handler
   
   def local_ips
-    Socket.ip_address_list.collect { |addr| addr.ip_address if addr.ip_address.match(/\d+\.\d+\.\d+\.\d+/) }.compact - ['127.0.0.1']
+    @@local_ips ||= Socket.ip_address_list.collect { |addr| addr.ip_address if addr.ip_address.match(/\d+\.\d+\.\d+\.\d+/) }.compact - ['127.0.0.1']
   end
   
   def execute(remote, query)

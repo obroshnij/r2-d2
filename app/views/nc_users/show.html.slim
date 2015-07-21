@@ -79,4 +79,5 @@
       h3 Comments
       .row: .large-12.columns
         - @nc_user.comments.each do |comment|
-          .row = comment.user.name + " on " + comment.created_at.strftime("%d %B %Y at %H:%M") + ": " + comment.content
+          - name = comment.user.present? ? user.name : 'R2-D2'
+          .row = name + " on " + comment.created_at.strftime("%d %B %Y at %H:%M") + ": " + comment.content
