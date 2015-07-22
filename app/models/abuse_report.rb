@@ -28,15 +28,13 @@ class AbuseReport < ActiveRecord::Base
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }
   
   def reportable_name
-    case self.abuse_report_type_id
-    when 1..2 # spammer, ddos
-      self.report_assignments.direct.first.reportable.username
-    when 3 # private email
-      self.report_assignments.direct.first.reportable.name
-    when 4 # abuse notes
-      count = self.report_assignments.direct.count
-      count.to_s + " domain".pluralize(count)
-    end
+    # spammer, ddos
+    return self.report_assignments.direct.first.reportable.username if [1, 2].include?(self.abuse_report_type_id) 
+    # private email
+    return self.report_assignments.direct.first.reportable.name if self.abuse_report_type_id == 3
+    # abuse notes
+    count = self.report_assignments.direct.count
+    count.to_s + " domain".pluralize(count)
   end
   
 end

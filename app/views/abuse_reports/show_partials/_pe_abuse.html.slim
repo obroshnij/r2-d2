@@ -4,10 +4,10 @@
   .large-3.columns
     .info-row.row
       span.left Username:
-      span.right = report.nc_users.indirect.first.username
+      span.right = report.nc_users.indirect.first.username if report.nc_users.indirect.first.present?
     .info-row.row
       span.left Sign up date:
-      span.right = report.nc_users.indirect.first.signed_up_on.strftime "%d %B %Y"
+      span.right = report.nc_users.indirect.first.signed_up_on.strftime("%d %B %Y") if report.nc_users.indirect.first.present?
     .info-row.row
       span.left Additional comments:
       span.right = report.comment

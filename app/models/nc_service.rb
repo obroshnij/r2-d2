@@ -7,7 +7,6 @@ class NcService < ActiveRecord::Base
   has_many :comments, as: :commentable
   
   validates :name, presence: true
-  validates :name, uniqueness: { case_sensitive: false, scope: :nc_service_type, message: 'has already been added' }
   
   accepts_nested_attributes_for :comments
   
