@@ -34,10 +34,14 @@ class DomainBoxController < ApplicationController
   end
 
   def perform_comparison
-    list_one, list_two = params[:list_one].downcase.split, params[:list_two].downcase.split
-    @result = list_one.each_with_object(Array.new) { |domain, array| array << domain unless list_two.include?(domain) }.join("\n")
-    @list_one = list_one.join("\n")
-    @list_two = list_two.join("\n")
+    @list_one      = params[:list_one].split("\r\n").map(&:strip).map(&:downcase)
+    @list_two      = params[:list_two].split("\r\n").map(&:strip).map(&:downcase)
+    @list_one_dup  = @list_one.select { |el| @list_one.count(el) > 1 }.uniq
+    @list_two_dup  = @list_two.select { |el| @list_two.count(el) > 1 }.uniq
+    @list_one_only = @list_one - @list_two
+    @list_two_only = @list_two - @list_one
+    @unique        = (@list_one + @list_two).uniq
+    @common        = @unique.select { |el| @list_one.include?(el) && @list_two.include?(el) }
     render action: :compare_lists
   end
   
