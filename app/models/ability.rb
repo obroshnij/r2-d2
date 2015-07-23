@@ -10,6 +10,7 @@ class Ability
     nc_user:           %i( read create comment ),
     nc_service:        %i( read create comment ),
     rbl:               %i( read create ),
+    watched_domain:    %i( read create delete ),
     ## Controllers
     la_tool:           %i( access ),
     manager_tool:      %i( access ),

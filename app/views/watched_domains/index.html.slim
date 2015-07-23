@@ -1,0 +1,42 @@
+- provide(:title, "Watched Domains")
+
+.row: .large-12.columns
+
+  = search_form_for @search do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :name_cont, "Name contains"
+          = f.text_field :name_cont, placeholder: "Name"
+        
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+    
+    = f.submit "Search", class: "button tiny left"
+      
+
+  - if can? :create, WatchedDomain
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-watched-domain-modal", class: "button tiny right"
+    = render partial: 'new_watched_domain'
+  
+  - if @domains.present?
+    table
+      thead
+        th Name
+        th Current status
+        th Last updated at
+        th Actions
+      tbody
+        - @domains.each do |domain|
+          tr
+            td = domain.name
+            td = domain.status.join(', ')
+            td = domain.updated_at.strftime '%d %B %Y, %H:%M'
+            td = link_to content_tag(:i, "", class: "fi-x action"), domain, method: :delete, data: { confirm: "Are you sure?" } if can? :delete, domain
+
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @domains
+  = will_paginate @domains, renderer: FoundationPagination::Rails, class: "right"

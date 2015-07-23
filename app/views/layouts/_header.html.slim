@@ -16,6 +16,7 @@ nav.top-bar data-topbar='' role="navigation"
           li = link_to "Extract Domains", parse_domains_path
           li = link_to "Compare Lists", compare_path
           li = link_to "Bulk Dig", bulk_dig_path
+          li = link_to "Watched Domains", watched_domains_path if can? :read, WatchedDomain
       li.divider
       
       - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)

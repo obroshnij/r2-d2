@@ -1,0 +1,12 @@
+Hi Guys,
+
+Status of the following domain <%= 'name'.pluralize @diff.keys.count %> has been updated:
+
+<% @diff.each do |key, value| %>
+<%= key + "\n" %>
+<%= 'status: ' + value[:status].join(' => ') %>
+<%= value[:comment].present? ? ('comments: ' + value[:comment] + "\n") : "\n" %>
+<% end %>
+
+Sincerely,
+R2-D2

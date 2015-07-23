@@ -18,7 +18,7 @@ module WhoisParser
     end
     
     def available
-      availability_pattern.nil? ? "unknown" : @whois_record.match(availability_pattern).present?
+      availability_pattern.nil? ? 'unknown' : @whois_record.match(availability_pattern).present?
     end
     
     def availability_pattern

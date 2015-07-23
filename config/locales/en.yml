@@ -50,10 +50,14 @@ en:
         one: RBL
         few: RBLs
         other: RBLs
-  
-  vip_domain: "L&A : VIP domains list"
-  spammer: "L&A : Spammer blacklist"
-  internal_account: "L&A : Internal accounts list"
+      watched_domain:
+        zero: Watched domains
+        one: Watched domain
+        few: Watched domains
+        other: Watched domains
+        
+  watched_domain: "Watched domains"
+  maintenance_alert: "Maintenance alerts"
   la_tool: "Legal and Abuse tools"
   abuse_report: "L&A : Abuse Reports"
   nc_user: "L&A : Namecheap Users"
@@ -62,4 +66,3 @@ en:
   manager_tool: "Management tools"
   user: "Users"
   role: "Roles"
-  maintenance_alert: "Maintenance alerts"
