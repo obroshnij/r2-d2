@@ -10,14 +10,17 @@
         li
           = f.label :name_cont, "Name contains"
           = f.text_field :name_cont, placeholder: "Name"
+          
+        li
+          = f.label :comment_cont, "Comments contain"
+          = f.text_field :comment_cont, placeholder: "comments"
         
         li
           = label_tag :per_page, "Entries per page"
           = text_field_tag :per_page, @per_page, placeholder: "Per page"
     
     = f.submit "Search", class: "button tiny left"
-      
-
+  
   - if can? :create, WatchedDomain
     = link_to 'Add new', '#', :'data-reveal-id' => "new-watched-domain-modal", class: "button tiny right"
     = render partial: 'new_watched_domain'
@@ -27,6 +30,7 @@
       thead
         th Name
         th Current status
+        th Comments
         th Last updated at
         th Actions
       tbody
@@ -34,6 +38,7 @@
           tr
             td = domain.name
             td = domain.status.join(', ')
+            td = domain.comment
             td = domain.updated_at.strftime '%d %B %Y, %H:%M'
             td = link_to content_tag(:i, "", class: "fi-x action"), domain, method: :delete, data: { confirm: "Are you sure?" } if can? :delete, domain
 
