@@ -25,9 +25,17 @@ class ManagerToolsController < ApplicationController
       @norm = params[:norm].blank? ? "NO ONE KNOWS HOW MANY" : params[:norm]
     end
     render action: :monthly_reports
-  # rescue Exception => ex
-  #   flash.now[:alert] = "#{ex.class}: #{ex.message}"
-  #   render action: :monthly_reports
+  rescue Exception => ex
+    flash.now[:alert] = "#{ex.class}: #{ex.message}"
+    render action: :monthly_reports
+  end
+  
+  def welcome_emails
+  end
+  
+  def generate_welcome_emails
+    @people = params[:people].scan(/[0-9]+/).map { |id| { id: 66, name: "First Last", email: 'name@namecheap.com' } }
+    render action: :welcome_emails
   end
   
 end

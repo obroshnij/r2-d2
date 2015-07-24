@@ -15,3 +15,10 @@ function sendCanned(link) {
   window.open(link, "_self");
 }
 
+function sendWelcomeCanned() {
+  var body = $('#canned').val().split('\n').join('%0A').replace(/&/g, "%26");
+  var emails = $('#email_addresses').val();
+  var subject = 'Welcome to Our Team'
+  var link = 'mailto:' + emails + '?body=' + body + '&subject=' + subject;
+  window.open(link, '_self');
+}

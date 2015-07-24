@@ -120,4 +120,15 @@ module ManagerToolsHelper
     end
   end
   
+  def convert_staff_people(people)
+    people.map { |el| el[:id].to_s + ': ' + el[:name] + ' - ' + el[:email] }.join("\n")
+  end
+  
+  def generate_welcome_canned(people)
+    canned = "Hello everyone,\n\n"
+    canned << "We are glad to see you in our team. We want to congratulate you on the successful completion of the final test and wish you good luck with the supervision. "
+    canned << "We hope you will become a long term asset to our team and will grow and develop together with Namecheap.\n\n"
+    canned += "Regards,\n" + current_user.name + "\nGeneral Manager\nCustomer Support Team\nNamecheap.com"
+  end
+  
 end

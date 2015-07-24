@@ -53,6 +53,7 @@ nav.top-bar data-topbar='' role="navigation"
           a href='#' Management Tools
           ul.dropdown
             li = link_to "Monthly Reports", monthly_reports_path if can? :access, :manager_tool
+            / li = link_to "Welcome Emails", welcome_emails_path if current_user.admin?
         li.divider
       
       - if can?(:read, Role) || can?(:read, User)
@@ -79,5 +80,4 @@ nav.top-bar data-topbar='' role="navigation"
 header
   = image_tag "logo.png", class: "logo"
   br
-  h1
-    = yield(:title)
+  h1 = yield(:title)
