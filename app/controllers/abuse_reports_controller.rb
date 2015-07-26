@@ -70,7 +70,7 @@ class AbuseReportsController < ApplicationController
   end
   
   def abuse_notes_info_params
-    [:id, :reported_by]
+    [:id, :reported_by, :action]
   end
   
 end
