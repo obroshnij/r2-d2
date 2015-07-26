@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723122423) do
+ActiveRecord::Schema.define(version: 20150726133044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20150723122423) do
     t.string   "reported_by"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "action"
   end
 
   create_table "abuse_report_types", force: :cascade do |t|
@@ -79,6 +80,8 @@ ActiveRecord::Schema.define(version: 20150723122423) do
     t.string   "client_ticket_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.text     "affected_domains"
+    t.string   "impact"
   end
 
   create_table "ddos_related_infos", force: :cascade do |t|

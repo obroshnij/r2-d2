@@ -5,11 +5,14 @@
   .row
     .large-6.columns
       fieldset
-        legend Reported by
+        legend General
         .row
           .large-12.columns.form-field
             = ani.label :reported_by, "Reported by / ticket ID"
             = ani.text_field :reported_by, placeholder: "LOL-123-45678"
+          .large-12.columns.form-field
+            = ani.label :action, "Action"
+            = ani.text_field :action, placeholder: "Action"
           .large-12.columns
             = f.label :comment, "Additional comments"
             = f.text_area :comment, placeholder: "Comments"

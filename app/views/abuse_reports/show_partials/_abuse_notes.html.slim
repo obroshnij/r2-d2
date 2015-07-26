@@ -5,6 +5,9 @@
     .info-row.row
       span.left Domains:
       span.right = report.nc_services.direct.map(&:name).join(', ')
+    .info-row.row
+      span.left Action:
+      span.right = info.action
   
   .large-6.columns
     .info-row.row

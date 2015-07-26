@@ -3,7 +3,7 @@ class AbuseNotesInfo < ActiveRecord::Base
   
   belongs_to :abuse_report
   
-  validates :reported_by, presence: true
+  validates :reported_by, :action, presence: true
   
   after_create do
     self.abuse_report.report_assignments.direct.select { |a| a.username.present? }.each do |assignment|
