@@ -36,6 +36,7 @@ nav.top-bar data-topbar='' role="navigation"
                   li = link_to "Resource Abuse", resource_abuse_path if can? :access, :la_tool
                   li = link_to "Process Spam", spam_path if can? :access, :la_tool
                   li = link_to "Spam Reports", spam_reports_path if can? :access, :la_tool
+                  li = link_to "HTML PDFier", html_pdfier_path if can? :access, :la_tool
                   
             - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
               li.has-dropdown.not-click

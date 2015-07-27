@@ -7,9 +7,10 @@
     = form_for @role do |f|
       table.permissions
         thead
-          th scope="row" Resource
+          th scope="row" style='width:20%' Resource
           - uniq_actions.each do |action|
-            th = action.capitalize
+            - width = 80 / uniq_actions.count
+            th style='width:#{width}%' = action.capitalize
         tbody
           - @permissions.each do |permission|
             = f.fields_for :permissions, permission, child_index: permission.id do |ff|

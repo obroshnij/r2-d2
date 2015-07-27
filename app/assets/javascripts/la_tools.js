@@ -68,3 +68,62 @@ function generate () {
   div.innerHTML = text;
   div.style.display = '';
 }
+
+// HTML PDFier
+// ---------------------------------------------------------------------------
+
+var addPdfField = function() {
+  var time = Date.now();
+  var $row = $('<div></div>').attr('class', 'pdf-file-field row html-file-field');
+  var $left = $('<div></div>').attr('class', 'large-9 columns');
+  var $label = $('<label>PDF File</label>').attr('for', '_files_pdf' + time);
+  var $fileField = $('<input></input>').attr('type', 'file').attr('id', '_files_pdf' + time).attr('name', '[files][pdf]' + time);
+  $left.append($label).append($fileField);
+  var $right = $('<div></div>').attr('class', 'large-3 columns');
+  var $link = $('<a>Remove</a>').attr('onclick', 'removePdfField(this);').attr('class', 'right');
+  $right.append($('<br>')).append($link);
+  $row.append($left).append($right);
+  $('.pdf-files').append($row);
+}
+
+var removePdfField = function(link) {
+  $(link).closest('.pdf-file-field').remove();
+}
+
+var toggleHtmlFileField = function(checkbox) {
+  var enabled = !$(checkbox).prop('checked');
+  $(checkbox).closest('.html-file-field').find('input[type="file"]').attr('disabled', enabled).val('');
+}
+
+var validatePdfierForm = function() {
+  errors = [];
+  var fields = $("input[type='file']:not([disabled])").map(function(index, field){
+    var type = $(field).attr('name').slice(8).split(']')[0];
+    var name = $(field).closest('.html-file-field').find('label').text();
+    var val;
+    if ($(field).val().length > 0) {
+      var array = $(field).val().split('.');
+      val = array[array.length - 1];
+    } else {
+      val = 0;
+    }
+    return { type: type, name: name, val: val }
+  }).each(function(index, el){
+    if (el.val === 0) {
+      errors.push(el.name + " can't be blank");
+    } else if (el.type !== el.val) {
+      errors.push(el.name + " has invalid file uploaded");
+    }
+  });
+  return errors;
+}
+
+$(document).ready(function(){
+  $('#pdfier-form').submit(function(event){
+    errors = validatePdfierForm();
+    if (errors[0]) {
+      event.preventDefault();
+      alert(errors.join("\n"));
+    }
+  });
+});

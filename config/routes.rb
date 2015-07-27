@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   get 'bulk_curl' => 'la_tools#bulk_curl'
   post 'bulk_curl' => 'la_tools#perform_bulk_curl'
   get 'resource_abuse' => 'la_tools#resource_abuse'
+  get 'html_pdfier' => 'la_tools#html_pdfier'
+  post 'pdfy_html' => 'la_tools#pdfy_html'
   
   get 'monthly_reports' => 'manager_tools#monthly_reports'
   post 'monthly_reports' => 'manager_tools#generate_monthly_reports'

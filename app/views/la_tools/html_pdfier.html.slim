@@ -1,0 +1,50 @@
+- provide :title, 'HTML PDFier'
+
+= form_tag({ controller: :la_tools, action: :pdfy_html }, multipart: true, id: 'pdfier-form') do
+  .row
+    .large-6.columns
+      fieldset
+        legend HTML files
+        
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]login_history', 'Login History'
+          = file_field_tag :'[files][html]login_history'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]change_log', 'Change Log'
+          = file_field_tag :'[files][html]change_log'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]domain_list', 'Domain List'
+          = file_field_tag :'[files][html]domain_list'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]order_list', 'Order List'
+          = file_field_tag :'[files][html]order_list'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]transation_review', 'Transaction Review'
+          = file_field_tag :'[files][html]transation_review'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]push_history_to', 'Push History (to)'
+          = file_field_tag :'[files][html]push_history_to'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]push_history_from', 'Push History (from)'
+          = file_field_tag :'[files][html]push_history_from'
+      
+    .large-6.columns
+      fieldset
+        legend PDF files
+        
+        .pdf-files.html-file-field
+          = label_tag :'[files][pdf]user_info', 'User Information'
+          = file_field_tag :'[files][pdf]user_info'
+          
+        a onclick='addPdfField();' Add More
+        
+  .row: .large-12.columns
+    = submit_tag 'Submit', class: 'button tiny'
+  

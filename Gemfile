@@ -53,6 +53,9 @@ gem 'nokogiri'
 gem 'smarter_csv'
 gem 'icalendar'
 gem 'roo'
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
+gem 'combine_pdf'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

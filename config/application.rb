@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'pdfkit'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,5 +25,7 @@ module R2d2
     config.active_job.queue_adapter = :resque
     
     config.time_zone = "Kyiv"
+    
+    config.middleware.use PDFKit::Middleware
   end
 end

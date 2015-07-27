@@ -64,5 +64,19 @@ class LaToolsController < ApplicationController
   
   def resource_abuse
   end
+  
+  def html_pdfier
+  end
+  
+  def pdfy_html
+    folder_name = Time.now.to_i.to_s
+    Dir.mkdir File.join(Rails.root, 'public', 'tmp', folder_name)
+    Pdfier.process params[:files], folder_name
+    File.open(File.join(Rails.root, 'public', 'tmp', folder_name, 'report.pdf')) do |f|
+      send_data f.read.force_encoding('BINARY'), filename: 'report.pdf', type: 'application/pdf', disposition: 'attachment'
+    end
+  ensure
+    FileUtils.rm_rf File.join(Rails.root, 'public', 'tmp', folder_name)
+  end
 
 end
