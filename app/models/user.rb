@@ -8,7 +8,7 @@
   has_many :background_jobs
   has_many :comments
 
-  validates :name, :role_ids, presence: true
+  validates :name, :role_id, presence: true
   validates :email, uniqueness: { case_sensitive: false }
   
   def admin?

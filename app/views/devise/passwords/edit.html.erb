@@ -1,4 +1,4 @@
-<%= provide(:title, "Change Your Password") %>
+<%= provide(:title, "Change Password") %>
 
 <div class="row">
   <div class="large-4 large-offset-4 columns">
@@ -21,12 +21,13 @@
             <%= f.password_field :password_confirmation, autocomplete: "off" %>
           </label>
         </div>
-
-        <div class="actions">
-          <br><%= f.submit "Change Password", class: "button postfix" %>
+        <div class='right'>
+          <%= render "devise/shared/links" %>
         </div>
-        <%= render "devise/shared/links" %>
       </fieldset>
+      <div class="actions">
+        <%= f.submit "Submit", class: "button tiny" %>
+      </div>
     <% end %>
   </div>
 </div>

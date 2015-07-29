@@ -4,31 +4,31 @@
     fieldset
       legend New User
       
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :name, "Name", class: "right inline"
         .large-9.columns
           = f.text_field :name, placeholder: "Name"
           
-      .row
+      .row.form-field
         .large-3.columns
-          = f.label :email, "Email Address", class: "right inline"
+          = f.label :email, "Email&nbsp;address".html_safe, class: "right inline"
         .large-9.columns
-          = f.text_field :email, placeholder: "Email Address"
+          = f.text_field :email, placeholder: "Email address"
           
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :'role_id', "Role", class: "right inline"
         .large-9.columns
           = f.collection_select :'role_id', current_user.accessible_roles, :id, :name, { include_blank: "Please select" }
           
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :password, "Password", class: "right inline"
         .large-9.columns
-          = f.password_field :password, placeholder: "Password"
+          = f.password_field :password, placeholder: "Password", validate: { confirmation: false }
       
-      .row
+      .row.form-field
         .large-3.columns
           = f.label :password_confirmation, "Password confirmation", class: "right inline"
         .large-9.columns

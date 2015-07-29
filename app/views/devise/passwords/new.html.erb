@@ -7,17 +7,18 @@
       <fieldset>
         <legend>Forgot password?</legend>
 
-          <div class="field">
-            <label>Email Address
-            <%= f.email_field :email, autofocus: true %>
-            </label>
-          </div>
-
-          <div class="actions">
-            <br><%= f.submit "Send Instructions", class: "button postfix" %>
-          </div>
-        <%= render "devise/shared/links" %>
+        <div class="form-field">
+          <label>Email Address
+          <%= f.email_field :email, autofocus: true %>
+          </label>
+        </div>
+        <div class='right'>
+          <%= render "devise/shared/links" %>
+        </div>
       </fieldset>
+      <div class="actions">
+        <%= f.submit "Send Instructions", class: "button tiny" %>
+      </div>
     <% end %>
 
   </div>

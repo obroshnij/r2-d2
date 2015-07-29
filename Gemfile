@@ -63,6 +63,7 @@ gem 'combine_pdf'
 # Use Capistrano for deployment
 group :development do
   gem 'pry-rails'
+  gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'

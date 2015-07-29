@@ -4,29 +4,29 @@
   <div class="large-8 large-offset-2 columns">
     <%= form_tag(controller: "domain_box", action: "perform_bulk_dig") do %>
       <fieldset>
+        <legend>Query</legend>
         <div class="row">
           <div class="large-8 columns">
-            <%= text_area_tag(:query, domain_list(@domains, nil), size: "20x20") %>
+            <%= label_tag :query, 'Host names' %>
+            <%= text_area_tag(:query, domain_list(@domains, nil), size: "20x20", placeholder: 'example.com') %>
           </div>
           <div class="large-4 columns">
-            <%= check_box_tag('record_types[]', :a) %><%= label_tag(:a, "A / CNAME") %><br>
-            <%= check_box_tag('record_types[]', :aaaa) %><%= label_tag(:aaaa, "AAAA") %><br>
-            <%= check_box_tag('record_types[]', :mx) %><%= label_tag(:mx, "MX") %><br>
-            <%= check_box_tag('record_types[]', :txt) %><%= label_tag(:txt, "TXT") %><br>
-            <%= check_box_tag('record_types[]', :ns) %><%= label_tag(:ns, "NS") %><br>
-            <%= check_box_tag('record_types[]', :ptr) %><%= label_tag(:ptr, "PTR") %><br>
+            <%= label_tag :record_types, 'Host records' %>
+            <%= check_box_tag(:'record_types[]', :a, false, id: 'a') %><%= label_tag(:a, "A / CNAME") %><br>
+            <%= check_box_tag(:'record_types[]', :aaaa, false, id: 'aaaa') %><%= label_tag(:aaaa, "AAAA") %><br>
+            <%= check_box_tag(:'record_types[]', :mx, false, id: 'mx') %><%= label_tag(:mx, "MX") %><br>
+            <%= check_box_tag(:'record_types[]', :txt, false, id: 'txt') %><%= label_tag(:txt, "TXT") %><br>
+            <%= check_box_tag(:'record_types[]', :ns, false, id: 'ns') %><%= label_tag(:ns, "NS") %><br>
+            <%= check_box_tag(:'record_types[]', :ptr, false, id: 'ptr') %><%= label_tag(:ptr, "PTR") %><br>
             <hr>
-            <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:default, "Default Nameservers") %><br>
-            <%= radio_button_tag(:ns, :google) %><%= label_tag(:google, "Google Public DNS") %><br>
-            <%= radio_button_tag(:ns, :open) %><%= label_tag(:open, "OpenDNS") %><br>
+            <%= label_tag :nameservers, 'Nameservers' %>
+            <%= radio_button_tag(:ns, :default, checked: true) %><%= label_tag(:ns_default, "Default Nameservers") %><br>
+            <%= radio_button_tag(:ns, :google) %><%= label_tag(:ns_google, "Google Public DNS") %><br>
+            <%= radio_button_tag(:ns, :open) %><%= label_tag(:ns_open, "OpenDNS") %><br>
           </div>
         </div>
       </fieldset>
-      <div class="row">
-        <div class="large-4 large-offset-4 columns">
-          <%= submit_tag "Go", class: "button postfix" %>
-        </div>
-      </div>
+      <%= submit_tag "&nbsp;&nbsp;Go&nbsp;&nbsp;".html_safe, class: "button tiny" %>
     <% end %>
   </div>
 </div>
@@ -37,7 +37,7 @@
     <div clss="large-12 columns">
       <table width="100%">
         <thead>
-          <th>Domain Name</th>
+          <th>Host name</th>
           <% headers.each do |header| %>
             <th><%= header.to_s.upcase %></th>
           <% end %>
