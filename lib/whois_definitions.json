@@ -86,4 +86,7 @@
  "ninja":"whois.unitedtld.com",
  "consulting":"whois.unitedtld.com",
  "com.au":"whois.audns.net.au",
- "fr":"whois.nic.fr"}
+ "fr":"whois.nic.fr",
+ "com.br":"whois.registro.br",
+ "site":"whois.centralnic.com",
+ "uk":"whois.nic.uk"}

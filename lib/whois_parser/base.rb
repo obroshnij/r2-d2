@@ -8,9 +8,10 @@ module WhoisParser
     end
   
     def parse
-      { available:   available,
-        status:      status,
-        nameservers: nameservers }
+      %w{ available status nameservers creation_date expiration_date updated_date registrar }.each_with_object({}) do |prop, hash|
+        val = self.send(prop)
+        hash[prop.to_sym] = val unless val.nil? || (val.respond_to?(:empty?) && val.empty?)
+      end
     end
   
     def self.parse(domain_name, whois_record)
@@ -35,6 +36,22 @@ module WhoisParser
       node('name[[:blank:]]?servers?').map do |val|
         val.downcase
       end.uniq.select { |val| val.present? }
+    end
+    
+    def creation_date
+      DateTime.parse(node('(?>creation|registration)[[:blank:]]*date').last).to_s rescue nil
+    end
+    
+    def expiration_date
+      DateTime.parse(node('(?>expiration|expiry)[[:blank:]]*date').last).to_s rescue nil
+    end
+    
+    def updated_date
+      DateTime.parse(node('updated[[:blank:]]*date').last).to_s rescue nil
+    end
+    
+    def registrar
+      node('registrar').first
     end
   
     def node(str)

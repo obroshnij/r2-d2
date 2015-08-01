@@ -4,13 +4,11 @@
   <div class="large-6 large-offset-3 columns">
     <%= form_tag(controller: "la_tools", action: "dbl_surbl_check") do %>
       <fieldset>
+        <legend>Input</legend>
+        <%= label_tag :query, 'Domains' %>
         <%= text_area_tag(:query, domain_list(@domains), size: "20x20") %>
       </fieldset>
-      <div class="row">
-        <div class="large-4 large-offset-4 columns">
-          <%= submit_tag "Submit", class: "button postfix" %>
-        </div>
-      </div>
+      <%= submit_tag "Submit", class: "button tiny" %>
     <% end %>
   </div>
 </div>

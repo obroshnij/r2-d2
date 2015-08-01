@@ -20,4 +20,26 @@ namespace :whois do
     puts "The following TLDs have been added:\n #{diff.map { |tld| '.' + tld.upcase }.join(', ')}" if diff.present?
   end
   
+  desc 'Whois test domains and store the data in a JSON file'
+  task :test => :environment do
+    domains, whois_data = [], {}
+    File.open File.join(Rails.root, 'spec', 'models', 'whois_parser_spec.rb') do |f|
+      domains = DomainName.parse_multiple(f.read.scan(/u?n?registered\ =.+/).join(' ')).map(&:name).uniq  
+    end
+    until domains.empty? do
+      domains.each do |name|
+        begin
+          whois_data[name] = Whois.lookup name
+          domains -= [name]
+        rescue
+          next
+        end
+      end
+      puts 'Unable to lookup ' + domains.join(', ') + '. Trying again...' unless domains.empty?
+    end
+    f = File.new File.join(Rails.root, 'spec', 'test_whois_data.json'), 'w'
+    f.write JSON.generate(whois_data).gsub("\",\"", "\",\n\"")
+    f.close
+  end
+  
 end

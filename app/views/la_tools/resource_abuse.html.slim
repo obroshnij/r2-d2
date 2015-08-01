@@ -1,59 +1,62 @@
 = provide :title, "Resource Abuse"
 
 .row: .large-12.columns
+  fieldset
+    legend Input
+    .row
+      .large-4.columns
   
-  .row
-    .large-4.columns
+        = label_tag :user, "Username"
+        = text_field_tag :user, "xxUSERNAMExx"
   
-      = label_tag :user, "Username"
-      = text_field_tag :user, "xxUSERNAMExx"
-  
-      = label_tag :domain, "Domain"
-      = text_field_tag :domain, nil
+        = label_tag :domain, "Domain"
+        = text_field_tag :domain, nil
     
-      = label_tag :server, "Server"
-      = text_field_tag :server, "xxSERVERxx"
+        = label_tag :server, "Server"
+        = text_field_tag :server, "xxSERVERxx"
     
-      = label_tag :upgrade, "Upgrade Suggestion"
-      = text_field_tag :upgrade, "xxUPGRADExx"
+        = label_tag :upgrade, "Upgrade Suggestion"
+        = text_field_tag :upgrade, "xxUPGRADExx"
     
-    .large-8.columns
+      .large-8.columns
       
-      = label_tag :logs, "LVE Logs"
-      = text_area_tag :logs, nil, rows: 15
-    hr
-      
-  .row
-    .large-12.columns
+        = label_tag :logs, "LVE Logs"
+        = text_area_tag :logs, nil, rows: 15
+        
+    .row: .large-12.columns: hr
+          
+    .row
+      .large-12.columns
     
-      = radio_button_tag :whataction, nil, false, id: "suspend"
-      = label_tag :suspend, "Suspend"
+        = radio_button_tag :whataction, nil, false, id: "suspend"
+        = label_tag :suspend, "Suspend"
     
-      = radio_button_tag :whataction, nil, false, id: "warning"
-      = label_tag :warning, "Warning"
-    hr
+        = radio_button_tag :whataction, nil, false, id: "warning"
+        = label_tag :warning, "Warning"
+        br
+        hr
     
-  .row
-    .large-12.columns
+    .row
+      .large-12.columns
     
-      = check_box_tag :whatabuse, "cpu", false, id: "whatabuse_cpu", onclick: "if(this.checked){cpu=true;} else {cpu=false;}"
-      = label_tag :whatabuse_cpu, "CPU usage"
+        = check_box_tag :whatabuse, "cpu", false, id: "whatabuse_cpu", onclick: "if(this.checked){cpu=true;} else {cpu=false;}"
+        = label_tag :whatabuse_cpu, "CPU Usage"
       
-      = check_box_tag :whatabuse, "memory", false, id: "whatabuse_memory", onclick: "if(this.checked){memory=true;} else {memory=false;}"
-      = label_tag :whatabuse_memory, "Memory usage"
+        = check_box_tag :whatabuse, "memory", false, id: "whatabuse_memory", onclick: "if(this.checked){memory=true;} else {memory=false;}"
+        = label_tag :whatabuse_memory, "Memory Usage"
       
-      = check_box_tag :whatabuse, "ep", false, id: "whatabuse_ep", onclick: "if(this.checked){ep=true;} else {ep=false;}"
-      = label_tag :whatabuse_ep, "Entry Processes"
+        = check_box_tag :whatabuse, "ep", false, id: "whatabuse_ep", onclick: "if(this.checked){ep=true;} else {ep=false;}"
+        = label_tag :whatabuse_ep, "Entry Processes"
       
-      = check_box_tag :whatabuse, "io", false, id: "whatabuse_io", onclick: "if(this.checked){io=true;} else {io=false;}"
-      = label_tag :whatabuse_io, "Input/Output"
+        = check_box_tag :whatabuse, "io", false, id: "whatabuse_io", onclick: "if(this.checked){io=true;} else {io=false;}"
+        = label_tag :whatabuse_io, "Input/Output"
       
-      = check_box_tag :whatabuse, "mysql", false, id: "whatabuse_mysql", onclick: "if(this.checked){mysqlLogs.style.display=''; mysql=true;}else {mysqlLogs.style.display='none'; mysqlLogs.value=''; mysql=false;}"
-      = label_tag :whatabuse_mysql, "MySQL queries"
-      br
-      br
-      = text_area_tag :mysqlLogs, "MySQL Logs with the command!!", rows: 5, style: "display:none;"
+        = check_box_tag :whatabuse, "mysql", false, id: "whatabuse_mysql", onclick: "if(this.checked){mysqlLogs.style.display=''; mysql=true;}else {mysqlLogs.style.display='none'; mysqlLogs.value=''; mysql=false;}"
+        = label_tag :whatabuse_mysql, "MySQL Queries"
+        br
+        br
+        = text_area_tag :mysqlLogs, "MySQL Logs with the command!!", rows: 5, style: "display:none;", placeholder: 'MySQL Logs with the command!!'
     
-      = button_tag "Generate", class: "tiny", onclick: "generate();"
+  = button_tag "Generate", class: "tiny", onclick: "generate();"
       
   #output.panel style="display:none;"

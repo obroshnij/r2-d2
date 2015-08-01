@@ -4,11 +4,11 @@
   <div class="large-6 large-offset-3 columns">
     <%= form_tag(controller: :la_tools, action: :perform_bulk_curl) do %>
       <fieldset>
+        <legend>Input</legend>
+        <%= label_tag :urls, 'URLs' %>
         <%= text_area_tag :urls, params[:urls], rows: 20 %>
-        <div class="large-4 large-offset-4 columns">
-          <%= submit_tag "Submit", class: "button postfix" %>
-        </div>
       </fieldset>
+      <%= submit_tag "Submit", class: "button tiny" %>
     <% end %>
   </div>
 </div>
