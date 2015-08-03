@@ -8,7 +8,7 @@ module WhoisParser
     end
   
     def parse
-      %w{ available status nameservers creation_date expiration_date updated_date registrar }.each_with_object({}) do |prop, hash|
+      %w{ available status nameservers creation_date expiration_date updated_date registrar registrant_contact admin_contact billing_contact tech_contact }.each_with_object({}) do |prop, hash|
         val = self.send(prop)
         hash[prop.to_sym] = val unless val.nil? || (val.respond_to?(:empty?) && val.empty?)
       end
@@ -29,13 +29,13 @@ module WhoisParser
     def status
       node('status').map do |val|
         val.gsub(/\(?http.+/, "").gsub(/[^a-zA-Z[[:blank:]]]/, "").strip
-      end.uniq.select { |val| val.present? }
+      end.uniq.select { |val| val.present? }.sort
     end
   
     def nameservers
       node('name[[:blank:]]?servers?').map do |val|
         val.downcase
-      end.uniq.select { |val| val.present? }
+      end.uniq.select { |val| val.present? }.sort
     end
     
     def creation_date
@@ -52,6 +52,22 @@ module WhoisParser
     
     def registrar
       node('registrar').first
+    end
+    
+    def registrant_contact
+      node('Registrant[a-z0-9[[:blank:]]/]*').delete_if { |el| el.blank? }.join("\n")
+    end
+    
+    def admin_contact
+      node('(?>Admin|Administrative)[a-z0-9[[:blank:]]/]*').delete_if { |el| el.blank? }.join("\n")
+    end
+    
+    def billing_contact
+      node('Billing[a-z0-9[[:blank:]]/]*').delete_if { |el| el.blank? }.join("\n")
+    end
+    
+    def tech_contact
+      node('(?>Tech|Technical)[a-z0-9[[:blank:]]/]*').delete_if { |el| el.blank? }.join("\n")
     end
   
     def node(str)

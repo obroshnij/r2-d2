@@ -12,7 +12,7 @@ module WhoisParser
     def nameservers
       node('Name servers').map do |line|
         line.split.first.strip
-      end
+      end.sort
     end
     
     def creation_date
@@ -21,6 +21,10 @@ module WhoisParser
     
     def expiration_date
       (DateTime.parse @whois_record.match(/Expiry date:.+/).to_s.split.last).to_s rescue nil
+    end
+    
+    def registrant_contact
+      ["Registrant", "Registrant type", "Registrant's address"].map { |line| node(line) }.flatten.join("\n")
     end
     
     def node(str)

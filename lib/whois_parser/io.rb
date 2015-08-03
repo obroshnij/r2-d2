@@ -11,6 +11,10 @@ module WhoisParser
       (DateTime.parse node('Expiry').first).to_s rescue nil
     end
     
+    def registrant_contact
+      node('Owner').join("\n")
+    end
+    
     def availability_pattern
       Regexp.new 'Domain ' + @domain_name + ' is available for purchase'
     end
