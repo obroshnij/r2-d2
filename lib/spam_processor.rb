@@ -46,6 +46,7 @@ class SpamProcessor
   
   def self.suspension_bulk_check(domains)
     domains.each do |domain|
+      domain.whois.properties[:status] ||= []
       status = domain.whois.properties[:status].map { |s| s.downcase.gsub(/[[:blank:]]/, '') }
       a_record = domain.extra_attr[:host_records][:a].last
       
