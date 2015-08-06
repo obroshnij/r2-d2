@@ -14,7 +14,7 @@ class Whois
     elsif IPAddress.valid?(object)
       lookup_ip(object)
     else
-      raise ArgumentError, "\"#{object}\" is not a valid entry"
+      raise ArgumentError, "'#{object}' is not a valid entry"
     end
   end
   

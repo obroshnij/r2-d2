@@ -6,6 +6,7 @@ html lang="en"
     title = full_title yield(:title)
     = favicon_link_tag 'favicon.ico'
     = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
     = javascript_include_tag "vendor/modernizr"
     = csrf_meta_tags
   body
@@ -16,4 +17,3 @@ html lang="en"
         = yield
       .footer
         = "© #{Time.now.year} R2-D2"
-    = javascript_include_tag 'application'
