@@ -176,4 +176,23 @@ RSpec.describe WhoisParser, :type => :model do
     expect(unregistered.keys.count).to         eq(1)
   end
   
+  it 'parses correct properties for .AU domains' do
+    registered = WhoisParser.parse 'nic.org.au', @whois_data['nic.org.au']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['ok'])
+    expect(registered[:nameservers]).to        eq(['ns1.accountsupport.com', 'ns2.accountsupport.com'].sort)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('09-Jan-2014 23:30:35 UTC').to_s)
+    expect(registered[:registrar]).to          eq('IntaServe')
+    expect(registered[:registrant_contact]).to eq("Regional Development Australia Yorke and Mid North Incorporated\nABN 68705101048\nHB9U2C7\nNatalie McElroy\nVisit whois.ausregistry.com.au for Web based WhoIs\nEligibility:\nOther\nRegional Development Australia Yorke and Mid North Incorporated\nABN 68705101048")
+    expect(registered[:tech_contact]).to       eq("HB9U2C7\nNatalie McElroy\nVisit whois.ausregistry.com.au for Web based WhoIs")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.org.au', @whois_data['zyxqvutsrqponmlkjihgfedcba.org.au']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  # it 'parses correct properties for .BZ domains' do
+  #
+  # end
+  
 end

@@ -90,4 +90,11 @@
  "com.br":"whois.registro.br",
  "site":"whois.centralnic.com",
  "uk":"whois.nic.uk",
- "is":"whois.isnic.is"}
+ "is":"whois.isnic.is",
+ "org.au":"whois.audns.net.au",
+ "bz": "whois.afilias-grs.info",
+ "com.bz": "whois.afilias-grs.info",
+ "net.bz": "whois.afilias-grs.info",
+ "org.bz": "whois.afilias-grs.info",
+ "edu.bz": "whois.afilias-grs.info",
+ "gov.bz": "whois.afilias-grs.info"}
