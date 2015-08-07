@@ -16,6 +16,7 @@
 #= require foundation-datepicker
 #= require cocoon
 #= require rails.validations
+#= require toastr
 #= require underscore
 #= require backbone
 #= require whois

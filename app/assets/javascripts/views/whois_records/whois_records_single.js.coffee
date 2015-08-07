@@ -20,14 +20,16 @@ class Whois.Views.WhoisRecordsSingle extends Backbone.View
     
   submitForm: (event) ->
     event.preventDefault()
-    this.model.set 'name', this.$('#name').val().trim()
-    this.lookup()
-    Whois.router.navigate this.model.get('name')
+    name = this.$('#name').val().trim()
+    if name.length > 0
+      this.model.set 'name', name
+      this.lookup()
+      Whois.router.navigate this.model.get('name')
     
   lookup: ->
     this.$('.panel').html '<p style="text-align:center;"><i class="fa fa-spinner fa-spin fa-2x"></i></p>'
     this.model.getWhois()
   
   handleError: ->
-    alert this.model.get('error')
+    toastr.error this.model.get('error')
     this.render()
