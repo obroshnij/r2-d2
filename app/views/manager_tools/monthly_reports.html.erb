@@ -36,14 +36,6 @@
               </div>
               <div class="row">
                 <div class="small-5 columns">
-                  <%= label_tag :norm, "Working Shifts Norm", class: "right inline" %>
-                </div>
-                <div class="small-7 columns">
-                  <%= number_field_tag :norm %>
-                </div>
-              </div>
-              <div class="row">
-                <div class="small-5 columns">
                   <%= label_tag :cc, "CC", class: "right inline" %>
                 </div>
                 <div class="small-7 columns">
@@ -94,30 +86,31 @@
   <div class="row">
     <div class="large-12 columns">
       <% @employees.each do |employee| %>
-      <div class="employee-container">
-        <div class="row">
-          <div class="large-8 large-offset-4 columns">
-            <h3><%= employee["Name"] %></h3>
+        <div class="employee-container">
+          <div class="row">
+            <div class="large-8 large-offset-4 columns">
+              <h3><%= employee["Name"] %></h3>
+            </div>
           </div>
+          <% keys = employee.keys - ["Name"] %>
+          <div class="row">
+            <div class="large-4 columns">
+              <table width="100%">
+                <% keys.each do |key| %>
+                  <tr>
+                    <th width="40%" style="text-align: right;"><%= key %></th>
+                    <td ><%= employee[key] %></td>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+            <div class="large-8 columns">
+              <%= text_area_tag (employee["Name"] + "Canned").gsub(" ", "_").underscore.to_sym, generate_canned(employee, @month.split.first, params[:signature]), rows: 20 %>
+              <a class="button tiny" onclick="sendCanned(this);">Send email</a>
+            </div>
+          </div>
+          <%= hidden_field_tag :email, employee['Email'], class: 'email-address' %>
         </div>
-        <% keys = employee.keys - ["Name"] %>
-        <div class="row">
-          <div class="large-4 columns">
-            <table width="100%">
-              <% keys.each do |key| %>
-                <tr>
-                  <th width="40%" style="text-align: right;"><%= key %></th>
-                  <td ><%= employee[key] %></td>
-                </tr>
-              <% end %>
-            </table>
-          </div>
-          <div class="large-8 columns">
-            <%= text_area_tag (employee["Name"] + "Canned").gsub(" ", "_").underscore.to_sym, generate_canned(employee, @month.split.first, @norm, params[:signature]), rows: 20 %>
-            <a class="button tiny" onclick="sendCanned(this);">Send email</a>
-          </div>
-        </div>
-      </div>
       <% end %>
     </div>
   </div>

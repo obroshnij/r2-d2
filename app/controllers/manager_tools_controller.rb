@@ -22,7 +22,6 @@ class ManagerToolsController < ApplicationController
       excel_array = format_table_fields excel_hash[params[:sheet]]
       @employees = transform_excel_data_to_hash excel_array
       @month = Date.new(params[:date]["year"].to_i, params[:date]["month"].to_i).strftime("%B %Y")
-      @norm = params[:norm].blank? ? "NO ONE KNOWS HOW MANY" : params[:norm]
     end
     render action: :monthly_reports
   rescue Exception => ex

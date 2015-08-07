@@ -12,12 +12,10 @@
         <%= check_box_tag(:sort_by_tld) %>
         <%= label_tag(:sort_by_tld, "Sort by TLD") %>
         <% if @domains.present? %>
-          <div class="large-2 columns">
-            <%= link_to "More Info", '#', data: { :'reveal-id' => "more_info" } %>
-            <div id="more_info" class="reveal-modal" data-reveal>
-              <%= render partial: "more_info", locals: { domains: @domains } %>
-              <a class="close-reveal-modal">&#215;</a>
-            </div>
+          <%= link_to "More Info", '#', data: { :'reveal-id' => "more_info" }, class: 'right' %>
+          <div id="more_info" class="reveal-modal" data-reveal>
+            <%= render partial: "more_info", locals: { domains: @domains } %>
+            <a class="close-reveal-modal">&#215;</a>
           </div>
         <% end %>
       </fieldset>

@@ -5,9 +5,10 @@
 function sendCanned(link) {
   var body = $(link).prev().val().split('\n').join('%0A').replace(/&/g, "%26");
   var fullName = $(link).closest('div.employee-container').find('h3').text();
+  var email = $(link).closest('div.employee-container').find('.email-address').val();
   var month = $('div#month').text();
   var subject = "Salary Report %7C " + fullName + " - " + month;
-  var link = "mailto:?body=" + body + "&subject=" + subject;
+  var link = "mailto:" + email + "?body=" + body + "&subject=" + subject;
   var cc = $('div#cc').text();
   if (cc.length > 0) link += "&cc=" + cc;
   var bcc = $('div#bcc').text();

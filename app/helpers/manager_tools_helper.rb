@@ -3,8 +3,10 @@ module ManagerToolsHelper
   BONUS_FINE_REGEX = /\$\d+|\d+\$/
   
   def format_field(field)
-    if field.is_a? Float
-      field.modulo(1) == 0 ? field.round : field
+    if field.is_a?(Float) && field.modulo(1) == 0
+      field.round
+    elsif field.is_a?(Float) && field.modulo(1) != 0
+      field.round(2)
     else
       field
     end
@@ -47,11 +49,13 @@ module ManagerToolsHelper
     end
   end
   
-  def generate_canned(employee, month, norm, signature)
+  def generate_canned(employee, month, signature)
     return "INSUFFICIENT DATA" if employee["To be paid"].nil? || employee["Working Shifts"].nil?
     
     canned = "Hello " + employee["Name"].split.first + ",\n\n"
     canned << "Please find your salary report for " + month + ".\n\n"
+    
+    norm = employee['Norm'] || employee['Norms']
     
     shifts = []
     shifts << "You had " + employee["Working Shifts"].to_s + " working shifts in " + month
