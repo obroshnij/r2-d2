@@ -92,9 +92,12 @@
  "uk":"whois.nic.uk",
  "is":"whois.isnic.is",
  "org.au":"whois.audns.net.au",
- "bz": "whois.afilias-grs.info",
- "com.bz": "whois.afilias-grs.info",
- "net.bz": "whois.afilias-grs.info",
- "org.bz": "whois.afilias-grs.info",
- "edu.bz": "whois.afilias-grs.info",
- "gov.bz": "whois.afilias-grs.info"}
+ "bz":"whois.afilias-grs.info",
+ "com.bz":"whois.afilias-grs.info",
+ "net.bz":"whois.afilias-grs.info",
+ "org.bz":"whois.afilias-grs.info",
+ "edu.bz":"whois.afilias-grs.info",
+ "gov.bz":"whois.afilias-grs.info",
+ "cc":"ccwhois.verisign-grs.com",
+ "ch":"whois.nic.ch",
+ "nu":"whois.iis.nu"}

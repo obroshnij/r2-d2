@@ -6,7 +6,7 @@
           <input type='text' id='name' value='<%= @name %>' placeholder='example.net, .com or 128.172.34.108' autofocus>
         </div>
         <div class="large-2 columns">
-          <input type='submit' class='button postfix' value='Go'>
+          <input type='submit' class='button postfix' value='Lookup'>
         </div>
       </div>
     </form>

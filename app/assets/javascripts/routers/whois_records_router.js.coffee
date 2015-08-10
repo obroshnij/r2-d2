@@ -1,11 +1,7 @@
 class Whois.Routers.WhoisRecords extends Backbone.Router
 
   routes:
-    '': 'single'
-    ':name': 'singleWithName'
+    '': 'index'
     
-  single: ->
-    new Whois.Views.WhoisRecordsSingle()
-    
-  singleWithName: (name) ->
-    new Whois.Views.WhoisRecordsSingle(name: name).lookup()
+  index: ->
+    new Whois.Views.WhoisRecordsIndex()

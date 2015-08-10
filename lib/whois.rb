@@ -53,8 +53,8 @@ class Whois
     # TODO create a notification if whois server is not found
     return nil if server.blank?
     record = server == "whois.verisign-grs.com" ? execute(server, "domain #{domain.name}") : execute(server, domain.name)
-    if server == "whois.verisign-grs.com"
-      registrar_whois = record.match(/Whois Server:.+/).to_s.split.last
+    if record.match(/whois server:.+/i)
+      registrar_whois = record.match(/Whois Server:.+/).to_s.split(':').last.try(:strip)
       record << execute(registrar_whois, domain.name) if registrar_whois.present?
     end
     raise Errno::ECONNRESET if record.include? "Your request is being rate limited"

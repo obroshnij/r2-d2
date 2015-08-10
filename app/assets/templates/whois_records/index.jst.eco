@@ -1,0 +1,12 @@
+<div class='row'>
+  <div class='large-12 columns'>
+    <dl class="sub-nav">
+      <dt>Mode:</dt>
+      <dd class="single"><a>Single</a></dd>
+      <dd class="bulk"><a>Bulk</a></dd>
+    </dl>
+  </div>
+</div>
+
+<div id='single-whois-container'></div>
+<div id='bulk-whois-container'></div>
