@@ -11,10 +11,10 @@ class ReportAssignment < ActiveRecord::Base
   validates :usernames, presence: true, if: :usernames_required?
   validates :usernames, format: { with: /\A[\w\d\s,]+\z/, multiline: true, message: "is (are) invalid" }, allow_nil: true, if: :usernames_required?
   
-  # validates :registered_domains, :free_dns_domains, presence: true, if: :registered_and_free_dns_domains_required?
-  # validates :registered_domains, :free_dns_domains, numericality: { only_integer: true }, allow_nil: true
+  validates :registered_domains, :free_dns_domains, presence: true, if: :registered_and_free_dns_domains_required?
+  validates :registered_domains, :free_dns_domains, numericality: { only_integer: true }, allow_nil: true
   
-  # validates :domains, presence: true, if: :domains_required?
+  validates :domains, presence: true, if: :domains_required?
   
   before_validation do
     init_reportable unless self.new_record?
