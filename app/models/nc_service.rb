@@ -54,6 +54,8 @@ class NcService < ActiveRecord::Base
   def status_icon(status_name)
     return ActionController::Base.helpers.content_tag(:i, '', class: 'fa fa-diamond action', title: status_name) if status_name == "VIP"
     return ActionController::Base.helpers.content_tag(:i, '', class: 'fa fa-fire action', title: status_name)    if status_name == "Abused out"
+    return ActionController::Base.helpers.content_tag(:i, '', class: 'fi-skull action', title: status_name)      if status_name == "DDoS Related"
+    return ActionController::Base.helpers.content_tag(:i, '', class: 'fi-trash action', title: status_name)      if status_name == "FreeDNS"
   end
   
 end

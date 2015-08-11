@@ -9,7 +9,7 @@ class NcUser < ActiveRecord::Base
   
   validates :username, presence: true
   validates :username, format: { with: /\A[a-zA-Z0-9]+\z/ }
-  validates :username, uniqueness: { case_sensitive: false, message: 'has already been added' }
+  # validates :username, uniqueness: { case_sensitive: false, message: 'has already been added' }
   validates :signed_up_on_string, format: { with: /\d{1,2}\/\d{1,2}\/\d{4}/, message: "can't be blank / is invalid" }, allow_nil: true
   
   accepts_nested_attributes_for :comments
@@ -53,7 +53,7 @@ class NcUser < ActiveRecord::Base
   def related_users_hash
     self.user_relations.each_with_object({}) do |r, h|
       h[r.related_user.username] ||= []
-      h[r.related_user.username] << r.relation_type.name
+      h[r.related_user.username] << r.relation_type.try(:name)
     end
   end
   
@@ -63,7 +63,7 @@ class NcUser < ActiveRecord::Base
     helpers = ActionController::Base.helpers
     return helpers.content_tag(:i, '', class: 'fa fa-user-secret action', title: status_name) if status_name == "Internal Spammer"
     return helpers.content_tag(:i, '', class: 'fi-link action', title: status_name)           if status_name == "Spammer Related"
-    return helpers.content_tag(:i, '', class: 'fi-skull action', title: status_name)          if status_name == "FreeDNS DDoSer"
+    return helpers.content_tag(:i, '', class: 'fi-skull action', title: status_name)          if status_name == "DNS DDoSer"
     return helpers.content_tag(:i, '', class: 'fa fa-link action', title: status_name)        if status_name == "DDoSer Related"
     return helpers.content_tag(:i, '', class: 'fi-mail action', title: status_name)           if status_name == "PE Abuser"
     return helpers.content_tag(:i, '', class: 'fa fa-fire action', title: status_name)        if status_name == "Has Abuse Notes"

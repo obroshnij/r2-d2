@@ -12,6 +12,11 @@ $(".responded-previously-buttons").find("input[type='radio']").change(function()
 });
 toggleReferenceFields($(".responded-previously-buttons").find("input[type='radio']:checked")[0]);
 
+$(".free-dns-buttons").find("input[type='radio']").change(function(){
+  toggleFreeDNSFields(this);
+});
+toggleFreeDNSFields($(".free-dns-buttons").find("input[type='radio']:checked")[0]);
+
 $(".cfc-related-inputs").find("input[type='radio']").change(function(){
   validateCfcCommentField(this);
 });
@@ -40,6 +45,14 @@ function toggleReferenceFields(radio) {
     $(".reference-fields").find("input").val("foo").change().focusout().disableClientSideValidations().val("").attr("disabled", true);
   } else {
     $(".reference-fields").find("input").attr("disabled", false).enableClientSideValidations();
+  }
+};
+
+function toggleFreeDNSFields(radio) {
+  if ($(radio).val() == 'FreeDNS') {
+    $('.free-dns-fields').find('input').attr('disabled', false).enableClientSideValidations();
+  } else {
+    $('.free-dns-fields').find('input').val('123').change().focusout().disableClientSideValidations().val('').attr('disabled', true);
   }
 };
 

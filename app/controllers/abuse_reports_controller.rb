@@ -62,7 +62,8 @@ class AbuseReportsController < ApplicationController
   end
   
   def ddos_info_params
-    [:id, :amount_spent, :last_signed_in_on_string, :registered_domains, :free_dns_domains, :cfc_status, :cfc_comment, :vendor_ticket_id, :client_ticket_id]
+    [:id, :amount_spent, :last_signed_in_on_string, :registered_domains, :free_dns_domains, :cfc_status, :cfc_comment, :vendor_ticket_id, :client_ticket_id,
+     :impact, :target_service, :random_domains]
   end
   
   def private_email_info_params

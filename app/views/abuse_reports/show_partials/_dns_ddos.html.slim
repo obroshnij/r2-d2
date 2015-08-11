@@ -3,8 +3,14 @@
 .row
   .large-3.columns
     .info-row.row
+      span.left Service under attack:
+      span.right = info.target_service
+    .info-row.row
+      span.left Severity of impact:
+      span.right = info.impact
+    .info-row.row
       span.left Sign up date:
-      span.right = report.nc_users.direct.first.signed_up_on.strftime "%d %B %Y"
+      span.right = report.nc_users.direct.first.signed_up_on.try(:strftime, "%d %B %Y")
     .info-row.row
       span.left Last login date:
       span.right = info.last_signed_in_on.try(:strftime, "%d %B %Y")
@@ -23,18 +29,25 @@
       span.left FreeDNS domains:
       span.right = info.free_dns_domains
     .info-row.row
+      span.left Domains under attack:
+      span.right = report.nc_services.map(&:name).join(", ")
+    .info-row.row
+      span.left Randomly generated:
+      span.right = info.random_domains.nil? ? "" : (info.random_domains ? 'Yes' : 'No')
+
+      
+  .large-3.columns
+    .info-row.row
       span.left CFC status:
       span.right = info.cfc_status ? "Yes" : "No"
     .info-row.row
       span.left CFC comment:
       span.right = info.cfc_comment
-      
-  .large-3.columns
     .info-row.row
       span.left Ticket to customer: 
       span.right = info.client_ticket_id
     .info-row.row
-      span.left Ticket to service provider: 
+      span.left Ticket(s) to service provider(s): 
       span.right = info.vendor_ticket_id
   
   .large-3.columns
@@ -44,7 +57,7 @@
         span.right = assignment.reportable.username
       .info-row.row
         span.left Relation types:
-        span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
+        span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ") if assignment.relation_type_ids.present?
       .info-row.row
         span.left Registered / FreeDNS: 
         span.right = assignment.registered_domains.to_s + " / " + assignment.free_dns_domains.to_s
