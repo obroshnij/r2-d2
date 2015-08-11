@@ -19,7 +19,7 @@
         .row
           .large-6.columns.form-field
             = si.label :amount_spent, "Amount spent"
-            = si.text_field :amount_spent, placeholder: "321.25"
+            = si.text_field :amount_spent, placeholder: "321.25", validate: true
           .large-6.columns.form-field
             = si.label :last_signed_in_on_string, "Last login date"
             = si.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
@@ -59,17 +59,17 @@
         .row
           .large-6.columns.form-field
             = si.label :registered_domains, "Registered domains"
-            = si.text_field :registered_domains, placeholder: "4123"
+            = si.text_field :registered_domains, placeholder: "4123", validate: true
           .large-6.columns.form-field
             = si.label :abused_domains, "Abused domains"
-            = si.text_field :abused_domains, placeholder: "432"
+            = si.text_field :abused_domains, placeholder: "432", validate: true
         .row
           .large-6.columns.form-field
             = si.label :locked_domains, "Locked domains"
-            = si.text_field :locked_domains, placeholder: "312"
+            = si.text_field :locked_domains, placeholder: "312", validate: true
           .large-6.columns.form-field
             = si.label :abused_locked_domains, "Abused / Locked (reported in total)"
-            = si.text_field :abused_locked_domains, placeholder: "732"
+            = si.text_field :abused_locked_domains, placeholder: "732", validate: true
       fieldset
         legend Related accounts
         #report-assignments
