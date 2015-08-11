@@ -9,7 +9,7 @@ end
   Status.create name: name
 end
 
-['IP Address', 'Payment', 'Password', 'Unknown'].each do |name|
+['IP Address', 'Payment', 'Password', 'Unknown', 'Email Address', 'Contacts'].each do |name|
   RelationType.create name: name
 end
 

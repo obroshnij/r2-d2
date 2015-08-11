@@ -138,6 +138,9 @@ class ReportAssignment < ActiveRecord::Base
       reportable.new_status = self.reportable.new_status
       reportable.save
     end
+    if self.reportable.present? && self.reportable.is_a?(NcUser) && self.reportable.signed_up_on.present?
+      reportable.update_attributes signed_up_on: self.reportable.signed_up_on
+    end
     self.reportable = reportable
   end
 
