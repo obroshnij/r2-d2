@@ -105,7 +105,7 @@
         legend Related accounts
         #report-assignments
           = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = render "abuse_reports/partials/ddos_assignment_filds", f: ra
+            = render "abuse_reports/partials/ddos_assignment_fields", f: ra
         .links: .row
           .large-11.columns
           .large-1.columns
