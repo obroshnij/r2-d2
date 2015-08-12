@@ -111,7 +111,9 @@ var validatePdfierForm = function() {
   }).each(function(index, el){
     if (el.val === 0) {
       errors.push(el.name + " can't be blank");
-    } else if (el.type !== el.val) {
+    } else if (el.type === 'pdf' && el.val !== 'pdf') {
+      errors.push(el.name + " has invalid file uploaded");
+    } else if (el.type === 'html' && !(el.val === 'html' || el.val === 'htm')) {
       errors.push(el.name + " has invalid file uploaded");
     }
   });
