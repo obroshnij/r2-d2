@@ -30,11 +30,10 @@ class AbuseReportsController < ApplicationController
   def update
     @abuse_report = AbuseReport.find params[:id]
     if @abuse_report.update_attributes abuse_report_params
-      flash[:notice] = "Abuse report has been successfully updated"
+      @notification = { notice: "Abuse report has been successfully updated" }
     else
-      flash[:alert] = "Failed to update abuse report: " + @abuse_report.errors.full_messages.join("; ")
+      @notification = { alert: "Failed to update abuse report: " + @abuse_report.errors.full_messages.join("; ") }
     end
-    redirect_to action: :index
   end
   
   private

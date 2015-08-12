@@ -42,7 +42,7 @@
         th Actions
       tbody
         - @abuse_reports.each do |report|
-          tr
+          tr id="abuse-report-#{report.id}"
             td
               = report.abuse_report_type.try(:name)
               - unless report.processed
