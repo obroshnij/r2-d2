@@ -6,7 +6,7 @@ class AbuseReportsController < ApplicationController
   def index
     @search = AbuseReport.ransack params[:q]
     @per_page = params[:per_page].blank? ? 25 : params[:per_page]
-    @abuse_reports = @search.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
+    @abuse_reports = @search.result(distinct: true).order(processed: :asc, created_at: :desc).paginate(page: params[:page], per_page: @per_page)
   end
   
   def new
