@@ -25,7 +25,8 @@ class Whois.Views.WhoisRecordsSingle extends Backbone.View
       this.lookup()
     
   lookup: ->
-    this.$('.panel').html '<p style="text-align:center;"><i class="fa fa-spinner fa-spin fa-2x"></i></p>'
+    this.$('.panel').remove()
+    spinner('.loader-single')
     this.model.getWhois()
   
   handleError: ->

@@ -2,11 +2,11 @@ class Api::WhoisRecordsController < ApplicationController
   
   respond_to :json
   
-  def index
+  def create
     domains = DomainName.parse_multiple params[:names]
     Whois.lookup_multiple domains
     res = domains.map { |d| { name: d.name, record: d.whois.record, properties: format(d.whois.properties) } }
-    respond_with res, status: 200
+    render json: res, status: 200
   end
   
   def show

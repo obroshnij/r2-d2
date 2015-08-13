@@ -17,6 +17,7 @@
 #= require cocoon
 #= require rails.validations
 #= require toastr
+#= require spin
 #= require underscore
 #= require backbone
 #= require whois
@@ -26,6 +27,12 @@
 #= require_tree ./views
 #= require_tree ./routers
 #= require_tree .
+
+String.prototype.capitalizeFirstLetter = ->
+  @charAt(0).toUpperCase() + @slice(1)
+  
+String.prototype.humanize = ->
+  $.map(@split('_'), (el, i) -> el.capitalizeFirstLetter() ).join(' ')
 
 $ ->
   $(document).foundation()
@@ -44,3 +51,9 @@ $ ->
   else
     $row.css('display', 'none')
     $(link).find('i').removeClass('fa-angle-up').addClass('fa-angle-down')
+    
+@spinner = (target) ->
+  $(target).append('<br>')
+  target = $(target)[0]
+  spinner = new Spinner().spin(target)
+  
