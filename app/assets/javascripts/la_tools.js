@@ -3,7 +3,7 @@ $(document).ready(function(){
     errors = validatePdfierForm();
     if (errors[0]) {
       event.preventDefault();
-      alert(errors.join("\n"));
+      toastr.error(errors.join('<br>'));
     }
   });
   window.mysql = false;
@@ -25,7 +25,7 @@ var generate = function() {
   var server=document.getElementById("server").value;
   var upgrade=document.getElementById("upgrade").value;
   
-  if (!(warning||suspend)) {alert ("Select action type (Warning/Suspend)"); return;};    
+  if (!(warning||suspend)) {toastr.error("Select action type (Warning/Suspend)"); return;};    
  
   if (warning) {text = "WARNING: Resource abuse on account \'"+user+"\'";};
   if (suspend) {text = "IMPORTANT: account \'"+user+"\'";};

@@ -1,7 +1,7 @@
 <% if @notification[:notice] && @abuse_report.processed %>
   $('tr.abuse-report-' + <%= @abuse_report.id %> ).find('.approve-form').remove();
   $('tr#abuse-report-' + <%= @abuse_report.id %> ).find('i.fa-question-circle').remove();
-  alert('<%= @notification[:notice] %>');
+  toastr.success('<%= @notification[:notice] %>');
 <% else %>
-  alert('<%= @notification[:alert] %>');
+  toastr.error('<%= @notification[:alert] %>');
 <% end %>

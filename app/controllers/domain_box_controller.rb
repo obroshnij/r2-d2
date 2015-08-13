@@ -45,8 +45,8 @@ class DomainBoxController < ApplicationController
     render action: :compare_lists
   end
   
-  def unauthorized
-    render text: request.inspect, status: 403
-  end
+  # def unauthorized
+  #   render text: request.inspect, status: 403
+  # end
 
 end
