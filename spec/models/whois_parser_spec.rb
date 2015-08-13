@@ -167,7 +167,7 @@ RSpec.describe WhoisParser, :type => :model do
     expect(registered[:expiration_date]).to    eq(DateTime.parse('2050/02/05').to_s)
     expect(registered[:updated_date]).to       eq(DateTime.parse('2014/11/25').to_s)
     expect(registered[:registrar]).to          eq('Please contact CIRA at 1-877-860-1411 for more information')
-    expect(registered[:registrant_contact]).to eq("Canadian Internet Registration Authority (NFP) / Autorite Canadienne pour les enregistrements Internet (OSBL)")
+    expect(registered[:registrant_contact]).to eq("Canadian Internet Registration Authority (NFP) / Autorit� Canadienne pour les enregistrements Internet (OSBL)")
     expect(registered[:admin_contact]).to      eq("Tanya O'Callaghan\nCanadian Internet Registration Authority\n979 Bank Street\nSuite 400\nOttawa ON K1S5K5 Canada\n+1.6132375335\n+1.6132370534\ndomains@cira.ca")
     expect(registered[:tech_contact]).to       eq("Address Reply To\n979 Bank Street\nSuite 400\nOttawa ON K1S5K5 Canada\n+1.6132375335\nregtrant-conf@cira.ca")
     
@@ -175,5 +175,35 @@ RSpec.describe WhoisParser, :type => :model do
     expect(unregistered[:available]).to        eq(true)
     expect(unregistered.keys.count).to         eq(1)
   end
+  
+  it 'parses correct properties for .AU domains' do
+    registered = WhoisParser.parse 'nic.org.au', @whois_data['nic.org.au']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['ok'])
+    expect(registered[:nameservers]).to        eq(['ns1.accountsupport.com', 'ns2.accountsupport.com'].sort)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('09-Jan-2014 23:30:35 UTC').to_s)
+    expect(registered[:registrar]).to          eq('IntaServe')
+    expect(registered[:registrant_contact]).to eq("Regional Development Australia Yorke and Mid North Incorporated\nABN 68705101048\nHB9U2C7\nNatalie McElroy\nVisit whois.ausregistry.com.au for Web based WhoIs\nEligibility:\nOther\nRegional Development Australia Yorke and Mid North Incorporated\nABN 68705101048")
+    expect(registered[:tech_contact]).to       eq("HB9U2C7\nNatalie McElroy\nVisit whois.ausregistry.com.au for Web based WhoIs")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.org.au', @whois_data['zyxqvutsrqponmlkjihgfedcba.org.au']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  # it 'parses correct properties for .BZ domains' do
+  #   registered = WhoisParser.parse 'nic.bz', @whois_data['nic.bz']
+  #   expect(registered[:available]).to          eq(false)
+  #   expect(registered[:status]).to             eq(['CLIENT DELETE PROHIBITED', 'CLIENT TRANSFER PROHIBITED', 'RENEWPERIOD'].sort)
+  #   expect(registered[:nameservers]).to        eq(['ns1.belizenic.bz', 'pixie.ucb.edu.bz'].sort)
+  #   expect(registered[:creation_date]).to      eq(DateTime.parse('15-Dec-2004 06:10:00 UTC').to_s)
+  #   expect(registered[:expiration_date]).to    eq(DateTime.parse('15-Dec-2016 06:10:00 UTC').to_s)
+  #   expect(registered[:updated_date]).to       eq(DateTime.parse('21-Aug-2014 17:17:22 UTC').to_s)
+  #   expect(registered[:registrar]).to          eq('University Management Limited (R113-LRCC)')
+  #
+  #   unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.bz', @whois_data['zyxqvutsrqponmlkjihgfedcba.bz']
+  #   expect(unregistered[:available]).to        eq(true)
+  #   expect(unregistered.keys.count).to         eq(1)
+  # end
   
 end

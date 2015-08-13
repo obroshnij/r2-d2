@@ -14,7 +14,7 @@ class Whois
     elsif IPAddress.valid?(object)
       lookup_ip(object)
     else
-      raise ArgumentError, "\"#{object}\" is not a valid entry"
+      raise ArgumentError, "'#{object}' is not a valid entry"
     end
   end
   
@@ -53,12 +53,19 @@ class Whois
     # TODO create a notification if whois server is not found
     return nil if server.blank?
     record = server == "whois.verisign-grs.com" ? execute(server, "domain #{domain.name}") : execute(server, domain.name)
-    if server == "whois.verisign-grs.com"
-      registrar_whois = record.match(/Whois Server:.+/).to_s.split.last
+    if record.match(/whois server:.+/i)
+      registrar_whois = record.match(/Whois Server:.+/).to_s.split(':').last.try(:strip)
       record << execute(registrar_whois, domain.name) if registrar_whois.present?
     end
     raise Errno::ECONNRESET if record.include? "Your request is being rate limited"
-    record.force_encoding "UTF-8"
+    to_utf8 record
+  end
+  
+  def to_utf8(str)
+    str = str.force_encoding("UTF-8")
+    return str if str.valid_encoding?
+    str = str.force_encoding("BINARY")
+    str.encode("UTF-8", invalid: :replace, undef: :replace)
   end
   
   def lookup_string_nameserver(string)

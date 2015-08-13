@@ -1,3 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+window.Whois =
+  Models: {}
+  Collections: {}
+  Views: {}
+  Routers: {}
+  initialize: ->
+    this.router = new Whois.Routers.WhoisRecords()
+    Backbone.history.start()
