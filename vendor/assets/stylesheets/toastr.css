@@ -149,9 +149,17 @@ button.toast-close-button {
 }
 .toast-success {
   background-color: #008cba;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #0078a0;
+  font-size: 0.9rem;
 }
 .toast-error {
   background-color: #f04124;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #de2d0f;
+  font-size: 0.9rem;
 }
 .toast-info {
   background-color: #2f96b4;

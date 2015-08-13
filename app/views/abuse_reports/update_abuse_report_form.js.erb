@@ -35,7 +35,7 @@ $("form.new_abuse_report").submit(function(event) {
   });
   if (checked === false) {
     event.preventDefault();
-    alert("Please make sure at least one relation type is selected");
+    toastr.error("Please make sure at least one relation type is selected");
   }
 });
 
