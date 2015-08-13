@@ -1,12 +1,20 @@
-var mysql=false;
-var cpu=false;
-var memory=false;
-var ep=false;
-var io=false;
+$(document).ready(function(){
+  $('#pdfier-form').submit(function(event){
+    errors = validatePdfierForm();
+    if (errors[0]) {
+      event.preventDefault();
+      alert(errors.join("\n"));
+    }
+  });
+  window.mysql = false;
+  window.cpu = false;
+  window.memory = false;
+  window.ep = false;
+  window.io = false;
+  window.div = document.getElementById("output");
+});
 
-var div=document.getElementById("output");
-
-function generate () {
+var generate = function() {
   var text;
        
   var warning=document.getElementById("warning").checked;
@@ -119,13 +127,3 @@ var validatePdfierForm = function() {
   });
   return errors;
 }
-
-$(document).ready(function(){
-  $('#pdfier-form').submit(function(event){
-    errors = validatePdfierForm();
-    if (errors[0]) {
-      event.preventDefault();
-      alert(errors.join("\n"));
-    }
-  });
-});
