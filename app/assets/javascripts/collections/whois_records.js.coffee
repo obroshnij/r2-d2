@@ -13,17 +13,19 @@ class Whois.Collections.WhoisRecords extends Backbone.Collection
       success: (self, xhr, options) ->
         self.trigger 'whois:parsed'
   
-  getWhois: (names) ->
+  getWhois: ->
     this.fetch
       data: $.param
-        names: names
+        names: this.names().join(' ')
       reset: true
+      success: (self, xhr, options) ->
+        self.trigger 'whois:batch:completed'
 
   names: ->
     _.map( this.toJSON(), (whois) -> whois.name )
 
   uniq_attrs: ->
-    attrs = _.map( self.toJSON(), (whois) -> _.keys(whois.properties) if whois.properties )
+    attrs = _.map( this.toJSON(), (whois) -> _.keys(whois.properties) if whois.properties )
     _.compact(_.uniq(_.flatten(attrs)))
 
   successful: ->

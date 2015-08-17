@@ -6,20 +6,10 @@
         <div class='row'>
           <div class="large-6 columns">
             <label> Domains / Text
-              <textarea id='names' rows='10' placeholder='example.com, another.net'><%= @collection.names().join("\n") %></textarea>
+              <textarea id='names' rows='10' placeholder='example.com, another.net'><%= @completed.names().join("\n") + "\n" + @pending.names().join("\n") %></textarea>
             </label>
           </div>
-          <div class="large-6 columns">
-            <label>Domains count</label>
-            <div class='panel whois-count' >
-              Sucessful: <%= @collection.successful().length %> out of <%= @collection.length %><br>
-              Failed: <%= @collection.failed().length %><br><br>
-              <%= _.map(@collection.failed(), (whois) -> whois.get('name')).join(', ') %><br><br>
-              <% if @collection.failed().length > 0 : %>
-                <a class='retry-failed'>Retry failed</a>
-              <% end %>
-            </div>
-          </div>
+          <div class="large-6 columns" id="bulk-whois-info"></div>
         </div>
       </fieldset>
       <input type='submit' class='button tiny' value='Lookup'>
@@ -30,13 +20,13 @@
 <div class='loader-bulk' style='position:relative;'></div>
 
 <div id='whois-table'>
-  <% if @collection.successful().length > 0 : %>
+  <% if @completed.successful().length > 0 : %>
     <div class='row'>
       <div class='large-12 columns'>
         <fieldset>
           <legend>Whois properties</legend>
           <ul class="large-block-grid-5 bulk-whois-props">
-            <% _.each @collection.uniq_attrs, (attr) => : %>
+            <% _.each @completed.uniq_attrs(), (attr) => : %>
               <li>
                 <label>
                   <input type='checkbox' class='prop-box' name='<%= attr %>' <%= 'checked' if (_.indexOf(@properties, attr) + 1) %>>
@@ -49,7 +39,7 @@
       </div>
     </div>
   <% end %>
-  <% if @properties.length > 0 && @collection.successful().length > 0 : %>
+  <% if @properties.length > 0 && @completed.successful().length > 0 : %>
     <div class='row'>
       <div class='large-12 columns' style='overflow:auto;'>
         <table width='100%'>
@@ -60,7 +50,7 @@
             <% end %>
           </thead>
           <tbody>
-            <% _.each @collection.successful(), (whois) => : %>
+            <% _.each @completed.successful(), (whois) => : %>
               <tr>
                 <td><%= whois.get('name') %></td>
                 <% _.each @properties, (attr) ->: %>
