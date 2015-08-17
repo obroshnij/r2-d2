@@ -15,6 +15,7 @@ module LaToolsHelper
     return content_tag(:i, '', class: 'fa fa-terminal inline')      if title == :suspended_for_whois_verification
     return content_tag(:i, '', class: 'fa fa-lock inline')          if title == :suspended_by_namecheap
     return content_tag(:i, '', class: 'fa fa-clock-o inline')       if title == :expired
+    return content_tag(:i, '', class: 'fa fa-recycle inline')       if title == :unregistered
   end
   
   def transform_job_data(data)
@@ -27,7 +28,7 @@ module LaToolsHelper
       user[:email_address]  = val["email_address"]
       
       [:vip, :active, :inactive, :blacklisted, :not_blacklisted,
-       :suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired,
+       :suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired, :unregistered,
        :dbl, :surbl, :dbl_surbl].each do |sym|
         user[sym] ||= []
       end
@@ -43,6 +44,7 @@ module LaToolsHelper
       user[:suspended_for_whois_verification] << domain if val["suspended_for_whois"]
       user[:suspended_by_namecheap]           << domain if val["suspended_by_namecheap"]
       user[:expired]                          << domain if val["expired"]
+      user[:unregistered]                     << domain if val["unregistered"]
       
       user[:dbl]       << domain if val["dbl"]   && !val["surbl"] && !val["inactive"]
       user[:surbl]     << domain if val["surbl"] && !val["dbl"]   && !val["inactive"]

@@ -45,7 +45,7 @@
             td
               - if user_hash[:inactive].present?
                 - cell = []
-                - [:suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired].each do |title| 
+                - [:suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired, :unregistered].each do |title| 
                   - if user_hash[title].present?
                     - domains = "<h6>#{icon_title(title) + title.to_s.titleize}</h6>"
                     - user_hash[title].each do |domain|

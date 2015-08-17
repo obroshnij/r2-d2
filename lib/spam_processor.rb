@@ -51,9 +51,9 @@ class SpamProcessor
       a_record = domain.extra_attr[:host_records][:a].last
       
       domain.extra_attr[:suspended_by_registry] = suspended_by_registry?(status)
-      domain.extra_attr[:suspended_by_enom] = status.include?("clienthold")
-      domain.extra_attr[:suspended_by_namecheap] = domain.whois.properties[:nameservers].include?("dummysecondary.pleasecontactsupport.com") ||
-                                                   domain.extra_attr[:host_records][:ns].include?("dummysecondary.pleasecontactsupport.com")
+      domain.extra_attr[:suspended_by_enom] = status.try(:include?, "clienthold")
+      domain.extra_attr[:suspended_by_namecheap] = domain.whois.properties[:nameservers].try(:include?, "dummysecondary.pleasecontactsupport.com") ||
+                                                   domain.extra_attr[:host_records][:ns].try(:include?, "dummysecondary.pleasecontactsupport.com")
       domain.extra_attr[:expired] = if IPAddress.valid?(a_record)
         domain.whois.properties[:nameservers].include?("dns1.name-services.com") &&
         IPAddress("64.74.223.1/24").network.include?(IPAddress(a_record)) ||
@@ -61,9 +61,10 @@ class SpamProcessor
       else
         false
       end
-      domain.extra_attr[:suspended_for_whois] = domain.whois.properties[:nameservers].include?("dns1.name-services.com") && a_record == "98.124.253.216"
+      domain.extra_attr[:unregistered] = domain.whois.properties[:available]
+      domain.extra_attr[:suspended_for_whois] = domain.whois.properties[:nameservers].try(:include?, "dns1.name-services.com") && a_record == "98.124.253.216"
       domain.extra_attr[:inactive] = domain.extra_attr[:expired] || domain.extra_attr[:suspended_by_registry] || domain.extra_attr[:suspended_by_enom] ||
-                                     domain.extra_attr[:suspended_by_namecheap] || domain.extra_attr[:suspended_for_whois]
+                                     domain.extra_attr[:suspended_by_namecheap] || domain.extra_attr[:suspended_for_whois] || domain.extra_attr[:unregistered]
       domain.extra_attr[:blacklisted] = domain.extra_attr[:dbl] || domain.extra_attr[:surbl]
     end
   end

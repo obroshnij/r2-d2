@@ -1,7 +1,11 @@
 module WhoisParser
   
   def self.parse(domain_name, whois_record)
-    get_parser(domain_name).parse domain_name, whois_record
+    properties = get_parser(domain_name).parse domain_name, whois_record
+    if properties[:available] == 'unknown'
+      properties[:available] = properties.keys.count == 1
+    end
+    properties
   end
   
   private
