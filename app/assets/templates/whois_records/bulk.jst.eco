@@ -6,7 +6,7 @@
         <div class='row'>
           <div class="large-6 columns">
             <label> Domains / Text
-              <textarea id='names' rows='10' placeholder='example.com, another.net'><%= @collection.names.join("\n") %></textarea>
+              <textarea id='names' rows='10' placeholder='example.com, another.net'><%= @collection.names().join("\n") %></textarea>
             </label>
           </div>
           <div class="large-6 columns">
