@@ -23,5 +23,5 @@
         legend Result
         = label_tag :canned, 'Canned'
         = text_area_tag :canned, generate_welcome_canned(@people), rows: 10
-        = hidden_field_tag :email_addresses, @people.map { |el| el[:email] }.join(',')
+        = hidden_field_tag :email_addresses, @people.map { |el| el['nc_email'] }.join(',')
       a.button.tiny onclick='sendWelcomeCanned();' Send

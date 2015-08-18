@@ -33,7 +33,12 @@ class ManagerToolsController < ApplicationController
   end
   
   def generate_welcome_emails
-    @people = params[:people].scan(/[0-9]+/).map { |id| { id: 66, name: "First Last", email: 'name@namecheap.com' } }
+    @people = params[:people].scan(/[0-9]+/).map do|id|
+      url = Rails.application.secrets.staff_api_url + 'users/' + id + '?auth_token=' + Rails.application.secrets.staff_api_key
+      user = JSON.parse Net::HTTP.get(URI(url))
+      user['nc_email'] = user['email'].split('@').first + '@namecheap.com'
+      user
+    end
     render action: :welcome_emails
   end
   

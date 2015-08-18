@@ -125,7 +125,7 @@ module ManagerToolsHelper
   end
   
   def convert_staff_people(people)
-    people.map { |el| el[:id].to_s + ': ' + el[:name] + ' - ' + el[:email] }.join("\n")
+    people.map { |el| el['identifier'].to_s + ': ' + el['first_name'] + ' ' + el['last_name'] + ' - ' + el['email'] }.join("\n")
   end
   
   def generate_welcome_canned(people)
