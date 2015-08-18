@@ -191,19 +191,115 @@ RSpec.describe WhoisParser, :type => :model do
     expect(unregistered.keys.count).to         eq(1)
   end
   
-  # it 'parses correct properties for .BZ domains' do
-  #   registered = WhoisParser.parse 'nic.bz', @whois_data['nic.bz']
-  #   expect(registered[:available]).to          eq(false)
-  #   expect(registered[:status]).to             eq(['CLIENT DELETE PROHIBITED', 'CLIENT TRANSFER PROHIBITED', 'RENEWPERIOD'].sort)
-  #   expect(registered[:nameservers]).to        eq(['ns1.belizenic.bz', 'pixie.ucb.edu.bz'].sort)
-  #   expect(registered[:creation_date]).to      eq(DateTime.parse('15-Dec-2004 06:10:00 UTC').to_s)
-  #   expect(registered[:expiration_date]).to    eq(DateTime.parse('15-Dec-2016 06:10:00 UTC').to_s)
-  #   expect(registered[:updated_date]).to       eq(DateTime.parse('21-Aug-2014 17:17:22 UTC').to_s)
-  #   expect(registered[:registrar]).to          eq('University Management Limited (R113-LRCC)')
-  #
-  #   unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.bz', @whois_data['zyxqvutsrqponmlkjihgfedcba.bz']
-  #   expect(unregistered[:available]).to        eq(true)
-  #   expect(unregistered.keys.count).to         eq(1)
-  # end
+  it 'parses correct properties for .BZ domains' do
+    registered = WhoisParser.parse 'nic.bz', @whois_data['nic.bz']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['CLIENT DELETE PROHIBITED', 'CLIENT TRANSFER PROHIBITED', 'RENEWPERIOD', 'OK'].sort)
+    expect(registered[:nameservers]).to        eq(['ns1.belizenic.bz', 'pixie.ucb.edu.bz'].sort)
+    expect(registered[:creation_date]).to      eq(DateTime.parse('2004-12-15T06:10:00Z').to_s)
+    expect(registered[:expiration_date]).to    eq(DateTime.parse('2016-12-15T06:10:00Z').to_s)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('2014-08-21T17:17:23Z').to_s)
+    expect(registered[:registrar]).to          eq('University Management Limited (R113-LRCC)')
+    expect(registered[:registrant_contact]).to eq("eData Ltd.\nEdata Limited\n115 Barrack Road, Suite 300\nBelize City\nN/A\nN/A\nBZ\n+501.2231607\ninfo@edata.bz")
+    expect(registered[:admin_contact]).to      eq("eData Ltd.\nEdata Limited\n115 Barrack Road, Suite 300\nBelize City\nN/A\nN/A\nBZ\n+501.2231607\ninfo@edata.bz")
+    expect(registered[:tech_contact]).to       eq("eData Ltd.\nEdata Limited\n115 Barrack Road, Suite 300\nBelize City\nN/A\nN/A\nBZ\n+501.2231607\ninfo@edata.bz")
+
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.bz', @whois_data['zyxqvutsrqponmlkjihgfedcba.bz']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .LI and .CH domains' do
+    registered = WhoisParser.parse 'name.ch', @whois_data['name.ch']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:nameservers]).to        eq(['ns1.sedoparking.com', 'ns2.sedoparking.com'].sort)
+    expect(registered[:creation_date]).to      eq(DateTime.parse('1997-10-27').to_s)
+    expect(registered[:registrar]).to          eq('METANET AG')
+    expect(registered[:registrant_contact]).to eq("MaZiSOFT Informatik AG\nMathias Zimmermann\nInternet Consulting & Services; Bännlistrasse 15\nCH-4533 Riedholz\nSwitzerland\nContractual Language: German")
+    expect(registered[:tech_contact]).to       eq("MaZiSOFT Informatik AG\nMathias Zimmermann\nInternet Consulting & Services; Bännlistrasse 15\nCH-4533 Riedholz\nSwitzerland")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.ch', @whois_data['zyxqvutsrqponmlkjihgfedcba.ch']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .DE domains' do
+    registered = WhoisParser.parse 'nic.de', @whois_data['nic.de']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['connect'])
+    expect(registered[:nameservers]).to        eq(['ns1.denic.de', 'ns2.denic.de', 'ns3.denic.de'].sort)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('2010-06-15T17:42:19+02:00').to_s)
+    expect(registered[:tech_contact]).to       eq("PERSON\nBusiness Services\nDENIC eG\nKaiserstraße 75-77\n60329\nFrankfurt\nDE\n+49 69 27235 272\n+49 69 27235 234\ndbs@denic.de\nInformation:http://www.denic.de")
+    expect(registered[:admin_contact]).to      eq("PERSON\nBusiness Services\nDENIC eG\nKaiserstraße 75-77\n60329\nFrankfurt\nDE\n+49 69 27235 272\n+49 69 27235 234\ndbs@denic.de\nInformation:http://www.denic.de")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.de', @whois_data['zyxqvutsrqponmlkjihgfedcba.de']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .FR domains' do
+    registered = WhoisParser.parse 'google.fr', @whois_data['google.fr']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['ACTIVE'])
+    expect(registered[:nameservers]).to        eq(['ns1.google.com', 'ns2.google.com', 'ns3.google.com', 'ns4.google.com'].sort)
+    expect(registered[:creation_date]).to      eq(DateTime.parse('27/07/2000').to_s)
+    expect(registered[:expiration_date]).to    eq(DateTime.parse('30/12/2015').to_s)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('17/03/2015').to_s)
+    expect(registered[:registrar]).to          eq('MARKMONITOR Inc.')
+    expect(registered[:registrant_contact]).to eq("ORGANIZATION\nGoogle Ireland Holdings\n70 Sir John Rogersons Quay\n2 Dublin\nIE\n+353 14361000\ndns-admin@google.com")
+    expect(registered[:admin_contact]).to      eq("ORGANIZATION\nGoogle Ireland Holdings\n70 Sir John Rogersons Quay\n2 Dublin\nIE\n+353 14361000\ndns-admin@google.com")
+    expect(registered[:tech_contact]).to       eq("PERSON\nCcops Provisioning\nMarkMonitor\n10400 Overland Rd.\nPMB 155\n83709 Boise\nUS\n+1 2083895740\n+1 2083895771\nccops@markmonitor.com")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.fr', @whois_data['zyxqvutsrqponmlkjihgfedcba.fr']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .NU domains' do
+    registered = WhoisParser.parse 'nic.nu', @whois_data['nic.nu']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['active'] + ['serverDeleteProhibited', 'serverUpdateProhibited', 'serverTransferProhibited'].sort)
+    expect(registered[:nameservers]).to        eq(['ns.nic.se', 'ns3.nic.se', 'i.ns.se'].sort)
+    expect(registered[:creation_date]).to      eq(DateTime.parse('1997-08-03').to_s)
+    expect(registered[:expiration_date]).to    eq(DateTime.parse('2097-08-03').to_s)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('2013-09-25').to_s)
+    expect(registered[:registrar]).to          eq('Internal Registr')
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.nu', @whois_data['zyxqvutsrqponmlkjihgfedcba.nu']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .PE domains' do
+    registered = WhoisParser.parse 'nic.pe', @whois_data['nic.pe']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['Active'])
+    expect(registered[:nameservers]).to        eq(['ns.rcp.net.pe', 'ns2.rcp.net.pe'].sort)
+    expect(registered[:registrar]).to          eq('NIC .PE')
+    expect(registered[:registrant_contact]).to eq('Red Cientifica Peruana')
+    expect(registered[:admin_contact]).to      eq("Rolando Toledo Vega\nrt@rcp.pe")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.pe', @whois_data['zyxqvutsrqponmlkjihgfedcba.pe']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
+  
+  it 'parses correct properties for .SG domains' do
+    registered = WhoisParser.parse 'nic.sg', @whois_data['nic.sg']
+    expect(registered[:available]).to          eq(false)
+    expect(registered[:status]).to             eq(['OK', 'VerifiedID@SG-Not Required'].sort)
+    expect(registered[:nameservers]).to        eq(['dsany.sgnic.sg', 'ps.sgnic.sg'].sort)
+    expect(registered[:creation_date]).to      eq(DateTime.parse('18-Jan-2005 14:37:37').to_s)
+    expect(registered[:expiration_date]).to    eq(DateTime.parse('18-Jan-2014 14:37:37').to_s)
+    expect(registered[:updated_date]).to       eq(DateTime.parse('19-Jul-2012 23:25:57').to_s)
+    expect(registered[:registrar]).to          eq('SINGAPORE NETWORK INFORMATION CENTRE PTE LTD')
+    expect(registered[:registrant_contact]).to eq('SINGAPORE NETWORK INFORMATION CENTRE (SGNIC) PRIVATE LIMITED (SGNIC-ORGSI134835)')
+    expect(registered[:admin_contact]).to      eq('SINGAPORE NETWORK INFORMATION CENTRE (SGNIC) PRIVATE LIMITED (SGNIC-ORGSI134835)')
+    expect(registered[:tech_contact]).to       eq("SINGAPORE NETWORK INFORMATION CENTRE (SGNIC) PRIVATE LIMITED (SGNIC-ORGSI134835)\ndna@sgnic.sg")
+    
+    unregistered = WhoisParser.parse 'zyxqvutsrqponmlkjihgfedcba.sg', @whois_data['zyxqvutsrqponmlkjihgfedcba.sg']
+    expect(unregistered[:available]).to        eq(true)
+    expect(unregistered.keys.count).to         eq(1)
+  end
   
 end

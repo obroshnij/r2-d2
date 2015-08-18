@@ -52,12 +52,18 @@ class Whois
     server = get_whois_server domain.tld
     # TODO create a notification if whois server is not found
     return nil if server.blank?
-    record = server == "whois.verisign-grs.com" ? execute(server, "domain #{domain.name}") : execute(server, domain.name)
-    if record.match(/whois server:.+/i)
-      registrar_whois = record.match(/Whois Server:.+/).to_s.split(':').last.try(:strip)
-      record << execute(registrar_whois, domain.name) if registrar_whois.present?
+    record = if server == "whois.verisign-grs.com"
+      execute server, "domain #{domain.name}"
+    elsif server == "whois.denic.de"
+      execute server, "-T dn #{domain.name}"
+    else
+      execute server, domain.name
     end
-    raise Errno::ECONNRESET if record.include? "Your request is being rate limited"
+    if record.match(/whois server:.+/i)
+      registrar_whois = record.match(/whois server:.+/i).to_s.split(':').last.try(:strip)
+      record += (execute(registrar_whois, domain.name) if registrar_whois.present? && server != registrar_whois rescue '') || ''
+    end
+    raise Errno::ECONNRESET if record.include?('Your request is being rate limited') || record.include?('Looup quota exceeded')
     to_utf8 record
   end
   

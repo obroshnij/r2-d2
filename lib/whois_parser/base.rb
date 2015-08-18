@@ -1,7 +1,7 @@
 module WhoisParser
   class Base
     
-    attr_accessor :domain_name
+    attr_accessor :domain_name, :whois_record
   
     def initialize(domain_name, whois_record)
       @domain_name, @whois_record = domain_name, whois_record
@@ -39,7 +39,7 @@ module WhoisParser
     end
     
     def creation_date
-      DateTime.parse(node('(?>creation|registration)[[:blank:]]*date').last).to_s rescue nil
+      DateTime.parse(node('(?>create?i?o?n?|registration)[[:blank:]]*date').last).to_s rescue nil
     end
     
     def expiration_date
