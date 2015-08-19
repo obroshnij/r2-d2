@@ -39,11 +39,7 @@ class Whois
   private
   
   def lookup_domain(domain)
-    whois_record = begin
-      lookup_string_domain(domain.name)
-    rescue
-      nil
-    end
+    whois_record = lookup_string_domain(domain.name) rescue nil
     domain.whois = WhoisRecord.new domain.name, whois_record
   end
   
@@ -61,7 +57,7 @@ class Whois
     end
     if record.match(/whois server:.+/i)
       registrar_whois = record.match(/whois server:.+/i).to_s.split(':').last.try(:strip)
-      record += (execute(registrar_whois, domain.name) if registrar_whois.present? && server != registrar_whois rescue '') || ''
+      record += execute(registrar_whois, domain.name) if registrar_whois.present? && server != registrar_whois
     end
     raise Errno::ECONNRESET if record.include?('Your request is being rate limited') || record.include?('Looup quota exceeded')
     to_utf8 record
