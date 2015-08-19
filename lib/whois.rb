@@ -131,7 +131,7 @@ class Whois
   
   def execute(remote, query)
     addr = Addrinfo.tcp remote, 43
-    Timeout::timeout(5) do
+    Timeout::timeout(3) do
       addr.connect_from(local_ips.sample, rand(55000..65000)) do |socket|
         socket.write "#{query}\r\n"
         socket.read
