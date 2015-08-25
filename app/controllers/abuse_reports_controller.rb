@@ -27,6 +27,10 @@ class AbuseReportsController < ApplicationController
     end
   end
   
+  def edit
+    @abuse_report = AbuseReport.find params[:id]
+  end
+  
   def update
     @abuse_report = AbuseReport.find params[:id]
     if @abuse_report.update_attributes abuse_report_params

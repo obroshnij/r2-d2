@@ -1,15 +1,15 @@
 = f.hidden_field :processed, value: 0 
-= f.fields_for :spammer_info, SpammerInfo.new do |si| 
+= f.fields_for :spammer_info, f.object.spammer_info || SpammerInfo.new do |si| 
 
   .row
     .large-6.columns
       fieldset
         legend Account related
         .row
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+          = f.fields_for :report_assignments, f.object.report_assignments.direct.first || ReportAssignment.new do |ra| 
             = ra.hidden_field :reportable_type, value: "NcUser"
             = ra.hidden_field :report_assignment_type_id, value: 1 
-            = ra.fields_for :reportable, NcUser.new do |nu| 
+            = ra.fields_for :reportable, ra.object.reportable || NcUser.new do |nu| 
               .large-6.columns.form-field
                 = nu.label :username, "Username"
                 = nu.text_field :username, placeholder: "spammachine"
@@ -73,7 +73,7 @@
       fieldset
         legend Related accounts
         #report-assignments
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
+          = f.fields_for :report_assignments, f.object.report_assignments.indirect || ReportAssignment.new do |ra| 
             = render "abuse_reports/partials/spam_assignment_filds", f: ra
         .links: .row
           .large-11.columns

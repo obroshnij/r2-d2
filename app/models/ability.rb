@@ -6,7 +6,7 @@ class Ability
     ## Models
     user:              %i( read update create delete ),
     role:              %i( ), # actions are assigned in the before_save callback of the Permission model depending on whether any roles are are chosen
-    abuse_report:      %i( read create approve ),
+    abuse_report:      %i( read update create approve ),
     nc_user:           %i( read create comment ),
     nc_service:        %i( read create comment ),
     rbl:               %i( read create ),

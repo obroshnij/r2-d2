@@ -1,0 +1,6 @@
+- provide :title, "Edit Abuse Report"
+
+.row: .large-12.columns
+
+  = form_for @abuse_report, validate: true do |f|
+    = render partial: "abuse_reports/partials/#{@abuse_report.abuse_report_type.name.downcase.gsub(' ', '_')}_fields", locals: { f: f }
