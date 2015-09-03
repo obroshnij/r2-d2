@@ -1,16 +1,14 @@
 class NcUser < ActiveRecord::Base
   
-  has_many :user_relations
-  has_many :related_users, through: :user_relations
   has_many :report_assignments, as: :reportable
   has_many :abuse_reports, through: :report_assignments
   has_many :nc_services
   has_many :comments, as: :commentable
   
-  validates :username, presence: true
-  validates :username, format: { with: /\A[a-zA-Z0-9]+\z/ }
+  # validates :username, presence: true
+  # validates :username, format: { with: /\A[a-zA-Z0-9]+\z/ }
   # validates :username, uniqueness: { case_sensitive: false, message: 'has already been added' }
-  validates :signed_up_on_string, format: { with: /\d{1,2}\/\d{1,2}\/\d{4}/, message: "can't be blank / is invalid" }, allow_nil: true
+  # validates :signed_up_on_string, format: { with: /\d{1,2}\/\d{1,2}\/\d{4}/, message: "can't be blank / is invalid" }, allow_nil: true
   
   accepts_nested_attributes_for :comments
   
@@ -21,6 +19,10 @@ class NcUser < ActiveRecord::Base
   
   scope :direct,   -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 1).uniq }
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }
+  
+  def destroy
+    super unless self.report_assignments.present? || self.nc_services.present? || self.comments.present?
+  end
   
   def signed_up_on_string
     self.signed_up_on.try(:strftime, "%m/%d/%Y")

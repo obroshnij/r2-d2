@@ -25,6 +25,7 @@ gem 'spring',        group: :development
 
 gem 'backbone-on-rails'
 gem 'responders'
+gem 'virtus'
 
 gem "slim-rails"
 gem 'rails-html-sanitizer'

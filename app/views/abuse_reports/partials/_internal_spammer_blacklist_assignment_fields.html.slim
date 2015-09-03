@@ -1,0 +1,15 @@
+.virtus-fields
+  = f.hidden_field :_destroy, value: 0 
+  .row
+    .large-12.columns.form-field
+      = f.label :usernames, "Username(s)"
+      = f.text_area :usernames, placeholder: "username1, username2", validate: true
+  .row
+    .large-11.columns.relation-type-check-boxes
+      = f.label :relation_type_ids, "Relation types"
+      = f.collection_check_boxes :relation_type_ids, RelationType.all - [RelationType.find_by_name('Unknown')], :id, :name do |b|
+        = b.check_box style: "margin-bottom:0;"
+        = b.label
+    .large-1.columns
+      = link_to content_tag(:i, "", class: "fa fa-minus-square-o action remove-virtus-fields", style: "padding-top:0.5em;", title: "Remove fieldset")
+  hr

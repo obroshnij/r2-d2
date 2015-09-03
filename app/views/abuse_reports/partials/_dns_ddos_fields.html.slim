@@ -1,6 +1,11 @@
-= f.hidden_field :processed, value: 1 
-= f.hidden_field :processed_by, value: current_user.id
-= f.fields_for :ddos_info, DdosInfo.new do |di| 
+= form_for @abuse_report_form, url: path, validate: true do |f|
+
+  = hidden_field_tag :abuse_report_type_id, 2 
+  
+  - unless f.object.persisted?
+    = f.hidden_field :reported_by, value: current_user.id
+    = f.hidden_field :processed_by, value: current_user.id
+    = f.hidden_field :processed, value: true
 
   .row
     .large-6.columns
@@ -8,93 +13,84 @@
         legend General
         .row
           .large-8.columns.free-dns-buttons
-            = di.label :target_service, 'Service under attack'
+            = f.label :target_service, 'Service under attack'
             div
-              = di.radio_button :target_service, 'FreeDNS', style: "margin-bottom:0;", checked: true
-              = di.label :target_service_freedns, 'FreeDNS'
+              = f.radio_button :target_service, 'FreeDNS', style: "margin-bottom:0;", checked: true
+              = f.label :target_service_freedns, 'FreeDNS'
             div
-              = di.radio_button :target_service, 'DNSv2 URL Forwarding', style: "margin-bottom:0;"
-              = di.label :target_service_dnsv2_url_forwarding, 'Default DNS v2 | URL forwarding'
+              = f.radio_button :target_service, 'DNSv2 URL Forwarding', style: "margin-bottom:0;"
+              = f.label :target_service_dnsv2_url_forwarding, 'Default DNS v2 | URL forwarding'
             div
-              = di.radio_button :target_service, 'DNSv2 Parking Page', style: "margin-bottom:0;"
-              = di.label :target_service_dnsv2_parking_page, 'Default DNS v2 | Parking page'
+              = f.radio_button :target_service, 'DNSv2 Parking Page', style: "margin-bottom:0;"
+              = f.label :target_service_dnsv2_parking_page, 'Default DNS v2 | Parking page'
           .large-4.columns
-            = di.label :impact, 'Severity of impact'
+            = f.label :impact, 'Severity of impact'
             div
-              = di.radio_button :impact, 'Low', style: "margin-bottom:0;", checked: true
-              = di.label :impact_low, 'Low'
+              = f.radio_button :impact, 'Low', style: "margin-bottom:0;", checked: true
+              = f.label :impact_low, 'Low'
             div
-              = di.radio_button :impact, 'High', style: "margin-bottom:0;"
-              = di.label :impact_high, 'High'
+              = f.radio_button :impact, 'High', style: "margin-bottom:0;"
+              = f.label :impact_high, 'High'
       fieldset
         legend Account related
         .row
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = ra.hidden_field :reportable_type, value: "NcUser"
-            = ra.hidden_field :report_assignment_type_id, value: 1 
-            = ra.fields_for :reportable, NcUser.new do |nu| 
-              = nu.hidden_field :new_status, value: Status.find_by_name("DNS DDoSer").id
-              .large-6.columns.form-field
-                = nu.label :username, "Username"
-                = nu.text_field :username, placeholder: "ddosninja"
-              .large-6.columns.form-field
-                = nu.label :signed_up_on_string, "Sign up date"
-                = nu.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
+          .large-6.columns.form-field
+            = f.label :username, "Username"
+            = f.text_field :username, placeholder: "ddosninja"
+          .large-6.columns.form-field
+            = f.label :signed_up_on_string, "Sign up date"
+            = f.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
         .row
           .large-6.columns.form-field
-            = di.label :amount_spent, "Amount spent"
-            = di.text_field :amount_spent, placeholder: "321.25"
+            = f.label :amount_spent, "Amount spent"
+            = f.text_field :amount_spent, placeholder: "321.25"
           .large-6.columns.form-field
-            = di.label :last_signed_in_on_string, "Last login date"
-            = di.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
+            = f.label :last_signed_in_on_string, "Last login date"
+            = f.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
       fieldset
         legend Domains related
         .row
           .large-6.columns.form-field
-            = di.label :registered_domains, "Registered domains"
-            = di.text_field :registered_domains, placeholder: "4123"
+            = f.label :registered_domains, "Registered domains"
+            = f.text_field :registered_domains, placeholder: "4123"
           .large-6.columns.form-field.free-dns-fields
-            = di.label :free_dns_domains, "Free DNS domains"
-            = di.text_field :free_dns_domains, placeholder: "432", validate: true
+            = f.label :free_dns_domains, "Free DNS domains"
+            = f.text_field :free_dns_domains, placeholder: "432", validate: true
         .row
           .large-6.columns.form-field
-            = f.fields_for :report_assignments, ReportAssignment.new do |ra2| 
-              = ra2.hidden_field :abuse_report_type, value: "DNS DDoS"
-              = ra2.hidden_field :reportable_type, value: "NcService"
-              = ra2.hidden_field :report_assignment_type_id, value: 1 
-              = ra2.label :domains, 'Domains under attack'
-              = ra2.text_area :domains, placeholder: 'example.com, another.net', validate: true
+            = f.label :target_domains, 'Domains under attack'
+            = f.text_area :target_domains, placeholder: 'example.com, another.net', validate: true
           .large-6.columns
-            = di.label :random_domains, 'Are domains randomly generated?'
+            = f.label :random_domains, 'Are domains randomly generated?'
             div
-              = di.radio_button :random_domains, '1', style: "margin-bottom:0;", checked: true
-              = di.label :random_domains_1, 'Yes'
+              = f.radio_button :random_domains, '1', style: "margin-bottom:0;", checked: true
+              = f.label :random_domains_1, 'Yes'
             div
-              = di.radio_button :random_domains, '0', style: "margin-bottom:0;"
-              = di.label :random_domains_0, 'No'
+              = f.radio_button :random_domains, '0', style: "margin-bottom:0;"
+              = f.label :random_domains_0, 'No'
       fieldset
         legend CFC related
         .row
           .large-3.columns.cfc-related-inputs
-            = di.label :cfc_status, "CFC status"
+            = f.label :cfc_status, "CFC status"
             div
-              = di.radio_button :cfc_status, "1", style: "margin-bottom:0;"
-              = di.label :cfc_status_1, "Locked"
+              = f.radio_button :cfc_status, "1", style: "margin-bottom:0;"
+              = f.label :cfc_status_1, "Locked"
             div
-              = di.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
-              = di.label :cfc_status_0, "Unlocked"
+              = f.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
+              = f.label :cfc_status_0, "Unlocked"
           .large-9.columns.form-field.cfc-comment
-            = di.label :cfc_comment, "CFC comment"
-            = di.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
+            = f.label :cfc_comment, "CFC comment"
+            = f.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
       fieldset
         legend Tickets
         .row
           .large-6.columns.form-field
-            = di.label :client_ticket_id, "Ticket to customer"
-            = di.text_field :client_ticket_id, placeholder: "LOL-123-45678"
+            = f.label :client_ticket_id, "Ticket to customer"
+            = f.text_field :client_ticket_id, placeholder: "LOL-123-45678"
           .large-6.columns.form-field.free-dns-fields
-            = di.label :vendor_ticket_id, "Ticket(s) to service provider(s)"
-            = di.text_field :vendor_ticket_id, placeholder: "LOL-123-45678", validate: true
+            = f.label :vendor_ticket_id, "Ticket(s) to service provider(s)"
+            = f.text_field :vendor_ticket_id, placeholder: "LOL-123-45678", validate: true
         .row
           .large-12.columns.form-field
             = f.label :comment, "Additional comments"
@@ -103,14 +99,13 @@
     .large-6.columns
       fieldset
         legend Related accounts
-        #report-assignments
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = render "abuse_reports/partials/ddos_assignment_fields", f: ra
+        #virtus-fields-container
+          = f.fields_for :indirect_assignments do |ff| 
+            = render "abuse_reports/partials/dns_ddos_assignment_fields", f: ff
         .links: .row
           .large-11.columns
           .large-1.columns
-            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
-              :report_assignments, partial: "abuse_reports/partials/ddos_assignment_fields", :'data-association-insertion-node' => '#report-assignments',
-              :'data-association-insertion-method' => 'append'
-.text-center          
-  = f.submit "Submit", class: "button tiny"
+            = link_to_add_virtus_fields content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :indirect_assignments, DnsDdosAssignment, 'abuse_reports/partials/dns_ddos_assignment_fields'
+  .text-center          
+    = f.submit "Submit", class: "button tiny"

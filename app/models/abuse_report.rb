@@ -11,19 +11,8 @@ class AbuseReport < ActiveRecord::Base
   has_one :private_email_info
   has_one :abuse_notes_info
   
-  accepts_nested_attributes_for :spammer_info, :ddos_info, :private_email_info, :abuse_notes_info
-  accepts_nested_attributes_for :report_assignments, reject_if: :all_blank, allow_destroy: true
-  
-  validates :reported_by, presence: true
-  validates_associated :report_assignments, :spammer_info, :ddos_info, :private_email_info, :abuse_notes_info
-  
-  before_validation do
-    if self.new_record?
-      blank = self.report_assignments.select { |assignment| assignment.meta_data.present? }
-      self.report_assignments -= blank
-      blank.each { |assignment| self.report_assignments += assignment.split }
-    end
-  end
+  # accepts_nested_attributes_for :spammer_info, :ddos_info, :private_email_info, :abuse_notes_info
+  # accepts_nested_attributes_for :report_assignments, reject_if: :all_blank, allow_destroy: true
   
   scope :direct,   -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 1).uniq }
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }

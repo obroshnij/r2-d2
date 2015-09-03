@@ -13,30 +13,34 @@ class AbuseReportsController < ApplicationController
   end
   
   def update_abuse_report_form
-    @abuse_report = AbuseReport.new abuse_report_type: AbuseReportType.find(params[:abuse_report_type_id])
+    @report_type = AbuseReportType.find(params[:abuse_report_type_id]).underscored_name
+    @abuse_report_form = (@report_type + '_form').classify.constantize.new
   end
   
   def create
-    @abuse_report = AbuseReport.new abuse_report_params
-    if @abuse_report.save
-      flash[:notice] = "Abuse report has been successfully submitted"
+    @abuse_report_form = (AbuseReportType.find(params[:abuse_report_type_id]).underscored_name. + '_form').classify.constantize.new
+    if @abuse_report_form.submit(params)
+      flash[:notice] = 'Abuse report has been successfully submitted'
       redirect_to action: :index
     else
-      flash.now[:alert] = "Unable to submit abuse report: " + @abuse_report.errors.full_messages.join("; ")
+      flash.now[:alert] = 'Unable to submit abuse report: ' + @abuse_report_form.errors.full_messages.join('; ')
       render action: :new
     end
   end
   
   def edit
-    @abuse_report = AbuseReport.find params[:id]
+    @report_type = AbuseReport.find(params[:id]).abuse_report_type.underscored_name
+    @abuse_report_form = (@report_type + '_form').classify.constantize.new params[:id]
   end
   
   def update
-    @abuse_report = AbuseReport.find params[:id]
-    if @abuse_report.update_attributes abuse_report_params
-      @notification = { notice: "Abuse report has been successfully updated" }
+    @abuse_report_form = (AbuseReport.find(params[:id]).abuse_report_type.underscored_name + '_form').classify.constantize.new params[:id]
+    if @abuse_report_form.submit(params)
+      flash[:notice] = 'Abuse report has been successfully updated'
+      redirect_to action: :index
     else
-      @notification = { alert: "Failed to update abuse report: " + @abuse_report.errors.full_messages.join("; ") }
+      flash.now[:alert] = 'Unable to update abuse report: ' + @abuse_report_form.errors.full_messages.join('; ')
+      render action: :edit
     end
   end
   

@@ -1,4 +1,4 @@
-$("#abuse_report_form").html("<%= j(render partial: 'abuse_reports/partials/form', locals: { abuse_report: @abuse_report }) %>");
+$("#abuse_report_form").html('<%= j(render partial: "abuse_reports/partials/#{@report_type}_fields", locals: { path: abuse_reports_path }) %>');
 
 $(".date-picker").fdatepicker()
   .on('changeDate', function(ev){
@@ -22,11 +22,23 @@ $(".cfc-related-inputs").find("input[type='radio']").change(function(){
 });
 validateCfcCommentField($(".cfc-related-inputs").find("input[type='radio']:checked")[0]);
 
-$("#report-assignments").on('cocoon:after-insert', function(ev, el) {
-  $(el).find('textarea').enableClientSideValidations();
+$('form').on('click', '.add-virtus-fields', function(event) {
+  var regexp, time;
+  time = new Date().getTime();
+  regexp = new RegExp($(this).data('id'), 'g');
+  $(this).closest('form').find('#virtus-fields-container').append($(this).data('fields').replace(regexp, time));
+  console.log(event);
+  $('#virtus-fields-container').find('textarea').enableClientSideValidations();
+  event.preventDefault();
 });
 
-$("form.new_abuse_report").submit(function(event) {
+$('form').on('click', '.remove-virtus-fields', function(event) {
+  $(this).closest('.virtus-fields').find('input[type=hidden]').val('1');
+  $(this).closest('.virtus-fields').hide();
+  event.preventDefault();
+});
+
+$("form").submit(function(event) {
   var checked = true;
   $(".relation-type-check-boxes").each(function(index, element) {
     if ($(element).find("input[type='checkbox']:checked")[0] === undefined) {

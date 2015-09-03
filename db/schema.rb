@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819150953) do
+ActiveRecord::Schema.define(version: 20150902163829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,14 +49,6 @@ ActiveRecord::Schema.define(version: 20150819150953) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bulk_relations", force: :cascade do |t|
-    t.integer  "abuse_report_id"
-    t.integer  "nc_user_ids",                    array: true
-    t.integer  "relation_type_ids",              array: true
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
     t.string   "commentable_type"
@@ -80,30 +72,9 @@ ActiveRecord::Schema.define(version: 20150819150953) do
     t.string   "client_ticket_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.text     "affected_domains"
     t.string   "impact"
     t.string   "target_service"
     t.boolean  "random_domains"
-  end
-
-  create_table "ddos_related_infos", force: :cascade do |t|
-    t.integer  "abuse_report_id"
-    t.integer  "main_report_id"
-    t.integer  "registered_domains"
-    t.integer  "free_dns_domains"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
-  create_table "ddos_relations", force: :cascade do |t|
-    t.integer  "abuse_report_id"
-    t.integer  "nc_user_id"
-    t.integer  "relation_type_ids",               array: true
-    t.integer  "registered_domains"
-    t.integer  "free_dns_domains"
-    t.text     "comment"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
   end
 
   create_table "nc_service_types", force: :cascade do |t|
@@ -161,12 +132,6 @@ ActiveRecord::Schema.define(version: 20150819150953) do
     t.datetime "updated_at",    null: false
   end
 
-  create_table "reference_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "relation_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -192,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150819150953) do
   add_index "report_assignments", ["reportable_type", "reportable_id"], name: "index_report_assignments_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -245,48 +210,20 @@ ActiveRecord::Schema.define(version: 20150819150953) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "task_assignments", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "task_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string    "name"
-    t.string    "description"
-    t.integer   "daily_hours"
-    t.integer   "total_hours"
-    t.daterange "duration"
-    t.tsrange   "time_frame"
-    t.datetime  "created_at",  null: false
-    t.datetime  "updated_at",  null: false
-  end
-
-  create_table "user_relations", force: :cascade do |t|
-    t.integer  "nc_user_id"
-    t.integer  "related_user_id"
-    t.integer  "relation_type_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string   "name",                   limit: 255
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "name"
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb    "cache"
-    t.jsonb    "meta_data"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -301,7 +238,7 @@ ActiveRecord::Schema.define(version: 20150819150953) do
   end
 
   create_table "whitelisted_addresses", force: :cascade do |t|
-    t.string   "value",      limit: 255
+    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
