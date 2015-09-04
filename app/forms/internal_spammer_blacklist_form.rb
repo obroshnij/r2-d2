@@ -73,7 +73,6 @@ class InternalSpammerBlacklistForm
   end
   
   def indirect_assignments_attributes=(attributes)
-    attributes.delete_if { |k, v| v[:_destroy] == '1' }
     @abuse_report.report_assignments.where(report_assignment_type_id: 2).destroy_all
     attributes.values.each do |val|
       val[:usernames].to_s.downcase.scan(/[a-z0-9]+/).uniq.each do |username|

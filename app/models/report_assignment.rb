@@ -32,7 +32,7 @@ class ReportAssignment < ActiveRecord::Base
   # end
   
   after_update do
-    NcUser.find(self.reportable_id_change.first).destroy if self.reportable_id_changed?
+    self.reportable_type.constantize.find(self.reportable_id_change.first).destroy if self.reportable_id_changed? && self.reportable_id_change.first.present?
   end
   
   scope :direct,   -> { where(report_assignment_type_id: 1).uniq }

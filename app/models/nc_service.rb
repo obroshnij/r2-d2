@@ -26,7 +26,7 @@ class NcService < ActiveRecord::Base
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }
   
   def destroy
-    super unless self.report_assignments.present? || self.nc_services.present? || self.comments.present?
+    super unless self.report_assignments.present? || self.comments.present?
   end
   
   def new_status

@@ -27,14 +27,12 @@ $('form').on('click', '.add-virtus-fields', function(event) {
   time = new Date().getTime();
   regexp = new RegExp($(this).data('id'), 'g');
   $(this).closest('form').find('#virtus-fields-container').append($(this).data('fields').replace(regexp, time));
-  console.log(event);
   $('#virtus-fields-container').find('textarea').enableClientSideValidations();
   event.preventDefault();
 });
 
 $('form').on('click', '.remove-virtus-fields', function(event) {
-  $(this).closest('.virtus-fields').find('input[type=hidden]').val('1');
-  $(this).closest('.virtus-fields').hide();
+  $(this).closest('.virtus-fields').remove();
   event.preventDefault();
 });
 

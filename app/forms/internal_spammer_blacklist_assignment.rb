@@ -8,7 +8,6 @@ class InternalSpammerBlacklistAssignment
   
   attribute :usernames,         String
   attribute :relation_type_ids, Array[Integer]
-  attribute :_destroy,          Boolean
   
   validates :usernames, presence: true
   validates :usernames, format: { with: /\A[\w\d\s,]+\z/, multiline: true, message: "is (are) invalid" }, allow_nil: true
