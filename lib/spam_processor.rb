@@ -34,6 +34,7 @@ class SpamProcessor
                 orderid:             :order_id }
     SmarterCSV.process(csv, strip_chars_from_headers: /'/, key_mapping: mapping).map do |hash|
       hash[:full_name] = hash[:firstname] + " " + hash[:lastname]
+      hash[:domain_name].downcase!
       hash.except(:firstname, :lastname)
     end
   end
