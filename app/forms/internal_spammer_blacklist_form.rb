@@ -21,9 +21,11 @@ class InternalSpammerBlacklistForm
   attribute :last_signed_in_on_string, String
   attribute :responded_previously,     Boolean
   attribute :reference_ticket_id,      String
-  # Report Assignment (direct) attributes
+  # Report Assignment (direct/user) attributes
   attribute :username,                 String
   attribute :signed_up_on_string,      String
+  # Report Assignments (indirect/users) attributes
+  attribute :indirect_assignments,     Array[InternalSpammerBlacklistAssignment]
   
   validates :amount_spent, :registered_domains, :abused_domains, :locked_domains, :abused_locked_domains, presence: true
   validates :registered_domains, :abused_domains, :locked_domains, :abused_locked_domains, numericality: { only_integer: true }
@@ -40,47 +42,17 @@ class InternalSpammerBlacklistForm
   end
   
   def initialize(report_id = nil)
-    init_model report_id
-    assign_model_attributes
+    init_abuse_report report_id
+    init_direct_user_assignment
+    init_indirect_user_assignments
   end
   
-  def init_model(report_id)
-    if report_id.present?
-      @abuse_report = AbuseReport.find report_id
-    else
-      @abuse_report = AbuseReport.new abuse_report_type_id: 1
-      @abuse_report.spammer_info = SpammerInfo.new
-      direct_assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 1
-      direct_assignment.reportable = NcUser.new
-      @abuse_report.report_assignments << direct_assignment
-    end
-  end
-  
-  def assign_model_attributes
-    self.attributes = @abuse_report.attributes.merge @abuse_report.spammer_info.attributes
-    @direct_assignment = @abuse_report.report_assignments.find { |a| a.report_assignment_type_id == 1 }
-    self.username = @direct_assignment.reportable.username
-    self.signed_up_on_string = @direct_assignment.reportable.signed_up_on_string
-  end
-  
-  def indirect_assignments
-    @abuse_report.report_assignments.indirect.each_with_object({}) do |assignment, hash|
-      hash[assignment.relation_type_ids] ||= []
-      hash[assignment.relation_type_ids] << assignment.reportable.username
-    end.each.map do |key, value|
-      InternalSpammerBlacklistAssignment.new relation_type_ids: key, usernames: value.join(', ')
-    end
+  def username=(username)
+    super username.try(:downcase).try(:strip)
   end
   
   def indirect_assignments_attributes=(attributes)
-    @abuse_report.report_assignments.where(report_assignment_type_id: 2).destroy_all
-    attributes.values.each do |val|
-      val[:usernames].to_s.downcase.scan(/[a-z0-9]+/).uniq.each do |username|
-        assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 2, meta_data: { relation_type_ids: val[:relation_type_ids].delete_if(&:blank?) }
-        assignment.reportable = NcUser.find_or_create_by(username: username.to_s.downcase.strip)
-        @abuse_report.report_assignments << assignment
-      end
-    end
+    self.indirect_assignments = attributes.values
   end
   
   def persisted?
@@ -96,12 +68,60 @@ class InternalSpammerBlacklistForm
   
   private
   
+  def init_abuse_report(report_id)
+    @abuse_report = if report_id.present?
+      AbuseReport.find report_id
+    else
+      abuse_report = AbuseReport.new abuse_report_type_id: 1
+      abuse_report.spammer_info = SpammerInfo.new
+      abuse_report
+    end
+    self.attributes = @abuse_report.attributes.merge @abuse_report.spammer_info.attributes
+  end
+  
+  def init_direct_user_assignment
+    reportable = @abuse_report.direct_user_assignments.first.try(:reportable)
+    self.username            = reportable.try(:username)
+    self.signed_up_on_string = reportable.try(:signed_up_on_string)
+  end
+  
+  def init_indirect_user_assignments
+    self.indirect_assignments = @abuse_report.indirect_user_assignments.each_with_object({}) do |a, h|
+      h[a.relation_type_ids] ||= []
+      h[a.relation_type_ids] << a.reportable.username
+    end.map { |k, v| { usernames: v, relation_type_ids: k } }
+    self.indirect_assignments << InternalSpammerBlacklistAssignment.new if @abuse_report.new_record?
+  end
+  
   def persist!
     @abuse_report.assign_attributes abuse_report_params
     @abuse_report.spammer_info.assign_attributes spammer_info_params
-    @direct_assignment.reportable = NcUser.find_or_create_by(username: self.username.downcase.strip)
-    @direct_assignment.reportable.signed_up_on_string = self.signed_up_on_string
+    cleanup_assignments
+    persist_direct_user_assignment
+    persist_indirect_user_assignments
     @abuse_report.save!
+  end
+  
+  def cleanup_assignments
+    @abuse_report.direct_user_assignments.first.try(:destroy)
+    @abuse_report.indirect_user_assignments.each { |a| a.try(:destroy) }
+  end
+  
+  def persist_direct_user_assignment
+    assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 1
+    assignment.reportable = NcUser.find_or_create_by(username: self.username)
+    assignment.reportable.signed_up_on_string = self.signed_up_on_string
+    @abuse_report.report_assignments << assignment
+  end
+  
+  def persist_indirect_user_assignments
+    @abuse_report.report_assignments += self.indirect_assignments.map do |a|
+      a.usernames_array.map do |username|
+        assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 2, relation_type_ids: a.relation_type_ids
+        assignment.reportable = NcUser.find_or_create_by(username: username)
+        assignment
+      end
+    end.flatten
   end
   
   def abuse_report_params

@@ -2,9 +2,8 @@
 
   = hidden_field_tag :abuse_report_type_id, 1 
   
-  - unless f.object.persisted?
-    = f.hidden_field :reported_by, value: current_user.id
-    = f.hidden_field :processed, value: false
+  = f.hidden_field :reported_by, value: current_user.id unless f.object.persisted?
+  = f.hidden_field :processed, value: false
 
   .row
     .large-6.columns
@@ -29,10 +28,10 @@
         .row
           .large-4.columns.responded-previously-buttons
             = f.label :responded_previously, "Responded previously"
-            = f.radio_button :responded_previously, "1"
-            = f.label :responded_previously_1, "Yes"
-            = f.radio_button :responded_previously, "0", checked: true
-            = f.label :responded_previously_0, "No"
+            = f.radio_button :responded_previously, true
+            = f.label :responded_previously_true, "Yes"
+            = f.radio_button :responded_previously, false
+            = f.label :responded_previously_false, "No"
           .large-8.columns.reference-fields.form-field
             = f.label :reference_ticket_id, "Reference ticket ID"
             = f.text_field :reference_ticket_id, placeholder: "LOL-123-45678", validate: true
@@ -46,11 +45,11 @@
           .large-3.columns.cfc-related-inputs
             = f.label :cfc_status, "CFC status"
             div
-              = f.radio_button :cfc_status, "1", style: "margin-bottom:0;"
-              = f.label :cfc_status_1, "Locked"
+              = f.radio_button :cfc_status, true, style: "margin-bottom:0;"
+              = f.label :cfc_status_true, "Locked"
             div
-              = f.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
-              = f.label :cfc_status_0, "Unlocked"
+              = f.radio_button :cfc_status, false, style: "margin-bottom:0;"
+              = f.label :cfc_status_false, "Unlocked"
           .large-9.columns.form-field.cfc-comment
             = f.label :cfc_comment, "CFC comment"
             = f.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true

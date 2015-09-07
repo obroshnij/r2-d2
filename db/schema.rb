@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902163829) do
+ActiveRecord::Schema.define(version: 20150907115748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,10 +34,10 @@ ActiveRecord::Schema.define(version: 20150902163829) do
     t.integer  "abuse_report_type_id"
     t.integer  "reported_by"
     t.integer  "processed_by"
-    t.boolean  "processed"
+    t.boolean  "processed",            default: false
     t.text     "comment"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "background_jobs", force: :cascade do |t|
@@ -64,17 +64,17 @@ ActiveRecord::Schema.define(version: 20150902163829) do
     t.integer  "abuse_report_id"
     t.integer  "registered_domains"
     t.integer  "free_dns_domains"
-    t.boolean  "cfc_status"
+    t.boolean  "cfc_status",         default: false
     t.string   "cfc_comment"
     t.float    "amount_spent"
     t.date     "last_signed_in_on"
     t.string   "vendor_ticket_id"
     t.string   "client_ticket_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "impact"
-    t.string   "target_service"
-    t.boolean  "random_domains"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "impact",             default: "Low"
+    t.string   "target_service",     default: "FreeDNS"
+    t.boolean  "random_domains",     default: false
   end
 
   create_table "nc_service_types", force: :cascade do |t|
@@ -194,14 +194,14 @@ ActiveRecord::Schema.define(version: 20150902163829) do
     t.integer  "abused_domains"
     t.integer  "locked_domains"
     t.integer  "abused_locked_domains"
-    t.boolean  "cfc_status"
+    t.boolean  "cfc_status",            default: false
     t.string   "cfc_comment"
     t.float    "amount_spent"
     t.date     "last_signed_in_on"
-    t.boolean  "responded_previously"
+    t.boolean  "responded_previously",  default: false
     t.string   "reference_ticket_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "statuses", force: :cascade do |t|

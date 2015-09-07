@@ -23,47 +23,54 @@ class DnsDdosForm
   attribute :impact,                   String
   attribute :target_service,           String
   attribute :random_domains,           Boolean
-  # Report Assignments (direct) attributes
+  # Report Assignments (direct/user) attributes
   attribute :username,                 String
   attribute :signed_up_on_string,      String
+  # Report Assignments (direct/domains) attributes
+  attribute :target_domains,           Array[String]
+  # Report Assignments (indirect/users) attributes
+  attribute :indirect_assignments,     Array[DnsDdosAssignment]
+  
+  validates :username, :signed_up_on_string, :amount_spent, :registered_domains, :client_ticket_id, :target_domains, presence: true
+  validates :username, format: { with: /\A[\w\d]+\z/, message: "is invalid" }
+  validates :amount_spent, numericality: true
+  validates :registered_domains, numericality: { only_integer: true }
+  validates :signed_up_on_string, format: { with: /\A\d{1,2}\/\d{1,2}\/\d{4}\z/, message: 'is not formatted properly' }
+  validates :last_signed_in_on_string, format: { with: /\A\d{1,2}\/\d{1,2}\/\d{4}\z/, message: 'is not formatted properly' }, allow_blank: true
+  validates :cfc_comment, presence: true, if: :cfc_status
+  validates :free_dns_domains, presence: true, numericality: { only_integer: true }, if: :free_dns_ddos?
+  validates :vendor_ticket_id, presence: true, if: :free_dns_ddos?
+  
+  # force client side validation
+  def run_conditional(method_name_value_or_proc)
+    (:cfc_status == method_name_value_or_proc) || (:free_dns_ddos? == method_name_value_or_proc) || super
+  end
   
   def initialize(report_id = nil)
-    init_model report_id
-    assign_model_attributes
+    init_abuse_report report_id
+    init_direct_user_assignment
+    init_indirect_user_assignments
+    init_target_domains
   end
   
-  def init_model(report_id)
-    if report_id.present?
-      @abuse_report = AbuseReport.find report_id
-    else
-      @abuse_report = AbuseReport.new abuse_report_type_id: 2
-      @abuse_report.ddos_info = DdosInfo.new
-      direct_assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 1
-      direct_assignment.reportable = NcUser.new
-      @abuse_report.report_assignments << direct_assignment
-    end
-  end
-  
-  def assign_model_attributes
-    self.attributes = @abuse_report.attributes.merge @abuse_report.ddos_info.attributes
-    @direct_assignment = @abuse_report.report_assignments.find { |a| a.report_assignment_type_id == 1 && a.reportable_type == 'NcUser' }
-    self.username = @direct_assignment.reportable.username
-    self.signed_up_on_string = @direct_assignment.reportable.signed_up_on_string
+  def free_dns_ddos?
+    self.target_service == 'FreeDNS'
   end
   
   def target_domains
-    @abuse_report.report_assignments.select do |a|
-      a.report_assignment_type_id == 1 && a.reportable_type == 'NcService'
-    end.map(&:reportable).map(&:name).join(', ')
+    super.join(', ')
   end
   
   def target_domains=(domains)
-    @abuse_report.report_assignments.where(report_assignment_type_id: 1, reportable_type: 'NcService').destroy_all
-    DomainName.parse_multiple(domains, remove_subdomains: true).map(&:name).each do |name|
-      assignment = ReportAssignment.create reportable_type: 'NcService', report_assignment_type_id: 1
-      assignment.reportable = NcService.find_or_create_by(nc_service_type_id: 1, name: name)
-      @abuse_report.report_assignments << assignment
-    end
+    super DomainName.parse_multiple(domains, remove_subdomains: true).map(&:name)
+  end
+  
+  def username=(username)
+    super username.try(:downcase).try(:strip)
+  end
+  
+  def indirect_assignments_attributes=(attributes)
+    self.indirect_assignments = attributes.values
   end
   
   def persisted?
@@ -79,22 +86,82 @@ class DnsDdosForm
   
   private
   
+  def init_abuse_report(report_id)
+    @abuse_report = if report_id.present?
+      AbuseReport.find report_id
+    else
+      abuse_report = AbuseReport.new abuse_report_type_id: 2
+      abuse_report.ddos_info = DdosInfo.new
+      abuse_report
+    end
+    self.attributes = @abuse_report.attributes.merge @abuse_report.ddos_info.attributes
+  end
+  
+  def init_direct_user_assignment
+    reportable = @abuse_report.direct_user_assignments.first.try(:reportable)
+    self.username            = reportable.try(:username)
+    self.signed_up_on_string = reportable.try(:signed_up_on_string)
+  end
+  
+  def init_indirect_user_assignments
+    self.indirect_assignments = @abuse_report.indirect_user_assignments.map do |a|
+      {
+        username:           a.reportable.username,
+        registered_domains: a.registered_domains,
+        free_dns_domains:   a.free_dns_domains,
+        comment:            a.comment,
+        relation_type_ids:  a.relation_type_ids
+      }
+    end
+    self.indirect_assignments << DnsDdosAssignment.new if @abuse_report.new_record?
+  end
+  
+  def init_target_domains
+    @target_domains = @abuse_report.direct_service_assignments.map { |a| a.reportable.name }
+  end
+  
   def persist!
     @abuse_report.assign_attributes abuse_report_params
     @abuse_report.ddos_info.assign_attributes ddos_info_params
-    @direct_assignment.reportable = NcUser.find_or_create_by(username: self.username.downcase.strip)
-    @direct_assignment.reportable.signed_up_on_string = self.signed_up_on_string
-    @direct_assignment.reportable.new_status = Status.find_by_name('DNS DDoSer').id
+    cleanup_assignments
+    persist_direct_user_assignment
+    persist_indirect_user_assignments
+    persist_target_domains
     @abuse_report.save!
-    assign_statuses
   end
   
-  def assign_statuses
-    @abuse_report.report_assignments.direct.select { |a| a.reportable_type == 'NcService' }.each do |assignment|
-      assignment.reportable.nc_user_id = NcUser.find_by(username: self.username.downcase.strip).id
+  def cleanup_assignments
+    @abuse_report.direct_service_assignments.each { |a| a.try(:destroy) }
+    @abuse_report.direct_user_assignments.first.try(:destroy)
+    @abuse_report.indirect_user_assignments.each { |a| a.try(:destroy) }
+  end
+  
+  def persist_direct_user_assignment
+    assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 1
+    assignment.reportable = NcUser.find_or_create_by(username: self.username)
+    assignment.reportable.signed_up_on_string = self.signed_up_on_string
+    assignment.reportable.new_status = Status.find_by_name('DNS DDoSer').id
+    @abuse_report.report_assignments << assignment
+  end
+  
+  def persist_indirect_user_assignments
+    @abuse_report.report_assignments += self.indirect_assignments.map do |a|
+      assignment = ReportAssignment.new reportable_type: 'NcUser', report_assignment_type_id: 2, registered_domains: a.registered_domains,
+                                        free_dns_domains: a.free_dns_domains, comment: a.comment, relation_type_ids: a.relation_type_ids
+      assignment.reportable = NcUser.find_or_create_by username: a.username
+      assignment.reportable.new_status = Status.find_by_name('DDoSer Related').id
+      assignment
+    end
+  end
+  
+  def persist_target_domains
+    @abuse_report.report_assignments += @target_domains.map do |name|
+      assignment = ReportAssignment.new reportable_type: 'NcService', report_assignment_type_id: 1
+      assignment.reportable = NcService.find_or_create_by name: name, nc_service_type_id: 1
       assignment.reportable.new_status = ServiceStatus.find_by_name('DDoS Related').id
       assignment.reportable.new_status = ServiceStatus.find_by_name('FreeDNS').id if self.target_service == 'FreeDNS'
-      assignment.reportable.save
+      assignment.reportable.nc_user_id = NcUser.find_by_username(self.username).id
+      assignment
     end
   end
   

@@ -5,11 +5,6 @@ class NcUser < ActiveRecord::Base
   has_many :nc_services
   has_many :comments, as: :commentable
   
-  # validates :username, presence: true
-  # validates :username, format: { with: /\A[a-zA-Z0-9]+\z/ }
-  # validates :username, uniqueness: { case_sensitive: false, message: 'has already been added' }
-  # validates :signed_up_on_string, format: { with: /\d{1,2}\/\d{1,2}\/\d{4}/, message: "can't be blank / is invalid" }, allow_nil: true
-  
   accepts_nested_attributes_for :comments
   
   before_save do
@@ -21,7 +16,9 @@ class NcUser < ActiveRecord::Base
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }
   
   def destroy
-    super unless self.report_assignments.present? || self.nc_services.present? || self.comments.present?
+    super unless self.report_assignments.present? || self.nc_services.present? || self.comments.present? ||
+                 self.status_ids.include?(Status.find_by_name('Internal Account')) || self.status_ids.include?(Status.find_by_name('VIP')) ||
+                 self.status_ids.include?(Status.find_by_name('Has VIP Domains'))
   end
   
   def signed_up_on_string

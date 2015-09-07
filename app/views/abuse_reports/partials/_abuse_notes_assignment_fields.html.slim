@@ -1,0 +1,12 @@
+.virtus-fields
+  .row
+    .large-11.columns.form-field
+      = f.label :username, "Username"
+      = f.text_field :username, placeholder: "username"
+  .row
+    .large-11.columns.form-field
+      = f.label :domains, "Domains"
+      = f.text_area :domains, placeholder: "domain.info, domain.io", validate: true
+    .large-1.columns
+      = link_to content_tag(:i, "", class: "fa fa-minus-square-o action remove-virtus-fields", style: "padding-top:1.5em;", title: "Remove fieldset")
+  hr
