@@ -49,11 +49,30 @@ class NcUser < ActiveRecord::Base
     status_names.map { |name| status_icon(name) }.join(' ').html_safe if status_names.present?
   end
   
-  def related_users_hash
-    self.user_relations.each_with_object({}) do |r, h|
-      h[r.related_user.username] ||= []
-      h[r.related_user.username] << r.relation_type.try(:name)
+  def related_report_ids
+    ids = []
+    new_ids = self.abuse_reports.map(&:id)
+    while new_ids.present?
+      new_ids = new_ids.map { |id| AbuseReport.find(id).related_reports.map(&:id) }.flatten.uniq
+      new_ids -= ids
+      ids += new_ids
     end
+    ids
+  end
+  
+  def user_relations
+    nodes, edges = [], []
+    self.related_report_ids.each do |id|
+      report = AbuseReport.find(id)
+      nodes += report.nc_users.map { |user| { id: user.id, label: user.username } }
+      if report.direct_user_assignments.present? && report.indirect_user_assignments.present?
+        direct = report.direct_user_assignments.first
+        report.indirect_user_assignments.each do |indirect|
+          edges << { from: direct.reportable.id, to: indirect.reportable.id, label: indirect.relation_type_ids.map { |id| RelationType.find(id).short_name }.join(', ') }
+        end
+      end
+    end
+    { nodes: nodes.uniq, edges: edges.uniq }
   end
   
   private

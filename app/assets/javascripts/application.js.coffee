@@ -16,6 +16,7 @@
 #= require foundation-datepicker
 #= require rails.validations
 #= require toastr
+#= require vis.min
 #= require spin
 #= require underscore
 #= require backbone

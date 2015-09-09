@@ -42,4 +42,8 @@ class AbuseReport < ActiveRecord::Base
     self.report_assignments.select { |a| a.reportable_type == 'NcService' && a.report_assignment_type_id == 2 }
   end
   
+  def related_reports
+    self.nc_users.map(&:abuse_reports).flatten.uniq
+  end
+  
 end

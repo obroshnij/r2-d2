@@ -61,6 +61,8 @@ gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 gem 'combine_pdf'
 
+gem 'gon'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

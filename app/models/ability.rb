@@ -26,7 +26,6 @@ class Ability
     
     alias_action :destroy,                  to: :delete
     alias_action :manage,                   to: :access
-    alias_action :update,                   to: :approve
     alias_action :update,                   to: :comment
     alias_action :update_abuse_report_form, to: :create
     

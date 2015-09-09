@@ -136,6 +136,11 @@ GEM
     get_process_mem (0.2.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    gon (6.0.1)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     i18n (0.7.0)
     icalendar (2.3.0)
     ice_nine (0.11.1)
@@ -222,6 +227,7 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    request_store (1.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     resque (1.25.2)
@@ -351,6 +357,7 @@ DEPENDENCIES
   font-awesome-rails
   foundation-icons-sass-rails
   foundation-rails
+  gon
   icalendar
   ipaddress
   jbuilder (~> 2.0)
