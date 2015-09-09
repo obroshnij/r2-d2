@@ -64,3 +64,8 @@
       .info-row.row
         span.left Additional comments: 
         span.right = assignment.comment
+        
+ul.inline-list.right style='margin:0'
+  - if can? :update, report
+    li
+      = link_to 'Edit', edit_abuse_report_path(report), class: 'button tiny', style: 'margin-bottom:0'

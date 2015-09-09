@@ -8,22 +8,20 @@
       = render partial: 'new_nc_user_comment', locals: { nc_user: @nc_user }
 
     h3 Account details
-    .row
+    .row: .large-12.columns
       | Signup date: 
       = @nc_user.signed_up_on.try(:strftime, "%d %B %Y")
-    .row
+    .row: .large-12.columns
       | Status: 
       = @nc_user.status_icons
     
-    - if @nc_user.related_users.present?
-      h3 Related Users
-      .row: .large-12.columns
-        - @nc_user.related_users_hash.each do |user, relations|
-          .row = user + ": " + relations.join(", ")
+    h3 Related Users
+    .row: .large-12.columns
+      #user-relations.panel.callout
     
     - if @nc_user.abuse_reports.direct.present?
       h3 Abuse Reports
-      .row
+      .row: .large-12.columns
         table
           thead
             th Type
@@ -49,7 +47,7 @@
                     
     - if @nc_user.abuse_reports.indirect.present?
       h3 Related Abuse Reports
-      .row
+      .row: .large-12.columns
         table
           thead
             th Type

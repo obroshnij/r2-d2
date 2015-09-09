@@ -1,0 +1,24 @@
+.virtus-fields
+  .row
+    .large-4.columns.form-field
+      = f.label :username, "Username"
+      = f.text_field :username, placeholder: "username"
+    .large-4.columns.form-field
+      = f.label :registered_domains, "Registered domains"
+      = f.text_field :registered_domains, placeholder: "11", validate: true
+    .large-4.columns.form-field
+      = f.label :free_dns_domains, "FreeDNS domains"
+      = f.text_field :free_dns_domains, placeholder: "312", validate: true
+  .row
+    .large-12.columns
+      = f.label :comment, "Additional Comments"
+      = f.text_area :comment, placeholder: "Comments"
+  .row
+    .large-11.columns.relation-type-check-boxes
+      = f.label :relation_type_ids, "Relation types"
+      = f.collection_check_boxes :relation_type_ids, RelationType.all - [RelationType.find_by_name('Unknown')], :id, :name do |b|
+        = b.check_box style: "margin-bottom:0;"
+        = b.label
+    .large-1.columns
+      = link_to content_tag(:i, "", class: "fa fa-minus-square-o action remove-virtus-fields", style: "padding-top:0.5em;", title: "Remove fieldset")
+  hr

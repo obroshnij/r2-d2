@@ -1,0 +1,5 @@
+- provide :title, "Edit Abuse Report"
+
+.row
+  .large-12.columns
+    = render partial: "abuse_reports/partials/#{@report_type.downcase.gsub(" ", "_")}_fields", locals: { path: abuse_report_path }

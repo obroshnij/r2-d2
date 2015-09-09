@@ -1,6 +1,11 @@
-= f.hidden_field :processed, value: 1 
-= f.hidden_field :processed_by, value: current_user.id
-= f.fields_for :abuse_notes_info, AbuseNotesInfo.new do |ani| 
+= form_for @abuse_report_form, url: path, validate: true do |f|
+
+  = hidden_field_tag :abuse_report_type_id, 4 
+  
+  - unless f.object.persisted?
+    = f.hidden_field :reported_by,  value: current_user.id
+    = f.hidden_field :processed_by, value: current_user.id
+    = f.hidden_field :processed,    value: true
 
   .row
     .large-6.columns
@@ -8,11 +13,11 @@
         legend General
         .row
           .large-12.columns.form-field
-            = ani.label :reported_by, "Reported by / ticket ID"
-            = ani.text_field :reported_by, placeholder: "LOL-123-45678"
+            = f.label :reported_by_string, "Reported by / ticket ID"
+            = f.text_field :reported_by_string, placeholder: "LOL-123-45678"
           .large-12.columns.form-field
-            = ani.label :action, "Action"
-            = ani.text_field :action, placeholder: "Action"
+            = f.label :action, "Action"
+            = f.text_field :action, placeholder: "Action"
           .large-12.columns
             = f.label :comment, "Additional comments"
             = f.text_area :comment, placeholder: "Comments"
@@ -20,15 +25,14 @@
     .large-6.columns
       fieldset
         legend Domain names
-        #report-assignments
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = render "abuse_reports/partials/abuse_notes_assignment_filds", f: ra
+        #virtus-fields-container
+          = f.fields_for :assignments do |ff| 
+            = render "abuse_reports/partials/abuse_notes_assignment_fields", f: ff
         .links: .row
           .large-11.columns
           .large-1.columns
-            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
-              :report_assignments, partial: "abuse_reports/partials/abuse_notes_assignment_filds", :'data-association-insertion-node' => '#report-assignments',
-              :'data-association-insertion-method' => 'append'
+            = link_to_add_virtus_fields content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :assignments, AbuseNotesAssignment, 'abuse_reports/partials/abuse_notes_assignment_fields'
               
-.text-center          
-  = f.submit "Submit", class: "button tiny"
+  .text-center
+    = f.submit "Submit", class: "button tiny"

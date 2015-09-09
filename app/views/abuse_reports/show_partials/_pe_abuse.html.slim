@@ -24,3 +24,8 @@
       span.right = info.warning_ticket_id
       
   .large-6.columns
+  
+ul.inline-list.right style='margin:0'
+  - if can? :update, report
+    li
+      = link_to 'Edit', edit_abuse_report_path(report), class: 'button tiny', style: 'margin-bottom:0'

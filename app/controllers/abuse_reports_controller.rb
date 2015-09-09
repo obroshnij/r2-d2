@@ -13,64 +13,51 @@ class AbuseReportsController < ApplicationController
   end
   
   def update_abuse_report_form
-    @abuse_report = AbuseReport.new abuse_report_type: AbuseReportType.find(params[:abuse_report_type_id])
+    @report_type = AbuseReportType.find(params[:abuse_report_type_id]).underscored_name
+    @abuse_report_form = (@report_type + '_form').classify.constantize.new
   end
   
   def create
-    @abuse_report = AbuseReport.new abuse_report_params
-    if @abuse_report.save
-      flash[:notice] = "Abuse report has been successfully submitted"
+    @abuse_report_form = (AbuseReportType.find(params[:abuse_report_type_id]).underscored_name + '_form').classify.constantize.new
+    if @abuse_report_form.submit(params)
+      flash[:notice] = 'Abuse report has been successfully submitted'
       redirect_to action: :index
     else
-      flash.now[:alert] = "Unable to submit abuse report: " + @abuse_report.errors.full_messages.join("; ")
+      flash.now[:alert] = 'Unable to submit abuse report: ' + @abuse_report_form.errors.full_messages.join('; ')
       render action: :new
     end
   end
   
+  def edit
+    @report_type = AbuseReport.find(params[:id]).abuse_report_type.underscored_name
+    @abuse_report_form = (@report_type + '_form').classify.constantize.new params[:id]
+  end
+  
   def update
-    @abuse_report = AbuseReport.find params[:id]
-    if @abuse_report.update_attributes abuse_report_params
-      @notification = { notice: "Abuse report has been successfully updated" }
+    @abuse_report_form = (AbuseReport.find(params[:id]).abuse_report_type.underscored_name + '_form').classify.constantize.new params[:id]
+    if @abuse_report_form.submit(params)
+      flash[:notice] = 'Abuse report has been successfully updated'
+      redirect_to action: :index
     else
-      @notification = { alert: "Failed to update abuse report: " + @abuse_report.errors.full_messages.join("; ") }
+      flash.now[:alert] = 'Unable to update abuse report: ' + @abuse_report_form.errors.full_messages.join('; ')
+      render action: :edit
+    end
+  end
+  
+  def approve
+    @abuse_report = AbuseReport.find params[:id]
+    @notification = if @abuse_report.update_attributes abuse_report_params
+      { notice: 'Abuse report has been successfully approved' }
+    else
+      { alert: 'Failed to approve abuse report: ' + @abuse_report.errors.full_messages.join('; ') }
     end
   end
   
   private
   
   def abuse_report_params
-    params.require(:abuse_report).permit(:abuse_report_type_id, :reported_by, :processed_by, :processed, :comment,
-                   spammer_info_attributes: spammer_info_params, ddos_info_attributes: ddos_info_params,
-                   private_email_info_attributes: private_email_info_params, abuse_notes_info_attributes: abuse_notes_info_params,
-                   report_assignments_attributes: report_assignments_params)
-  end
-  
-  def report_assignments_params
-    [:id, :reportable_type, :report_assignment_type_id, :username, :usernames, :registered_domains,
-     :free_dns_domains, :domains, :comment, :new_user_status, :abuse_report_type,
-     relation_type_ids: [], reportable_attributes: reportable_params]
-  end
-  
-  def reportable_params
-    [:id, :username, :name, :signed_up_on_string, :nc_service_type_id, :new_status]
-  end
-  
-  def spammer_info_params
-    [:id, :amount_spent, :last_signed_in_on_string, :registered_domains, :abused_domains, :locked_domains, :abused_locked_domains,
-     :responded_previously, :reference_ticket_id, :cfc_status, :cfc_comment]
-  end
-  
-  def ddos_info_params
-    [:id, :amount_spent, :last_signed_in_on_string, :registered_domains, :free_dns_domains, :cfc_status, :cfc_comment, :vendor_ticket_id, :client_ticket_id,
-     :impact, :target_service, :random_domains]
-  end
-  
-  def private_email_info_params
-    [:id, :suspended, :reported_by, :warning_ticket_id]
-  end
-  
-  def abuse_notes_info_params
-    [:id, :reported_by, :action]
+    params.require(:abuse_report).permit(:id, :processed, :processed_by, report_assignments_attributes:
+                                  [:id, :reportable_type, reportable_attributes: [:id, :new_status] ])
   end
   
 end

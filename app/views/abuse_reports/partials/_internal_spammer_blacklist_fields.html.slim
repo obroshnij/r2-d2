@@ -1,40 +1,40 @@
-= f.hidden_field :processed, value: 0 
-= f.fields_for :spammer_info, SpammerInfo.new do |si| 
+= form_for @abuse_report_form, url: path, validate: true do |f|
+
+  = hidden_field_tag :abuse_report_type_id, 1 
+  
+  = f.hidden_field :reported_by, value: current_user.id unless f.object.persisted?
+  = f.hidden_field :processed, value: false
 
   .row
     .large-6.columns
       fieldset
         legend Account related
         .row
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = ra.hidden_field :reportable_type, value: "NcUser"
-            = ra.hidden_field :report_assignment_type_id, value: 1 
-            = ra.fields_for :reportable, NcUser.new do |nu| 
-              .large-6.columns.form-field
-                = nu.label :username, "Username"
-                = nu.text_field :username, placeholder: "spammachine"
-              .large-6.columns.form-field
-                = nu.label :signed_up_on_string, "Sign up date"
-                = nu.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
+          .large-6.columns.form-field
+            = f.label :username, "Username"
+            = f.text_field :username, placeholder: "spammachine"
+          .large-6.columns.form-field
+            = f.label :signed_up_on_string, "Sign up date"
+            = f.text_field :signed_up_on_string, placeholder: "month/day/year", class: 'date-picker'
         .row
           .large-6.columns.form-field
-            = si.label :amount_spent, "Amount spent"
-            = si.text_field :amount_spent, placeholder: "321.25", validate: true
+            = f.label :amount_spent, "Amount spent"
+            = f.text_field :amount_spent, placeholder: "321.25", validate: true
           .large-6.columns.form-field
-            = si.label :last_signed_in_on_string, "Last login date"
-            = si.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
+            = f.label :last_signed_in_on_string, "Last login date"
+            = f.text_field :last_signed_in_on_string, placeholder: "month/day/year", class: 'date-picker'
       fieldset
         legend Previous correspondence / comments
         .row
           .large-4.columns.responded-previously-buttons
-            = si.label :responded_previously, "Responded previously"
-            = si.radio_button :responded_previously, "1"
-            = si.label :responded_previously_1, "Yes"
-            = si.radio_button :responded_previously, "0", checked: true
-            = si.label :responded_previously_0, "No"
+            = f.label :responded_previously, "Responded previously"
+            = f.radio_button :responded_previously, true
+            = f.label :responded_previously_true, "Yes"
+            = f.radio_button :responded_previously, false
+            = f.label :responded_previously_false, "No"
           .large-8.columns.reference-fields.form-field
-            = si.label :reference_ticket_id, "Reference ticket ID"
-            = si.text_field :reference_ticket_id, placeholder: "LOL-123-45678", validate: true
+            = f.label :reference_ticket_id, "Reference ticket ID"
+            = f.text_field :reference_ticket_id, placeholder: "LOL-123-45678", validate: true
         .row
           .large-12.columns
             = f.label :comment, "Additional comments"
@@ -43,43 +43,43 @@
         legend CFC related
         .row
           .large-3.columns.cfc-related-inputs
-            = si.label :cfc_status, "CFC status"
+            = f.label :cfc_status, "CFC status"
             div
-              = si.radio_button :cfc_status, "1", style: "margin-bottom:0;"
-              = si.label :cfc_status_1, "Locked"
+              = f.radio_button :cfc_status, true, style: "margin-bottom:0;"
+              = f.label :cfc_status_true, "Locked"
             div
-              = si.radio_button :cfc_status, "0", style: "margin-bottom:0;", checked: true
-              = si.label :cfc_status_0, "Unlocked"
+              = f.radio_button :cfc_status, false, style: "margin-bottom:0;"
+              = f.label :cfc_status_false, "Unlocked"
           .large-9.columns.form-field.cfc-comment
-            = si.label :cfc_comment, "CFC comment"
-            = si.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
+            = f.label :cfc_comment, "CFC comment"
+            = f.text_area :cfc_comment, placeholder: "Comments from CFC", validate: true
     .large-6.columns
       fieldset
         legend Domains related
         .row
           .large-6.columns.form-field
-            = si.label :registered_domains, "Registered domains"
-            = si.text_field :registered_domains, placeholder: "4123", validate: true
+            = f.label :registered_domains, "Registered domains"
+            = f.text_field :registered_domains, placeholder: "4123", validate: true
           .large-6.columns.form-field
-            = si.label :abused_domains, "Abused domains"
-            = si.text_field :abused_domains, placeholder: "432", validate: true
+            = f.label :abused_domains, "Abused domains"
+            = f.text_field :abused_domains, placeholder: "432", validate: true
         .row
           .large-6.columns.form-field
-            = si.label :locked_domains, "Locked domains"
-            = si.text_field :locked_domains, placeholder: "312", validate: true
+            = f.label :locked_domains, "Locked domains"
+            = f.text_field :locked_domains, placeholder: "312", validate: true
           .large-6.columns.form-field
-            = si.label :abused_locked_domains, "Abused / Locked (reported in total)"
-            = si.text_field :abused_locked_domains, placeholder: "732", validate: true
+            = f.label :abused_locked_domains, "Abused / Locked (reported in total)"
+            = f.text_field :abused_locked_domains, placeholder: "732", validate: true
       fieldset
         legend Related accounts
-        #report-assignments
-          = f.fields_for :report_assignments, ReportAssignment.new do |ra| 
-            = render "abuse_reports/partials/spam_assignment_filds", f: ra
-        .links: .row
+        #virtus-fields-container
+          = f.fields_for :indirect_assignments do |ff| 
+            = render "abuse_reports/partials/internal_spammer_blacklist_assignment_fields", f: ff
+        .row
           .large-11.columns
           .large-1.columns
-            = link_to_add_association content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
-              :report_assignments, partial: "abuse_reports/partials/spam_assignment_filds", :'data-association-insertion-node' => '#report-assignments',
-              :'data-association-insertion-method' => 'append'
-.text-center          
-  = f.submit "Submit", class: "button tiny"
+            = link_to_add_virtus_fields content_tag(:i, "", class: "fa fa-plus-square-o action", title: "Add more fields"), f,
+              :indirect_assignments, InternalSpammerBlacklistAssignment, 'abuse_reports/partials/internal_spammer_blacklist_assignment_fields'
+            
+  .text-center
+    = f.submit 'Save', class: 'button tiny'

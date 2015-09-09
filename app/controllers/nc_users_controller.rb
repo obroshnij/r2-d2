@@ -21,6 +21,8 @@ class NcUsersController < ApplicationController
   
   def show
     @nc_user = NcUser.find params[:id]
+    @user_relations = @nc_user.user_relations
+    gon.user_relations = @user_relations
   end
   
   def update

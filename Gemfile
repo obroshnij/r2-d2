@@ -25,6 +25,7 @@ gem 'spring',        group: :development
 
 gem 'backbone-on-rails'
 gem 'responders'
+gem 'virtus'
 
 gem "slim-rails"
 gem 'rails-html-sanitizer'
@@ -59,6 +60,8 @@ gem 'roo'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 gem 'combine_pdf'
+
+gem 'gon'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

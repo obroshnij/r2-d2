@@ -60,6 +60,10 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.0)
     awesome_print (1.2.0)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     backbone-on-rails (1.2.0.0)
       eco
       ejs
@@ -87,6 +91,8 @@ GEM
       sshkit (~> 1.2)
     cocoon (1.2.6)
     coderay (1.1.0)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -100,6 +106,8 @@ GEM
       ruby-rc4 (>= 0.1.5)
     curb (0.8.8)
     debug_inspector (0.0.2)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -114,6 +122,7 @@ GEM
       execjs
     eco-source (1.1.0.rc.1)
     ejs (1.1.1)
+    equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
     font-awesome-rails (4.3.0.0)
@@ -127,8 +136,14 @@ GEM
     get_process_mem (0.2.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    gon (6.0.1)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     i18n (0.7.0)
     icalendar (2.3.0)
+    ice_nine (0.11.1)
     ipaddress (0.8.0)
     jbuilder (2.3.0)
       activesupport (>= 3.0.0, < 5)
@@ -212,6 +227,7 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    request_store (1.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     resque (1.25.2)
@@ -303,6 +319,11 @@ GEM
       unicorn (~> 4)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (2.1.3)
@@ -336,6 +357,7 @@ DEPENDENCIES
   font-awesome-rails
   foundation-icons-sass-rails
   foundation-rails
+  gon
   icalendar
   ipaddress
   jbuilder (~> 2.0)
@@ -365,6 +387,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unicorn
   unicorn-worker-killer
+  virtus
   web-console (~> 2.0)
   will_paginate-foundation
   wkhtmltopdf-binary

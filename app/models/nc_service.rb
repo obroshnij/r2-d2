@@ -6,8 +6,6 @@ class NcService < ActiveRecord::Base
   has_many :abuse_reports, through: :report_assignments
   has_many :comments, as: :commentable
   
-  validates :name, presence: true
-  
   accepts_nested_attributes_for :comments
   
   before_save do
@@ -24,6 +22,10 @@ class NcService < ActiveRecord::Base
   
   scope :direct,   -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 1).uniq }
   scope :indirect, -> { joins(:report_assignments).where('report_assignments.report_assignment_type_id = ?', 2).uniq }
+  
+  def destroy
+    super unless self.report_assignments.present? || self.comments.present? || self.status_ids.include?(ServiceStatus.find_by_name('VIP'))
+  end
   
   def new_status
     self.status_ids.last

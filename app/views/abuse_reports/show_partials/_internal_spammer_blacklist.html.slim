@@ -52,17 +52,21 @@
         span.left Related by:
         span.right = assignment.relation_type_ids.map { |id| RelationType.find id }.map { |t| t.name }.join(", ")
 
-- if !report.processed && can?(:approve, AbuseReport)
-  .approve-form.right
-    = form_for report, remote: true do |f|
-      = f.hidden_field :processed, value: 1
-      = f.hidden_field :processed_by, value: current_user.id
-      = f.fields_for :report_assignments, report.report_assignments.direct do |ff|
-        = ff.hidden_field :reportable_type, value: "NcUser"
-        = ff.fields_for :reportable do |fff|
-          = fff.hidden_field :new_status, value: Status.find_by_name("Internal Spammer").id
-      = f.fields_for :report_assignments, report.report_assignments.indirect do |ff|
-        = ff.hidden_field :reportable_type, value: "NcUser"
-        = ff.fields_for :reportable do |fff|
-          = fff.hidden_field :new_status, value: Status.find_by_name("Spammer Related").id
-      = f.submit "Approve", class: "button tiny", style: "margin:0;"
+ul.inline-list.right style='margin:0'
+  - if !report.processed && can?(:approve, AbuseReport)
+    li.approve-form      
+      = form_for report, url: approve_abuse_report_path(report), remote: true do |f|
+        = f.hidden_field :processed, value: true
+        = f.hidden_field :processed_by, value: current_user.id
+        = f.fields_for :report_assignments, report.report_assignments.direct do |ff|
+          = ff.hidden_field :reportable_type, value: "NcUser"
+          = ff.fields_for :reportable do |fff|
+            = fff.hidden_field :new_status, value: Status.find_by_name("Internal Spammer").id
+        = f.fields_for :report_assignments, report.report_assignments.indirect do |ff|
+          = ff.hidden_field :reportable_type, value: "NcUser"
+          = ff.fields_for :reportable do |fff|
+            = fff.hidden_field :new_status, value: Status.find_by_name("Spammer Related").id
+        = f.submit "Approve", class: "button tiny", style: "margin:0;"
+  - if can? :update, report
+    li
+      = link_to 'Edit', edit_abuse_report_path(report), class: 'button tiny', style: 'margin-bottom:0'
