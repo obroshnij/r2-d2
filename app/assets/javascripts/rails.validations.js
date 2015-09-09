@@ -28,8 +28,11 @@
 
   $.fn.validate = function() {
     this.filter(ClientSideValidations.selectors.forms).each(function() {
-      return $(this).enableClientSideValidations();
+      res = $(this).enableClientSideValidations();
+      $(this).trigger('form:validate');
+      return res;
     });
+    
     return this;
   };
 

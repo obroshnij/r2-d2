@@ -10,19 +10,20 @@ $(document).ready ->
   $.get "/update_abuse_report_form", { abuse_report_type_id: $(sel).val() }
   
 @abuseReportForm = ->
+  
+  $('form').on 'form:validate', ->
+    toggleReferenceFields $('.responded-previously-buttons').find('input[type="radio"]:checked')[0]
+    toggleFreeDNSFields $('.free-dns-buttons').find('input[type="radio"]:checked')[0]
+    validateCfcCommentField $('.cfc-related-inputs').find('input[type="radio"]:checked')[0]
 
   $('.responded-previously-buttons').find('input[type="radio"]').change ->
     toggleReferenceFields @
-
-  toggleReferenceFields $('.responded-previously-buttons').find('input[type="radio"]:checked')[0]
+  
   $('.free-dns-buttons').find('input[type="radio"]').change ->
     toggleFreeDNSFields @
-
-  toggleFreeDNSFields $('.free-dns-buttons').find('input[type="radio"]:checked')[0]
+  
   $('.cfc-related-inputs').find('input[type="radio"]').change ->
     validateCfcCommentField @
-
-  validateCfcCommentField $('.cfc-related-inputs').find('input[type="radio"]:checked')[0]
   
   $('form').on 'click', '.add-virtus-fields', (event) ->
     time = (new Date).getTime()
@@ -61,7 +62,7 @@ $(document).ready ->
   $field = $('.cfc-comment textarea')
   if $(radio).val() == 'false'
     if /^\s*$/.test($field.val())
-      $field.val('foo').change().focusout().disableClientSideValidations().val ''
+      $field.val('foo').change().focusout().disableClientSideValidations().val('')
     else
       $field.disableClientSideValidations()
   else
