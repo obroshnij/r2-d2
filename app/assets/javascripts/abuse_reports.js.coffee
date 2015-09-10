@@ -39,7 +39,7 @@ $(document).ready ->
 
   $('form').submit (event) ->
     checked = true
-    $('.relation-type-check-boxes').each (index, element) ->
+    $('.relation-type-check-boxes:visible').each (index, element) ->
       checked = false if $(element).find('input[type=\'checkbox\']:checked')[0] == undefined
       
     if checked == false
