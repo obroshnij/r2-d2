@@ -111,11 +111,11 @@ ActiveRecord::Schema.define(version: 20150907115748) do
 
   create_table "private_email_infos", force: :cascade do |t|
     t.integer  "abuse_report_id"
-    t.boolean  "suspended"
+    t.boolean  "suspended",         default: false
     t.string   "reported_by"
     t.string   "warning_ticket_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "rbl_statuses", force: :cascade do |t|

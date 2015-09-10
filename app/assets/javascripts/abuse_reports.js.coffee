@@ -34,7 +34,7 @@ $(document).ready ->
     event.preventDefault()
 
   $('form').on 'click', '.remove-virtus-fields', (event) ->
-    $(this).closest('.virtus-fields').remove()
+    $(this).closest('.virtus-fields').hide().find('[type="hidden"].destroy').val('true')
     event.preventDefault()
 
   $('form').submit (event) ->

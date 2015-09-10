@@ -52,7 +52,7 @@ class InternalSpammerBlacklistForm
   end
   
   def indirect_assignments_attributes=(attributes)
-    self.indirect_assignments = attributes.values
+    self.indirect_assignments = attributes.values.delete_if { |a| a['_destroy'] == 'true' }
   end
   
   def persisted?

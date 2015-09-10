@@ -25,7 +25,7 @@ class AbuseNotesForm
   end
   
   def assignments_attributes=(attributes)
-    self.assignments = attributes.values
+    self.assignments = attributes.values.delete_if { |a| a['_destroy'] == 'true' }
   end
   
   def persisted?

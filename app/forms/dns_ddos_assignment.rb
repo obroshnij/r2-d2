@@ -11,6 +11,7 @@ class DnsDdosAssignment
   attribute :free_dns_domains,   Integer
   attribute :comment,            String
   attribute :relation_type_ids,  Array[Integer]
+  attribute :_destroy,           Boolean
   
   validates :username, :registered_domains, :free_dns_domains, presence: true
   validates :registered_domains, :free_dns_domains, numericality: { only_integer: true }

@@ -8,6 +8,7 @@ class AbuseNotesAssignment
   
   attribute :username, String
   attribute :domains,  Array[String]
+  attribute :_destroy, Boolean
   
   validates :domains, presence: true
   
