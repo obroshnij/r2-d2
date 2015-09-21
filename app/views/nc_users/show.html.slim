@@ -57,7 +57,7 @@
             th Processed?
             th Actions
           tbody
-            - @nc_user.abuse_reports.indirect.each do |report|
+            - @nc_user.abuse_reports.indirect.sort { |a, b| a.reportable_name <=> b.reportable_name }.each do |report|
               tr
                 td = report.abuse_report_type.try(:name)
                 td = report.reportable_name
