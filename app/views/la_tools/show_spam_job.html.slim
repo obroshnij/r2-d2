@@ -36,7 +36,7 @@
                 - cell = []
                 - [:blacklisted, :not_blacklisted].each do |title| 
                   - if user_hash[title].present?
-                    - domains = "<h6>#{icon_title(title) + title.to_s.titleize}</h6>"
+                    - domains = "<h6>#{icon_title(title) + prettify_title(title)}</h6>"
                     - user_hash[title].each do |domain|
                       - domains << domain + "<br>"
                     - cell << domains
@@ -47,7 +47,7 @@
                 - cell = []
                 - [:suspended_by_registry, :suspended_by_enom, :suspended_for_whois_verification, :suspended_by_namecheap, :expired, :unregistered].each do |title| 
                   - if user_hash[title].present?
-                    - domains = "<h6>#{icon_title(title) + title.to_s.titleize}</h6>"
+                    - domains = "<h6>#{icon_title(title) + prettify_title(title)}</h6>"
                     - user_hash[title].each do |domain|
                       - domains << domain + "<br>"
                     - cell << domains

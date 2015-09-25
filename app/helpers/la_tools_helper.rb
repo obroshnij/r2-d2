@@ -18,6 +18,13 @@ module LaToolsHelper
     return content_tag(:i, '', class: 'fa fa-recycle inline')       if title == :unregistered
   end
   
+  def prettify_title(title)
+    return 'Suspended by Registry (ServerHold)'  if title == :suspended_by_registry
+    return 'Suspended by Registrar (ClientHold)' if title == :suspended_by_enom
+    return 'Suspended by Namecheap (ParkingDNS)' if title == :suspended_by_namecheap
+    title.to_s.titleize
+  end
+  
   def transform_job_data(data)
     result = {}
     data.each do |domain, val|
