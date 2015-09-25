@@ -39,18 +39,22 @@ module LaToolsHelper
       user[:blacklisted]     << domain if     !val["inactive"] && val["blacklisted"]
       user[:not_blacklisted] << domain if     !val["inactive"] && !val["blacklisted"]
       
-      user[:suspended_by_registry]            << domain if val["suspended_by_registry"] && !val["suspended_by_namecheap"]
-      user[:suspended_by_enom]                << domain if val["suspended_by_enom"]     && !val["suspended_by_registry"] && !val["suspended_by_namecheap"]
-      user[:suspended_for_whois_verification] << domain if val["suspended_for_whois"]
-      user[:suspended_by_namecheap]           << domain if val["suspended_by_namecheap"]
-      user[:expired]                          << domain if val["expired"]
-      user[:unregistered]                     << domain if val["unregistered"]
+      suspension_check user, domain, val
       
       user[:dbl]       << domain if val["dbl"]   && !val["surbl"] && !val["inactive"]
       user[:surbl]     << domain if val["surbl"] && !val["dbl"]   && !val["inactive"]
       user[:dbl_surbl] << domain if val["surbl"] &&  val["dbl"]   && !val["inactive"]
     end
     result
+  end
+  
+  def suspension_check(user, domain, val)
+    user[:suspended_by_registry]            << domain and return if val["suspended_by_registry"]
+    user[:suspended_by_enom]                << domain and return if val["suspended_by_enom"]
+    user[:suspended_for_whois_verification] << domain and return if val["suspended_for_whois"]
+    user[:suspended_by_namecheap]           << domain and return if val["suspended_by_namecheap"]
+    user[:expired]                          << domain and return if val["expired"]
+    user[:unregistered]                     << domain and return if val["unregistered"]
   end
   
   def get_canned_reply_for_spam_case(nc_user, data)
