@@ -1,6 +1,6 @@
 module ManagerToolsHelper
   
-  BONUS_FINE_REGEX = /\$\d+|\d+\$/
+  BONUS_FINE_REGEX = /\$?\d+|\d+\$?/
   
   def format_field(field)
     if field.is_a?(Float) && field.modulo(1) == 0
@@ -104,7 +104,7 @@ module ManagerToolsHelper
       canned << "Also, you will get a #{employee["Additional Tasks/Comments"].match(BONUS_FINE_REGEX).to_s} bonus for ...\n\n"
     end
     
-    canned << "Unfortunately, there will be a #{employee["Fines"].match(BONUS_FINE_REGEX).to_s} fine for ...\n\n" if employee["Fines"] && employee["Fines"].match(BONUS_FINE_REGEX)
+    canned << "Unfortunately, there will be a #{employee["Fines"].to_s.match(BONUS_FINE_REGEX).to_s} fine for ...\n\n" if employee["Fines"] && employee["Fines"].to_s.match(BONUS_FINE_REGEX)
     
     canned << "Please let me know in case of any question (no matter whether it is organizational or a procedure related one)."
     canned << "\n\n#{signature}" unless signature.blank?
