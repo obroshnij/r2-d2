@@ -4,9 +4,9 @@
 
 table#email-verification {
   thead {
-    th.header::after                { content: '\f0dc'; font-family: FontAwesome; }
-    th.header.headerSortUp::after   { content: "\f0dd"; }
-    th.header.headerSortDown::after { content: "\f0de"; }
+    th.header::after                { content: '\00a0\f0dc'; font-family: FontAwesome; }
+    th.header.headerSortUp::after   { content: "\00a0\f0dd"; }
+    th.header.headerSortDown::after { content: "\00a0\f0de"; }
   }
 }
 
@@ -14,7 +14,7 @@ table#email-verification {
   margin: 1em;
   
   .command::before {
-    content: "\f120";
+    content: "\f120\00a0";
     font-family: FontAwesome;
   }
   
