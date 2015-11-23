@@ -20,10 +20,12 @@ module EmailVerifier
     def host_error
       return "No MX records found for #{@host}"        unless @socket
       return "Unable to reach any of the mail servers" if @socket && !@socket.connected?
+      return 'Uncommon error, see session logs' if rcpt_to_line.nil?
       nil
     end
     
     def host_td_color
+      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       host_error.present? ? "red" : "green"
     end
     
@@ -33,6 +35,7 @@ module EmailVerifier
     end
     
     def mailbox_td_color
+      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       if host_error.nil?
         mailbox_error.present? ? "red" : "green"
       else
@@ -49,6 +52,7 @@ module EmailVerifier
     end
     
     def status_td_color
+      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       error.present? ? "red" : "green"
     end
     
