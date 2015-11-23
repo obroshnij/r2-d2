@@ -18,14 +18,16 @@ Rails.application.routes.draw do
   
   get 'alerts' => 'maintenance_alerts#index'
 
-  get 'whois' => 'domain_box#whois'
-  post 'whois' => 'domain_box#whois_lookup'
-  get 'parse_domains' => 'domain_box#parse_domains'
+  get  'whois'         => 'domain_box#whois'
+  post 'whois'         => 'domain_box#whois_lookup'
+  get  'parse_domains' => 'domain_box#parse_domains'
   post 'parse_domains' => 'domain_box#perform_parsing'
-  get 'bulk_dig' => 'domain_box#bulk_dig'
-  post 'bulk_dig' => 'domain_box#perform_bulk_dig'
-  get 'compare' => 'domain_box#compare_lists'
-  post 'compare' => 'domain_box#perform_comparison'
+  get  'bulk_dig'      => 'domain_box#bulk_dig'
+  post 'bulk_dig'      => 'domain_box#perform_bulk_dig'
+  get  'compare'       => 'domain_box#compare_lists'
+  post 'compare'       => 'domain_box#perform_comparison'
+  get  'verify_email'  => 'domain_box#verify_email'
+  post 'verify_email'  => 'domain_box#perform_email_verification'
 
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'

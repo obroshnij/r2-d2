@@ -108,20 +108,24 @@ table {
   width: 100%;
 }
 
-table tbody tr.red {
+table tbody tr.red, table tbody tr td.red {
  background: #f4d0d7;
 }
 
-table tbody tr.blue {
+table tbody tr.blue, table tbody tr td.blue {
   background: #d0ecf8;
 }
 
-table tbody tr.green {
+table tbody tr.green, table tbody tr td.green {
   background: #d0f8dc;
 }
 
-table tbody tr.yellow {
+table tbody tr.yellow, table tbody tr td.yellow {
   background: #f6f8d0;
+}
+
+table tbody tr.grey, table tbody tr td.grey {
+  background: #dbdbdb;
 }
 
 th {

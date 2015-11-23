@@ -13,5 +13,9 @@ module DomainBoxHelper
   def count_duplicates(domains)
     domains.select { |domain| domain.extra_attr[:occurrences_count] > 1 }
   end
+  
+  def email_to_selector(email)
+    email.downcase.gsub(/[\.@]/, '-')
+  end
 
 end

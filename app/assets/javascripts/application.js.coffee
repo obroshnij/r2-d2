@@ -14,6 +14,7 @@
 #= require jquery_ujs
 #= require foundation
 #= require foundation-datepicker
+#= require jquery.tablesorter
 #= require rails.validations
 #= require toastr
 #= require vis.min

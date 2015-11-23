@@ -1,3 +1,28 @@
 // Place all the styles related to the DomainBox controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+table#email-verification {
+  thead {
+    th.header::after                { content: '\f0dc'; font-family: FontAwesome; }
+    th.header.headerSortUp::after   { content: "\f0dd"; }
+    th.header.headerSortDown::after { content: "\f0de"; }
+  }
+}
+
+.smtp-line {
+  margin: 1em;
+  
+  .command::before {
+    content: "\f120";
+    font-family: FontAwesome;
+  }
+  
+  .command {
+    font-style: italic;
+  }
+  
+  .response div {
+    padding-left: 2em;
+  }
+}
