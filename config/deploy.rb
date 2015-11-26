@@ -6,6 +6,7 @@ set :repo_url, 'git@github.com:Zone3000/r2-d2.git'
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.3'
 set :deploy_to, '/var/www/apps/r2-d2'
+set :backup_path, '/home/deployer/Backup'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
