@@ -1,0 +1,23 @@
+fieldset#abuse-part-ip-feedback
+  legend IP Feedback
+  
+  .row
+    .large-3.columns = ff.label :reporting_party, 'Reporting Party', class: 'right inline'
+    .large-9.columns
+      .large-5.left = ff.text_field :reporting_party
+      .large-7.columns: h6.hint MS, Symantec, etc.
+      
+  .row
+    .large-3.columns = ff.label :ip_reported, 'IP Reported', class: 'right inline'
+    .large-9.columns
+      .large-5 = ff.text_field :ip_reported
+      
+  .row
+    .large-3.columns = ff.label :header, 'Header', class: 'right inline'
+    .large-9.columns
+      .large-5 = ff.text_area :header
+      
+  .row
+    .large-3.columns = ff.label :body, 'Body', class: 'right inline'
+    .large-9.columns
+      .large-5 = ff.text_area :body

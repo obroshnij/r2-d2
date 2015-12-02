@@ -1,0 +1,5 @@
+$("#hosting-abuse-report-form").html("<%= j(render 'form') %>");
+
+new HostingAbuseForm('#new_hosting_abuse_form');
+new HostingAbuseSpam('#abuse-part-spam');
+new HostingAbuseCronJob('#abuse-part-cron-job');

@@ -53,6 +53,12 @@ Rails.application.routes.draw do
   get 'update_abuse_report_form' => 'abuse_reports#update_abuse_report_form'
   patch 'approve_abuse_report/:id' => 'abuse_reports#approve', as: 'approve_abuse_report'
   
+  resources :hosting_abuse_reports do
+    collection do
+      get :update_form
+    end
+  end
+  
   resources :nc_users
   resources :nc_services, as: 'domains', path: '/domains', controller: 'domains'
   resources :nc_services, as: 'private_emails', path: '/private_emails', controller: 'private_emails'
