@@ -53,31 +53,32 @@
           .large-5.left = f.text_field :server_rack_label
           .large-7.columns: h6.hint For dedicated servers
     
-    - if @form.abuse_part.present?
-      = f.fields_for :abuse_part, @form.abuse_part do |ff|
-        = render partial: "hosting_abuse_reports/#{@form.hosting_abuse_type}", locals: { f: f, ff: ff }
+    #dynamic-part
+      - if @form.abuse_part.present?
+        = f.fields_for :abuse_part, @form.abuse_part do |ff|
+          = render partial: "hosting_abuse_reports/#{@form.hosting_abuse_type}", locals: { f: f, ff: ff }
         
-      fieldset
-        legend Conclusion
+        fieldset
+          legend Conclusion
         
-        .row
-          .large-3.columns = f.label :suggestion, 'Suggestion', class: 'right inline'
-          .large-9.columns
-            .large-5.left = f.select :suggestion, options_for_select(@form.suggestions, selected: @form.suggestion),
-                            { include_blank: 'Please select' }
-            .large-7.columns: h6.hint Is it necessary to suspend the account or there is an amount of time to be provided?
+          .row
+            .large-3.columns = f.label :suggestion, 'Suggestion', class: 'right inline'
+            .large-9.columns
+              .large-5.left = f.select :suggestion, options_for_select(@form.suggestions, selected: @form.suggestion),
+                              { include_blank: 'Please select' }
+              .large-7.columns: h6.hint Is it necessary to suspend the account or there is an amount of time to be provided?
             
-        .row
-          .large-3.columns = f.label :scan_report_path, 'Scan Report Path', class: 'right inline'
-          .large-9.columns
-            .large-5.left = f.text_field :scan_report_path
-            .large-7.columns: h6.hint If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server
+          .row
+            .large-3.columns = f.label :scan_report_path, 'Scan Report Path', class: 'right inline'
+            .large-9.columns
+              .large-5.left = f.text_field :scan_report_path
+              .large-7.columns: h6.hint If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server
             
-        .row
-          .large-3.columns = f.label :comments, 'Additional Comments', class: 'right inline'
-          .large-9.columns
-            .large-5.left = f.text_area :comments
-            .large-7.columns: h6.hint Anything you would like to add on this case (e.g. when a particular abuser is affecting the whole server)
+          .row
+            .large-3.columns = f.label :comments, 'Additional Comments', class: 'right inline'
+            .large-9.columns
+              .large-5.left = f.text_area :comments
+              .large-7.columns: h6.hint Anything you would like to add on this case (e.g. when a particular abuser is affecting the whole server)
         
-      footer.text-right
-        = f.submit 'Submit', class: 'button tiny'
+        footer.text-right
+          = f.submit 'Submit', class: 'button tiny'

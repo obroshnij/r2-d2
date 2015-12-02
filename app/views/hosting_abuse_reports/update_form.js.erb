@@ -1,5 +1,10 @@
-$("#hosting-abuse-report-form").html("<%= j(render 'form') %>");
+var content = $("<%= j(render 'form') %>").find("#dynamic-part");
+var dynamic = $("#hosting-abuse-report-form #dynamic-part");
 
-new HostingAbuseForm('#new_hosting_abuse_form');
-new HostingAbuseSpam('#abuse-part-spam');
-new HostingAbuseCronJob('#abuse-part-cron-job');
+dynamic.hide(200, function() {
+  dynamic.html(content);
+  dynamic.show(200, function() {
+    new HostingAbuseSpam('#abuse-part-spam');
+    new HostingAbuseCronJob('#abuse-part-cron-job');
+  });
+});

@@ -4,30 +4,27 @@
   $service   = $form.find "#service.input select"
   $abuseType = $form.find "#abuse-type.input select"
   
-  vpsProhibitedOptions       = ['lve_mysql', 'disc_space', 'cron_jobs']
-  dedicatedProhibitedOptions = ['lve_mysql', 'disc_space', 'cron_jobs', 'ddos']
-  peProhibitedOptions        = ['lve_mysql', 'disc_space', 'cron_jobs', 'ddos', 'ip_feedback']
-  
-  visibleFields = null
+  vpsProhibitedOptions       = ['lve_mysql', 'disc_space', 'cron_job']
+  dedicatedProhibitedOptions = ['lve_mysql', 'disc_space', 'cron_job', 'ddos']
+  peProhibitedOptions        = ['lve_mysql', 'disc_space', 'cron_job', 'ddos', 'ip_feedback']
   
   $service.change ->
     updateAbuseType()
     updateInputRows()
-    updateVisibleFields()
-    
-  updateVisibleFields = ->
-    visibleFields = $("#client-details .row.input:visible").find('input, select')
-    visibleFields.change ->
-      updateAbusePart() if isReady()
-      
-  isReady = ->
-    ready = true
-    visibleFields.each (index, item) ->
-      ready = false if $(item).val() is ""
-    ready
+    updateAbusePart()
+  
+  $abuseType.change ->
+    updateAbusePart()
       
   updateAbusePart = ->
-    $.get "/hosting_abuse_reports/update_form", visibleFields.serialize()
+    if isReady()
+      $.get "/hosting_abuse_reports/update_form", $form.find("#client-details").serialize()
+    else
+      $("#dynamic-part").hide 200, ->
+        $("#dynamic-part").html('')
+    
+  isReady = ->
+    $service.val().length > 0 && $abuseType.val().length > 0
     
   updateInputRows = ->
     val = $service.val()
@@ -38,13 +35,13 @@
     $form.find(selector).each (index, item) -> showFormField(item)
     
   showFormField = (selector) ->
-    $(selector).show()
+    $(selector).show(200)
     
   hideFormFields = (selector) ->
     $form.find(selector).each (index, item) -> hideFormField(item)
     
   hideFormField = (selector) ->
-    $(selector).hide()
+    $(selector).hide(200)
     $(selector).find('select, input').val('')
   
   updateAbuseType = ->
@@ -57,6 +54,7 @@
   enableAbuseType = ->
     $abuseType.attr 'disabled', false
     updateAbuseTypeOptions()
+    $abuseType.val('')
     
   updateAbuseTypeOptions = ->
     enableOptions  "option"
@@ -75,8 +73,9 @@
   disableOptions = (selector) ->
     $abuseType.find(selector).attr('disabled', true)
     
-  $service.change()
-      
+  updateAbuseType()
+  updateInputRows()
+  
   this
   
   
