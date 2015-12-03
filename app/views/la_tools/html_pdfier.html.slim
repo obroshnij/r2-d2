@@ -34,6 +34,10 @@
           = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
           = label_tag :'[files][html]push_history_from', 'Push History (from)'
           = file_field_tag :'[files][html]push_history_from'
+        .html-file-field
+          = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
+          = label_tag :'[files][html]ssl_list', 'SSL List'
+          = file_field_tag :'[files][html]ssl_list'
       
     .large-6.columns
       fieldset

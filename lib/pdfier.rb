@@ -114,4 +114,17 @@ class Pdfier
     kit.to_file File.join(Rails.root, 'public', 'tmp', folder, 'push_history_from.pdf')
   end
   
+  def self.ssl_list(file, folder)
+    page = Nokogiri::HTML file
+    page.css('#searchFormDiv').remove
+    page.css('#findSSLButton').remove
+    2.times { page.css('.navHeader.fullWidth td:last-child').remove }
+    page.css('#contentTable tbody tr td.line[colspan="3"] i a').remove
+    page.css('a.anchorLink').remove
+    
+    kit = PDFKit.new(page.to_html)
+    kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
+    kit.to_file File.join(Rails.root, 'public', 'tmp', folder, 'ssl_list.pdf')
+  end
+  
 end
