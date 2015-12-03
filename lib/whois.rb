@@ -57,7 +57,9 @@ class Whois
     end
     if record.match(/whois server:.+/i)
       registrar_whois = record.match(/whois server:.+/i).to_s.split(':').last.try(:strip).try(:downcase)
-      record += execute(registrar_whois, domain.name) if registrar_whois.present? && server != registrar_whois && registrar_whois.match(/\A[a-z\.]+\z/).present?
+      if registrar_whois.present? && server != registrar_whois && registrar_whois.match(/\A[a-z\.]+\z/).present? && registrar_whois[0..3] != 'www.'
+        record += execute(registrar_whois, domain.name) 
+      end
     end
     raise Errno::ECONNRESET if record.include?('Your request is being rate limited') || record.include?('Looup quota exceeded') ||
                                record.match(/Query rate of [[:digit:]]+ queries per hour exceeded for your network/)
@@ -131,7 +133,6 @@ class Whois
   end
   
   def execute(remote, query)
-    puts remote
     addr = Addrinfo.tcp remote, 43
     Timeout::timeout(3) do
       addr.connect_from(local_ips.sample, rand(55000..65000)) do |socket|
