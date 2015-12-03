@@ -14,6 +14,8 @@ class HostingAbuseForm
     
     attr_accessor :service
     
+    validates :domain_port, :block_type, :logs, presence: true
+    
   end
   
 end

@@ -16,6 +16,8 @@ class HostingAbuseForm
     
     attr_accessor :service
     
+    validates :upgrade_suggestion, :impact, :resource_types, presence: true
+    
     RESOURCE_TYPES = {
       cpu:       "CPU Usage",
       memory:    "Memory Usage",

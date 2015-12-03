@@ -1,7 +1,7 @@
 fieldset#abuse-part-cron-job
   legend Resource Abuse (Cron Jobs)
   
-  .row
+  .row.form-field
     .large-3.columns = ff.label :activity_type, 'Activity Type', class: 'right inline'
     .large-9.columns
       .large-5 = ff.select :activity_type, options_for_select(@form.abuse_part.activity_types, selected: @form.abuse_part.activity_type),
@@ -17,7 +17,7 @@ fieldset#abuse-part-cron-job
             = ff.label "measure_#{key}", val
       .large-7.columns: h6.hint What was done?
       
-  .row#other.input style="#{hidden_if_blank(@form.abuse_part.other_measure)}"
+  .row#other.input.form-field style="#{hidden_if_blank(@form.abuse_part.other_measure)}"
     .large-3.columns = ff.label :other_measure, "Other", class: 'right inline'
     .large-9.columns
-      .large-5 = ff.text_field :other_measure
+      .large-5 = ff.text_field :other_measure, validate: true

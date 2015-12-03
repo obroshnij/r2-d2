@@ -1,7 +1,7 @@
 fieldset#abuse-part-lve-mysql
   legend Resource Abuse (LVE/MySQL)
   
-  .row
+  .row#resource-types.input.form-field
     .large-3.columns = ff.label :resource_types, 'Resource Type', class: 'right inline'
     .large-9.columns
       .large-5.check-boxes.left
@@ -11,24 +11,24 @@ fieldset#abuse-part-lve-mysql
             = ff.label "resource_types_#{key}".to_sym, val
       .large-7.columns: h6.hint Please check all resources under impact
       
-  .row
+  .row.form-field
     .large-3.columns = ff.label :mysql_queries, 'MySQL Queries', class: 'right inline'
     .large-9.columns
       .large-5.left = ff.text_area :mysql_queries
       .large-7.columns: h6.hint Along with the command
       
-  .row
+  .row.form-field
     .large-3.columns = ff.label :lve_report, 'LVE Report', class: 'right inline'
     .large-9.columns
       .large-5 = ff.text_area :lve_report
       
-  .row
+  .row.form-field
     .large-3.columns = ff.label :upgrade_suggestion, 'Upgrade Suggestion', class: 'right inline'
     .large-9.columns
       .large-5 = ff.select :upgrade_suggestion, options_for_select(@form.abuse_part.upgrade_suggestions, selected: @form.abuse_part.upgrade_suggestion),
                       { include_blank: 'Please select' }
                       
-  .row
+  .row.form-field
     .large-3.columns = ff.label :impact, 'Severity of Impact', class: 'right inline'
     .large-9.columns
       .large-5.left = ff.select :impact, options_for_select(@form.abuse_part.impacts, selected: @form.abuse_part.impact),

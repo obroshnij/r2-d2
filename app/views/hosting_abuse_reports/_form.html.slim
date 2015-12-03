@@ -1,80 +1,80 @@
-= form_for @form, url: new_hosting_abuse_report_path, html: { class: 'wrapped' } do |f|
+= form_for @form, url: new_hosting_abuse_report_path, html: { class: 'wrapped' }, validate: true do |f|
   .panel.callout
     fieldset#client-details
       legend Client Details
       
-      .row#service.input
+      .row#service.input.form-field
         .large-3.columns = f.label :hosting_service, 'Service', class: 'right inline'
         .large-9.columns
           .large-5.left = f.select :hosting_service, options_for_select(@form.hosting_services, selected: @form.hosting_service),
                           { include_blank: 'Please select' }
           .large-7.columns: h6.hint Abused service
           
-      .row#abuse-type.input
+      .row#abuse-type.input.form-field
         .large-3.columns = f.label :hosting_abuse_type, 'Abuse Type', class: 'right inline'
         .large-9.columns
           .large-5.left = f.select :hosting_abuse_type, options_for_select(@form.hosting_abuse_types, selected: @form.hosting_abuse_type),
                           { include_blank: 'Please select' }, disabled: @form.hosting_abuse_type.blank?
           .large-7.columns: h6.hint Type of the issue
           
-      .row#server-name.input style="#{hidden_if_blank(@form.server_name)}" data-service='shared reseller vps dedicated'
+      .row#server-name.input.form-field style="#{hidden_if_blank(@form.server_name)}" data-service='shared reseller vps dedicated'
         .large-3.columns = f.label :server_name, 'Server Name', class: 'right inline'
         .large-9.columns
-          .large-5.left = f.text_field :server_name
+          .large-5.left = f.text_field :server_name, validate: true
           .large-7.columns: h6.hint Ex: server78.web-hosting.com, host7.registrar-servers.com, etc.
           
-      .row#owner.input style="#{hidden_if_blank(@form.owner)}" data-service='reseller'
+      .row#owner.input.form-field style="#{hidden_if_blank(@form.owner)}" data-service='reseller'
         .large-3.columns = f.label :owner, 'Owner', class: 'right inline'
         .large-9.columns
-          .large-5.left = f.text_field :owner
+          .large-5.left = f.text_field :owner, validate: true
           .large-7.columns: h6.hint For reseller packages
       
-      .row#management-type.input style="#{hidden_if_blank(@form.management_type)}" data-service='vps dedicated'
+      .row#management-type.input.form-field style="#{hidden_if_blank(@form.management_type)}" data-service='vps dedicated'
         .large-3.columns = f.label :management_type, 'Type of Management', class: 'right inline'
         .large-9.columns
           .large-5.left = f.select :management_type, options_for_select(@form.management_types, selected: @form.management_type),
-                          { include_blank: 'Please select' }
+                          { include_blank: 'Please select' }, validate: true
           .large-7.columns: h6.hint For VPS hosting and dedicated servers
           
-      .row#package.input style="#{hidden_if_blank(@form.package)}" data-service='shared'
+      .row#package.input.form-field style="#{hidden_if_blank(@form.package)}" data-service='shared'
         .large-3.columns = f.label :package, 'Package', class: 'right inline'
         .large-9.columns
           .large-5 = f.select :package, options_for_select(@form.packages, selected: @form.package),
-                      { include_blank: 'Please select' }
+                      { include_blank: 'Please select' }, validate: true
           
-      .row#username.input style="#{hidden_if_blank(@form.username)}" data-service="shared reseller vps pe"
+      .row#username.input.form-field style="#{hidden_if_blank(@form.username)}" data-service="shared reseller vps pe"
         .large-3.columns = f.label :username, 'Username', class: 'right inline'
         .large-9.columns
-          .large-5 = f.text_field :username
+          .large-5 = f.text_field :username, validate: true
           
-      .row#server-rack-label.input style="#{hidden_if_blank(@form.server_rack_label)}" data-service='dedicated'
+      .row#server-rack-label.input.form-field style="#{hidden_if_blank(@form.server_rack_label)}" data-service='dedicated'
         .large-3.columns = f.label :server_rack_label, 'Server Rack Label', class: 'right inline'
         .large-9.columns
-          .large-5.left = f.text_field :server_rack_label
+          .large-5.left = f.text_field :server_rack_label, validate: true
           .large-7.columns: h6.hint For dedicated servers
     
     #dynamic-part
       - if @form.abuse_part.present?
-        = f.fields_for :abuse_part, @form.abuse_part do |ff|
+        = f.fields_for :abuse_part, @form.abuse_part, validate: true do |ff|
           = render partial: "hosting_abuse_reports/#{@form.hosting_abuse_type}", locals: { f: f, ff: ff }
         
         fieldset
           legend Conclusion
         
-          .row
+          .row.form-field
             .large-3.columns = f.label :suggestion, 'Suggestion', class: 'right inline'
             .large-9.columns
               .large-5.left = f.select :suggestion, options_for_select(@form.suggestions, selected: @form.suggestion),
                               { include_blank: 'Please select' }
               .large-7.columns: h6.hint Is it necessary to suspend the account or there is an amount of time to be provided?
             
-          .row
+          .row.form-field
             .large-3.columns = f.label :scan_report_path, 'Scan Report Path', class: 'right inline'
             .large-9.columns
               .large-5.left = f.text_field :scan_report_path
               .large-7.columns: h6.hint If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server
             
-          .row
+          .row.form-field
             .large-3.columns = f.label :comments, 'Additional Comments', class: 'right inline'
             .large-9.columns
               .large-5.left = f.text_area :comments

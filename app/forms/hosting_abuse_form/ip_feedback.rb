@@ -15,6 +15,8 @@ class HostingAbuseForm
     
     attr_accessor :service
     
+    validates :reporting_party, :ip_reported, :header, presence: true
+    
   end
   
 end

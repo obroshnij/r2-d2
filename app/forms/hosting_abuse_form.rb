@@ -19,6 +19,50 @@ class HostingAbuseForm
   attribute :scan_report_path,   String
   attribute :comments,           String
   
+  validates :hosting_service, :hosting_abuse_type, presence: true
+  validates :server_name,       presence: true, if: :server_name_required?
+  validates :username,          presence: true, if: :username_required?
+  validates :package,           presence: true, if: :package_required?
+  validates :owner,             presence: true, if: :owner_required?
+  validates :server_rack_label, presence: true, if: :server_rack_label_required?
+  validates :management_type,   presence: true, if: :management_type_required?
+  
+  # Force client side validation
+  def run_conditional(method_name_value_or_proc)
+    [
+      :server_name_required?,
+      :username_required?,
+      :package_required?,
+      :owner_required?,
+      :server_rack_label_required?,
+      :management_type_required?
+    ].include?(method_name_value_or_proc) || super
+  end
+  
+  def server_name_required?
+    self.hosting_service != 'pe'
+  end
+  
+  def username_required?
+    self.hosting_service != 'dedicated'
+  end
+  
+  def package_required?
+    self.hosting_service == 'shared'
+  end
+  
+  def owner_required?
+    self.hosting_service == 'reseller'
+  end
+  
+  def server_rack_label_required?
+    self.hosting_service == 'dedicated'
+  end
+  
+  def management_type_required?
+    ['vps', 'dedicated'].include? self.hosting_service
+  end
+  
   HOSTING_SERVICES = {
     shared:    'Shared Package',
     reseller:  'Reseller Package',

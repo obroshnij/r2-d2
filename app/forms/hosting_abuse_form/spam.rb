@@ -21,6 +21,22 @@ class HostingAbuseForm
     
     attr_accessor :service
     
+    validates :detection_methods, :mailboxes_count, :header, presence: true
+    validates :other_detection_method, presence: true, if: :other_detection_method_required?
+    validates :queue_amount, presence: true, if: :queue_amount_required?
+    
+    def run_conditional(method_name_value_or_proc)
+      method_name_value_or_proc == :other_detection_method_required? || method_name_value_or_proc == :queue_amount_required? || supers
+    end
+    
+    def other_detection_method_required?
+      self.detection_methods.include?('other')
+    end
+    
+    def queue_amount_required?
+      !self.detection_methods.include?('complaints')
+    end
+    
     DETECTION_METHODS = {
       queue_outbound:    "Queue (outbound)",
       queue_bounces:     "Queue (bounces)",

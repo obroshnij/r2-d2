@@ -12,6 +12,8 @@ class HostingAbuseForm
     
     attr_accessor :service
     
+    validates :folders, presence: true
+    
   end
   
 end
