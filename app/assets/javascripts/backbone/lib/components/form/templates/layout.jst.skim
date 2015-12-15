@@ -1,0 +1,8 @@
+.callout
+  #form-content-region
+  - if @footer
+    footer.clearfix
+      - if @buttons
+        .button-group.small
+          - for button in @buttons
+            button type="#{button.buttonType}" data-form-button="#{button.type}" class="#{button.className}" = button.text

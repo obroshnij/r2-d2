@@ -16,6 +16,7 @@
 #= require foundation-datepicker
 #= require jquery.tablesorter
 #= require rails.validations
+#= require rails.validations.actionView
 #= require toastr
 #= require vis.min
 #= require spin
@@ -27,7 +28,13 @@
 #= require_tree ./collections
 #= require_tree ./views
 #= require_tree ./routers
-#= require_tree .
+
+#= require abuse_reports
+#= require domain_box
+#= require la_tools
+#= require manager_tools
+#= require nc_users
+#= require roles
 
 String.prototype.capitalizeFirstLetter = ->
   @charAt(0).toUpperCase() + @slice(1)

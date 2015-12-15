@@ -23,7 +23,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-gem 'backbone-on-rails'
 gem 'responders'
 gem 'virtus'
 
@@ -32,9 +31,12 @@ gem 'rails-html-sanitizer'
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
 gem 'font-awesome-rails'
-gem 'cocoon'
 gem 'will_paginate-foundation'
 gem 'client_side_validations', github: 'DavyJonesLocker/client_side_validations'
+
+gem 'js-routes'
+gem 'eco'
+gem 'skim'
 
 gem 'pg'
 gem 'postgres_ext'

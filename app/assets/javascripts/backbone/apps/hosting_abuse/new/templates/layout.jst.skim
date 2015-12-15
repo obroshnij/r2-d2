@@ -1,0 +1,12 @@
+#page-title
+  .row
+    .large-12.columns
+      #title
+        h1 Hosting Abuse Reports
+        h4 Submit New
+      #icon
+        i.fa.fa-fire
+  
+.row
+  .large-12.columns
+    #form-region

@@ -4,7 +4,7 @@
   = form_for resource, as: resource_name, url: session_path(resource_name) do |f|
     fieldset
       legend Sign in
-      
+            
       .form-field
         = f.label :email, 'Email address'
         = f.email_field :email, autofocus: true

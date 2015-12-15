@@ -1,0 +1,8 @@
+html, body								{ height: 100%; font-size: 14px; }
+#wrap											{ height: auto !important; min-height: 100%; margin-bottom: -$pushHeight; }
+#push											{ height: $pushHeight; }
+
+#page-title               { background-color: #63b7ee; color: white; margin-bottom: 3rem;
+  #title                  { float: left; }
+  #icon                   { font-size: 500%; float: right; color: #135b8b; }
+}

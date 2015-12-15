@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='x-ua-compatible' content='ie=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>R2-D2</title>
+    <%= Gon::Base.render_data %>
+    <%= stylesheet_link_tag    'application_new' %>
+    <%= javascript_include_tag 'application_new' %>
+    <%= favicon_link_tag       'favicon.ico' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

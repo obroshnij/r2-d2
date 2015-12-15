@@ -10,13 +10,19 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  *= require font-awesome
  *= require foundation_and_overrides
  *= require foundation-datepicker
  *= require toastr
  *= require vis.min
+ *= require_self
+ *= require abuse_reports
+ *= require domain_box
+ *= require la_tools
+ *= require manager_tools
+ *= require nc_users
+ *= require roles
+ *= require whois
  */
 
 @import 'foundation-icons';

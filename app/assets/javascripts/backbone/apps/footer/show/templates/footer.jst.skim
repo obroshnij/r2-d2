@@ -1,0 +1,2 @@
+#footer
+  div = "© #{new Date().getFullYear()} R2-D2"
