@@ -5,6 +5,6 @@
     
     regions:
       formRegion: '#form-region'
-        
-  class New.NewReport extends App.Views.ItemView
-    template: 'hosting_abuse/new/new_report'
+  
+  
+  class New.FormFields extends App.Views.Form.FieldsView

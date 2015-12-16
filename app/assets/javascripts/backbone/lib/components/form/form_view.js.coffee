@@ -12,6 +12,7 @@
         
     ui:
       buttonsContainer: '.button-group'
+      callout:          '.callout'
       
     triggers:
       'submit'                            : 'form:submit'
@@ -29,10 +30,13 @@
       footer:  @config.footer
       buttons: @buttons?.toJSON() ? false
       
+    onBeforeAttach: ->
+      @ui.callout.addClass @getCalloutClass()
+      @buttonsPlacement() if @buttons
+      
     onShow: ->
       _.defer =>
         @focusFirstInput()  if @config.focusFirstInput
-        @buttonsPlacement() if @buttons
         
     buttonsPlacement: ->
       @ui.buttonsContainer.addClass "float-#{@buttons.placement}"
@@ -42,6 +46,9 @@
       
     getFormDataType: ->
       if @model.isNew() then 'new' else 'edit'
+      
+    getCalloutClass: ->
+      if @model.isNew() then 'primary' else 'secondary'
       
     changeErrors: (model, errors, options) ->
       if @config.errors

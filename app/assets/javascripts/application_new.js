@@ -14,7 +14,10 @@
 //= require jquery_ujs
 //= require foundation_six
 //= require underscore
+//= require underscore-string
 //= require backbone
+//= require backbone-syphon
+//= require backbone-mutators
 //= require routefilter
 //= require marionette
 //= require js-routes

@@ -1,0 +1,8 @@
+form              {
+  fieldset        { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
+    legend        { margin-left: 2rem; font-style: italic; color: rgba($black, 0.6); }
+  }
+  label           { font-size: 0.9rem; font-style: italic; }
+  .help-text      { font-size: 1rem; }
+  footer          { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
+}
