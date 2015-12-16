@@ -1,0 +1,8 @@
+fieldset#abuse-part-disc-space
+  legend Resource Abuse (Disc Space)
+  
+  .row.form-field
+    .large-3.columns = ff.label :folders, 'Folders', class: 'right inline'
+    .large-9.columns
+      .large-5.left = ff.text_area :folders
+      .large-7.columns: h6.hint Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)
