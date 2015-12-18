@@ -2,13 +2,16 @@
   
   class Entities.User extends App.Entities.Model
   
+  
   class Entities.Users extends App.Entities.Collection
     model: Entities.User
-    
+  
+  
   API =
     
-    setCurrentUser: (currentUser) ->
-      new Entities.User currentUser
+    newUser: (params = {}) ->
+      new Entities.User params
   
-  App.reqres.setHandler 'set:current:user', (currentUser) ->
-    API.setCurrentUser currentUser if currentUser
+  
+  App.reqres.setHandler 'init:current:user', (currentUser) ->
+    API.newUser currentUser if currentUser

@@ -1,7 +1,7 @@
-@Artoo.module 'Components.Form', (Form, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'Components.FormWrapper', (FormWrapper, App, Backbone, Marionette, $, _) ->
   
-  class Form.FormWrapper extends App.Views.LayoutView
-    template: 'form/layout'
+  class FormWrapper.Layout extends App.Views.LayoutView
+    template: 'form_wrapper/layout'
     
     tagName: 'form'
     attributes: ->

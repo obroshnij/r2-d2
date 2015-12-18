@@ -14,18 +14,13 @@
       @show @layout
 
     formRegion: (report) ->
-      formManager = new New.FormManager
-      newView = @getNewView formManager.formFields(), report
-      
-      formView = App.request 'form:wrapper', newView
-
+      newView = @getNewView report
+      formView = App.request 'wrap:form', newView
       @layout.formRegion.show formView
-      formManager.manage newView
 
-    getNewView: (fields, report) ->
+    getNewView: (report) ->
       new New.FormFields
-        collection: fields
-        model:      report
+        model: report
 
     getLayoutView: ->
       new New.Layout

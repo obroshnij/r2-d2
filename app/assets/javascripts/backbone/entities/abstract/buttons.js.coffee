@@ -5,7 +5,7 @@
     defaults:
       buttonType: 'button'
     
-  class Entities.ButtonsCollection extends Entities.Collection
+  class Entities.Buttons extends Entities.Collection
     model: Entities.Button
     
   API =
@@ -19,7 +19,7 @@
         
       array.reverse() if buttons.placement is 'left'
       
-      buttonsCollection = new Entities.ButtonsCollection array
+      buttonsCollection = new Entities.Buttons array
       buttonsCollection.placement = buttons.placement
       buttonsCollection
     

@@ -9,8 +9,10 @@
 <%= javascript_tag do %>
   $(function() {
     Artoo.start({
-      environment: "<%= Rails.env %>",
-      currentUser: gon.current_user
+      environment:          "<%= Rails.env %>",
+      currentUser:          gon.current_user,
+      hostingAbuseServices: gon.hosting_abuse_services,
+      hostingAbuseTypes:    gon.hosting_abuse_types
     });
     $(document).foundation();
   });

@@ -35,6 +35,7 @@
 #= require manager_tools
 #= require nc_users
 #= require roles
+#= require hosting_abuse_reports
 
 String.prototype.capitalizeFirstLetter = ->
   @charAt(0).toUpperCase() + @slice(1)

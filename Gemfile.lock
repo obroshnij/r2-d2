@@ -181,6 +181,10 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    rabl-rails (0.4.1)
+      activesupport (>= 3.1)
+      railties (>= 3.1)
+      thread_safe (~> 0.3.1)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -370,6 +374,7 @@ DEPENDENCIES
   postgres_ext
   pry-rails
   public_suffix!
+  rabl-rails
   rails (= 4.2.1)
   rails-html-sanitizer
   ransack

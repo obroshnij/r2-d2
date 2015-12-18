@@ -1,0 +1,14 @@
+.large-3.columns
+  label.text-right.middle for="#{@id}" = @label
+
+.large-9.columns
+  
+  .large-5.columns
+    select name="#{@name}" id="#{@id}"
+      
+      option value='' Please select
+      - for option in @options
+        option value="#{option.value}" = option.name
+  
+  .large-7.columns
+    label.help-text.middle = @hint

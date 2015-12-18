@@ -1,6 +1,6 @@
-@Artoo.module 'Components.Form', (Form, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'Components.FormWrapper', (FormWrapper, App, Backbone, Marionette, $, _) ->
     
-  class Form.Controller extends App.Controllers.Application
+  class FormWrapper.Controller extends App.Controllers.Application
     
     initialize: (options = {}) ->
       @contentView = options.view
@@ -35,7 +35,7 @@
       
       buttons = @getButtons config.buttons
       
-      new Form.FormWrapper
+      new FormWrapper.Layout
         config:  config
         model:   @contentView.model
         buttons: buttons
@@ -50,9 +50,9 @@
     getButtons: (buttons = {}) ->
       App.request('form:button:entities', buttons, @contentView.model) unless buttons is false
       
-  App.reqres.setHandler 'form:wrapper', (contentView, options = {}) ->
+  App.reqres.setHandler 'wrap:form', (contentView, options = {}) ->
     throw new Error "No model found inside of form's contentView" unless contentView.model
-    formController = new Form.Controller
+    formController = new FormWrapper.Controller
       view:   contentView
       config: options
     formController.formLayout

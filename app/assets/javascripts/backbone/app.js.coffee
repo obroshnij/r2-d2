@@ -3,8 +3,7 @@
   App = new Marionette.Application
   
   App.on 'before:start', (options) ->
-    @environment = options.environment
-    @currentUser = App.request 'set:current:user', options.currentUser
+    @bootstrap options
   
   App.addRegions
     headerRegion: '#header-region'

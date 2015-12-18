@@ -1,8 +1,9 @@
-form              {
-  fieldset        { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
-    legend        { margin-left: 2rem; font-style: italic; color: rgba($black, 0.6); }
+form                                          {
+  input[type], select, textarea               { font-size: 0.875rem; }
+  fieldset                                    { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
+    legend                                    { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
   }
-  label           { font-size: 0.9rem; font-style: italic; }
-  .help-text      { font-size: 1rem; }
-  footer          { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
+  label                                       { font-size: 1rem; font-weight: 300; color: #333333; line-height: 1.3rem; }
+  .help-text                                  { font-size: 1rem; }
+  footer                                      { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
 }
