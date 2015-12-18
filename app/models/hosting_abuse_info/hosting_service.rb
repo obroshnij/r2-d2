@@ -12,7 +12,7 @@ class HostingAbuseInfo
     
     def self.all
       HostingAbuseInfo.hosting_services.map do |value, id|
-        { id: id, value: value, name: HOSTING_SERVICES[value.to_sym] }
+        { value: value, name: HOSTING_SERVICES[value.to_sym] }
       end
     end
     

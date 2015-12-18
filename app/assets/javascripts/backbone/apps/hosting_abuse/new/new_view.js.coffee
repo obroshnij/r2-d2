@@ -34,6 +34,62 @@
               dependencies: { 
                 hosting_service: { value: ['shared', 'reseller', 'vps', 'dedicated'] }
               }
+            }, {
+              name:    'shared_package',
+              label:   'Package',
+              tagName: 'select',
+              options: @getSharedPackages(),
+              dependencies: {
+                hosting_service: { value: 'shared' }
+              }
+            }, {
+              name:    'reseller_package',
+              label:   'Package',
+              tagName: 'select',
+              options: @getResellerPackages(),
+              dependencies: {
+                hosting_service: { value: 'reseller' }
+              }
+            }, {
+              name:    'cpanel_username',
+              label:   'cPanel Username',
+              hint:    'Owner',
+              dependencies: {
+                hosting_service: { value: 'reseller' }
+              }
+            }, {
+              name:    'username',
+              label:   'Username',
+              dependencies: {
+                hosting_service: { value: ['shared', 'vps'] }
+              }
+            }, {
+              name:    'resold_username',
+              label:   'Resold Username',
+              dependencies: {
+                hosting_service: { value: 'reseller' }
+              }
+            }, {
+              name:    'subscription_name',
+              label:   'Subcription Name',
+              dependencies: {
+                hosting_service: { value: 'pe' }
+              }
+            }, {
+              name:    'server_rack_label',
+              label:   'Server Rack Label',
+              hint:    'e.g. NC-PH-0731-26',
+              dependencies: {
+                hosting_service: { value: 'dedicated' }
+              }
+            }, {
+              name:    'management_type',
+              label:   'Type of Management',
+              tagName: 'select',
+              options: @getManagementTypes(),
+              dependencies: {
+                hosting_service: { value: ['dedicated', 'vps'] }
+              }
             }
           ]
         }, {
@@ -69,6 +125,28 @@
       
     getAbuseTypeOptions: ->
       @getOptions App.request('hosting:abuse:type:entities')
+      
+    getSharedPackages: ->
+      @getOptions App.request('hosting:abuse:shared:package:entities')
+      
+    getResellerPackages: ->
+      @getOptions App.request('hosting:abuse:reseller:package:entities')
+      
+    getManagementTypes: ->
+      @getOptions App.request('hosting:abuse:management:type:entities')
+    
     
     onHostingServiceChange: (val) ->
-      console.log val
+      @$("#hosting_abuse_type").val('').change()
+      if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
+      @$("#hosting_abuse_type option").attr('disabled', false)
+      selector = @_prohibitedOptionsFor val
+      @$(selector).attr('disabled', true) unless s.isBlank(selector)
+      
+    _prohibitedOptionsFor: (val) ->
+      options = 
+        vps:       ['lve_mysql', 'disc_space', 'cron_job']
+        dedicated: ['lve_mysql', 'disc_space', 'cron_job', 'ddos']
+        pe:        ['lve_mysql', 'disc_space', 'cron_job', 'ddos', 'ip_feedback']
+      
+      _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()

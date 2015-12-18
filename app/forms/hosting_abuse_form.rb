@@ -121,7 +121,7 @@ class HostingAbuseForm
   end
   
   def packages
-    HostingAbuseInfo.packages.map { |p| [p.first.humanize, p.first] }
+    HostingAbuseInfo.shared_packages.map { |p| [p.first.humanize, p.first] }
   end
   
   def suggestions

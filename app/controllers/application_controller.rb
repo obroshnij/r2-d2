@@ -14,8 +14,12 @@ class ApplicationController < ActionController::Base
   end
   
   def index
-    gon.hosting_abuse_services = HostingAbuseInfo::HostingService.all
-    gon.hosting_abuse_types    = HostingAbuseInfo::AbuseType.all
+    gon.hosting_abuse_services          = HostingAbuseInfo::HostingService.all
+    gon.hosting_abuse_types             = HostingAbuseInfo::AbuseType.all
+    gon.hosting_abuse_shared_packages   = HostingAbuseInfo::SharedPackage.all
+    gon.hosting_abuse_reseller_packages = HostingAbuseInfo::ResellerPackage.all
+    gon.hosting_abuse_management_types  = HostingAbuseInfo::ManagementType.all
+    
     gon.current_user = current_user
     render layout: 'application_new'
   end
