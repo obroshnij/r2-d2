@@ -2,9 +2,9 @@ class SpamProcessor
   
   def self.parse_domains_info(csv_file, data)
     hash_from_csv(csv_file).each do |line|
-      domain_name = line[:domain_name]
+      domain_name = to_utf8 line[:domain_name]
       (line.keys - [:domain_name]).each do |key|
-        data[domain_name]["extra_attr"][key] = line[key]
+        data[domain_name]["extra_attr"][key] = to_utf8 line[key]
       end
     end
     data.except *data.select { |domain, val| val["extra_attr"][:username].blank? }.keys
@@ -37,6 +37,13 @@ class SpamProcessor
       hash[:domain_name].downcase!
       hash.except(:firstname, :lastname)
     end
+  end
+  
+  def self.to_utf8(str)
+    str = str.to_s.force_encoding("UTF-8")
+    return str if str.valid_encoding?
+    str = str.force_encoding("BINARY")
+    str.encode("UTF-8", invalid: :replace, undef: :replace)
   end
   
   def self.abort_if_whois_is_blank(domains)
