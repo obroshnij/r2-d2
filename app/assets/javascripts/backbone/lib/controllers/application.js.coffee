@@ -15,11 +15,19 @@
     
     show: (view, options = {}) ->
       _.defaults options,
-        loading: false,
+        loading: false
         region:  @region
         
+      # allow us to pass in a controller instance instead of a view
+      # if controller instance, set view to the mainView of the controller
+      view = if view.getMainView then view.getMainView() else view
+      throw new Error("getMainView() did not return a view instance or #{view?.constructor?.name} is not a view instance") if not view
+
       @setMainView view
       @_manageView view, options
+      
+    getMainView: ->
+      @_mainView
       
     setMainView: (view) ->
       # the first view we show is always going to become the mainView of our
@@ -38,3 +46,10 @@
         # App.execute 'show:loading', view, options
       else
         options.region.show view
+        
+    mergeDefaultsInto: (obj) ->
+      obj = if _.isObject(obj) then obj else {}
+      _.defaults obj, @_getDefaults()
+
+    _getDefaults: ->
+      _.clone _.result(@, "defaults")

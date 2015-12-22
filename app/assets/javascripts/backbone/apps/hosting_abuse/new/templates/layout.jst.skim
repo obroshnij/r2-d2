@@ -5,7 +5,7 @@
         h1 Hosting Abuse Reports
         h4 Submit New
       #icon
-        i.fa.fa-fire
+        i.fi-sheriff-badge
   
 .row
   .large-12.columns

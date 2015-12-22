@@ -7,7 +7,7 @@
       formRegion: '#form-region'
   
   
-  class New.FormFields extends App.Views.FormFields
+  class New.Report extends App.Views.FormFields
     
     schema: ->
       [
@@ -93,28 +93,112 @@
             }
           ]
         }, {
-          legend:  'Spam',
+          legend:  'Email Abuse / Spam',
           id:      'spam',
           dependencies: {
             hosting_abuse_type: { value: 'spam' }
           },
           fields: [
             {
-              name:  'blacklisted_ip',
-              label: 'Blacklisted IP'
-            }
-          ]
-        }, {
-          legend: 'IP Feedback',
-          id:     'ip-feedback',
-          dependencies: {
-            hosting_abuse_type: { value: 'ip_feedback' }
-          },
-          fields: [
-            {
-              name:  'reporting_party',
-              label: 'Reporting Party',
-              hint:  'MS, Symantec, etc.'
+              name:    'detection_methods',
+              label:   'Detected by',
+              type:    'collection_check_boxes',
+              options: @getDetectionMethods(),
+              hint:    'How the issue was detected?'
+            }, {
+              name:    'other_detection_method',
+              label:   'Other'
+              dependencies: {
+                detection_methods: { value: 'other' }
+              }
+            }, {
+              name:    'queue_amount'
+              label:   'Queue Amount'
+              dependencies: {
+                detection_methods: { notExactValue: 'feedback_loop' }
+              }
+              hint:    'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary'
+            }, {
+              name:    'exim_stopped',
+              label:   'Exim Stopped?',
+              type:    'radio_buttons',
+              options: [{ name: "Yes", value: true }, { name: "No", value: false }]
+            }, {
+              name:    'spam_experts_enabled'
+              label:   'Spam Experts Enabled?'
+              type:    'radio_buttons'
+              options: [{ name: "Yes", value: true }, { name: "No", value: false }]
+            }, {
+              name:    'blacklisted_ip'
+              label:   'Blacklisted IP'
+              dependencies: {
+                detection_methods: { value: 'blacklisted_ip' }
+              }
+            }, {
+              name:    'header'
+              label:   'Header'
+              tagName: 'textarea'
+              dependencies: {
+                detection_methods: { value: ['queue_outbound', 'captcha', 'cms_notifications', 'forwarding_issue', 'mailbox_overflow'] }
+              }
+            }, {
+              name:    'body'
+              label:   'Body'
+              tagName: 'textarea'
+              dependencies: {
+                detection_methods: { value: ['queue_outbound', 'captcha', 'cms_notifications', 'forwarding_issue', 'mailbox_overflow'] }
+              }
+            }, {
+              name:    'bounce'
+              label:   'Bounce'
+              tagName: 'textarea'
+              dependencies: {
+                detection_methods: { value: 'queue_bounces' }
+              }
+            }, {
+              name:    'example_complaint'
+              label:   'Feedback Loop Example'
+              tagName: 'textarea'
+              dependencies: {
+                detection_methods: { value: 'feedback_loop' }
+              }
+            }, {
+              name:    'involved_mailboxes_count'
+              label:   'Involved Mailboxes Count'
+              type:    'radio_buttons'
+              options: [{ name: '1', value: '1' }, { name: '2', value: '2' }, { name: '3', value: '3' }, { name: '4', value: '4' }, { name: 'more', value: 0 }]
+              hint:    'If less than 5, please reset password for all of them'
+            }, {
+              name:    'mailbox_password_reset'
+              label:   'Password Reset?'
+              type:    'radio_buttons'
+              options: [{ name: "Yes", value: true }, { name: "No", value: false }]
+              dependencies: {
+                involved_mailboxes_count: { value: ['1', '2', '3', '4'] }
+              }
+            }, {
+              name:    'involved_mailboxes'
+              label:   'Mailbox(es) Involved'
+              tagName: 'textarea'
+              dependencies: {
+                involved_mailboxes_count: { value: ['1', '2', '3', '4'] }
+                mailbox_password_reset:   { value: 'true' }
+              }
+            }, {
+              name:    'mailbox_password_reset_reason'
+              label:   'Reason'
+              tagName: 'textarea'
+              dependencies: {
+                involved_mailboxes_count: { value: ['1', '2', '3', '4'] }
+                mailbox_password_reset:   { value: 'false' }
+              }
+            }, {
+              name:    'involved_mailboxes_count_other'
+              label:   'Exact / Approximate Amount'
+              type:    'number'
+              dependencies: {
+                involved_mailboxes_count: { value: '0' }
+              }
             }
           ]
         }
@@ -134,19 +218,22 @@
       
     getManagementTypes: ->
       @getOptions App.request('hosting:abuse:management:type:entities')
-    
-    
-    onHostingServiceChange: (val) ->
-      @$("#hosting_abuse_type").val('').change()
-      if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
-      @$("#hosting_abuse_type option").attr('disabled', false)
-      selector = @_prohibitedOptionsFor val
-      @$(selector).attr('disabled', true) unless s.isBlank(selector)
       
-    _prohibitedOptionsFor: (val) ->
-      options = 
-        vps:       ['lve_mysql', 'disc_space', 'cron_job']
-        dedicated: ['lve_mysql', 'disc_space', 'cron_job', 'ddos']
-        pe:        ['lve_mysql', 'disc_space', 'cron_job', 'ddos', 'ip_feedback']
+    getDetectionMethods: ->
+      @getOptions App.request('hosting:abuse:spam:detection:method:entities')
       
-      _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()
+
+    # onHostingServiceChange: (val) ->
+    #   @$("#hosting_abuse_type").val('').change()
+    #   if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
+    #   @$("#hosting_abuse_type option").attr('disabled', false)
+    #   selector = @_prohibitedOptionsFor val
+    #   @$(selector).attr('disabled', true) unless s.isBlank(selector)
+    #
+    # _prohibitedOptionsFor: (val) ->
+    #   options =
+    #     vps:       ['lve_mysql', 'disc_space', 'cron_job']
+    #     dedicated: ['lve_mysql', 'disc_space', 'cron_job', 'ddos']
+    #     pe:        ['lve_mysql', 'disc_space', 'cron_job', 'ddos', 'ip_feedback']
+    #
+    #   _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()

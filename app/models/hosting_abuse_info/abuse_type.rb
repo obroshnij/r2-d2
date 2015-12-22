@@ -4,7 +4,6 @@ class HostingAbuseInfo
     
     HOSTING_ABUSE_TYPES = {
       spam:        'Email Abuse / Spam',
-      ip_feedback: 'IP Feedback',
       lve_mysql:   'Resource Abuse (LVE/MySQL)',
       disc_space:  'Resource Abuse (Disc Space)',
       cron_job:    'Resource Abuse (Cron Jobs)',

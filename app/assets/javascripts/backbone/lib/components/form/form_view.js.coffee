@@ -1,7 +1,7 @@
-@Artoo.module 'Components.FormWrapper', (FormWrapper, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'Components.Form', (Form, App, Backbone, Marionette, $, _) ->
   
-  class FormWrapper.Layout extends App.Views.LayoutView
-    template: 'form_wrapper/layout'
+  class Form.FormLayout extends App.Views.LayoutView
+    template: 'form/layout'
     
     tagName: 'form'
     attributes: ->
@@ -24,7 +24,7 @@
       'sync:stop'      : 'syncStop'
       
     initialize: ->
-      @setInstancePropertiesFor 'config', 'buttons'
+      { @config, @buttons } = @options
         
     serializeData: ->
       footer:  @config.footer
@@ -64,10 +64,18 @@
     addError: (name, error) ->
       el = @$("[name='#{name}']")
       sm = $('<small>').text(error).addClass('error')
-      el.after(sm).closest('.row').addClass('error')
+      @insertError(el, sm)
+      
+    insertError: (el, sm) ->
+      parent = el.closest(".row").addClass("error")
+      error_container = parent.find(".error-container")
+      if error_container.length then error_container.html(sm) else el.after(sm)
       
     syncStart: (model) ->
       @addOpacityWrapper() if @config.syncing
       
     syncStop: (model) ->
+      @addOpacityWrapper(false) if @config.syncing
+      
+    onDestroy: ->
       @addOpacityWrapper(false) if @config.syncing

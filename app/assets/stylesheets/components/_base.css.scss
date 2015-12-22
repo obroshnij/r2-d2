@@ -1,8 +1,10 @@
-html, body								{ height: 100%; font-size: 14px; }
-#wrap											{ height: auto !important; min-height: 100%; margin-bottom: -$pushHeight; }
-#push											{ height: $pushHeight; }
+html, body								 { height: 100%; font-size: 14px; font-family: 'Lato', sans-serif; }
+h1, h2, h3, h4, h5, h6, h7 { font-family: 'Lato', sans-serif; }
+#wrap											 { height: auto !important; min-height: 100%; margin-bottom: -$pushHeight; }
+#push											 { height: $pushHeight; }
 
-#page-title               { background-color: #63b7ee; color: white; margin-bottom: 3rem;
-  #title                  { float: left; }
-  #icon                   { font-size: 500%; float: right; color: #135b8b; }
+#page-title                { background-color: #155e8e; color: white; margin-bottom: 3rem;
+  h1, h4                   { color: #afd8f3; }
+  #title                   { float: left; }
+  #icon                    { font-size: 800%; float: right; color: #afd8f3; line-height: 100%; }
 }

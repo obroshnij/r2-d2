@@ -8,10 +8,6 @@
       @$el.toggleWrapper
         className: 'opacity'
       , init
-      
-    setInstancePropertiesFor: (args...) ->
-      for key, val of _.pick(@options, args...)
-        @[key] = val
   
     destroy: (args...) ->
       if @model?.isDestroyed()

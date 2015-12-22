@@ -6,7 +6,7 @@
         ul.dropdown.menu data-dropdown-menu=''
           li.menu-logo
             image src='/assets/artoo.png'
-          li.menu-text R2-D2
+          li.menu-text.site-title R2-D2
           
       .top-bar-right
         ul.dropdown.menu data-dropdown-menu=''

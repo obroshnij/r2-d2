@@ -9,13 +9,14 @@
 <%= javascript_tag do %>
   $(function() {
     Artoo.start({
-      environment:                  "<%= Rails.env %>",
-      currentUser:                  gon.current_user,
-      hostingAbuseServices:         gon.hosting_abuse_services,
-      hostingAbuseTypes:            gon.hosting_abuse_types,
-      hostingAbuseSharedPackages:   gon.hosting_abuse_shared_packages,
-      hostingAbuseResellerPackages: gon.hosting_abuse_reseller_packages,
-      hostingAbuseManagementTypes:  gon.hosting_abuse_management_types
+      environment:                      "<%= Rails.env %>",
+      currentUser:                      gon.current_user,
+      hostingAbuseServices:             gon.hosting_abuse_services,
+      hostingAbuseTypes:                gon.hosting_abuse_types,
+      hostingAbuseSharedPackages:       gon.hosting_abuse_shared_packages,
+      hostingAbuseResellerPackages:     gon.hosting_abuse_reseller_packages,
+      hostingAbuseManagementTypes:      gon.hosting_abuse_management_types,
+      hostingAbuseSpamDetectionMethods: gon.hosting_abuse_spam_detection_methods
     });
     $(document).foundation();
   });

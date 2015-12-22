@@ -6,10 +6,10 @@ class HostingAbuseSpam < ActiveRecord::Base
     :captcha,
     :cms_notifications,
     :forwarding_issue,
-    :complaints,
+    :feedback_loop,
     :blacklisted_ip,
     :mailbox_overflow,
     :other
   ]
-    
+
 end

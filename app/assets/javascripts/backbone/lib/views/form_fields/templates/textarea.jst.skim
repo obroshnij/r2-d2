@@ -1,0 +1,10 @@
+.large-3.columns
+  label.text-right.middle for="#{@id}" = @label
+
+.large-9.columns
+
+  .large-5.columns
+    textarea name="#{@name}" id="#{@id}"
+    
+  .large-7.columns
+    label.help-text.middle = @hint

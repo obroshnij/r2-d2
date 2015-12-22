@@ -1,11 +1,14 @@
 #auth-error
   .row
-    .large-6.large-offset-3.columns
+    .large-8.large-offset-2.columns
     
       .callout.alert
-        h5 Authentication Required
-        p You need to sign in before continuing
-  
+        #icon.float-right
+          i.fi-shield
+        
+        h1 Authentication Required
+        h4 You need to sign in before continuing
+        
         ul.links.no-bullet
           li == @linkTo 'Sign in', @newSessionPath, external: true
           li
