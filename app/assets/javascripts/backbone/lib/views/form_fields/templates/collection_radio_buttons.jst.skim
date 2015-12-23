@@ -3,12 +3,11 @@
 
 .large-9.columns
   
-  .large-5.columns.checkboxes.collection
+  .large-5.columns.radiobuttons.collection
     - for option in @options
       div
-        input type='checkbox' name="#{@name}[]" value="#{option.value}" id="#{@name}_#{option.value}"
+        input type='radio' name="#{@name}" value="#{option.value}" id="#{@name}_#{option.value}"
         label for="#{@name}_#{option.value}" = option.name
-    input type='hidden' name="#{@name}[]" value='' syphon='visible'
   
   .large-7.columns
     label.help-text.middle = @hint

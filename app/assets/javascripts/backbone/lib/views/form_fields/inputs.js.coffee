@@ -53,3 +53,7 @@
   
   class Views.RadioButtons extends Views.BaseInput
     template: 'form_fields/radio_buttons'
+  
+  
+  class Views.CollectionRadioButtons extends Views.BaseInput
+    template: 'form_fields/collection_radio_buttons'

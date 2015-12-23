@@ -15,8 +15,8 @@ class HostingAbuseSpam
     }
     
     def self.all
-      HostingAbuseSpam::DETECTION_METHODS.map do |value|
-        { value: value, name: DETECTION_METHODS[value.to_sym] }
+      DETECTION_METHODS.map do |key, val|
+        { value: key.to_s, name: val }
       end
     end
     

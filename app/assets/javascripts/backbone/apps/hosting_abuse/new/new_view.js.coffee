@@ -157,8 +157,17 @@
               }
             }, {
               name:    'example_complaint'
-              label:   'Feedback Loop Example'
+              label:   'Example / Link'
               tagName: 'textarea'
+              dependencies: {
+                detection_methods: { value: 'feedback_loop' }
+              }
+              hint:    'Feedback loop example or a link to one'
+            }, {
+              name:    'reporting_party'
+              label:   'Reporting Party'
+              tagName: 'select'
+              options: @getReportingParties()
               dependencies: {
                 detection_methods: { value: 'feedback_loop' }
               }
@@ -201,6 +210,159 @@
               }
             }
           ]
+        }, {
+          legend: 'Resource Abuse'
+          id:     'resource-abuse'
+          dependencies: {
+            hosting_abuse_type: { value: 'resource' }
+          }
+          fields: [
+            {
+              name:    'resource_abuse_type'
+              label:   'Resource Abuse Type'
+              tagName: 'select'
+              options: @getResourceAbuseTypes()
+            }, {
+              name:    'activity_type'
+              label:   'Activity Type'
+              tagName: 'select'
+              options: @getActivityTypes()
+              dependencies: {
+                resource_abuse_type: { value: 'cron_job' }
+              }
+            }, {
+              name:    'measure'
+              label:   'Measures taken'
+              type:    'collection_radio_buttons'
+              options: @getMeasures()
+              dependencies: {
+                resource_abuse_type: { value: 'cron_job' }
+              }
+              hint:    'What was done?'
+            }, {
+              name:    'other_measure'
+              label:   'Other'
+              dependencies: {
+                resource_abuse_type: { value: 'cron_job' }
+                measure:             { value: 'other' }
+              }
+            }, {
+              name:    'folders'
+              label:   'Folders'
+              tagName: 'textarea'
+              hint:    'Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)'
+              dependencies: {
+                resource_abuse_type: { value: 'disc_space' }
+              }
+            }, {
+              name:    'resource_type'
+              label:   'Resource Type'
+              type:    'collection_check_boxes'
+              hint:    'Please check all resources under impact'
+              options: @getResourceTypes()
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+              }
+            }, {
+              name:    'lve_report'
+              label:   'LVE Report'
+              tagName: 'textarea'
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+                resource_type:       { value: ['cpu', 'memory', 'entry', 'io'] }
+              }
+            }, {
+              name:    'mysql_queries'
+              label:   'MySQL Queries'
+              tagName: 'textarea'
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+                resource_type:       { value: 'mysql' }
+              }
+              hint:    'Along with the command'
+            }, {
+              name:    'process_logs'
+              label:   'Process Logs'
+              tagName: 'textarea'
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+                resource_type:       { value: 'processes' }
+              }
+            }, {
+              name:    'upgrade_suggestion'
+              label:   'Upgrade Suggestion'
+              tagName: 'select'
+              options: @getUpgradeSuggestions()
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+              }
+            }, {
+              name:    'impact'
+              label:   'Severity of Impact'
+              tagName: 'select'
+              options: @getImpacts()
+              dependencies: {
+                resource_abuse_type: { value: 'lve_mysql' }
+              }
+              hint: 'How much impact it causes itself (i.e. is it able to overload the server itself)?'
+            }
+          ]
+        }, {
+          legend: 'DDoS'
+          id:     'ddos'
+          dependencies: {
+            hosting_abuse_type: { value: 'ddos' }
+          }
+          fields: [
+            {
+              name:    'domain_port'
+              label:   'Domain / Port'
+            }, {
+              name:    'block_type'
+              label:   'Block Type'
+              hint:    'Please mention the method of blocking'
+            }, {
+              name:    'ddos_logs'
+              label:   'Logs'
+              tagName: 'textarea'
+            }
+          ]
+        }, {
+          legend: 'Conclusion'
+          id:     'conclusion'
+          dependencies: {
+            hosting_abuse_type: { value: ['spam', 'resource', 'ddos'] }
+          }
+          fields: [
+            {
+              name:     'suggestion'
+              label:    'Suggestion'
+              tagName:  'select'
+              options:  @getSuggestions()
+              blank_option: false
+              hint:     'Is it necessary to suspend the account or there is an amount of time to be provided?'
+            }, {
+              name:     'suspension_reason'
+              label:    'Reason'
+              tagName:  'textarea'
+              hint:     'Immediate suspension / time shortening reason'
+              dependencies: {
+                suggestion: { value: ['six', 'twelve', 'to_suspend'] }
+              }
+            }, {
+              name:     'scan_report_path'
+              label:    'Scan Report Path'
+              dependencies: {
+                suggestion: { value: 'suspended' }
+              }
+              hint: 'If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server'
+            }, {
+              name:     'comments'
+              label:    'Additional Comments'
+              tagName:  'textarea'
+              hint:     'Anything you would like to add on this case (e.g. when a particular abuser is affecting the whole server)'
+            }
+          ]
         }
       ]
       
@@ -221,6 +383,30 @@
       
     getDetectionMethods: ->
       @getOptions App.request('hosting:abuse:spam:detection:method:entities')
+      
+    getResourceAbuseTypes: ->
+      @getOptions App.request('hosting:abuse:resource:abuse:type:entities')
+      
+    getActivityTypes: ->
+      @getOptions App.request('hosting:abuse:resource:activity:type:entities')
+      
+    getMeasures: ->
+      @getOptions App.request('hosting:abuse:resource:measure:entities')
+      
+    getResourceTypes: ->
+      @getOptions App.request('hosting:abuse:resource:type:entities')
+      
+    getUpgradeSuggestions: ->
+      @getOptions App.request('hosting:abuse:resource:upgrade:suggestion:entities')
+      
+    getImpacts: ->
+      @getOptions App.request('hosting:abuse:resource:impact:entities')
+      
+    getSuggestions: ->
+      @getOptions App.request('hosting:abuse:suggestion:entities')
+      
+    getReportingParties: ->
+      @getOptions App.request('hosting:abuse:spam:reporting:party:entities')
       
 
     # onHostingServiceChange: (val) ->

@@ -1,16 +1,15 @@
-form                                          {
-  input[type], select, textarea               { font-size: 0.875rem; }
-  fieldset                                    { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
-    legend                                    { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
+form                                                  {
+  input[type], select, textarea                       { font-size: 0.875rem; }
+  fieldset                                            { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
+    legend                                            { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
   }
-  label                                       { font-size: 1rem; color: #333333; line-height: 1.3rem; }
-  .help-text                                  { font-size: 1rem; color: #7d7d7d; }
-  .checkboxes                                 { margin-bottom: 1rem;
-    input[type='checkbox']                    { margin: 0; }
-    label                                     { font-size: 0.875rem; }
+  label                                               { font-size: 1rem; color: #333333; line-height: 1.3rem; }
+  .help-text                                          { font-size: 1rem; color: #7d7d7d; }
+  .radiobuttons, .checkboxes                          { padding-top: 0.4rem;
+    label                                             { font-size: 0.875rem; }
   }
-  .radiobuttons                               { padding-top: 0.4rem;
-    label                                     { font-size: 0.875rem; }
+  .collection                                         { margin-bottom: 1rem; padding-top: 0;
+    input[type='checkbox'], input[type='radio']       { margin: 0; }
   }
-  footer                                      { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
+  footer                                              { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
 }

@@ -8,6 +8,8 @@
       involved_mailboxes_count: 1
       mailbox_password_reset:   true
       exact_amount:             true
+      measure:                  'frequency_reduced'
+      suggestion:               'twenty_four'
         
   API =
     

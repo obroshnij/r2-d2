@@ -3,11 +3,9 @@ class HostingAbuseInfo
   class AbuseType
     
     HOSTING_ABUSE_TYPES = {
-      spam:        'Email Abuse / Spam',
-      lve_mysql:   'Resource Abuse (LVE/MySQL)',
-      disc_space:  'Resource Abuse (Disc Space)',
-      cron_job:    'Resource Abuse (Cron Jobs)',
-      ddos:        'DDoS'
+      spam:       'Email Abuse / Spam',
+      resource:   'Resource Abuse',
+      ddos:       'DDoS'
     }
     
     def self.all
