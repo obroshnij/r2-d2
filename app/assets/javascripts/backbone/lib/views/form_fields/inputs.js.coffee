@@ -29,6 +29,8 @@
     updateModelValue: ->
       @model.set 'value', @currentValue()
       
+      @trigger 'value:changed', @getNameAttr(), @currentValue()
+      
     currentValue: ->
       Backbone.Syphon.serialize(@el)[@getNameAttr()]
   

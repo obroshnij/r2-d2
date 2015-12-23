@@ -366,60 +366,32 @@
         }
       ]
       
-    getServiceOptions: ->
-      @getOptions App.request('hosting:abuse:service:entities')
-      
-    getAbuseTypeOptions: ->
-      @getOptions App.request('hosting:abuse:type:entities')
-      
-    getSharedPackages: ->
-      @getOptions App.request('hosting:abuse:shared:package:entities')
-      
-    getResellerPackages: ->
-      @getOptions App.request('hosting:abuse:reseller:package:entities')
-      
-    getManagementTypes: ->
-      @getOptions App.request('hosting:abuse:management:type:entities')
-      
-    getDetectionMethods: ->
-      @getOptions App.request('hosting:abuse:spam:detection:method:entities')
-      
-    getResourceAbuseTypes: ->
-      @getOptions App.request('hosting:abuse:resource:abuse:type:entities')
-      
-    getActivityTypes: ->
-      @getOptions App.request('hosting:abuse:resource:activity:type:entities')
-      
-    getMeasures: ->
-      @getOptions App.request('hosting:abuse:resource:measure:entities')
-      
-    getResourceTypes: ->
-      @getOptions App.request('hosting:abuse:resource:type:entities')
-      
-    getUpgradeSuggestions: ->
-      @getOptions App.request('hosting:abuse:resource:upgrade:suggestion:entities')
-      
-    getImpacts: ->
-      @getOptions App.request('hosting:abuse:resource:impact:entities')
-      
-    getSuggestions: ->
-      @getOptions App.request('hosting:abuse:suggestion:entities')
-      
-    getReportingParties: ->
-      @getOptions App.request('hosting:abuse:spam:reporting:party:entities')
-      
+    getServiceOptions:     -> @getOptions App.request('hosting:abuse:service:entities')      
+    getAbuseTypeOptions:   -> @getOptions App.request('hosting:abuse:type:entities')      
+    getSharedPackages:     -> @getOptions App.request('hosting:abuse:shared:package:entities')      
+    getResellerPackages:   -> @getOptions App.request('hosting:abuse:reseller:package:entities')      
+    getManagementTypes:    -> @getOptions App.request('hosting:abuse:management:type:entities')      
+    getDetectionMethods:   -> @getOptions App.request('hosting:abuse:spam:detection:method:entities')      
+    getResourceAbuseTypes: -> @getOptions App.request('hosting:abuse:resource:abuse:type:entities')      
+    getActivityTypes:      -> @getOptions App.request('hosting:abuse:resource:activity:type:entities')      
+    getMeasures:           -> @getOptions App.request('hosting:abuse:resource:measure:entities')      
+    getResourceTypes:      -> @getOptions App.request('hosting:abuse:resource:type:entities')      
+    getUpgradeSuggestions: -> @getOptions App.request('hosting:abuse:resource:upgrade:suggestion:entities')      
+    getImpacts:            -> @getOptions App.request('hosting:abuse:resource:impact:entities')      
+    getSuggestions:        -> @getOptions App.request('hosting:abuse:suggestion:entities')      
+    getReportingParties:   -> @getOptions App.request('hosting:abuse:spam:reporting:party:entities')
+        
+    onHostingServiceChange: (val) ->
+      # @$("#hosting_abuse_type").val('').change()
+      if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
+      @$("#hosting_abuse_type option").attr('disabled', false)
+      selector = @_prohibitedOptionsFor val
+      @$(selector).attr('disabled', true) unless s.isBlank(selector)
 
-    # onHostingServiceChange: (val) ->
-    #   @$("#hosting_abuse_type").val('').change()
-    #   if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
-    #   @$("#hosting_abuse_type option").attr('disabled', false)
-    #   selector = @_prohibitedOptionsFor val
-    #   @$(selector).attr('disabled', true) unless s.isBlank(selector)
-    #
-    # _prohibitedOptionsFor: (val) ->
-    #   options =
-    #     vps:       ['lve_mysql', 'disc_space', 'cron_job']
-    #     dedicated: ['lve_mysql', 'disc_space', 'cron_job', 'ddos']
-    #     pe:        ['lve_mysql', 'disc_space', 'cron_job', 'ddos', 'ip_feedback']
-    #
-    #   _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()
+    _prohibitedOptionsFor: (val) ->
+      options =
+        vps:       ['resource']
+        dedicated: ['resource', 'ddos']
+        pe:        ['resource', 'ddos']
+
+      _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()

@@ -21,10 +21,8 @@
     App.module('HeaderApp').start()
     App.module('FooterApp').start()
   
-  App.reqres.setHandler 'get:current:user', ->
-    App.currentUser
-  
-  App.reqres.setHandler 'default:region', ->
-    App.mainRegion
+  App.reqres.setHandler 'get:current:user',  -> App.currentUser
+  App.reqres.setHandler 'default:region',    -> App.mainRegion
+  App.reqres.setHandler 'concern', (concern) -> App.Concerns[concern]
   
   App

@@ -27,7 +27,7 @@
       config = @mergeDefaultsInto(form)
 
       _.extend config, _(options).omit("contentView", "model", "collection")
-
+    
     getModel: (options) ->
       options.model or @contentView.model
       

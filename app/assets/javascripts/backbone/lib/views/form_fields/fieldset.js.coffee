@@ -17,8 +17,8 @@
       return Views.Select                 if model.get('tagName') is 'select'
       return Views.TextArea               if model.get('tagName') is 'textarea'
     
-    onChildviewValueChanged: (childView, args) ->
-      @trigger 'value:changed', args
+    onChildviewValueChanged: (childView, name, newValue) ->
+      @trigger 'value:changed', name, newValue
       
     modelEvents:
       'change:isShown' : 'toggle'
@@ -35,6 +35,3 @@
       new Views.Fieldset
         model:      child
         collection: child.fields
-        
-    onChildviewValueChanged: (childView, args) ->
-      @trigger 'value:changed', args

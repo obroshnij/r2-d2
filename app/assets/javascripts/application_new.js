@@ -18,7 +18,8 @@
 //= require backbone
 //= require backbone-syphon
 //= require backbone-mutators
-//= require routefilter
+//= require backbone-routefilter
+//= require backbone-cocktail
 //= require marionette
 //= require js-routes
 
@@ -26,6 +27,7 @@
 
 //= require backbone/app
 
+//= require_tree ./backbone/lib/concerns
 //= require_tree ./backbone/lib/entities
 //= require_tree ./backbone/lib/utilities
 //= require_tree ./backbone/lib/behaviors
