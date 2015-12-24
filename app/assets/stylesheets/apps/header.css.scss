@@ -1,4 +1,7 @@
-.top-bar                {
-  a[class=button]       { color: #ffffff; }
-  li.menu-logo img      { height: 38px; }
+#header-region .top-bar       { background-color: #333333;
+  .site-title                 { color: $white; }
+  a[class=button]             { color: $white; }
+  li.menu-logo img            { height: 38px; }
+  .is-down-arrow > a::after   { border-color: $white transparent transparent; }
+  .submenu.menu.vertical      { background-color: #333333; border-color: $dark-gray; }
 }

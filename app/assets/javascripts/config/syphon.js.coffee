@@ -3,5 +3,8 @@ Backbone.Syphon.InputReaders.register 'checkbox', (el) ->
 
 Backbone.Syphon.KeyAssignmentValidators.register 'checkbox', ($el, key, value) ->
   $el.prop 'checked'
-  
+
 Backbone.Syphon.ignoredTypes.push ':hidden:not([syphon="visible"])'
+  
+Backbone.Syphon.KeyAssignmentValidators.register 'hidden', ($el, key, value) ->
+  $el.closest('div').is ':visible'

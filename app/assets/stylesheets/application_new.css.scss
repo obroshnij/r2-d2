@@ -12,7 +12,9 @@
  *
  */
 
-@import 'foundation_six';
+@import 'foundation_six/foundation';
+@include foundation-everything;
+
 @import 'font-awesome';
 @import 'foundation-icons';
 

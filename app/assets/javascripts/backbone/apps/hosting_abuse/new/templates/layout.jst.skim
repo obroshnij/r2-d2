@@ -2,8 +2,8 @@
   .row
     .large-12.columns
       #title
-        h1 Hosting Abuse Reports
-        h4 Submit New
+        h1 Legal & Abuse
+        h4 Hosting Abuse
       #icon
         i.fi-sheriff-badge
   

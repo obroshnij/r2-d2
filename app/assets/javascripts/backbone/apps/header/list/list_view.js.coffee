@@ -5,3 +5,5 @@
     
     triggers:
       'click #sign-in' : 'sign:in:clicked'
+      
+  

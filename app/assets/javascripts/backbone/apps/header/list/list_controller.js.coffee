@@ -3,12 +3,15 @@
   class List.Controller extends App.Controllers.Application
     
     initialize: ->
-      listView = @getListView()
+      navs = App.request 'nav:entities'
+      
+      listView = @getListView navs
       
       @listenTo listView, 'sign:in:clicked', ->
         App.vent.trigger 'new:user:session:requested'
       
       @show listView
       
-    getListView: ->
+    getListView: (navs) ->
       new List.Header
+        collection: navs
