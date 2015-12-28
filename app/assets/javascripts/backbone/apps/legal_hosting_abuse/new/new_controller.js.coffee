@@ -1,4 +1,4 @@
-@Artoo.module 'HostingAbuseApp.New', (New, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'LegalHostingAbuseApp.New', (New, App, Backbone, Marionette, $, _) ->
   
   class New.Controller extends App.Controllers.Application
     

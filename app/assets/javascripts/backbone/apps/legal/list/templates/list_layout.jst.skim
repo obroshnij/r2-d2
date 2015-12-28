@@ -1,0 +1,8 @@
+#breadcrumbs-region
+
+.row
+  .large-2.columns
+    #legal-navs-region
+  
+  .large-10.columns
+    #article-region

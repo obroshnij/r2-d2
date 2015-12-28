@@ -4,6 +4,8 @@
   
   App.on 'before:start', (options) ->
     @bootstrap options
+    
+    @navs = App.request 'nav:entities'
   
   App.addRegions
     headerRegion: '#header-region'
@@ -15,11 +17,13 @@
   App.on 'start', ->
     @addRegions modalRegion: { selector: '#modal-region', regionClass: App.Regions.Modal }
     
+    App.module('HeaderApp').start App.navs
+    App.module('FooterApp').start()
+    
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
     
-    App.module('HeaderApp').start()
-    App.module('FooterApp').start()
+  App.vent.on           'nav:select',  (nav) -> App.navs.selectByName nav
   
   App.reqres.setHandler 'get:current:user',  -> App.currentUser
   App.reqres.setHandler 'default:region',    -> App.mainRegion

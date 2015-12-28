@@ -3,24 +3,19 @@
     .large-12.columns
       
       .top-bar-left
-        ul.dropdown.menu data-dropdown-menu=''
+        ul#nav-links.dropdown.menu data-dropdown-menu=''
           li.menu-logo
             image src='/assets/artoo.png'
           li.menu-text.site-title R2-D2
-          
-          - for item in @items
-          
-            li
-              a href="#{item.url}"
-                i class="#{item.icon}"
-                = item.name
-          
+      
       .top-bar-right
         ul.dropdown.menu data-dropdown-menu=''
           - if @currentUser
+            li.divider
             li.has-submenu
               a = @currentUser.name
               ul.submenu.menu.vertical data-submenu=''
                 li == @linkTo 'Sign out', Routes.destroy_user_session_path(), { external: true }, { 'data-method': 'delete' }
+            li.divider
           - else
-            li == @linkTo 'Sign in', '', {}, { class: 'button', id: 'sign-in' }
+            li: .btn == @linkTo 'Sign in', '', {}, { class: 'button small', id: 'sign-in' }

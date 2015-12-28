@@ -2,16 +2,36 @@
   
   class List.Controller extends App.Controllers.Application
     
-    initialize: ->
-      navs = App.request 'nav:entities'
+    initialize: (options) ->
+      { navs } = options
       
-      listView = @getListView navs
+      @layout = @getLayout()
       
-      @listenTo listView, 'sign:in:clicked', ->
+      @listenTo @layout, 'show', =>
+        @topBarRegion navs
+        @titleRegion navs
+      
+      @show @layout
+      
+    topBarRegion: (navs) ->
+      topBarView = @getTopBar navs
+      
+      @listenTo topBarView, 'sign:in:clicked', ->
         App.vent.trigger 'new:user:session:requested'
       
-      @show listView
+      @show topBarView, region: @layout.topBarRegion
       
-    getListView: (navs) ->
-      new List.Header
+    titleRegion: (navs) ->
+      titleView = @getTitle navs
+      @show titleView, region: @layout.titleRegion
+      
+    getTitle: (navs) ->
+      new List.Title
+        collection: navs
+      
+    getLayout: ->
+      new List.Layout
+      
+    getTopBar: (navs) ->
+      new List.TopBar
         collection: navs

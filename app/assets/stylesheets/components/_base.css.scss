@@ -1,10 +1,20 @@
-html, body								 { height: 100%; font-family: 'Lato', sans-serif; }
-h1, h2, h3, h4, h5, h6, h7 { font-family: 'Lato', sans-serif; }
-#wrap											 { height: auto !important; min-height: 100%; margin-bottom: -$pushHeight; }
-#push											 { height: $pushHeight; }
+html, body								  { height: 100%; font-family: 'Lato', sans-serif; }
+h1, h2, h3, h4, h5, h6, h7  { font-family: 'Lato', sans-serif; }
+#wrap											  { height: auto !important; min-height: 100%; margin-bottom: -$pushHeight; }
+#push											  { height: $pushHeight; }
 
-#page-title                { background-color: #155e8e; color: white; margin-bottom: 3rem;
-  h1, h4                   { color: #afd8f3; }
-  #title                   { float: left; }
-  #icon                    { font-size: 800%; float: right; color: #afd8f3; line-height: 100%; }
+#page-title                 { background-color: #155e8e; color: white;
+  h1, h4                    { color: #afd8f3; }
+  #title                    { float: left; }
+  #icon                     { font-size: 800%; float: right; color: #afd8f3; line-height: 100%; }
+}
+
+#breadcrumbs                { background-color: $light-gray; margin-bottom: 2rem;
+  ul                        { margin: 0.5rem 0; float: right; }
+}
+
+#side-nav                   {
+  .active                   { background-color: $primary-color;
+    a                       { color: $white; }
+  }
 }

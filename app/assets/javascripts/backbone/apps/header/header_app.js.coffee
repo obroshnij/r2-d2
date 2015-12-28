@@ -1,12 +1,13 @@
 @Artoo.module 'HeaderApp', (HeaderApp, App, Backbone, Marionette, $, _) ->
   
-  # @startWithParent = false
+  @startWithParent = false
   
   API =
     
-    list: ->
+    list: (navs) ->
       new HeaderApp.List.Controller
         region: App.headerRegion
+        navs:   navs
       
-  HeaderApp.on 'start', ->
-    API.list()
+  HeaderApp.on 'start', (navs) ->
+    API.list navs

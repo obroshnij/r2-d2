@@ -20,6 +20,7 @@
 //= require backbone-mutators
 //= require backbone-routefilter
 //= require backbone-cocktail
+//= require backbone-select
 //= require marionette
 //= require js-routes
 
@@ -30,7 +31,6 @@
 //= require_tree ./backbone/lib/concerns
 //= require_tree ./backbone/lib/entities
 //= require_tree ./backbone/lib/utilities
-//= require_tree ./backbone/lib/behaviors
 //= require_tree ./backbone/lib/views
 //= require_tree ./backbone/lib/controllers
 //= require_tree ./backbone/lib/regions

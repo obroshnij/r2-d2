@@ -1,7 +1,5 @@
 @Artoo.module 'FooterApp', (FooterApp, App, Backbone, Marionette, $, _) ->
   
-  @startWithParent = false
-  
   API =
     
     show: ->

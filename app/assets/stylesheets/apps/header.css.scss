@@ -1,7 +1,22 @@
-#header-region .top-bar       { background-color: #333333;
-  .site-title                 { color: $white; }
-  a[class=button]             { color: $white; }
-  li.menu-logo img            { height: 38px; }
-  .is-down-arrow > a::after   { border-color: $white transparent transparent; }
-  .submenu.menu.vertical      { background-color: #333333; border-color: $dark-gray; }
+#header-region .top-bar                         { background-color: #333333; padding: 0;
+
+  .site-title                                   { color: $white; padding: 0 1rem; }
+  li.menu-logo img                              { height: 35px; }
+  li.divider                                    { border-right: 1px solid $dark-gray; }
+  
+  li                                            { padding: 0;
+    > a                                         { padding: 1.25rem 1rem; }
+  }
+  li.active > a, li:hover > a                   { background-color: $black; }
+  
+  li.is-down-arrow                              {
+    > a                                         { padding-right: 2rem; padding-top: 1.32rem; }
+    > a::after                                  { border-color: $white transparent transparent; top: 1.45rem; right: 1rem; }
+  }
+  
+  .submenu.menu.vertical                        { background-color: #333333; border: none; margin-top: 0.25%; }
+  
+  li > .btn                                     { margin-top: 0.675rem;
+    a[class=button]                             { color: $white; }
+  }
 }
