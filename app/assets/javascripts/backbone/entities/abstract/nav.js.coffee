@@ -18,7 +18,7 @@
     getNavs: ->
       new Entities.Navs [
         { divider: true }
-        { name: 'General Tools', url: '#/tools',   icon: 'fi-wrench'        }
+        { name: 'Tools',         url: '#/tools',   icon: 'fi-widget'        }
         { divider: true }
         { name: 'Legal & Abuse', url: '#/legal',   icon: 'fi-sheriff-badge' }
         { divider: true }

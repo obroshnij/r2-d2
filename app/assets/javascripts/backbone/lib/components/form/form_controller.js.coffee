@@ -34,7 +34,6 @@
     formContentRegion: ->
       @show @contentView, region: @formLayout.formContentRegion
       Backbone.Syphon.deserialize @formLayout, @model.toJSON()
-      @formLayout.$el.find("input, select, textarea").change()
       
     getFormLayout: (config) ->
       new Form.FormLayout

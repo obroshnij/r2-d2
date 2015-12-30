@@ -13,15 +13,18 @@
       @show @layout
 
     formRegion: (report) ->
-      newView  = @getNewView()
+      newView  = @getNewView report
       
       form = App.request 'form:component', newView,
         model: report
       
       @show form, region: @layout.formRegion
 
-    getNewView: ->
-      new New.Report
+    getNewView: (report) ->
+      schema = new New.FormSchema
+      App.request 'form:fields:component', 
+        schema: schema,
+        model:  report
 
     getLayoutView: ->
       new New.Layout

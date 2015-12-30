@@ -2,7 +2,7 @@
   
   _.extend Marionette.Renderer,
   
-    lookups: ['backbone/apps/', 'backbone/lib/components/', 'backbone/lib/views/']
+    lookups: ['backbone/apps/', 'backbone/lib/components/']
     
     render: (template, data) ->
       return if template is false

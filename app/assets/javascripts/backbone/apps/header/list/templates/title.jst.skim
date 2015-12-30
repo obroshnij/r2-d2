@@ -1,7 +1,8 @@
-#page-title
-  .row
-    .large-12.columns
-      #title
-        h1 = @name
-      #icon
-        i class="#{@icon}"
+- if @name
+  #page-title
+    .row
+      .large-12.columns
+        #title
+          h1 = @name
+        #icon
+          i class="#{@icon}"

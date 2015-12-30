@@ -15,10 +15,10 @@
   App.rootRoute = Routes.new_hosting_abuse_report_path()
   
   App.on 'start', ->
-    @addRegions modalRegion: { selector: '#modal-region', regionClass: App.Regions.Modal }
-    
     App.module('HeaderApp').start App.navs
     App.module('FooterApp').start()
+    
+    @addRegions modalRegion: { selector: '#modal-region', regionClass: App.Regions.Modal }
     
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()

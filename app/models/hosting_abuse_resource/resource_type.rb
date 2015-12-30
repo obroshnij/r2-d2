@@ -8,7 +8,7 @@ class HostingAbuseResource
       entry:     'Entry Processes',
       io:        'Input / Output',
       mysql:     'MySQL Queries',
-      processes: 'Number of (simultanious) Processes Failed'
+      processes: 'Number of (simultaneous) Processes Failed'
     }
     
     def self.all

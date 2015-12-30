@@ -1,7 +1,6 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
     
   class Entities.FormField extends App.Entities.Model
-    @include 'DynamicFormElement'
     
     defaults:
       tagName: 'input'
@@ -13,6 +12,8 @@
         
       id: ->
         @get('name')
+        
+    @include 'DynamicFormElement'
   
   
   class Entities.FormFields extends App.Entities.Collection
@@ -20,39 +21,19 @@
   
   
   class Entities.Fieldset extends App.Entities.Model
-    @include 'DynamicFormElement'
     
     mutators:
       elementId: ->
         @get('id') + '_fieldset'
     
-    initialize: (data) ->
-      @initFieldsCollection()
-      @storeChildDependencies()
-        
-      @listenTo @fields, 'change:value',  @onFieldValueChange
-      @listenTo @,       'toggle:fields', @toggleFields
-      
-    storeChildDependencies: ->
-      @childDependencies = {}
-      @fields.each (field) =>
-        _.chain(field.get('dependencies')).keys().each (dependency) =>
-          @childDependencies[dependency] ?= []
-          @childDependencies[dependency].push field
-      
-    initFieldsCollection: ->
+    initialize: ->
       @fields = new Entities.FormFields @get('fields')
       @unset 'fields'
+    
+    toggle: (fieldValues) ->
+      @fields.each (field) -> field.trigger 'toggle:fields', fieldValues
       
-    toggleFields: (field, fieldValues) ->
-      _.chain(@childDependencies[field.get('name')]).each (field) ->
-        if field.dependenciesAreSatisfied(fieldValues) then field.show() else field.hide()
-      
-      if @attributes.dependencies
-        if @dependenciesAreSatisfied(fieldValues) then @show() else @hide()
-      
-    onFieldValueChange: (field) ->
-      @trigger 'field:value:changed', field
+    @include 'DynamicFormElement'
   
   
   class Entities.Fieldsets extends App.Entities.Collection
@@ -61,10 +42,9 @@
     initialize: ->
       @listenTo @, 'field:value:changed', @onFieldValueChange
       
-    onFieldValueChange: (field) ->
+    onFieldValueChange: ->
       fieldValues = @getFieldValues()
-      for model in @models
-        model.trigger 'toggle:fields', field, fieldValues
+      model.trigger 'toggle:fields', fieldValues for model in @models
         
     getFieldValues: ->
       result = {}

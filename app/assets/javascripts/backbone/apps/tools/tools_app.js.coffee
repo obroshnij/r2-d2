@@ -3,7 +3,7 @@
   API =
     
     list: ->
-      App.vent.trigger 'nav:select', 'General Tools'
+      App.vent.trigger 'nav:select', 'Tools'
       new ToolsApp.List.Controller
   
   
