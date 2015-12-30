@@ -28,6 +28,18 @@
   - if can? :create, Rbl
     = link_to 'Add new', '#', :'data-reveal-id' => "new-rbl-modal", class: "button tiny right"
     = render partial: 'new_rbl'
+   
+  .clearfix
+  
+  fieldset#rbl-legend
+    legend Legend
+    .row
+      .large-4.columns
+        .status.red Urgent - Blacklists that are highly important to us
+      .large-4.columns
+        .status.yellow Important - Blacklists that are less important, however should be monitored and removed in future
+      .large-4.columns
+        .status.blue Unimportant - Blacklists to be ignored
     
   - if @rbls.present?
     table
