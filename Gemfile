@@ -37,6 +37,7 @@ gem 'client_side_validations', github: 'DavyJonesLocker/client_side_validations'
 gem 'js-routes'
 gem 'eco'
 gem 'skim'
+gem 'spinjs-rails'
 
 gem 'pg'
 gem 'postgres_ext'

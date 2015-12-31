@@ -31,9 +31,9 @@
       config.onBeforeSubmit()
       
       data = Backbone.Syphon.serialize @formLayout
+      @processModelSave data
       
       @trigger 'form:submit', data
-      @processModelSave data
       
     processModelSave: (data) ->
       @model.save data

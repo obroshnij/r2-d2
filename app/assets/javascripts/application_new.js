@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.spin
 //= require foundation_six
 //= require underscore
 //= require underscore-string

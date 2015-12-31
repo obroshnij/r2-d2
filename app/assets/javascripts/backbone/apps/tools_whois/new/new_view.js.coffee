@@ -32,4 +32,7 @@
     template: 'tools_whois/new/result'
     
     modelEvents:
-      'change' : 'render'
+      'sync:stop' : 'render'
+      
+    onShow: ->
+      @destroy() unless @model.get('record')
