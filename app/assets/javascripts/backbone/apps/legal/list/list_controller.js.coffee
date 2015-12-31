@@ -6,7 +6,7 @@
       legalNavs = App.request 'legal:nav:entities'
       
       @listenTo legalNavs, 'select:one', (model, collection, options) ->
-        App.vent.trigger 'legal:nav:selected', model.get('name'), @layout.articleRegion
+        App.vent.trigger 'legal:nav:selected', model.get('name'), @options.action, @layout.articleRegion
       
       @layout = @getLayoutView()
       

@@ -3,8 +3,11 @@
   class Form.FormController extends App.Controllers.Application
     
     defaults: ->
-      footer: true
+      footer:          true
       focusFirstInput: true
+      errors:          true
+      syncing:         true
+      onBeforeSubmit:  ->
     
     initialize: (options = {}) ->
       { @contentView } = options
@@ -19,7 +22,24 @@
       @createListeners config
       
     createListeners: (config) ->
-      @listenTo @formLayout, "show", @formContentRegion
+      @listenTo @formLayout, 'show', @formContentRegion
+      
+      @listenTo @formLayout, 'form:submit', => @formSubmit(config)
+      @listenTo @formLayout, 'form:cancel', => @formCancel(config)
+      
+    formSubmit: (config) ->
+      config.onBeforeSubmit()
+      
+      data = Backbone.Syphon.serialize @formLayout
+      
+      @trigger 'form:submit', data
+      @processModelSave data
+      
+    processModelSave: (data) ->
+      @model.save data
+      
+    formCancel: (config) ->
+      @trigger 'form:cancel'
       
     getConfig: (options) ->
       form = _.result @contentView, "form"
@@ -29,7 +49,7 @@
       _.extend config, _(options).omit("contentView", "model", "collection")
     
     getModel: (options) ->
-      options.model or @contentView.model
+      options.model or @contentView.model or App.request('new:model')
       
     formContentRegion: ->
       @show @contentView, region: @formLayout.formContentRegion

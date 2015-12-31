@@ -3,6 +3,9 @@
   class Entities.Nav extends App.Entities.Model
     
     isDivider: -> @get('divider')
+    
+    isExternal: ->
+      s.startsWith @get('url'), '/'
   
   class Entities.Navs extends App.Entities.Collection
     model: Entities.Nav
@@ -26,7 +29,15 @@
       
     getLegalNavs: ->
       new Entities.Navs [
-        { name: 'Hosting Abuse', url: '#/legal/hosting_abuse/new', icon: 'fa fa-fw fa-server' }
+        { name: 'Hosting Abuse', url: '#/legal/hosting_abuse', icon: 'fa fa-fw fa-server' }
+      ]
+      
+    getToolsNavs: ->
+      new Entities.Navs [
+        { name: 'Whois',               url: '#/tools/whois',  icon: 'fa fa-fw fa-file-o' }
+        { name: 'Bulk Whois',          url: '/whois',         icon: 'fa fa-fw fa-files-o' }
+        { name: 'Domains Extractor',   url: '/parse_domains', icon: 'fa fa-fw fa-search' }
+        { name: 'Lists Compare Tool',  url: '/compare',       icon: 'fa fa-fw fa-list' }
       ]
   
   
@@ -35,3 +46,6 @@
     
   App.reqres.setHandler 'legal:nav:entities', ->
     API.getLegalNavs()
+    
+  App.reqres.setHandler 'tools:nav:entities', ->
+    API.getToolsNavs()

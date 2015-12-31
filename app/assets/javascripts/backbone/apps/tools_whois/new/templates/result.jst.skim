@@ -1,0 +1,3 @@
+- if @record
+  .callout.secondary.whois-record-container
+    = @record

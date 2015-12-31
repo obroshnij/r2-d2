@@ -35,3 +35,7 @@
       
     isDestroyed: ->
       @get '_destroy'
+  
+  
+  App.reqres.setHandler 'new:model', (attrs = {}) ->
+    new Entities.Model attrs

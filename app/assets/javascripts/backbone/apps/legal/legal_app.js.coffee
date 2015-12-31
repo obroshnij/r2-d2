@@ -8,14 +8,16 @@
   
   API =
     
-    list: (nav) ->
+    list: (nav, action) ->
       App.vent.trigger 'nav:select', 'Legal & Abuse'
       new LegalApp.List.Controller
-        nav: nav
+        nav:    nav
+        action: action
       
       
-  App.commands.setHandler 'legal:list', (nav) ->
-    API.list nav
+  App.commands.setHandler 'legal:list', (nav, action) ->
+    API.list nav, action
+  
   
   LegalApp.on 'start', ->
     new LegalApp.Router

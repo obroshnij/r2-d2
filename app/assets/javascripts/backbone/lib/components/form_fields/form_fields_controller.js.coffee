@@ -3,14 +3,17 @@
   class FormFields.Controller extends App.Controllers.Application
     
     initialize: (options) ->
-      { @schema, @model } = options
+      { @schema } = options
+      
+      @model = @getModel options
       
       @formFields = @getFormFields()
-      
-      @fieldsView = new FormFields.FieldsetCollectionView
-        collection: @formFields
+      @fieldsView = @getFieldsView()
       
       @createListeners()
+      
+    getModel: (options) ->
+      options.model or App.request('new:model')
       
     getFormFields: ->
       fields = App.request 'init:form:fieldset:entities', _.result(@schema, 'schema')
@@ -24,6 +27,14 @@
       
       fields
       
+    getFieldsView: ->
+      view = new FormFields.FieldsetCollectionView
+        collection: @formFields
+        
+      view.form = _.result @schema, 'form'
+      
+      view
+      
     createListeners: ->
       @listenTo @fieldsView, 'childview:childview:value:changed', @forwardChangeEvent
       @listenTo @fieldsView, 'destroy', -> @schema.destroy()
@@ -36,7 +47,7 @@
   
   
   App.reqres.setHandler 'form:fields:component', (options) ->
-    throw new Error "Form Fields Component requires a schema and a model to be passed in" if not options.schema or not options.model
+    throw new Error "Form Fields Component requires a schema to be passed in" if not options.schema
         
     controller = new FormFields.Controller options
     controller.fieldsView

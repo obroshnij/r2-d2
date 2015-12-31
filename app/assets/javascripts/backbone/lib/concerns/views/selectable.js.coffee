@@ -13,8 +13,9 @@
       @$el.addClass 'active' if @model.selected
       
     select: (event) ->
-      event.preventDefault()
-      @model.select()
+      unless @model.isExternal()
+        event.preventDefault()
+        @model.select()
       
     deselect: (event) ->
       event.preventDefault()

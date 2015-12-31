@@ -78,6 +78,8 @@ Rails.application.routes.draw do
   
   ##########################################################
   
-  resources :whois_lookups
+  namespace :tools do
+    resources :whois_lookups, only: [:create]
+  end
   
 end

@@ -4,10 +4,11 @@
   
   _.extend Marionette.View::,
   
-    addOpacityWrapper: (init = true) ->
-      @$el.toggleWrapper
-        className: 'opacity'
-      , init
+    addOpacityWrapper: (init = true, options = {}) ->
+      _.defaults options,
+        className: "opacity"
+
+      @$el.toggleWrapper options, @cid, init
   
     destroy: (args...) ->
       if @model?.isDestroyed()

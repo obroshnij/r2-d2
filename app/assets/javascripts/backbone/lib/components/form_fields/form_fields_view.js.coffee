@@ -8,7 +8,7 @@
     template: 'form_fields/input'
     
     attributes: ->
-      class: 'row'
+      class: 'row form-field'
       id:    @model.get('elementId')
       style: if @model.isShown() then 'display:block;' else 'display:none;'
     
@@ -66,11 +66,11 @@
   
   class FormFields.FieldsetView extends App.Views.CompositeView
     template:           'form_fields/fieldset'
-    tagName:            'fieldset'
     childViewContainer: '.fields'
     
     attributes: ->
       id:    @model.get('elementId')
+      class: 'fieldset-wrapper'
       style: if @model.isShown() then 'display:block;' else 'display:none;'
     
     getChildView: (model) ->

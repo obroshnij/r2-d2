@@ -1,1 +1,8 @@
-| Find me in: tools/list/list_layout
+#breadcrumbs-region
+
+.row
+  .large-2.columns
+    #tools-navs-region
+  
+  .large-10.columns
+    #article-region

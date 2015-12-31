@@ -12,4 +12,5 @@ form                                                  {
     input[type='checkbox'], input[type='radio']       { margin: 0; }
   }
   footer                                              { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
+  span.form-error                                     { margin-top: -1rem; }
 }

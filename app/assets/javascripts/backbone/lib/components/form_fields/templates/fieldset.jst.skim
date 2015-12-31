@@ -1,3 +1,6 @@
 - if @legend
-  legend = @legend
-.fields
+  fieldset
+    legend = @legend
+    .fields
+- else
+  .fields

@@ -55,21 +55,18 @@
         if _.isEmpty(errors) then @removeErrors() else @addErrors errors
         
     removeErrors: ->
-      @$('div.error').removeClass('error').find('small').remove()
+      @$('.is-invalid-input').removeClass('is-invalid-input')
+      @$('.is-invalid-label').removeClass('is-invalid-label')
+      @$('span.form-error').html('').removeClass('is-visible')
         
     addErrors: (errors = {}) ->
       for name, array of errors
         @addError name, array[0]
         
     addError: (name, error) ->
-      el = @$("[name='#{name}']")
-      sm = $('<small>').text(error).addClass('error')
-      @insertError(el, sm)
-      
-    insertError: (el, sm) ->
-      parent = el.closest(".row").addClass("error")
-      error_container = parent.find(".error-container")
-      if error_container.length then error_container.html(sm) else el.after(sm)
+      $row = @$("[name='#{name}']").addClass('is-invalid-input').closest('.form-field')
+      $row.find('span.form-error').html(error).addClass('is-visible')
+      $row.find('label').addClass('is-invalid-label')
       
     syncStart: (model) ->
       @addOpacityWrapper() if @config.syncing

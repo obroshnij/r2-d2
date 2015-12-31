@@ -24,7 +24,7 @@
     
     mutators:
       elementId: ->
-        @get('id') + '_fieldset'
+        @get('id') + '_fieldset' if @get('id')
     
     initialize: ->
       @fields = new Entities.FormFields @get('fields')
