@@ -10,6 +10,7 @@
       exact_amount:             'true'
       measure:                  'frequency_reduced'
       suggestion:               'twenty_four'
+      ddos_block_type:          'haproxy'
   
         
   API =

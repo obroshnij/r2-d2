@@ -14,6 +14,7 @@
       buttons:
         primary: 'Submit'
         cancel:  false
+      syncingType: 'buttons'
     
     schema:
       [

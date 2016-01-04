@@ -23,3 +23,4 @@
       App.request 'set:hosting:abuse:resource:type:entities',               options.hostingAbuseResourceTypes
       App.request 'set:hosting:abuse:resource:upgrade:suggestion:entities', options.hostingAbuseResourceUpgradeSuggestions
       App.request 'set:hosting:abuse:resource:impact:entities',             options.hostingAbuseResourceImpacts
+      App.request 'set:hosting:abuse:ddos:block:type:entities',             options.hostingAbuseDdosBlockTypes

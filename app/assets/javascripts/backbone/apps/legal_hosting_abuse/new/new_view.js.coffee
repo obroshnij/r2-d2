@@ -119,15 +119,13 @@
               }
               hint:    'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary'
             }, {
-              name:    'exim_stopped',
-              label:   'Exim Stopped?',
-              type:    'radio_buttons',
-              options: [{ name: "Yes", value: true }, { name: "No", value: false }]
-            }, {
               name:    'spam_experts_enabled'
               label:   'Spam Experts Enabled?'
               type:    'radio_buttons'
               options: [{ name: "Yes", value: true }, { name: "No", value: false }]
+              dependencies: {
+                hosting_service: { value: ['shared', 'reseller'] }
+              }
             }, {
               name:    'blacklisted_ip'
               label:   'Blacklisted IP'
@@ -318,9 +316,17 @@
               name:    'domain_port'
               label:   'Domain / Port'
             }, {
-              name:    'block_type'
+              name:    'ddos_block_type'
               label:   'Block Type'
+              type:    'collection_radio_buttons'
+              options: @getDdosBlockTypes()
               hint:    'Please mention the method of blocking'
+            }, {
+              name:    'other_ddos_block_type'
+              label:   'Other'
+              dependencies: {
+                ddos_block_type: { value: 'other' }
+              }
             }, {
               name:    'ddos_logs'
               label:   'Logs'
@@ -382,6 +388,7 @@
     getImpacts:            -> @getOptions App.request('hosting:abuse:resource:impact:entities')
     getSuggestions:        -> @getOptions App.request('hosting:abuse:suggestion:entities')
     getReportingParties:   -> @getOptions App.request('hosting:abuse:spam:reporting:party:entities')
+    getDdosBlockTypes:     -> @getOptions App.request('hosting:abuse:ddos:block:type:entities')
         
     # onHostingServiceChange: (val) ->
 #       @$("#hosting_abuse_type").val('').change()

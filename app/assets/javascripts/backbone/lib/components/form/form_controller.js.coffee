@@ -7,6 +7,7 @@
       focusFirstInput: true
       errors:          true
       syncing:         true
+      syncingType:     'opacity'
       onBeforeSubmit:  ->
     
     initialize: (options = {}) ->

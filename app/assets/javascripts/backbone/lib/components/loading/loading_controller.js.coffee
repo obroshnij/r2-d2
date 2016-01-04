@@ -14,7 +14,7 @@
 
       switch config.loadingType
         when "opacity"
-          @region.currentView.$el.css "opacity", 0.5
+          @region.currentView.addOpacityWrapper()
         when "spinner"
           loadingView = @getLoadingView()
           @show loadingView
@@ -35,7 +35,7 @@
         ## ================================================================ ##
         switch config.loadingType
           when "opacity"
-            @region.currentView.$el.removeAttr "style"
+            @region.currentView.addOpacityWrapper(false)
           when "spinner"
             return realView.close() if @region.currentView isnt loadingView
 

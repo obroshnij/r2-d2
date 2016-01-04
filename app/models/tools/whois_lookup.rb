@@ -5,9 +5,11 @@ class Tools::WhoisLookup
   
   attr_reader :query, :record
   
+  validates :query, presence: true
+  
   def initialize query
     @query  = query.downcase.strip
-    @record = get_whois_record
+    @record = get_whois_record if valid?
   end
   
   private

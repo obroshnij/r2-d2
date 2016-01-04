@@ -12,6 +12,7 @@
         
     ui:
       buttonsContainer: '.button-group'
+      buttons:          '.button-group button'
       callout:          '.callout'
       
     triggers:
@@ -69,10 +70,14 @@
       $row.find('label').addClass('is-invalid-label')
       
     syncStart: (model) ->
-      @addOpacityWrapper() if @config.syncing
+      return unless @config.syncing
+      @addOpacityWrapper() if @config.syncingType is 'opacity'
+      @disableButtons()    if @config.syncingType is 'buttons'
       
     syncStop: (model) ->
-      @addOpacityWrapper(false) if @config.syncing
+      return unless @config.syncing
+      @addOpacityWrapper(false) if @config.syncingType is 'opacity'
+      @disableButtons(false)    if @config.syncingType is 'buttons'
       
-    onDestroy: ->
-      @addOpacityWrapper(false) if @config.syncing
+    disableButtons: (init = true) ->
+      @ui.buttons.prop('disabled', init)

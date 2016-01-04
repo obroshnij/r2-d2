@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
     gon.hosting_abuse_resource_types               = HostingAbuseResource::ResourceType.all
     gon.hosting_abuse_resource_upgrade_suggestions = HostingAbuseResource::UpgradeSuggestion.all
     gon.hosting_abuse_resource_impacts             = HostingAbuseResource::Impact.all
+    gon.hosting_abuse_ddos_block_types             = HostingAbuseDdos::BlockType.all
     
     gon.current_user = current_user
     render layout: 'application_new'
