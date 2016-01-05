@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105133510) do
+ActiveRecord::Schema.define(version: 20160105144007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,13 @@ ActiveRecord::Schema.define(version: 20160105133510) do
 
   create_table "legal_hosting_abuse_ddos", force: :cascade do |t|
     t.integer  "report_id"
+    t.integer  "block_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "legal_hosting_abuse_ddos_block_types", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -133,6 +140,48 @@ ActiveRecord::Schema.define(version: 20160105133510) do
 
   create_table "legal_hosting_abuse_resource", force: :cascade do |t|
     t.integer  "report_id"
+    t.integer  "abuse_type_id"
+    t.integer  "activity_type_id"
+    t.integer  "impact_id"
+    t.integer  "measure_id"
+    t.integer  "type_id"
+    t.integer  "upgrade_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_abuse_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_activity_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_impacts", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_measures", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_upgrades", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -151,6 +200,27 @@ ActiveRecord::Schema.define(version: 20160105133510) do
 
   create_table "legal_hosting_abuse_spam", force: :cascade do |t|
     t.integer  "report_id"
+    t.integer  "detection_method_id"
+    t.integer  "queue_type_id"
+    t.integer  "reporting_party_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_detection_methods", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_queue_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_reporting_parties", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
