@@ -35,5 +35,5 @@
     modelEvents:
       'sync:stop' : 'render'
       
-    onShow: ->
+    onAttach: ->
       @destroy() unless @model.get('record')

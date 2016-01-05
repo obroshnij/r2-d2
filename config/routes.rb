@@ -82,4 +82,8 @@ Rails.application.routes.draw do
     resources :whois_lookups, only: [:create]
   end
   
+  namespace :legal do
+    resources :hosting_abuse
+  end
+  
 end

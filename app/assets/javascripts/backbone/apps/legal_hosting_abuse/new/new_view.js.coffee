@@ -137,14 +137,14 @@
               label:   'Header'
               tagName: 'textarea'
               dependencies: {
-                detection_methods: { value: ['queue_outbound', 'captcha', 'cms_notifications', 'forwarding_issue', 'mailbox_overflow'] }
+                detection_methods: { value: ['queue_outbound', 'captcha', 'forwarding_issue', 'system_notifications'] }
               }
             }, {
               name:    'body'
               label:   'Body'
               tagName: 'textarea'
               dependencies: {
-                detection_methods: { value: ['queue_outbound', 'captcha', 'cms_notifications', 'forwarding_issue', 'mailbox_overflow'] }
+                detection_methods: { value: ['queue_outbound', 'captcha', 'forwarding_issue', 'system_notifications'] }
               }
             }, {
               name:    'bounce'
