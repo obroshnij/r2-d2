@@ -3,7 +3,7 @@
   class New.Controller extends App.Controllers.Application
     
     initialize: (options) ->
-      report = App.request 'new:hosting:abuse:report:entity'
+      report = App.request 'new:hosting:abuse:entity'
       
       @layout = @getLayoutView()
 

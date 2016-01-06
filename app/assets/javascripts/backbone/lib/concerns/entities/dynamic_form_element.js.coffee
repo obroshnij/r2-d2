@@ -13,7 +13,7 @@
         intersection = _.intersection allowed, current
         not _.isEmpty(intersection)
       
-      notExactValue: (allowed, current) ->
+      otherThanExactly: (allowed, current) ->
         allowed      = _.flatten [allowed]
         current      = _.flatten [current]
         not _.isEqual(_.compact(current), allowed)

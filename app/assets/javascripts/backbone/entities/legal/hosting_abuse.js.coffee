@@ -3,14 +3,13 @@
   class Entities.HostingAbuse extends App.Entities.Model
     
     defaults:
-      exim_stopped:             'true'
-      spam_experts_enabled:     'true'
-      involved_mailboxes_count: '1'
-      mailbox_password_reset:   'true'
-      exact_amount:             'true'
-      measure:                  'frequency_reduced'
-      suggestion:               'twenty_four'
-      ddos_block_type:          'haproxy'
+      suggestion:                    '3'
+      ddos_block_type:               '1'
+      resource_measure:              '1'
+      spam_queue_type:               '1'
+      spam_experts_enabled:          'true'
+      spam_involved_mailboxes_count: '1'
+      spam_mailbox_password_reset:   'true'
       
       
   class Entities.HostingAbuse.Ddos

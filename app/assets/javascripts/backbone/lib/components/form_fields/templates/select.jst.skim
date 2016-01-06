@@ -8,7 +8,7 @@
       
       option value='' Please select
       - for option in @options
-        option value="#{option.value}" = option.name
+        option value="#{option.id}" = option.name
   
   .large-7.columns
     label.help-text.middle = @hint
