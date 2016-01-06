@@ -1,0 +1,40 @@
+object false
+
+node :environment do
+  Rails.env
+end
+
+node :current_user do
+  current_user.as_json(only: [:name, :email])
+end
+
+node :entities do
+  {
+    legal: {
+      hosting_abuse: {
+        ddos: {
+          block_type: Legal::HostingAbuse::Ddos::BlockType.all.as_json(only: [:id, :name])
+        },
+        resource: {
+          abuse_type:    Legal::HostingAbuse::Resource::AbuseType.all.as_json(only: [:id, :name]),
+          activity_type: Legal::HostingAbuse::Resource::ActivityType.all.as_json(only: [:id, :name]),
+          impact:        Legal::HostingAbuse::Resource::Impact.all.as_json(only: [:id, :name]),
+          measure:       Legal::HostingAbuse::Resource::Measure.all.as_json(only: [:id, :name]),
+          type:          Legal::HostingAbuse::Resource::ResourceType.all.as_json(only: [:id, :name]),
+          upgrade:       Legal::HostingAbuse::Resource::Upgrade.all.as_json(only: [:id, :name])
+        },
+        spam: {
+          detection_method: Legal::HostingAbuse::Spam::DetectionMethod.all.as_json(only: [:id, :name]),
+          queue_type:       Legal::HostingAbuse::Spam::QueueType.all.as_json(only: [:id, :name]),
+          reporting_party:  Legal::HostingAbuse::Spam::ReportingParty.all.as_json(only: [:id, :name])
+        },
+        service:         Legal::HostingAbuse::Service.all.as_json(only: [:id, :name]),
+        type:            Legal::HostingAbuse::AbuseType.all.as_json(only: [:id, :name]),
+        management_type: Legal::HostingAbuse::ManagementType.all.as_json(only: [:id, :name]),
+        reseller_plan:   Legal::HostingAbuse::ResellerPlan.all.as_json(only: [:id, :name]),
+        shared_plan:     Legal::HostingAbuse::SharedPlan.all.as_json(only: [:id, :name]),
+        suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name])
+      }
+    }
+  }
+end

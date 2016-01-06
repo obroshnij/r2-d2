@@ -1,6 +1,6 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
   
-  class Entities.HostingAbuse.Report extends App.Entities.Model
+  class Entities.HostingAbuse extends App.Entities.Model
     
     defaults:
       exim_stopped:             'true'
@@ -11,13 +11,18 @@
       measure:                  'frequency_reduced'
       suggestion:               'twenty_four'
       ddos_block_type:          'haproxy'
+      
+      
+  class Entities.HostingAbuse.Ddos
+  class Entities.HostingAbuse.Resource
+  class Entities.HostingAbuse.Spam
+    
   
-        
   API =
-    
-    newReport: (params = {}) ->
-      new Entities.HostingAbuse.Report params
   
-    
-  App.reqres.setHandler 'new:hosting:abuse:report:entity', ->
-    API.newReport()
+    newReport: (attrs = {}) ->
+      new Entities.HostingAbuse attrs
+  
+  
+  App.reqres.setHandler 'new:hosting:abuse:entity', (attrs = {}) ->
+    API.newReport attrs

@@ -9,8 +9,8 @@
   
   API =
     
-    newUser: (params = {}) ->
-      new Entities.User params
+    newUser: (attrs = {}) ->
+      new Entities.User attrs
   
   
   App.reqres.setHandler 'init:current:user', (currentUser) ->

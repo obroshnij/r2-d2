@@ -8,25 +8,7 @@
 
 <%= javascript_tag do %>
   $(function() {
-    Artoo.start({
-      environment:                            "<%= Rails.env %>",
-      currentUser:                            gon.current_user,
-      hostingAbuseServices:                   gon.hosting_abuse_services,
-      hostingAbuseTypes:                      gon.hosting_abuse_types,
-      hostingAbuseSharedPackages:             gon.hosting_abuse_shared_packages,
-      hostingAbuseResellerPackages:           gon.hosting_abuse_reseller_packages,
-      hostingAbuseManagementTypes:            gon.hosting_abuse_management_types,
-      hostingAbuseSuggestions:                gon.hosting_abuse_suggestions,
-      hostingAbuseSpamDetectionMethods:       gon.hosting_abuse_spam_detection_methods,
-      hostingAbuseSpamReportingParties:       gon.hosting_abuse_spam_reporting_parties,
-      hostingAbuseResourceAbuseTypes:         gon.hosting_abuse_resource_abuse_types,
-      hostingAbuseResourceActivityTypes:      gon.hosting_abuse_resource_activity_types,
-      hostingAbuseResourceMeasures:           gon.hosting_abuse_resource_measures,
-      hostingAbuseResourceTypes:              gon.hosting_abuse_resource_types,
-      hostingAbuseResourceUpgradeSuggestions: gon.hosting_abuse_resource_upgrade_suggestions,
-      hostingAbuseResourceImpacts:            gon.hosting_abuse_resource_impacts,
-      hostingAbuseDdosBlockTypes:             gon.hosting_abuse_ddos_block_types
-    });
+    Artoo.start(gon);
     $(document).foundation();
   });
 <% end %>

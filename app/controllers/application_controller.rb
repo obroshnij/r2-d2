@@ -14,23 +14,7 @@ class ApplicationController < ActionController::Base
   end
   
   def index
-    # gon.hosting_abuse_services                     = HostingAbuseInfo::HostingService.all
-    # gon.hosting_abuse_types                        = HostingAbuseInfo::AbuseType.all
-    # gon.hosting_abuse_shared_packages              = HostingAbuseInfo::SharedPackage.all
-    # gon.hosting_abuse_reseller_packages            = HostingAbuseInfo::ResellerPackage.all
-    # gon.hosting_abuse_management_types             = HostingAbuseInfo::ManagementType.all
-    # gon.hosting_abuse_suggestions                  = HostingAbuseInfo::Suggestion.all
-    # gon.hosting_abuse_spam_detection_methods       = HostingAbuseSpam::DetectionMethod.all
-    # gon.hosting_abuse_spam_reporting_parties       = HostingAbuseSpam::ReportingParty.all
-    # gon.hosting_abuse_resource_abuse_types         = HostingAbuseResource::ResourceAbuseType.all
-    # gon.hosting_abuse_resource_activity_types      = HostingAbuseResource::ActivityType.all
-    # gon.hosting_abuse_resource_measures            = HostingAbuseResource::Measure.all
-    # gon.hosting_abuse_resource_types               = HostingAbuseResource::ResourceType.all
-    # gon.hosting_abuse_resource_upgrade_suggestions = HostingAbuseResource::UpgradeSuggestion.all
-    # gon.hosting_abuse_resource_impacts             = HostingAbuseResource::Impact.all
-    # gon.hosting_abuse_ddos_block_types             = HostingAbuseDdos::BlockType.all
-    
-    gon.current_user = current_user
+    gon.rabl
     render layout: 'application_new'
   end
   

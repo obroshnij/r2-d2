@@ -90,7 +90,7 @@ end
   Legal::HostingAbuse::Spam::DetectionMethod.create name: name
 end
 
-["Outbound Queue", "Bounced Emails", "CAPTCHA related", "Forwarding issue (*wildcard)", "System Notifications", "Deliberate Spam"].each do |name|
+["Outbound Emails", "Bounced Emails", "CAPTCHA related", "Forwarded Emails", "System Notifications", "Deliberate Spam"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
 end
 
