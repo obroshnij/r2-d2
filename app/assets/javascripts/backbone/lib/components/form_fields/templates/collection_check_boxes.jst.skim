@@ -7,7 +7,7 @@
     - for option in @options
       div
         input type='checkbox' name="#{@name}[]" value="#{option.id}" id="#{@name}_#{option.id}"
-        label for="#{@name}_#{option.id}" = option.name
+        label.errorless for="#{@name}_#{option.id}" = option.name
     input type='hidden' name="#{@name}[]" value='' syphon='visible'
     .large-12: span.form-error
   

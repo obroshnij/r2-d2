@@ -67,7 +67,7 @@
     addError: (name, error) ->
       $row = @$("[name='#{name}'], [name='#{name}[]']").addClass('is-invalid-input').closest('.form-field')
       $row.find('span.form-error').html(error).addClass('is-visible')
-      $row.find('label').addClass('is-invalid-label')
+      $row.find('label:not(.errorless)').addClass('is-invalid-label')
       
     syncStart: (model) ->
       return unless @config.syncing
