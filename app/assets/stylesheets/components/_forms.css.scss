@@ -13,4 +13,5 @@ form                                                  {
   }
   footer                                              { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
   span.form-error                                     { margin-top: -1rem; }
+  .large-12 > span.form-error                         { margin-top: 0; margin-bottom: 0; }
 }

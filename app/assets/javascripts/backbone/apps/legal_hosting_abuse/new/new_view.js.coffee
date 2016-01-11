@@ -15,13 +15,13 @@
         id:         'client-details'
         
         fields: [
-          name:     'service'
+          name:     'service_id'
           label:    'Service'
           tagName:  'select'
           options:  @getServices()
           hint:     'Abused service'
         ,
-          name:     'abuse_type'
+          name:     'type_id'
           label:    'Abuse Type'
           tagName:  'select'
           options:  @getAbuseTypes()
@@ -31,274 +31,274 @@
           label:    'Server Name'
           hint:     'Ex: server78.web-hosting.com, host7.registrar-servers.com, etc.'
           dependencies:
-            service:      value: ['1', '2', '3', '4']
+            service_id:      value: ['1', '2', '3', '4']
         ,
-          name:     'shared_plan'
+          name:     'shared_plan_id'
           label:    'Package'
           tagName:  'select'
           options:  @getSharedPlans()
           dependencies:
-            service:      value: '1'
+            service_id:      value: '1'
         ,
-          name:     'reseller_plan'
+          name:     'reseller_plan_id'
           label:    'Package'
           tagName:  'select'
           options:  @getResellerPlans()
           dependencies:
-            service:      value: '2'
+            service_id:      value: '2'
         ,
           name:     'cpanel_username'
           label:    'cPanel Username'
           hint:     'Owner'
           dependencies:
-            service:      value: '2'
+            service_id:      value: '2'
         ,
           name:     'username'
           label:    'Username'
           dependencies:
-            service:      value: ['1', '3']
+            service_id:      value: ['1', '3']
         ,
           name:     'resold_username'
           label:    'Resold Username',
           dependencies:
-            service:      value: '2'
+            service_id:      value: '2'
         ,
           name:     'subscription_name'
           label:    'Subcription Name'
           dependencies:
-            service:      value: '5'
+            service_id:      value: '5'
         ,
           name:     'server_rack_label'
           label:    'Server Rack Label'
           hint:     'e.g. NC-PH-0731-26'
           dependencies:
-            service:      value: '4'
+            service_id:      value: '4'
         ,
-          name:     'management_type'
+          name:     'management_type_id'
           label:    'Type of Management'
           tagName:  'select'
           options:  @getManagementTypes()
           dependencies:
-            service:      value: ['3', '4']
+            service_id:      value: ['3', '4']
         ]
       ,
         legend:     'Email Abuse / Spam',
         id:         'spam',
         dependencies:
-          abuse_type:     value: '1'
+          type_id:     value: '1'
         
         fields: [
-          name:     'spam_detection_methods'
+          name:     'spam[detection_method_ids]'
           label:    'Detected by'
           type:     'collection_check_boxes'
           options:  @getSpamDetectionMethods()
           hint:     'How the issue was detected?'
         ,
-          name:     'spam_queue_type'
+          name:     'spam[queue_type_id]'
           label:    'Queue Type'
           type:     'collection_radio_buttons'
           options:  @getSpamQueueTypes()
           dependencies:
-            spam_detection_methods: value: '1'
+            'spam[detection_method_ids]': value: '1'
         ,
-          name:     'spam_other_detection_method'
+          name:     'spam[other_detection_method]'
           label:    'Other'
           dependencies:
-            spam_detection_methods: value: '4'
+            'spam[detection_method_ids]': value: '4'
         ,
-          name:     'spam_header'
+          name:     'spam[header]'
           label:    'Header'
           tagName:  'textarea'
           dependencies:
-            spam_detection_methods: value: '1'
-            spam_queue_type:        value: ['1', '3', '4', '5', '6']
+            'spam[detection_method_ids]': value: '1'
+            'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
         ,
-          name:     'spam_body'
+          name:     'spam[body]'
           label:    'Body'
           tagName:  'textarea'
           dependencies:
-            spam_detection_methods: value: '1'
-            spam_queue_type:        value: ['1', '3', '4', '5', '6']
+            'spam[detection_method_ids]': value: '1'
+            'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
         ,
-          name:     'spam_bounce'
+          name:     'spam[bounce]'
           label:    'Bounce'
           tagName:  'textarea'
           dependencies:
-            spam_detection_methods: value: '1'
-            spam_queue_type:        value: '2'
+            'spam[detection_method_ids]': value: '1'
+            'spam[queue_type_id]':        value: '2'
         ,
-          name:     'spam_queue_amount'
+          name:     'spam[queue_amount]'
           label:    'Queue Amount'
           hint:     'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary',
           dependencies:
-            spam_detection_methods: otherThanExactly: '2'
+            'spam[detection_method_ids]': otherThanExactly: '2'
         ,
-          name:     'spam_blacklisted_ip'
+          name:     'spam[blacklisted_ip]'
           label:    'Blacklisted IP'
           dependencies:
-            spam_detection_methods: value: '3'
+            'spam[detection_method_ids]': value: '3'
         ,
-          name:     'spam_example_complaint'
+          name:     'spam[example_complaint]'
           label:    'Example / Link'
           tagName:  'textarea',
           hint:     'Feedback loop example or a link to one',
           dependencies:
-            spam_detection_methods: value: '2'
+            'spam[detection_method_ids]': value: '2'
         ,
-          name:     'spam_reporting_party'
+          name:     'spam[reporting_party_id]'
           label:    'Reporting Party'
           tagName:  'select'
           options:  @getSpamReportingParties()
           dependencies:
-            spam_detection_methods: value: '2'
+            'spam[detection_method_ids]': value: '2'
         ,
-          name:     'spam_experts_enabled'
+          name:     'spam[experts_enabled]'
           label:    'Spam Experts Enabled?'
           type:     'radio_buttons'
           options:  [{ name: "Yes", value: true }, { name: "No", value: false }],
           dependencies:
-            service:                value: ['1', '2']
+            service_id:                value: ['1', '2']
         ,
-          name:     'spam_involved_mailboxes_count'
+          name:     'spam[involved_mailboxes_count]'
           label:    'Involved Mailboxes Count'
           type:     'radio_buttons'
           options:  [{ name: '1', value: '1' }, { name: '2', value: '2' }, { name: '3', value: '3' }, { name: '4', value: '4' }, { name: 'more', value: 0 }]
           hint:     'If less than 5, please reset password for all of them'
         ,
-          name:     'spam_mailbox_password_reset'
+          name:     'spam[mailbox_password_reset]'
           label:    'Password Reset?'
           type:     'radio_buttons'
           options:  [{ name: "Yes", value: true }, { name: "No", value: false }]
           dependencies:
-            spam_involved_mailboxes_count: value: ['1', '2', '3', '4']
+            'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
         ,
-          name:     'spam_involved_mailboxes'
+          name:     'spam[involved_mailboxes]'
           label:    'Mailbox(es) Involved'
           tagName:  'textarea'
           dependencies:
-            spam_involved_mailboxes_count: value: ['1', '2', '3', '4']
-            spam_mailbox_password_reset:   value: 'true'
+            'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
+            'spam[mailbox_password_reset]':   value: 'true'
         ,
-          name:     'spam_mailbox_password_reset_reason'
+          name:     'spam[mailbox_password_reset_reason]'
           label:    'Reason'
           tagName:  'textarea'
           dependencies:
-            spam_involved_mailboxes_count: value: ['1', '2', '3', '4']
-            spam_mailbox_password_reset:   value: 'false'
+            'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
+            'spam[mailbox_password_reset]':   value: 'false'
         ,
-          name:     'spam_involved_mailboxes_count_other'
+          name:     'spam[involved_mailboxes_count_other]'
           label:    'Exact / Approximate Amount'
           type:     'number'
           dependencies:
-            spam_involved_mailboxes_count: value: '0'
+            'spam[involved_mailboxes_count]': value: '0'
         ]
       ,
-        legend: 'Resource Abuse'
-        id:     'resource-abuse'
+        legend:     'Resource Abuse'
+        id:         'resource-abuse'
         dependencies:
-            abuse_type:   value: '2'
+            type_id:   value: '2'
 
         fields: [
-          name:     'resource_type'
+          name:     'resource[type_id]'
           label:    'Resource Type'
           tagName:  'select'
           options:  @getResourceTypes()
         ,
-          name:     'resource_activity_type'
+          name:     'resource[activity_type_id]'
           label:    'Activity Type'
           tagName:  'select'
           options: @getResourceActivityTypes()
           dependencies:
-            resource_type:      value: '1'
+            'resource[type_id]':      value: '1'
         ,
-          name:     'resource_measure'
+          name:     'resource[measure_id]'
           label:    'Measures taken'
           type:     'collection_radio_buttons'
           options:  @getResourceMeasures()
-          hint:    'What was done?'
+          hint:     'What was done?'
           dependencies:
-            resource_type:      value: '1'
+            'resource[type_id]':      value: '1'
         ,
-          name:     'other_measure'
+          name:     'resource[other_measure]'
           label:    'Other'
           dependencies:
-            resource_type:      value: '1'
-            resource_measure:   value: '3'
+            'resource[type_id]':      value: '1'
+            'resource[measure_id]':   value: '3'
         ,
-          name:     'resource_folders'
+          name:     'resource[folders]'
           label:    'Folders'
           tagName:  'textarea'
           hint:     'Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)',
           dependencies:
-            resource_type:      value: '2'
+            'resource[type_id]':      value: '2'
         ,
-          name:     'resource_abuse_type'
+          name:     'resource[abuse_type_ids]'
           label:    'Resource Type'
           type:     'collection_check_boxes'
           hint:     'Please check all resources under impact'
           options:  @getResourceAbuseTypes()
           dependencies:
-            resource_type:      value: '3'
+            'resource[type_id]':      value: '3'
         ,
-          name:     'resource_lve_report'
+          name:     'resource[lve_report]'
           label:    'LVE Report'
           tagName:  'textarea'
           dependencies:
-            resource_type:       value: '3'
-            resource_abuse_type: value: ['1', '2', '3', '4']
+            'resource[type_id]':        value: '3'
+            'resource[abuse_type_ids]': value: ['1', '2', '3', '4']
         ,
-          name:     'resource_mysql_queries'
+          name:     'resource[mysql_queries]'
           label:    'MySQL Queries'
           tagName:  'textarea'
           hint:     'Along with the command'
           dependencies:
-            resource_type:       value: '3'
-            resource_abuse_type: value: '5'
+            'resource[type_id]':       value: '3'
+            'resource[abuse_type_ids]': value: '5'
         ,
-          name:     'resource_process_logs'
+          name:     'resource[process_logs]'
           label:    'Process Logs'
           tagName:  'textarea'
           dependencies:
-            resource_type:       value: '3'
-            resource_abuse_type: value: '6'
+            'resource[type_id]':       value: '3'
+            'resource[abuse_type_ids]': value: '6'
         ,
-          name:     'resource_upgrade'
+          name:     'resource[upgrade_id]'
           label:    'Upgrade Suggestion'
           tagName:  'select'
           options:  @getResourceUpgrades()
           dependencies:
-            resource_type:       value: '3'
+            'resource[type_id]':       value: '3'
         ,
-          name:     'resource_impact'
+          name:     'resource[impact_id]'
           label:    'Severity of Impact'
           tagName:  'select'
           options:  @getResourceImpacts()
           hint:     'How much impact it causes itself (i.e. is it able to overload the server itself)?'
           dependencies:
-            resource_type:       value: '3'
+            'resource[type_id]':       value: '3'
         ]
       ,
         legend:     'DDoS'
         id:         'ddos'
         dependencies:
-          abuse_type:   value: '3'
+          type_id:   value: '3'
         
         fields: [
-          name:     'ddos_domain_port'
+          name:     'ddos[domain_port]'
           label:    'Domain / Port'
         ,
-          name:     'ddos_block_type'
+          name:     'ddos[block_type_id]'
           label:    'Block Type'
           type:     'collection_radio_buttons'
           options:  @getDdosBlockTypes()
           hint:     'Please mention the method of blocking'
         ,
-          name:     'other_ddos_block_type'
+          name:     'ddos[other_block_type]'
           label:    'Other'
           dependencies:
-            ddos_block_type:    value: '5'
+            'ddos[block_type_id]':    value: '5'
         ,
-          name:     'ddos_logs'
+          name:     'ddos[logs]'
           label:    'Logs'
           tagName:  'textarea'
         ]
@@ -306,10 +306,10 @@
         legend:     'Conclusion'
         id:         'conclusion'
         dependencies:
-          abuse_type:     value: ['1', '2', '3']
+          type_id:     value: ['1', '2', '3']
         
         fields: [
-          name:     'suggestion'
+          name:     'suggestion_id'
           label:    'Suggestion'
           tagName:  'select'
           options:  @getSuggestions()
@@ -320,13 +320,13 @@
           tagName:  'textarea'
           hint:     'Immediate suspension / time shortening reason'
           dependencies:
-            suggestion:   value: ['1', '2', '4']
+            suggestion_id:   value: ['1', '2', '4']
         ,
           name:     'scan_report_path'
           label:    'Scan Report Path'
           hint:     'If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server'
           dependencies:
-            suggestion:   value: '5'
+            suggestion_id:   value: '5'
         ,
           name:     'comments'
           label:    'Additional Comments'

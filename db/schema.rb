@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105144007) do
+ActiveRecord::Schema.define(version: 20160108132409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,8 +116,11 @@ ActiveRecord::Schema.define(version: 20160105144007) do
   create_table "legal_hosting_abuse_ddos", force: :cascade do |t|
     t.integer  "report_id"
     t.integer  "block_type_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "domain_port"
+    t.string   "other_block_type"
+    t.text     "logs"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "legal_hosting_abuse_ddos_block_types", force: :cascade do |t|
@@ -148,6 +151,13 @@ ActiveRecord::Schema.define(version: 20160105144007) do
     t.integer  "upgrade_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.integer  "abuse_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "legal_hosting_abuse_resource_abuse_types", force: :cascade do |t|
@@ -203,6 +213,13 @@ ActiveRecord::Schema.define(version: 20160105144007) do
     t.integer  "detection_method_id"
     t.integer  "queue_type_id"
     t.integer  "reporting_party_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_detection_method_assignments", force: :cascade do |t|
+    t.integer  "spam_id"
+    t.integer  "detection_method_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end

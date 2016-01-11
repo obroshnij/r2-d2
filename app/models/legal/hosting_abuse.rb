@@ -11,4 +11,6 @@ class Legal::HostingAbuse < ActiveRecord::Base
   belongs_to :reseller_plan,   class_name: 'Legal::HostingAbuse::ResellerPlan',   foreign_key: 'reseller_plan_id'
   belongs_to :shared_plan,     class_name: 'Legal::HostingAbuse::SharedPlan',     foreign_key: 'shared_plan_id'
   belongs_to :suggestion,      class_name: 'Legal::HostingAbuse::Suggestion',     foreign_key: 'suggestion_id'
+  
+  accepts_nested_attributes_for :ddos, :resource, :spam
 end

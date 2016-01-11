@@ -12,7 +12,7 @@
     mainRegion:   '#main-region'
     footerRegion: '#footer-region'
     
-  App.rootRoute = Routes.new_hosting_abuse_report_path()
+  App.rootRoute = '/tools/whois'
   
   App.on 'start', ->
     App.module('HeaderApp').start App.navs

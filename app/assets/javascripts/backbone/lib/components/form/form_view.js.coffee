@@ -65,7 +65,7 @@
         @addError name, array[0]
         
     addError: (name, error) ->
-      $row = @$("[name='#{name}']").addClass('is-invalid-input').closest('.form-field')
+      $row = @$("[name='#{name}'], [name='#{name}[]']").addClass('is-invalid-input').closest('.form-field')
       $row.find('span.form-error').html(error).addClass('is-visible')
       $row.find('label').addClass('is-invalid-label')
       

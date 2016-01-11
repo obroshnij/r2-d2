@@ -9,6 +9,7 @@
       option value='' Please select
       - for option in @options
         option value="#{option.id}" = option.name
+    span.form-error
   
   .large-7.columns
     label.help-text.middle = @hint

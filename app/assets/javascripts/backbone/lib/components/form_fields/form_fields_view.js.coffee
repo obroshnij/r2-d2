@@ -30,7 +30,9 @@
       @trigger 'value:changed', @getNameAttr(), @currentValue()
       
     currentValue: ->
-      Backbone.Syphon.serialize(@el)[@getNameAttr()]
+      data = Backbone.Syphon.serialize(@el)
+      path = _.compact @getNameAttr().split(/[\[\]]/)
+      _.reduce path, ((obj, key) -> obj[key]), data
       
     @include 'DynamicFormView'
   
