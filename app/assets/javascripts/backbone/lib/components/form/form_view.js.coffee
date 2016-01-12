@@ -49,6 +49,7 @@
       if @model.isNew() then 'new' else 'edit'
       
     getCalloutClass: ->
+      return 'secondary' if @config.search
       if @model.isNew() then 'primary' else 'secondary'
       
     changeErrors: (model, errors, options) ->

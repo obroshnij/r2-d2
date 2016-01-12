@@ -37,6 +37,9 @@
     
   App.vent.on 'submit:report:clicked', ->
     API.newReport()
+    
+  App.vent.on 'new:report:cancelled', ->
+    API.list()
   
   
   LegalHostingAbuseApp.on 'start', ->

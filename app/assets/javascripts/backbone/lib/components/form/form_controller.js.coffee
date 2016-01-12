@@ -8,7 +8,9 @@
       errors:          true
       syncing:         true
       syncingType:     'opacity'
+      search:          false
       onBeforeSubmit:  ->
+      onCancel:        ->
     
     initialize: (options = {}) ->
       { @contentView } = options
@@ -37,9 +39,10 @@
       @trigger 'form:submit', data
       
     processModelSave: (data) ->
-      @model.save data
+      @model.save(data) unless @_saveModel is false
       
     formCancel: (config) ->
+      config.onCancel()
       @trigger 'form:cancel'
       
     getConfig: (options) ->
@@ -50,7 +53,11 @@
       _.extend config, _(options).omit("contentView", "model", "collection")
     
     getModel: (options) ->
-      options.model or @contentView.model or App.request('new:model')
+      model = options.model or @contentView.model
+      if options.model is false
+        model = App.request 'new:model'
+        @_saveModel = false
+      model
       
     formContentRegion: ->
       @show @contentView, region: @formLayout.formContentRegion

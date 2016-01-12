@@ -2,6 +2,9 @@
   
   class FormFields.Controller extends App.Controllers.Application
     
+    defaults: ->
+      compact: false
+    
     initialize: (options) ->
       { @schema } = options
       

@@ -13,10 +13,13 @@
       @show @layout
 
     formRegion: (report) ->
-      newView  = @getNewView report
+      newView = @getNewView report
       
       form = App.request 'form:component', newView,
         model: report
+        
+      @listenTo form, 'form:cancel', ->
+        App.vent.trigger 'new:report:cancelled'
       
       @show form, region: @layout.formRegion
 

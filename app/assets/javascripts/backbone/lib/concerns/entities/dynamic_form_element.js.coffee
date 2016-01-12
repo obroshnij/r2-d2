@@ -47,3 +47,6 @@
       
     isHidden: ->
       not @isShown()
+      
+    isCompact: ->
+      @get 'isCompact'

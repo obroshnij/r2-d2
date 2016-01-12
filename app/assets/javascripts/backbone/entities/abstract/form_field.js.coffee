@@ -22,12 +22,16 @@
   
   class Entities.Fieldset extends App.Entities.Model
     
+    defaults:
+      isCompact: false
+    
     mutators:
       elementId: ->
         @get('id') + '_fieldset' if @get('id')
     
     initialize: ->
       @fields = new Entities.FormFields @get('fields')
+      @fields.each (field) => field.set 'isCompact', @get('isCompact')
       @unset 'fields'
     
     toggle: (fieldValues) ->
