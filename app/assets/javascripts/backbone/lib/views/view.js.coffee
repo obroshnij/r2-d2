@@ -31,6 +31,12 @@
       currentUser:
         App.request('get:current:user')?.toJSON() ? false
         
+      can: (action, subject) ->
+        App.request('get:current:ability').can action, subject
+        
+      cannot: (action, subject) ->
+        App.request('get:current:ability').cannot action, subject
+        
       linkTo: (name, url, options = {}, html_options = {}) ->
         
         _.defaults options,

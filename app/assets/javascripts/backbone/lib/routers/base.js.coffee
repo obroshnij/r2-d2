@@ -8,11 +8,13 @@
       
       @authRequired = options.authRequired
       
-      super options
+      super
       
-    before: ->
+    before: (route, params) ->
       currentUser = App.request 'get:current:user'
+      
       if @authRequired and !currentUser
         App.vent.trigger 'auth:required'
         return false
+      
       true

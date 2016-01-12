@@ -43,5 +43,5 @@
   
   
   LegalHostingAbuseApp.on 'start', ->
-    new LegalHostingAbuseApp.Router
+    window.rr = new LegalHostingAbuseApp.Router
       controller: API

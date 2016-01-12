@@ -6,3 +6,4 @@
       @environment = options.environment
       @entities    = options.entities
       @currentUser = App.request 'init:current:user', options.current_user
+      @ability     = App.request 'new:ability:entity', options.current_ability
