@@ -4,11 +4,16 @@
     template: 'tools/list/list_layout'
     
     regions:
+      titleRegion:       '#title-region'
       breadcrumbsRegion: '#breadcrumbs-region'
       toolsNavsRegion:   '#tools-navs-region'
       articleRegion:     '#article-region'
       
-      
+  
+  class List.Title extends App.Views.ItemView
+    template: 'tools/list/title'
+  
+  
   class List.Breadcrumbs extends App.Views.ItemView
     template: 'tools/list/breadcrumbs'
     

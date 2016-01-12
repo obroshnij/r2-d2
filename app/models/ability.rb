@@ -5,7 +5,8 @@ class Ability
   CLASSES = {
     ## Models
     user:              %i( read update create delete ),
-    role:              %i( ), # actions are assigned in the before_save callback of the Permission model depending on whether any roles are are chosen
+    role:              %i( ), # actions are assigned in the before_save callback of the Permission model
+                              # depending on whether any roles are chosen
     abuse_report:      %i( read update create approve ),
     nc_user:           %i( read create comment ),
     nc_service:        %i( read create comment ),
@@ -44,4 +45,16 @@ class Ability
     can [:edit_password, :update_password], User, id: user.id
     
   end
+  
+  def as_json
+    @rules.map do |rule|
+      {
+        base_behavior:  rule.base_behavior,
+        subjects:       rule.subjects.map(&:to_s),
+        actions:        rule.actions.map(&:to_s),
+        conditions:     rule.conditions
+      }
+    end
+  end
+  
 end

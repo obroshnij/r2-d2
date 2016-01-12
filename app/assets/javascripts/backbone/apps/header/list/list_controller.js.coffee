@@ -9,7 +9,6 @@
       
       @listenTo @layout, 'show', =>
         @topBarRegion navs
-        @titleRegion navs
       
       @show @layout
       
@@ -20,14 +19,6 @@
         App.vent.trigger 'new:user:session:requested'
       
       @show topBarView, region: @layout.topBarRegion
-      
-    titleRegion: (navs) ->
-      titleView = @getTitle navs
-      @show titleView, region: @layout.titleRegion
-      
-    getTitle: (navs) ->
-      new List.Title
-        collection: navs
       
     getLayout: ->
       new List.Layout

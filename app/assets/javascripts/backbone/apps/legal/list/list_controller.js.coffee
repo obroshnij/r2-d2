@@ -11,10 +11,15 @@
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
+        @titleRegion()
         @breadcrumbsRegion legalNavs
         @navsRegion legalNavs, options.nav
         
       @show @layout
+      
+    titleRegion: ->
+      titleView = @getTitleView()
+      @show titleView, region: @layout.titleRegion
       
     breadcrumbsRegion: (legalNavs) ->
       breadcrumbsView = @getBreadcrumbs legalNavs
@@ -24,6 +29,9 @@
       legalNavs.selectByName nav
       legalNavsView = @getLegalNavsView legalNavs
       @show legalNavsView, region: @layout.legalNavsRegion
+      
+    getTitleView: ->
+      new List.Title
       
     getBreadcrumbs: (legalNavs) ->
       new List.Breadcrumbs

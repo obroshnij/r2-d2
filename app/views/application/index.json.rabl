@@ -8,6 +8,10 @@ node :current_user do
   current_user.as_json(only: [:name, :email])
 end
 
+node :current_ability do
+  current_ability.as_json
+end
+
 node :entities do
   {
     legal: {

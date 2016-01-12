@@ -5,7 +5,6 @@
     
     regions:
       topBarRegion: '#top-bar-region'
-      titleRegion:  '#title-region'
   
   
   class List.Nav extends App.Views.ItemView
@@ -27,13 +26,3 @@
     
     triggers:
       'click #sign-in' : 'sign:in:clicked'
-      
-  class List.Title extends App.Views.ItemView
-    template: 'header/list/title'
-    
-    collectionEvents:
-      'select:one' : 'render'
-      
-    serializeData: ->
-      'name' : @collection.selected?.get('name')
-      'icon' : @collection.selected?.get('icon')

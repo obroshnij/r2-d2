@@ -11,10 +11,15 @@
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
+        @titleRegion()
         @breadcrumbsRegion toolsNavs
         @navsRegion toolsNavs, options.nav
         
       @show @layout
+      
+    titleRegion: ->
+      titleView = @getTitleView()
+      @show titleView, region: @layout.titleRegion
       
     breadcrumbsRegion: (toolsNavs) ->
       breadcrumbsView = @getBreadcrumbs toolsNavs
@@ -24,6 +29,9 @@
       toolsNavs.selectByName nav
       toolsNavsView = @getToolsNavsView toolsNavs
       @show toolsNavsView, region: @layout.toolsNavsRegion
+      
+    getTitleView: ->
+      new List.Title
       
     getBreadcrumbs: (toolsNavs) ->
       new List.Breadcrumbs

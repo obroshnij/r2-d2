@@ -4,9 +4,14 @@
     template: 'legal/list/list_layout'
     
     regions:
+      titleRegion:       '#title-region'
       breadcrumbsRegion: '#breadcrumbs-region'
       legalNavsRegion:   '#legal-navs-region'
       articleRegion:     '#article-region'
+      
+    
+  class List.Title extends App.Views.ItemView
+    template: 'legal/list/title'
       
   
   class List.Breadcrumbs extends App.Views.ItemView
