@@ -48,8 +48,8 @@
       collection.map (item) ->
         item.attributes
     
-    getServices:              -> @getOptions 'service'
-    getAbuseTypes:            -> @getOptions 'type'
+    getServices:    -> @getOptions 'service'
+    getAbuseTypes:  -> @getOptions 'type'
   
   
   class List.Reports extends App.Views.ItemView

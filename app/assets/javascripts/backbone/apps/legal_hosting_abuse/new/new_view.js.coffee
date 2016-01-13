@@ -104,6 +104,8 @@
         ,
           name:     'spam[other_detection_method]'
           label:    'Other'
+          tagName:  'textarea'
+          hint:     'Please describe the incident in detail'
           dependencies:
             'spam[detection_method_id]':  value: '3'
         ,
@@ -153,7 +155,8 @@
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
           dependencies:
-            service_id:                value: ['1', '2']
+            service_id:                  value: ['1', '2']
+            'spam[detection_method_id]': value: ['1', '2']
         ,
           name:     'spam[ip_is_blacklisted]'
           label:    'IP is blacklisted'

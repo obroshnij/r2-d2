@@ -4,19 +4,20 @@ class Ability
   
   CLASSES = {
     ## Models
-    user:              %i( read update create delete ),
-    role:              %i( ), # actions are assigned in the before_save callback of the Permission model
-                              # depending on whether any roles are chosen
-    abuse_report:      %i( read update create approve ),
-    nc_user:           %i( read create comment ),
-    nc_service:        %i( read create comment ),
-    rbl:               %i( read create ),
-    watched_domain:    %i( read create delete ),
+    user:                     %i( read update create delete ),
+    role:                     %i( ), # actions are assigned in the before_save callback of the Permission model
+                                     # depending on whether any roles are chosen
+    abuse_report:             %i( read update create approve ),
+    nc_user:                  %i( read create comment ),
+    nc_service:               %i( read create comment ),
+    :'legal/hosting_abuse' => %i( read create ),
+    rbl:                      %i( read create ),
+    watched_domain:           %i( read create delete ),
     ## Controllers
-    la_tool:           %i( access ),
-    manager_tool:      %i( access ),
+    la_tool:                  %i( access ),
+    manager_tool:             %i( access ),
     ## Custom actions
-    maintenance_alert: %i( create )
+    maintenance_alert:        %i( create )
   }
   
   def initialize(user)
@@ -48,7 +49,7 @@ class Ability
   
   def as_json
     @rules.map do |rule|
-      { subjects: rule.subjects.map(&:to_s), actions: rule.actions.map(&:to_s) }
+      { subjects: rule.subjects.map(&:to_s).map(&:classify), actions: rule.actions.map(&:to_s) }
     end
   end
   

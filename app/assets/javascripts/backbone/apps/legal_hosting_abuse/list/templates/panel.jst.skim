@@ -1,5 +1,4 @@
 .clearfix
   h4.float-left Hosting Abuse
-  a.button.small.float-right Submit a Report
-
-.
+  - if @can('create', 'Legal::HostingAbuse')
+    a.button.small.float-right Submit a Report

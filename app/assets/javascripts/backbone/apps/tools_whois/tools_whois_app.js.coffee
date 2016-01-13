@@ -27,4 +27,4 @@
   ToolsWhoisApp.on 'start', ->
     new ToolsWhoisApp.Router
       controller: API
-      authRequired: false
+      auth:       false

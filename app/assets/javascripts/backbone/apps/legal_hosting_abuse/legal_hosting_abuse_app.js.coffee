@@ -43,5 +43,7 @@
   
   
   LegalHostingAbuseApp.on 'start', ->
-    window.rr = new LegalHostingAbuseApp.Router
+    new LegalHostingAbuseApp.Router
       controller: API
+      auth:       true
+      resource:   'Legal::HostingAbuse'

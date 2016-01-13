@@ -1,2 +1,2 @@
 #footer
-  div = "© #{new Date().getFullYear()} R2-D2"
+  div = "Copyright © #{new Date().getFullYear()} R2-D2"
