@@ -4,12 +4,16 @@
     urlRoot: -> Routes.legal_hosting_abuse_index_path()
     
     defaults:
-      'suggestion':                     '3'
+      'suggestion_id':                  '3'
+      'spam[detection_method_id]':      '1'
       'spam[queue_type_id]':            '1'
+      'spam[ip_is_blacklisted]':        'false'
       'spam[experts_enabled]':          'true'
       'spam[involved_mailboxes_count]': '1'
       'spam[mailbox_password_reset]':   'true'
       'ddos[block_type_id]':            '1'
+      'resource[type_id]':              '1'
+      'resource[activity_type_id]':     '1'
       'resource[measure_id]':           '1'
   
   

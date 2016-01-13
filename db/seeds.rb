@@ -47,7 +47,7 @@ end
   Legal::HostingAbuse::ResellerPlan.create name: name
 end
 
-['Value', 'Business', 'Professional', 'Ultimate'].each do |name|
+['Value', 'Business SSD', 'Business Expert', 'Professional', 'Ultimate', 'Email Only'].each do |name|
   Legal::HostingAbuse::SharedPlan.create name: name
 end
 
@@ -86,7 +86,7 @@ end
 end
 
 
-["Queue", "Feedback loop (AOL, Microsoft, Comcast, etc.)", "Our IP is blacklisted", "Other"].each do |name|
+["Queue", "Feedback loop (AOL, Microsoft, Comcast, etc.)", "Other"].each do |name|
   Legal::HostingAbuse::Spam::DetectionMethod.create name: name
 end
 

@@ -29,7 +29,7 @@
         ,
           name:     'server_name'
           label:    'Server Name'
-          hint:     'Ex: server78.web-hosting.com, host7.registrar-servers.com, etc.'
+          hint:     'E.g.: server78.web-hosting.com, host7.registrar-servers.com, etc.'
           dependencies:
             service_id:      value: ['1', '2', '3', '4']
         ,
@@ -37,6 +37,7 @@
           label:    'Package'
           tagName:  'select'
           options:  @getSharedPlans()
+          hint:     "'Email Only' (e.g. mailserver3.web-hosting.com) can only be abused by 'Email Abuse / Spam' while 'Business Expert' can't abuse Disc-Space (150 GB allowed)"
           dependencies:
             service_id:      value: '1'
         ,
@@ -47,16 +48,10 @@
           dependencies:
             service_id:      value: '2'
         ,
-          name:     'cpanel_username'
-          label:    'cPanel Username'
-          hint:     'Owner'
-          dependencies:
-            service_id:      value: '2'
-        ,
           name:     'username'
           label:    'Username'
           dependencies:
-            service_id:      value: ['1', '3']
+            service_id:      value: ['1', '2', '3']
         ,
           name:     'resold_username'
           label:    'Resold Username',
@@ -70,7 +65,7 @@
         ,
           name:     'server_rack_label'
           label:    'Server Rack Label'
-          hint:     'e.g. NC-PH-0731-26'
+          hint:     'E.g. NC-PH-0731-26'
           dependencies:
             service_id:      value: '4'
         ,
@@ -88,93 +83,100 @@
           type_id:     value: '1'
         
         fields: [
-          name:     'spam[detection_method_ids]'
+          name:     'spam[detection_method_id]'
           label:    'Detected by'
-          type:     'collection_check_boxes'
+          type:     'collection_radio_buttons'
           options:  @getSpamDetectionMethods()
-          hint:     'How the issue was detected?'
+          hint:     'How was the issue detected?'
         ,
           name:     'spam[queue_type_id]'
           label:    'Queue Type'
           type:     'collection_radio_buttons'
           options:  @getSpamQueueTypes()
           dependencies:
-            'spam[detection_method_ids]': value: '1'
+            'spam[detection_method_id]':  value: '1'
         ,
           name:     'spam[other_detection_method]'
           label:    'Other'
           dependencies:
-            'spam[detection_method_ids]': value: '4'
+            'spam[detection_method_id]':  value: '3'
         ,
           name:     'spam[header]'
           label:    'Header'
           tagName:  'textarea'
           dependencies:
-            'spam[detection_method_ids]': value: '1'
+            'spam[detection_method_id]':  value: '1'
             'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
         ,
           name:     'spam[body]'
           label:    'Body'
           tagName:  'textarea'
           dependencies:
-            'spam[detection_method_ids]': value: '1'
+            'spam[detection_method_id]':  value: '1'
             'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
         ,
           name:     'spam[bounce]'
           label:    'Bounce'
           tagName:  'textarea'
           dependencies:
-            'spam[detection_method_ids]': value: '1'
+            'spam[detection_method_id]':  value: '1'
             'spam[queue_type_id]':        value: '2'
         ,
           name:     'spam[queue_amount]'
           label:    'Queue Amount'
           hint:     'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary',
           dependencies:
-            'spam[detection_method_ids]': otherThanExactly: '2'
-        ,
-          name:     'spam[blacklisted_ip]'
-          label:    'Blacklisted IP'
-          dependencies:
-            'spam[detection_method_ids]': value: '3'
+            'spam[detection_method_id]':  value: '1'
         ,
           name:     'spam[example_complaint]'
           label:    'Example / Link'
           tagName:  'textarea',
           hint:     'Feedback loop example or a link to one',
           dependencies:
-            'spam[detection_method_ids]': value: '2'
+            'spam[detection_method_id]':  value: '2'
         ,
           name:     'spam[reporting_party_id]'
           label:    'Reporting Party'
           tagName:  'select'
           options:  @getSpamReportingParties()
           dependencies:
-            'spam[detection_method_ids]': value: '2'
+            'spam[detection_method_id]':  value: '2'
         ,
           name:     'spam[experts_enabled]'
           label:    'Spam Experts Enabled?'
           type:     'radio_buttons'
-          options:  [{ name: "Yes", value: true }, { name: "No", value: false }],
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
           dependencies:
             service_id:                value: ['1', '2']
+        ,
+          name:     'spam[ip_is_blacklisted]'
+          label:    'IP is blacklisted'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+        ,
+          name:     'spam[blacklisted_ip]'
+          label:    'Blacklisted IP'
+          dependencies:
+            'spam[ip_is_blacklisted]':  value: 'true'
         ,
           name:     'spam[involved_mailboxes_count]'
           label:    'Involved Mailboxes Count'
           type:     'radio_buttons'
-          options:  [{ name: '1', value: '1' }, { name: '2', value: '2' }, { name: '3', value: '3' }, { name: '4', value: '4' }, { name: 'more', value: 0 }]
-          hint:     'If less than 5, please reset password for all of them'
+          options:  [{ name: '1', id: '1' }, { name: '2', id: '2' }, { name: '3', id: '3' }, { name: '4', id: '4' }, { name: 'more', id: 0 }]
+          hint:     'How many abusive mailboxes are involved in the incident?'
         ,
           name:     'spam[mailbox_password_reset]'
           label:    'Password Reset?'
           type:     'radio_buttons'
-          options:  [{ name: "Yes", value: true }, { name: "No", value: false }]
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          hint:     'Please reset password for all mailboxes reported'
           dependencies:
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
         ,
           name:     'spam[involved_mailboxes]'
           label:    'Mailbox(es) Involved'
           tagName:  'textarea'
+          hint:     'Please provide all mailboxes reported'
           dependencies:
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'true'
@@ -201,12 +203,12 @@
         fields: [
           name:     'resource[type_id]'
           label:    'Resource Type'
-          tagName:  'select'
+          type:     'collection_radio_buttons'
           options:  @getResourceTypes()
         ,
           name:     'resource[activity_type_id]'
           label:    'Activity Type'
-          tagName:  'select'
+          type:     'radio_buttons'
           options: @getResourceActivityTypes()
           dependencies:
             'resource[type_id]':      value: '1'
@@ -293,8 +295,15 @@
           options:  @getDdosBlockTypes()
           hint:     'Please mention the method of blocking'
         ,
+          name:     'ddos[rule]'
+          label:    'Rule'
+          hint:     'What rule was used for the block?'
+          dependencies:
+            'ddos[block_type_id]':   value: '4'
+        ,
           name:     'ddos[other_block_type]'
           label:    'Other'
+          hint:     'Please specify as much as possible about the block'
           dependencies:
             'ddos[block_type_id]':    value: '5'
         ,

@@ -8,6 +8,7 @@ class Legal::HostingAbuse::Form::Ddos
   
   attribute :domain_port,       String
   attribute :block_type_id,     Integer
+  attribute :rule,              String
   attribute :other_block_type,  String
   attribute :logs,              String
   

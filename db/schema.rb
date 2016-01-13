@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160108132409) do
+ActiveRecord::Schema.define(version: 20160108125750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(version: 20160108132409) do
 
   create_table "legal_hosting_abuse_resource", force: :cascade do |t|
     t.integer  "report_id"
-    t.integer  "abuse_type_id"
     t.integer  "activity_type_id"
     t.integer  "impact_id"
     t.integer  "measure_id"
@@ -213,13 +212,6 @@ ActiveRecord::Schema.define(version: 20160108132409) do
     t.integer  "detection_method_id"
     t.integer  "queue_type_id"
     t.integer  "reporting_party_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-  end
-
-  create_table "legal_hosting_abuse_spam_detection_method_assignments", force: :cascade do |t|
-    t.integer  "spam_id"
-    t.integer  "detection_method_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end

@@ -11,7 +11,6 @@ class Legal::HostingAbuse::Form
   attribute :server_name,             String
   attribute :shared_plan_id,          Integer
   attribute :reseller_plan_id,        Integer
-  attribute :cpanel_username,         String
   attribute :username,                String
   attribute :resold_username,         String
   attribute :server_rack_label,       String
@@ -39,7 +38,7 @@ class Legal::HostingAbuse::Form
   with_options if: :reseller? do |f|
     f.validates :server_name,         presence: true
     f.validates :reseller_plan_id,    presence: true
-    f.validates :cpanel_username,     presence: true
+    f.validates :username,            presence: true
     f.validates :resold_username,     presence: true
   end
   
@@ -110,7 +109,6 @@ class Legal::HostingAbuse::Form
   def scan_report_path_required?
     suggestion_id == 5
   end
-    
   
   def submit params
     self.attributes = params

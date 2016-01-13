@@ -5,5 +5,8 @@
   
   .large-5.columns.radiobuttons
     - for option in @options
-      input type='radio' name="#{@name}" value="#{option.value}" id="#{@name}_#{option.value}"
+      input type='radio' name="#{@name}" value="#{option.id}" id="#{@name}_#{option.id}"
       label for="#{@name}_#{option.id}" = option.name
+  
+  .large-7.columns
+    label.help-text.middle = @hint

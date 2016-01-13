@@ -12,11 +12,6 @@
         current      = _.flatten [current]
         intersection = _.intersection allowed, current
         not _.isEmpty(intersection)
-      
-      otherThanExactly: (allowed, current) ->
-        allowed      = _.flatten [allowed]
-        current      = _.flatten [current]
-        not _.isEqual(_.compact(current), allowed)
         
     initialize: ->
       @listenTo @, 'toggle:fields', @toggle
