@@ -13,4 +13,4 @@
           li == @linkTo 'Sign in', @newSessionPath, external: true
           li
             | Go back to 
-            == @linkTo 'Homepage', Routes.root_path()
+            == @linkTo 'Homepage', @rootRoute

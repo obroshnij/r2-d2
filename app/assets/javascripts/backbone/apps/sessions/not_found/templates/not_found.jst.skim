@@ -4,10 +4,10 @@
     
       .callout.alert
         #icon.float-right
-          i.fi-shield
+          i.fi-compass
         
-        h1 Access Denied
-        h4 You are not authorized to access this page
+        h1 Page Not Found
+        h4 The page you requested was not found
         
         ul.links.no-bullet
           li

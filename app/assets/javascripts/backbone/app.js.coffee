@@ -28,6 +28,7 @@
   App.reqres.setHandler 'get:current:user',    -> App.currentUser
   App.reqres.setHandler 'get:current:ability', -> App.ability
   App.reqres.setHandler 'default:region',      -> App.mainRegion
+  App.reqres.setHandler 'get:root:route',      -> App.rootRoute
   App.reqres.setHandler 'concern',   (concern) -> App.Concerns[concern]
   
   App

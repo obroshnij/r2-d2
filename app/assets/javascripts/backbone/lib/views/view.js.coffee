@@ -50,3 +50,6 @@
         url = '#' + url unless options.external
         
         "<a href='#{url}' #{attributes}>#{@escape(name)}</a>"
+        
+      rootRoute:
+        App.request 'get:root:route'

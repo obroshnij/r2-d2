@@ -12,4 +12,5 @@
       
     startHistory: ->
       if Backbone.history
-        Backbone.history.start()
+        found = Backbone.history.start()
+        App.vent.trigger 'page:not:found' unless found
