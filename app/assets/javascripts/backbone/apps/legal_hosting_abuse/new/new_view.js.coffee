@@ -37,7 +37,7 @@
           label:    'Package'
           tagName:  'select'
           options:  @getSharedPlans()
-          hint:     "'Email Only' (e.g. mailserver3.web-hosting.com) can only be abused by 'Email Abuse / Spam' while 'Business Expert' can't abuse Disc-Space (150 GB allowed)"
+          hint:     "Email Only (e.g. mailserver3.web-hosting.com) can only be abused by Email Abuse / Spam\nBusiness Expert can't abuse Disc-Space (150 GB allowed)"
           dependencies:
             service_id:      value: '1'
         ,
@@ -51,7 +51,7 @@
           name:     'username'
           label:    'Username'
           dependencies:
-            service_id:      value: ['1', '2', '3']
+            service_id:      value: ['1', '2']
         ,
           name:     'resold_username'
           label:    'Resold Username',
@@ -75,6 +75,12 @@
           options:  @getManagementTypes()
           dependencies:
             service_id:      value: ['3', '4']
+        ,
+          name:     'vps_username'
+          label:    'Username'
+          dependencies:
+            service_id:         value: ['3', '4']
+            management_type_id: value: '3'
         ]
       ,
         legend:     'Email Abuse / Spam',
@@ -101,6 +107,12 @@
           dependencies:
             'spam[detection_method_id]':  value: '3'
         ,
+          name:     'spam[queue_amount]'
+          label:    'Queue Amount'
+          hint:     'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary',
+          dependencies:
+            'spam[detection_method_id]':  value: '1'
+        ,
           name:     'spam[header]'
           label:    'Header'
           tagName:  'textarea'
@@ -121,12 +133,6 @@
           dependencies:
             'spam[detection_method_id]':  value: '1'
             'spam[queue_type_id]':        value: '2'
-        ,
-          name:     'spam[queue_amount]'
-          label:    'Queue Amount'
-          hint:     'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary',
-          dependencies:
-            'spam[detection_method_id]':  value: '1'
         ,
           name:     'spam[example_complaint]'
           label:    'Example / Link'
@@ -152,7 +158,7 @@
           name:     'spam[ip_is_blacklisted]'
           label:    'IP is blacklisted'
           type:     'radio_buttons'
-          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "Unknown", id: '' }]
         ,
           name:     'spam[blacklisted_ip]'
           label:    'Blacklisted IP'
@@ -164,6 +170,9 @@
           type:     'radio_buttons'
           options:  [{ name: '1', id: '1' }, { name: '2', id: '2' }, { name: '3', id: '3' }, { name: '4', id: '4' }, { name: 'more', id: 0 }]
           hint:     'How many abusive mailboxes are involved in the incident?'
+          dependencies:
+            'service_id':                value: ['1', '2', '3', '4']
+            'spam[detection_method_id]': value: '1'
         ,
           name:     'spam[mailbox_password_reset]'
           label:    'Password Reset?'
@@ -171,6 +180,8 @@
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
           hint:     'Please reset password for all mailboxes reported'
           dependencies:
+            'service_id':                     value: ['1', '2', '3', '4']
+            'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
         ,
           name:     'spam[involved_mailboxes]'
@@ -178,6 +189,8 @@
           tagName:  'textarea'
           hint:     'Please provide all mailboxes reported'
           dependencies:
+            'service_id':                     value: ['1', '2', '3', '4']
+            'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'true'
         ,
@@ -185,13 +198,16 @@
           label:    'Reason'
           tagName:  'textarea'
           dependencies:
+            'service_id':                     value: ['1', '2', '3', '4']
+            'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'false'
         ,
           name:     'spam[involved_mailboxes_count_other]'
           label:    'Exact / Approximate Amount'
-          type:     'number'
           dependencies:
+            'service_id':                     value: ['1', '2', '3', '4']
+            'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: '0'
         ]
       ,
@@ -299,13 +315,13 @@
           label:    'Rule'
           hint:     'What rule was used for the block?'
           dependencies:
-            'ddos[block_type_id]':   value: '4'
+            'ddos[block_type_id]':   value: '3'
         ,
           name:     'ddos[other_block_type]'
           label:    'Other'
           hint:     'Please specify as much as possible about the block'
           dependencies:
-            'ddos[block_type_id]':    value: '5'
+            'ddos[block_type_id]':    value: '4'
         ,
           name:     'ddos[logs]'
           label:    'Logs'
@@ -369,17 +385,22 @@
     getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'
     getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
     
-    # onServiceChange: (val) ->
-    #   @$("#hosting_abuse_type").val('').change()
-    #   if s.isBlank(val) then @$("#hosting_abuse_type").attr('disabled', true) else @$("#hosting_abuse_type").attr('disabled', false)
-    #   @$("#hosting_abuse_type option").attr('disabled', false)
-    #   selector = @_prohibitedOptionsFor val
-    #   @$(selector).attr('disabled', true) unless s.isBlank(selector)
-    #
-    # _prohibitedOptionsFor: (val) ->
-    #   options =
-    #     vps:       ['resource']
-    #     dedicated: ['resource', 'ddos']
-    #     pe:        ['resource', 'ddos']
-    #
-    #   _.chain(options[val]).map((option) -> "#hosting_abuse_type [value='#{option}']").join(', ').value()
+    onShow: (view) ->
+      view.$('#service_id').change()
+
+    onServiceIdChange: (val, view) ->
+      if s.isBlank(val) then view.$('#type_id').val('').change().attr('disabled', true) else view.$('#type_id').attr('disabled', false)
+
+      view.$('#type_id').val('').change() if _.includes(@_prohibitedOptions[val], view.$('#type_id').val())
+
+      view.$('#type_id option').attr('disabled', false)
+      selector = @_prohibitedOptionsFor val
+      view.$(selector).attr('disabled', true) unless s.isBlank(selector)
+
+    _prohibitedOptions:
+      '3': ['2']
+      '4': ['2', '3']
+      '5': ['2', '3']
+
+    _prohibitedOptionsFor: (val) ->
+      _.chain(@_prohibitedOptions[val]).map((option) -> "#type_id [value='#{option}']").join(', ').value()

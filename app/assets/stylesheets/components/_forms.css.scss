@@ -4,7 +4,7 @@ form                                                  {
     legend                                            { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
   }
   label                                               { font-size: 1rem; color: #333333; line-height: 1.3rem; }
-  .help-text                                          { font-size: 1rem; color: #7d7d7d; margin-bottom: 0; }
+  .help-text                                          { font-size: 1rem; color: #7d7d7d; margin-bottom: 0; white-space: pre-wrap; }
   .radiobuttons, .checkboxes                          { padding-top: 0.4rem;
     label                                             { font-size: 0.875rem; }
   }

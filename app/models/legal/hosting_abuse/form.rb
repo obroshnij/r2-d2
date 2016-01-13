@@ -12,6 +12,7 @@ class Legal::HostingAbuse::Form
   attribute :shared_plan_id,          Integer
   attribute :reseller_plan_id,        Integer
   attribute :username,                String
+  attribute :vps_username,            String
   attribute :resold_username,         String
   attribute :server_rack_label,       String
   attribute :subscription_name,       String
@@ -30,32 +31,37 @@ class Legal::HostingAbuse::Form
   validates :type_id,                 presence: true
   
   with_options if: :shared? do |f|
-    f.validates :server_name,         presence: true
+    f.validates :type_id,             inclusion: { in: [1], message: 'is not applicable for Email Only package' }, if: :email_only?
+    f.validates :server_name,         presence: true, host_name: true
     f.validates :shared_plan_id,      presence: true
     f.validates :username,            presence: true
   end
   
   with_options if: :reseller? do |f|
-    f.validates :server_name,         presence: true
+    f.validates :server_name,         presence: true, host_name: true
     f.validates :reseller_plan_id,    presence: true
     f.validates :username,            presence: true
     f.validates :resold_username,     presence: true
   end
   
   with_options if: :vps? do |f|
-    f.validates :server_name,         presence: true
-    f.validates :username,            presence: true
+    f.validates :server_name,         presence: true, host_name: true
+    f.validates :vps_username,        presence: true, if: :full_management?
     f.validates :management_type_id,  presence: true
+    f.validates :type_id,             inclusion: { in: [1, 3], message: "is not applicable for this service" }
   end
   
   with_options if: :dedicated_server? do |f|
-    f.validates :server_name,         presence: true
+    f.validates :server_name,         presence: true, host_name: true
+    f.validates :vps_username,        presence: true, if: :full_management?
     f.validates :server_rack_label,   presence: true
     f.validates :management_type_id,  presence: true
+    f.validates :type_id,             inclusion: { in: [1], message: "is not applicable for this service" }
   end
   
   with_options if: :private_email? do |f|
     f.validates :subscription_name,   presence: true
+    f.validates :type_id,             inclusion: { in: [1], message: "is not applicable for this service" }
   end
   
   validates :suggestion_id,           presence: true
@@ -90,6 +96,10 @@ class Legal::HostingAbuse::Form
     service_id == 5
   end
   
+  def email_only?
+    service_id == 1 && shared_plan_id == 6
+  end
+  
   def spam?
     type_id == 1
   end
@@ -110,9 +120,16 @@ class Legal::HostingAbuse::Form
     suggestion_id == 5
   end
   
+  def full_management?
+    management_type_id == 3
+  end
+  
   def submit params
     self.attributes = params
-    puts self.attributes
+    
+    spam.service_id         = service_id     if spam?
+    resource.shared_plan_id = shared_plan_id if resource_abuse?
+    
     return false unless valid?
     true
   end

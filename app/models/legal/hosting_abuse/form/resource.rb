@@ -6,6 +6,8 @@ class Legal::HostingAbuse::Form::Resource
   include ActiveModel::Model
   include ActiveModel::Validations
   
+  attr_accessor :shared_plan_id
+  
   attribute :type_id,           Integer
   attribute :activity_type_id,  Integer
   attribute :measure_id,        Integer
@@ -19,6 +21,7 @@ class Legal::HostingAbuse::Form::Resource
   attribute :impact_id,         Integer
   
   validates :type_id,              presence: true
+  validates :type_id,              inclusion: { in: [1, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?
   
   with_options if: :cron_jobs? do |f|
     f.validates :activity_type_id, presence: true
@@ -63,6 +66,10 @@ class Legal::HostingAbuse::Form::Resource
   
   def process_logs_required?
     abuse_type_ids.include? 6
+  end
+  
+  def business_expert?
+    shared_plan_id == 3
   end
   
   def abuse_type_ids= ids

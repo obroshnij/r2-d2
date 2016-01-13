@@ -40,12 +40,13 @@
       
     createListeners: ->
       @listenTo @fieldsView, 'childview:childview:value:changed', @forwardChangeEvent
+      @listenTo @fieldsView, 'show',    -> @schema.triggerMethod 'show', @fieldsView
       @listenTo @fieldsView, 'destroy', -> @schema.destroy()
       
     forwardChangeEvent: (fieldsetView, inputView, fieldName, fieldValue) ->
       eventName = s.replaceAll(fieldName, '[^a-zA-Z0-9]', ':') + ':change'
       
-      @schema.triggerMethod eventName, fieldValue
+      @schema.triggerMethod eventName, fieldValue, @fieldsView
       @formFields.trigger   'field:value:changed'
   
   

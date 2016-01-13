@@ -14,10 +14,15 @@ class Legal::HostingAbuse::Form::Ddos
   
   validates :domain_port,       presence: true
   validates :logs,              presence: true
+  validates :rule,              presence: true, if: :ip_tables?
   validates :other_block_type,  presence: true, if: :other_block_type?
   
+  def ip_tables?
+    block_type_id == 3
+  end
+  
   def other_block_type?
-    block_type_id == 5
+    block_type_id == 4
   end
   
 end
