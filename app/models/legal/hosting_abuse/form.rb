@@ -27,6 +27,8 @@ class Legal::HostingAbuse::Form
   attribute :resource,                Legal::HostingAbuse::Form::Resource
   attribute :spam,                    Legal::HostingAbuse::Form::Spam
   
+  # Add ticket_id and comments fields for L&A reps
+  
   validates :service_id,              presence: true
   validates :type_id,                 presence: true
   

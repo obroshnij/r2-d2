@@ -4,7 +4,6 @@ class CreateLegalHostingAbuseSpam < ActiveRecord::Migration
       t.integer :report_id
       t.integer :detection_method_id
       t.integer :queue_type_id
-      t.integer :reporting_party_id
       
       t.timestamps null: false
     end

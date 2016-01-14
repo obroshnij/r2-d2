@@ -11,6 +11,8 @@
       'spam[experts_enabled]':          'true'
       'spam[involved_mailboxes_count]': '1'
       'spam[mailbox_password_reset]':   'true'
+      'spam[reported_ip_blacklisted]':  'true'
+      'spam[bounces_queue_present]':    'false'
       'ddos[block_type_id]':            '1'
       'resource[type_id]':              '1'
       'resource[activity_type_id]':     '1'

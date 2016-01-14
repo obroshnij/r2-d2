@@ -102,6 +102,15 @@
           dependencies:
             'spam[detection_method_id]':  value: '1'
         ,
+          name:     'spam[bounces_queue_present]'
+          label:    'Bounces Queue'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          hint:     'Are bounced emails being queued at the same time?'
+          dependencies:
+            'spam[detection_method_id]':  value: '1'
+            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
+        ,
           name:     'spam[other_detection_method]'
           label:    'Other'
           tagName:  'textarea'
@@ -109,32 +118,57 @@
           dependencies:
             'spam[detection_method_id]':  value: '3'
         ,
-          name:     'spam[queue_amount]'
-          label:    'Queue Amount'
-          hint:     'Amount of emails/bounces queued on the server, plus amount of recipients per message if necessary',
+          name:     'spam[outgoing_emails_queue]'
+          label:    'Outgoing Emails Queue'
+          hint:     'Amount of emails queued on the server',
           dependencies:
             'spam[detection_method_id]':  value: '1'
+            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
+        ,
+          name:     'spam[recepients_per_email]'
+          label:    'Recepients per Email'
+          hint:     'Amount of recipients per message if necessary',
+          dependencies:
+            'spam[detection_method_id]':  value: '1'
+            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
+        ,
+          name:     'spam[bounced_emails_queue]'
+          label:    'Bounced Emails Queue'
+          hint:     'Amount of bounced emails queued on the server'
+          dependencies: [
+            'spam[detection_method_id]':    value: '1'
+            'spam[queue_type_id]':          value: ['1', '2', '3', '4', '5']
+            'spam[bounces_queue_present]':  value: 'true'
+          ,
+            'spam[detection_method_id]':  value: '1'
+            'spam[queue_type_id]':        value: '6'
+          ]
         ,
           name:     'spam[header]'
           label:    'Header'
           tagName:  'textarea'
           dependencies:
             'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
+            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[body]'
           label:    'Body'
           tagName:  'textarea'
           dependencies:
             'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '3', '4', '5', '6']
+            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[bounce]'
-          label:    'Bounce'
+          label:    'Bounce Example'
           tagName:  'textarea'
-          dependencies:
+          dependencies: [
+            'spam[detection_method_id]':    value: '1'
+            'spam[queue_type_id]':          value: ['1', '2', '3', '4', '5']
+            'spam[bounces_queue_present]':  value: 'true'
+          ,
             'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: '2'
+            'spam[queue_type_id]':        value: '6'
+          ]
         ,
           name:     'spam[example_complaint]'
           label:    'Example / Link'
@@ -143,9 +177,9 @@
           dependencies:
             'spam[detection_method_id]':  value: '2'
         ,
-          name:     'spam[reporting_party_id]'
-          label:    'Reporting Party'
-          tagName:  'select'
+          name:     'spam[reporting_party_ids]'
+          label:    'Reporting Parties'
+          type:     'collection_check_boxes'
           options:  @getSpamReportingParties()
           dependencies:
             'spam[detection_method_id]':  value: '2'
@@ -159,14 +193,26 @@
             'spam[detection_method_id]': value: ['1', '2']
         ,
           name:     'spam[ip_is_blacklisted]'
-          label:    'IP is blacklisted'
+          label:    'IP is Blacklisted'
           type:     'radio_buttons'
-          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "Unknown", id: '' }]
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: '' }]
+          dependencies: [
+            'spam[detection_method_id]': value: '1'
+            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
+          ,
+            'spam[detection_method_id]': value: '3'
+          ]
         ,
           name:     'spam[blacklisted_ip]'
           label:    'Blacklisted IP'
-          dependencies:
-            'spam[ip_is_blacklisted]':  value: 'true'
+          dependencies: [
+            'spam[detection_method_id]': value: '1'
+            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
+            'spam[ip_is_blacklisted]':   value: 'true'
+          ,
+            'spam[detection_method_id]': value: '3'
+            'spam[ip_is_blacklisted]':   value: 'true'
+          ]
         ,
           name:     'spam[involved_mailboxes_count]'
           label:    'Involved Mailboxes Count'
@@ -176,6 +222,7 @@
           dependencies:
             'service_id':                value: ['1', '2', '3', '4']
             'spam[detection_method_id]': value: '1'
+            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[mailbox_password_reset]'
           label:    'Password Reset?'
@@ -186,6 +233,7 @@
             'service_id':                     value: ['1', '2', '3', '4']
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
+            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[involved_mailboxes]'
           label:    'Mailbox(es) Involved'
@@ -196,6 +244,7 @@
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'true'
+            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[mailbox_password_reset_reason]'
           label:    'Reason'
@@ -205,6 +254,7 @@
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'false'
+            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[involved_mailboxes_count_other]'
           label:    'Exact / Approximate Amount'
@@ -212,6 +262,19 @@
             'service_id':                     value: ['1', '2', '3', '4']
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: '0'
+            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
+        ,
+          name:     'spam[reported_ip]'
+          label:    'Reported IP'
+          dependencies:
+            'spam[detection_method_id]': value: '2'
+        ,
+          name:     'spam[reported_ip_blacklisted]'
+          label:    'IP is Blacklisted'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          dependencies:
+            'spam[detection_method_id]': value: '2'
         ]
       ,
         legend:     'Resource Abuse'

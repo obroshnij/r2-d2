@@ -17,9 +17,22 @@
       @listenTo @, 'toggle:fields', @toggle
     
     dependenciesAreSatisfied: (fieldValues) ->
-      return true unless @attributes.dependencies
+      return true                               unless  @attributes.dependencies
+      return @_verifyDependencies(fieldValues)  if      _.isArray  @attributes.dependencies
+      return @_verifyDependency(fieldValues)    if      _.isObject @attributes.dependencies
       
-      result = _.map @attributes.dependencies, (conditions, parent) =>
+    _verifyDependencies: (fieldValues) ->
+      result = _.map @attributes.dependencies, (dependency) =>
+        @_verifyDependency(fieldValues, dependency)
+        
+      _.chain(result)
+        .inject (memo, val) -> memo or val
+          .value()
+      
+    _verifyDependency: (fieldValues, dependency) ->
+      dependency ?= @attributes.dependencies
+      
+      result = _.map dependency, (conditions, parent) =>
         _.map conditions, (allowedValues, checker) =>
           @checkers[checker](allowedValues, fieldValues[parent])
 

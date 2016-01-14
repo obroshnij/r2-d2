@@ -51,7 +51,7 @@ end
   Legal::HostingAbuse::SharedPlan.create name: name
 end
 
-['6 Hours', '12 Hours', '24 Hours', 'To Suspend', 'Already Suspended'].each do |name|
+['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended'].each do |name|
   Legal::HostingAbuse::Suggestion.create name: name
 end
 
@@ -90,7 +90,7 @@ end
   Legal::HostingAbuse::Spam::DetectionMethod.create name: name
 end
 
-["Outbound Emails", "Bounced Emails", "CAPTCHA related", "Forwarded Emails", "System Notifications", "Deliberate Spam"].each do |name|
+["Outbound Emails", "CAPTCHA related", "Forwarded Emails", "System Notifications", "Deliberate Spam", "Bounced Emails Only"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
 end
 
