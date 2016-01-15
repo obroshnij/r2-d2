@@ -65,19 +65,11 @@ end
   Legal::HostingAbuse::Resource::AbuseType.create name: name
 end
 
-['Too Many', 'Too Often'].each do |name|
-  Legal::HostingAbuse::Resource::ActivityType.create name: name
-end
-
 ['Medium', 'High', 'Extremely High'].each do |name|
   Legal::HostingAbuse::Resource::Impact.create name: name
 end
 
-['Frequency of an active cron was reduced', 'Amount of simultaneous crons was reduced', 'Other'].each do |name|
-  Legal::HostingAbuse::Resource::Measure.create name: name
-end
-
-['Cron Jobs', 'Disc Space', 'LVE / MySQL'].each do |name|
+['Disc Space', 'LVE / MySQL'].each do |name|
   Legal::HostingAbuse::Resource::ResourceType.create name: name
 end
 

@@ -9,9 +9,6 @@ class Legal::HostingAbuse::Form::Resource
   attr_accessor :shared_plan_id
   
   attribute :type_id,           Integer
-  attribute :activity_type_id,  Integer
-  attribute :measure_id,        Integer
-  attribute :other_measure,     String
   attribute :folders,           String
   attribute :abuse_type_ids,    Array[Integer]
   attribute :lve_report,        String

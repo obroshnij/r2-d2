@@ -29,7 +29,7 @@
         ,
           name:     'server_name'
           label:    'Server Name'
-          hint:     'E.g.: server78.web-hosting.com, host7.registrar-servers.com, etc.'
+          hint:     'E.g. server78.web-hosting.com, host7.registrar-servers.com, etc.'
           dependencies:
             service_id:      value: ['1', '2', '3', '4']
         ,
@@ -279,33 +279,12 @@
           type:     'collection_radio_buttons'
           options:  @getResourceTypes()
         ,
-          name:     'resource[activity_type_id]'
-          label:    'Activity Type'
-          type:     'radio_buttons'
-          options: @getResourceActivityTypes()
-          dependencies:
-            'resource[type_id]':      value: '1'
-        ,
-          name:     'resource[measure_id]'
-          label:    'Measures taken'
-          type:     'collection_radio_buttons'
-          options:  @getResourceMeasures()
-          hint:     'What was done?'
-          dependencies:
-            'resource[type_id]':      value: '1'
-        ,
-          name:     'resource[other_measure]'
-          label:    'Other'
-          dependencies:
-            'resource[type_id]':      value: '1'
-            'resource[measure_id]':   value: '3'
-        ,
           name:     'resource[folders]'
           label:    'Folders'
           tagName:  'textarea'
           hint:     'Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)',
           dependencies:
-            'resource[type_id]':      value: '2'
+            'resource[type_id]':      value: '1'
         ,
           name:     'resource[abuse_type_ids]'
           label:    'Resource Type'
@@ -313,13 +292,13 @@
           hint:     'Please check all resources under impact'
           options:  @getResourceAbuseTypes()
           dependencies:
-            'resource[type_id]':      value: '3'
+            'resource[type_id]':      value: '2'
         ,
           name:     'resource[lve_report]'
           label:    'LVE Report'
           tagName:  'textarea'
           dependencies:
-            'resource[type_id]':        value: '3'
+            'resource[type_id]':        value: '2'
             'resource[abuse_type_ids]': value: ['1', '2', '3', '4']
         ,
           name:     'resource[mysql_queries]'
@@ -327,14 +306,14 @@
           tagName:  'textarea'
           hint:     'Along with the command'
           dependencies:
-            'resource[type_id]':       value: '3'
+            'resource[type_id]':       value: '2'
             'resource[abuse_type_ids]': value: '5'
         ,
           name:     'resource[process_logs]'
           label:    'Process Logs'
           tagName:  'textarea'
           dependencies:
-            'resource[type_id]':       value: '3'
+            'resource[type_id]':       value: '2'
             'resource[abuse_type_ids]': value: '6'
         ,
           name:     'resource[upgrade_id]'
@@ -342,15 +321,15 @@
           tagName:  'select'
           options:  @getResourceUpgrades()
           dependencies:
-            'resource[type_id]':       value: '3'
+            'resource[type_id]':       value: '2'
         ,
           name:     'resource[impact_id]'
           label:    'Severity of Impact'
           tagName:  'select'
           options:  @getResourceImpacts()
-          hint:     'How much impact it causes itself (i.e. is it able to overload the server itself)?'
+          hint:     'How much impact does it cause itself (i.e. is it able to overload the server on its own)?'
           dependencies:
-            'resource[type_id]':       value: '3'
+            'resource[type_id]':       value: '2'
         ]
       ,
         legend:     'DDoS'
@@ -432,8 +411,6 @@
     getDdosBlockTypes:        -> @getOptions 'ddos:block:type'
     
     getResourceAbuseTypes:    -> @getOptions 'resource:abuse:type'
-    getResourceActivityTypes: -> @getOptions 'resource:activity:type'
-    getResourceMeasures:      -> @getOptions 'resource:measure'
     getResourceTypes:         -> @getOptions 'resource:type'
     getResourceUpgrades:      -> @getOptions 'resource:upgrade'
     getResourceImpacts:       -> @getOptions 'resource:impact'
