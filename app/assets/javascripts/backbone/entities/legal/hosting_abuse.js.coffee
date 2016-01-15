@@ -3,7 +3,8 @@
   class Entities.HostingAbuse extends App.Entities.Model
     urlRoot: -> Routes.legal_hosting_abuse_index_path()
     
-    defaults:
+    defaults: ->
+      'reported_by_id':                 App.request('get:current:user').get('id')
       'suggestion_id':                  '3'
       'spam[detection_method_id]':      '1'
       'spam[queue_type_id]':            '1'

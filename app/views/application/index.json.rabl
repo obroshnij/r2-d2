@@ -5,7 +5,7 @@ node :environment do
 end
 
 node :current_user do
-  current_user.as_json(only: [:name, :email])
+  current_user.as_json(only: [:id, :name, :email])
 end
 
 node :current_ability do

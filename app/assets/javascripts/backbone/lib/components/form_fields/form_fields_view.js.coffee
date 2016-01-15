@@ -61,6 +61,11 @@
   
   class FormFields.CollectionRadioButtonsView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/collection_radio_buttons'
+    
+  
+  class FormFields.HiddenFieldView extends FormFields.BaseInputView
+    getTemplate: -> 'form_fields/hidden'
+  
   
   # Form fieldset views
   
@@ -85,6 +90,7 @@
       return FormFields.CollectionCheckBoxesView   if model.get('tagName') is 'input'  and model.get('type') is 'collection_check_boxes'
       return FormFields.RadioButtonsView           if model.get('tagName') is 'input'  and model.get('type') is 'radio_buttons'
       return FormFields.CollectionRadioButtonsView if model.get('tagName') is 'input'  and model.get('type') is 'collection_radio_buttons'
+      return FormFields.HiddenFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'hidden'
       return FormFields.SelectView                 if model.get('tagName') is 'select'
       return FormFields.TextAreaView               if model.get('tagName') is 'textarea'
       

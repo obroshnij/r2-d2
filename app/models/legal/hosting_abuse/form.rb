@@ -6,6 +6,7 @@ class Legal::HostingAbuse::Form
   include ActiveModel::Model
   include ActiveModel::Validations
   
+  attribute :reported_by_id,          Integer
   attribute :service_id,              Integer
   attribute :type_id,                 Integer
   attribute :server_name,             String
@@ -26,8 +27,6 @@ class Legal::HostingAbuse::Form
   attribute :ddos,                    Legal::HostingAbuse::Form::Ddos
   attribute :resource,                Legal::HostingAbuse::Form::Resource
   attribute :spam,                    Legal::HostingAbuse::Form::Spam
-  
-  # Add ticket_id and comments fields for L&A reps
   
   validates :service_id,              presence: true
   validates :type_id,                 presence: true
@@ -78,6 +77,14 @@ class Legal::HostingAbuse::Form
     spam.errors.each     { |key, val| errors.add "spam[#{key}]", val }      if spam?            && !spam.valid?
   end
   
+  def initialize hosting_abuse_id = nil
+    @hosting_abuse = if hosting_abuse_id.present?
+      Legal::HostingAbuse.find hosting_abuse_id
+    else
+      Legal::HostingAbuse.new
+    end
+  end
+  
   def shared?
     service_id == 1
   end
@@ -126,6 +133,10 @@ class Legal::HostingAbuse::Form
     management_type_id == 3
   end
   
+  def model
+    @hosting_abuse
+  end
+  
   def submit params
     self.attributes = params
     
@@ -133,7 +144,17 @@ class Legal::HostingAbuse::Form
     resource.shared_plan_id = shared_plan_id if resource_abuse?
     
     return false unless valid?
+    persist!
     true
+  end
+  
+  private
+  
+  def persist!
+    @hosting_abuse.reported_by_id = reported_by_id
+    @hosting_abuse.service_id     = service_id
+    @hosting_abuse.type_id        = type_id
+    @hosting_abuse.save!
   end
   
 end

@@ -196,23 +196,14 @@
           label:    'IP is Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: '' }]
-          dependencies: [
-            'spam[detection_method_id]': value: '1'
-            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
-          ,
-            'spam[detection_method_id]': value: '3'
-          ]
+          dependencies:
+            'spam[detection_method_id]': value: ['1', '3']
         ,
           name:     'spam[blacklisted_ip]'
           label:    'Blacklisted IP'
-          dependencies: [
-            'spam[detection_method_id]': value: '1'
-            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
+          dependencies:
+            'spam[detection_method_id]': value: ['1', '3']
             'spam[ip_is_blacklisted]':   value: 'true'
-          ,
-            'spam[detection_method_id]': value: '3'
-            'spam[ip_is_blacklisted]':   value: 'true'
-          ]
         ,
           name:     'spam[involved_mailboxes_count]'
           label:    'Involved Mailboxes Count'

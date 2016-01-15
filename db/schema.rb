@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114194927) do
+ActiveRecord::Schema.define(version: 20160114200719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,15 +103,32 @@ ActiveRecord::Schema.define(version: 20160114194927) do
   end
 
   create_table "legal_hosting_abuse", force: :cascade do |t|
+    t.integer  "reported_by_id"
+    t.integer  "processed_by_id"
+    t.boolean  "processed",          default: false
     t.integer  "service_id"
     t.integer  "type_id"
+    t.integer  "server_id"
+    t.string   "username"
+    t.string   "resold_username"
     t.integer  "management_type_id"
     t.integer  "reseller_plan_id"
     t.integer  "shared_plan_id"
+    t.string   "server_rack_label"
+    t.string   "subscription_name"
     t.integer  "suggestion_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.text     "suspension_reason"
+    t.string   "scan_report_path"
+    t.text     "tech_comments"
+    t.text     "legal_comments"
+    t.string   "ticket_id"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
+
+  add_index "legal_hosting_abuse", ["subscription_name"], name: "index_legal_hosting_abuse_on_subscription_name", using: :btree
+  add_index "legal_hosting_abuse", ["ticket_id"], name: "index_legal_hosting_abuse_on_ticket_id", using: :btree
+  add_index "legal_hosting_abuse", ["username"], name: "index_legal_hosting_abuse_on_username", using: :btree
 
   create_table "legal_hosting_abuse_ddos", force: :cascade do |t|
     t.integer  "report_id"
@@ -211,7 +228,6 @@ ActiveRecord::Schema.define(version: 20160114194927) do
     t.integer  "report_id"
     t.integer  "detection_method_id"
     t.integer  "queue_type_id"
-    t.integer  "reporting_party_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -248,6 +264,12 @@ ActiveRecord::Schema.define(version: 20160114194927) do
   end
 
   create_table "legal_hosting_abuse_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_servers", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
