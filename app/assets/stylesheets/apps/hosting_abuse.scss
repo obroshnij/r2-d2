@@ -1,0 +1,7 @@
+.hosting-abuse-list             {
+  li                            { border-top: 1px solid $medium-gray; padding: 1rem;
+    .label-text                 { text-align: right; font-style: italic; }
+  }
+  li:last-child                 { border-bottom: 1px solid $medium-gray; }
+  li:hover                      { background-color: #def0fc; transition: background-color 0.25s ease-out; }
+}

@@ -40,6 +40,9 @@
     
   App.vent.on 'new:report:cancelled', ->
     API.list()
+    
+  App.vent.on 'hosting:abuse:created', (report) ->
+    API.list()
   
   
   LegalHostingAbuseApp.on 'start', ->

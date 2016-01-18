@@ -31,8 +31,13 @@
       @show formView, region: @layout.searchRegion
       
     reportsRegion: ->
-      reportsView = @getReportsView()
-      @show reportsView, region: @layout.reportsRegion
+      reports = App.request 'hosting:abuse:entities'
+      
+      reportsView = @getReportsView reports
+      
+      @show reportsView,
+        loading: true
+        region:  @layout.reportsRegion
       
     getSearchView: ->
       schema = new List.SearchSchema
@@ -40,8 +45,9 @@
         schema:  schema
         model:   false
       
-    getReportsView: ->
+    getReportsView: (reports) ->
       new List.Reports
+        collection: reports
       
     getPanelView: ->
       new List.Panel

@@ -9,8 +9,18 @@ class ApplicationController < ActionController::Base
   include ManagerToolsHelper
   
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:alert] = exception.message
-    redirect_to root_url
+    respond_to do |format|
+      
+      format.html do
+        flash[:alert] = exception.message
+        redirect_to root_url
+      end
+      
+      format.json do
+        render json: { error: 'Access Denied' }, status: 403
+      end
+      
+    end
   end
   
   def index

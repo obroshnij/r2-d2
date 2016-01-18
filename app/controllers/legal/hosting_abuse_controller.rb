@@ -1,5 +1,11 @@
 class Legal::HostingAbuseController < ApplicationController
   respond_to :json
+  before_action :authenticate_user!
+  authorize_resource
+  
+  def index
+    @hosting_abuse = Legal::HostingAbuse.all
+  end
   
   def show
     @hosting_abuse = Legal::HostingAbuse.find params[:id]

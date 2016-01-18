@@ -16,4 +16,14 @@ class Legal::HostingAbuse < ActiveRecord::Base
   belongs_to :server,          class_name: 'Legal::HostingServer',                foreign_key: 'server_id'
   
   accepts_nested_attributes_for :ddos, :resource, :spam
+  
+  before_save do
+    self.username          = self.username.try(:strip).try(:downcase)
+    self.resold_username   = self.resold_username.try(:strip).try(:downcase)
+    self.server_rack_label = self.server_rack_label.try(:strip)
+    self.subscription_name = self.subscription_name.try(:strip).try(:downcase)
+    self.suspension_reason = self.suspension_reason.try(:strip)
+    self.scan_report_path  = self.scan_report_path.try(:strip)
+    self.tech_comments     = self.tech_comments.try(:strip)
+  end
 end

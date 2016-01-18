@@ -8,8 +8,8 @@
     checkers:
     
       value: (allowed, current) ->
-        allowed      = _.flatten [allowed]
-        current      = _.flatten [current]
+        allowed      = _.chain([allowed]).flatten().compact().map( (el) -> el.toString() ).value()
+        current      = _.chain([current]).flatten().compact().map( (el) -> el.toString() ).value()
         intersection = _.intersection allowed, current
         not _.isEmpty(intersection)
         

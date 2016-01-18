@@ -31,7 +31,7 @@
           label:    'Server Name'
           hint:     'E.g. server78.web-hosting.com, host7.registrar-servers.com, etc.'
           dependencies:
-            service_id:      value: ['1', '2', '3', '4']
+            service_id:      value: [1, 2, 3, 4]
         ,
           name:     'shared_plan_id'
           label:    'Package'
@@ -39,48 +39,46 @@
           options:  @getSharedPlans()
           hint:     "Email Only (e.g. mailserver3.web-hosting.com) can only be abused by Email Abuse / Spam\nBusiness Expert can't abuse Disc-Space (150 GB allowed)"
           dependencies:
-            service_id:      value: '1'
+            service_id:      value: 1
         ,
           name:     'reseller_plan_id'
           label:    'Package'
           tagName:  'select'
           options:  @getResellerPlans()
           dependencies:
-            service_id:      value: '2'
+            service_id:      value: 2
         ,
           name:     'username'
           label:    'Username'
-          dependencies:
-            service_id:      value: ['1', '2']
+          dependencies: [
+            service_id:         value: [1, 2]
+          ,
+            service_id:         value: [3, 4]
+            management_type_id: value: 3
+          ]
         ,
           name:     'resold_username'
           label:    'Resold Username',
           dependencies:
-            service_id:      value: '2'
+            service_id:      value: 2
         ,
           name:     'subscription_name'
           label:    'Subcription Name'
           dependencies:
-            service_id:      value: '5'
+            service_id:      value: 5
         ,
           name:     'server_rack_label'
           label:    'Server Rack Label'
           hint:     'E.g. NC-PH-0731-26'
           dependencies:
-            service_id:      value: '4'
+            service_id:      value: 4
         ,
           name:     'management_type_id'
           label:    'Type of Management'
           tagName:  'select'
           options:  @getManagementTypes()
           dependencies:
-            service_id:      value: ['3', '4']
-        ,
-          name:     'vps_username'
-          label:    'Username'
-          dependencies:
-            service_id:         value: ['3', '4']
-            management_type_id: value: '3'
+            service_id:      value: [3, 4]
         ]
       ,
         legend:     'Email Abuse / Spam',
@@ -389,10 +387,10 @@
           dependencies:
             suggestion_id:   value: '5'
         ,
-          name:     'comments'
+          name:     'tech_comments'
           label:    'Additional Comments'
           tagName:  'textarea'
-          hint:     'Anything you would like to add on this case (e.g. when a particular abuser is affecting the whole server)'
+          hint:     'Anything you would like to add on this case'
         ]
       ]
       

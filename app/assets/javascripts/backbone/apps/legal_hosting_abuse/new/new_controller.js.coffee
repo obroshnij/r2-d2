@@ -16,16 +16,15 @@
       newView = @getNewView report
       
       form = App.request 'form:component', newView,
-        model: report
+        model:     report
+        onSuccess: -> App.vent.trigger 'hosting:abuse:created', report
+        onCancel:  -> App.vent.trigger 'new:report:cancelled'
         
-      @listenTo form, 'form:cancel', ->
-        App.vent.trigger 'new:report:cancelled'
-      
       @show form, region: @layout.formRegion
 
     getNewView: (report) ->
       schema = new New.FormSchema
-      App.request 'form:fields:component', 
+      App.request 'form:fields:component',
         schema: schema,
         model:  report
 

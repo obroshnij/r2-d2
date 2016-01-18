@@ -7,21 +7,23 @@
       
       _.defaults options,
         wait:    true
-        success: _.bind(@saveSuccess, @, isNew, options.collection)
+        success: _.bind(@saveSuccess, @, isNew, options.collection, options.callback)
         error:   _.bind(@saveError, @)
         
       @unset '_errors'
       super data, options
       
-    saveSuccess: (isNew, collection) =>
+    saveSuccess: (isNew, collection, callback) =>
       if isNew
-        collection.add @ if collection
-        collection.trigger 'model:created', @ if collection
+        collection?.add @
+        collection?.trigger 'model:created', @
         @trigger 'created', @
       else
         collection ?= @collection
-        collection.trigger 'model:updated', @ if collection
+        collection?.trigger 'model:updated', @
         @trigger 'updated', @
+        
+      callback?()
         
     saveError: (model, xhr, options) =>
       @set _errors: xhr.responseJSON.errors unless xhr.status is 500 or xhr.status is 404

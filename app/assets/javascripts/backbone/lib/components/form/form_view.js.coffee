@@ -80,5 +80,8 @@
       @addOpacityWrapper(false) if @config.syncingType is 'opacity'
       @disableButtons(false)    if @config.syncingType is 'buttons'
       
+    onDestroy: ->
+      @addOpacityWrapper(false) if @config.syncing
+      
     disableButtons: (init = true) ->
       @ui.buttons.prop('disabled', init)

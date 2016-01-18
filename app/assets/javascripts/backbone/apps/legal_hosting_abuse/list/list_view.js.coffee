@@ -52,5 +52,15 @@
     getAbuseTypes:  -> @getOptions 'type'
   
   
-  class List.Reports extends App.Views.ItemView
-    template: 'legal_hosting_abuse/list/reports'
+  class List.Report extends App.Views.ItemView
+    template: 'legal_hosting_abuse/list/_report'
+    
+    tagName:   'li'
+    className: 'row'
+  
+  
+  class List.Reports extends App.Views.CollectionView
+    childView: List.Report
+    
+    tagName:   'ul'
+    className: 'no-bullet hosting-abuse-list columns'

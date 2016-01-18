@@ -11,6 +11,7 @@
       search:          false
       onBeforeSubmit:  ->
       onCancel:        ->
+      onSuccess:       ->
     
     initialize: (options = {}) ->
       { @contentView } = options
@@ -34,12 +35,13 @@
       config.onBeforeSubmit()
       
       data = Backbone.Syphon.serialize @formLayout
-      @processModelSave data
+      @processModelSave(data, config) unless @_saveModel is false
       
       @trigger 'form:submit', data
       
-    processModelSave: (data) ->
-      @model.save(data) unless @_saveModel is false
+    processModelSave: (data, config) ->
+      @model.save data,
+        callback: config.onSuccess
       
     formCancel: (config) ->
       config.onCancel()

@@ -1,0 +1,15 @@
+.large-6.columns
+  .row
+    .large-5.columns.label-text Service
+    .large-7.columns = @service
+  .row
+    .large-5.columns.label-text Abuse Type
+    .large-7.columns = @type
+
+.large-6.columns
+  .row
+    .large-5.columns.label-text Reported by
+    .large-7.columns = @reported_by
+  .row
+    .large-5.columns.label-text Reported at
+    .large-7.columns = @created_at_formatted
