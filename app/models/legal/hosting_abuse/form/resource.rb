@@ -20,11 +20,6 @@ class Legal::HostingAbuse::Form::Resource
   validates :type_id,              presence: true
   validates :type_id,              inclusion: { in: [1, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?
   
-  with_options if: :cron_jobs? do |f|
-    f.validates :activity_type_id, presence: true
-    f.validates :other_measure,    presence: true, if: :other_measure?
-  end
-  
   validates :folders,              presence: true, if: :disc_space?
   
   with_options if: :lve_mysql? do |f|
