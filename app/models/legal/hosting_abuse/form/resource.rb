@@ -31,20 +31,12 @@ class Legal::HostingAbuse::Form::Resource
     f.validates :process_logs,     presence: true, if: :process_logs_required?
   end
   
-  def cron_jobs?
+  def disc_space?
     type_id == 1
   end
   
-  def disc_space?
-    type_id == 2
-  end
-  
   def lve_mysql?
-    type_id == 3
-  end
-  
-  def other_measure?
-    measure_id == 3
+    type_id == 2
   end
   
   def lve_report_required?
