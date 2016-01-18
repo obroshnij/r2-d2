@@ -3,12 +3,14 @@
   class List.Controller extends App.Controllers.Application
     
     initialize: (options) ->
+      reports = App.request 'hosting:abuse:entities'
+      
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
         @panelRegion()
         @searchRegion()
-        @reportsRegion()
+        @reportsRegion reports
       
       @show @layout
       
@@ -30,9 +32,7 @@
         
       @show formView, region: @layout.searchRegion
       
-    reportsRegion: ->
-      reports = App.request 'hosting:abuse:entities'
-      
+    reportsRegion: (reports) ->
       reportsView = @getReportsView reports
       
       @show reportsView,
