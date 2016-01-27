@@ -58,7 +58,7 @@ class Whois
     if record.match(/whois server:.+/i)
       registrar_whois = record.match(/whois server:.+/i).to_s.split(':').last.try(:strip).try(:downcase)
       if registrar_whois.present? && server != registrar_whois && registrar_whois.match(/\A[a-z\.]+\z/).present? && registrar_whois[0..3] != 'www.'
-        record += execute(registrar_whois, domain.name) 
+        record += execute(registrar_whois, domain.name) rescue ''
       end
     end
     raise Errno::ECONNRESET if record.include?('Your request is being rate limited') || record.include?('Looup quota exceeded') ||
