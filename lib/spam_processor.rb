@@ -63,7 +63,7 @@ class SpamProcessor
       domain.extra_attr[:suspended_by_namecheap] = domain.whois.properties[:nameservers].try(:include?, "dummysecondary.pleasecontactsupport.com") ||
                                                    domain.extra_attr[:host_records][:ns].try(:include?, "dummysecondary.pleasecontactsupport.com")
       domain.extra_attr[:expired] = if IPAddress.valid?(a_record)
-        domain.whois.properties[:nameservers].include?("dns1.name-services.com") &&
+        domain.whois.properties[:nameservers].try(:include?, "dns1.name-services.com") &&
         IPAddress("64.74.223.1/24").network.include?(IPAddress(a_record)) ||
         IPAddress("8.5.1.1/24").network.include?(IPAddress(a_record))
       else
