@@ -4,9 +4,10 @@
     template: 'legal_hosting_abuse/list/layout'
     
     regions:
-      panelRegion:   '#panel-region'
-      searchRegion:  '#search-region'
-      reportsRegion: '#reports-region'
+      panelRegion:      '#panel-region'
+      searchRegion:     '#search-region'
+      reportsRegion:    '#reports-region'
+      paginationRegion: '#pagination-region'
       
   class List.Panel extends App.Views.ItemView
     template: 'legal_hosting_abuse/list/panel'
@@ -31,12 +32,12 @@
         isCompact: true
         
         fields: [
-          name:     'service_id'
+          name:     'service_id_eq'
           label:    'Service'
           tagName:  'select'
           options:  @getServices()
         ,
-          name:     'type_id'
+          name:     'type_id_eq'
           label:    'Abuse Type'
           tagName:  'select'
           options:  @getAbuseTypes()
@@ -59,8 +60,23 @@
     className: 'row'
   
   
-  class List.Reports extends App.Views.CollectionView
-    childView: List.Report
+  class List.Reports extends App.Views.CompositeView
+    template:  'legal_hosting_abuse/list/reports'
     
-    tagName:   'ul'
-    className: 'no-bullet hosting-abuse-list columns'
+    childView:          List.Report
+    childViewContainer: 'ul'
+    
+    className: 'clearfix'
+      
+    collectionEvents:
+      'sync:start' : 'syncStart'
+      'sync:stop'  : 'syncStop'
+      
+    syncStart: ->
+      @addOpacityWrapper()
+      
+    syncStop: ->
+      @addOpacityWrapper false
+      
+    onDestroy: ->
+      @addOpacityWrapper false

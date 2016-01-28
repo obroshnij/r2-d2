@@ -6,6 +6,9 @@ do (Backbone) ->
     _.defaults options,
       beforeSend: _.bind(methods.beforeSend, entity)
       complete:   _.bind(methods.complete,   entity)
+      data:       {}
+    
+    _.extend options.data, { q: entity.ransack } if entity.ransack
 
     sync = _sync(method, entity, options)
     

@@ -1,0 +1,33 @@
+- if @paginationRequired
+  p.pagination.float-left = "Displaying #{@firstItemNumber} - #{@lastItemNumber} entries of #{@totalItems} in total"
+
+- else
+  - if @totalItems is 0
+    p.pagination.float-left No entries found
+  - else if @totalItems is 1
+    p.pagination.float-left Displaying the only entry
+  - else
+    p.pagination.float-left = "Displaying all #{@totalItems} entries"
+
+
+- if @paginationRequired
+  ul.pagination.float-right
+
+    - if @previousIsDisabled
+      li.pagination-previous.disabled Previous
+    - else
+      li.pagination-previous: a.previous Previous
+
+    - for page in @pagesArray
+
+      - if page is @currentPage
+        li.current = page
+      - else if page is "..."
+        li.ellipsis
+      - else
+        li: a.page-number = page
+
+    - if @nextIsDisabled
+      li.pagination-next.disabled Next
+    - else
+      li.pagination-next: a.next Next

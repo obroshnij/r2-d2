@@ -4,7 +4,8 @@ class Legal::HostingAbuseController < ApplicationController
   authorize_resource
   
   def index
-    @hosting_abuse = Legal::HostingAbuse.all
+    @search = Legal::HostingAbuse.ransack params[:q]
+    @hosting_abuse = @search.result(distinct: true).order(created_at: :desc).paginate(page: params[:page], per_page: params[:per_page])
   end
   
   def show

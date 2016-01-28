@@ -22,6 +22,7 @@
 //= require backbone-routefilter
 //= require backbone-cocktail
 //= require backbone-select
+//= require backbone-paginator
 //= require marionette
 //= require js-routes
 

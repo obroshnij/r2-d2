@@ -9,8 +9,9 @@
       
       @listenTo @layout, 'show', =>
         @panelRegion()
-        @searchRegion()
+        @searchRegion reports
         @reportsRegion reports
+        @paginationRegion reports
       
       @show @layout
       
@@ -22,13 +23,14 @@
       
       @show panelView, region: @layout.panelRegion
       
-    searchRegion: ->
+    searchRegion: (reports) ->
       searchView = @getSearchView()
       
       formView = App.request 'form:component', searchView,
         model: false
         
-      @listenTo formView, 'form:submit', (data) -> console.log(data)
+      @listenTo formView, 'form:submit', (data) ->
+        reports.search data
         
       @show formView, region: @layout.searchRegion
       
@@ -38,6 +40,12 @@
       @show reportsView,
         loading: true
         region:  @layout.reportsRegion
+        
+    paginationRegion: (reports) ->
+      pagination = App.request 'pagination:component', reports
+        
+      App.execute 'when:synced', reports, =>
+        @show pagination, region: @layout.paginationRegion
       
     getSearchView: ->
       schema = new List.SearchSchema

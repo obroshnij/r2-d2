@@ -24,3 +24,5 @@ h1, h2, h3, h4, h5, h6, h7  { font-family: 'Lato', sans-serif; }
 .loading-container          { min-height: 200px; position: relative; }
 
 [disabled]                  { cursor: not-allowed !important; pointer-events: auto !important; }
+
+p.pagination                { padding-top: 0.25rem; }
