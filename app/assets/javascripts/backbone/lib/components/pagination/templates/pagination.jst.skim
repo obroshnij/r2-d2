@@ -5,9 +5,9 @@
   - if @totalItems is 0
     p.pagination.float-left No entries found
   - else if @totalItems is 1
-    p.pagination.float-left Displaying the only entry
+    p.pagination.float-left Displaying 1 entry
   - else
-    p.pagination.float-left = "Displaying all #{@totalItems} entries"
+    p.pagination.float-left = "Displaying #{@totalItems} entries"
 
 
 - if @paginationRequired
