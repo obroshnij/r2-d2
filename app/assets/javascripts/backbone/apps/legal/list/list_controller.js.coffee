@@ -5,6 +5,8 @@
     initialize: (options) ->
       legalNavs = App.request 'legal:nav:entities'
       
+      return App.vent.trigger 'access:denied' if legalNavs.length is 0
+      
       @listenTo legalNavs, 'select:one', (model, collection, options) ->
         App.vent.trigger 'legal:nav:selected', model.get('name'), @options.action, @layout.articleRegion
       
@@ -14,7 +16,7 @@
         @titleRegion()
         @breadcrumbsRegion legalNavs
         @navsRegion legalNavs, options.nav
-        
+      
       @show @layout
       
     titleRegion: ->

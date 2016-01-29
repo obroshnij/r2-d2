@@ -37,6 +37,7 @@ node :entities do
         shared_plan:     Legal::HostingAbuse::SharedPlan.all.as_json(only: [:id, :name]),
         suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name])
       }
-    }
+    },
+    navs: Nav.accessible_by_as_json(current_ability)
   }
 end

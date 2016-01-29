@@ -19,26 +19,13 @@
   API =
     
     getNavs: ->
-      new Entities.Navs [
-        { divider: true }
-        { name: 'Tools',         url: '#/tools',   icon: 'fi-widget'        }
-        { divider: true }
-        { name: 'Legal & Abuse', url: '#/legal',   icon: 'fi-sheriff-badge' }
-        { divider: true }
-      ]
+      new Entities.Navs App.entities.navs.main_navs
       
     getLegalNavs: ->
-      new Entities.Navs [
-        { name: 'Hosting Abuse', url: '#/legal/hosting_abuse', icon: 'fa fa-fw fa-server' }
-      ]
+      new Entities.Navs App.entities.navs.legal_navs
       
     getToolsNavs: ->
-      new Entities.Navs [
-        { name: 'Whois',               url: '#/tools/whois',  icon: 'fa fa-fw fa-file-o' }
-        { name: 'Bulk Whois',          url: '/whois',         icon: 'fa fa-fw fa-files-o' }
-        { name: 'Domains Extractor',   url: '/parse_domains', icon: 'fa fa-fw fa-search' }
-        { name: 'Lists Compare Tool',  url: '/compare',       icon: 'fa fa-fw fa-list' }
-      ]
+      new Entities.Navs App.entities.navs.tools_navs
   
   
   App.reqres.setHandler 'nav:entities', ->

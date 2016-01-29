@@ -8,6 +8,7 @@
     
     getCurrentRoute: ->
       fragment = Backbone.history.fragment
+      fragment = s.ltrim(fragment, '/') if s.startsWith(fragment, '/')
       if _.isEmpty(fragment) then null else fragment
       
     startHistory: ->
