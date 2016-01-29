@@ -20,6 +20,7 @@ class Pdfier
     2.times { page.css('.navHeader.fullWidth td:last-child').remove }
     page.css('#contentTable tbody tr').css('td:first-child div:last-child').remove
     page.css('#contentTable tbody tr').css('td:first-child div:first-child a.anchorLink').remove
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -31,6 +32,7 @@ class Pdfier
     page.css('#searchFormDiv').remove
     page.css('#findDomainsButton').remove
     2.times { page.css('.navHeader.fullWidth td:last-child').remove }
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -53,6 +55,7 @@ class Pdfier
     end
     page.css("th[align='center'] img").each { |img| img.parent.content =  img.attribute('alt').value }
     page.css("td[align='center'] img").each { |img| img.ancestors('td').first.content = '✔' }
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -66,6 +69,7 @@ class Pdfier
     2.times { page.css('#paging div:last-child').remove }
     page.css('.myform').remove
     page.css('[name^="refundStatusDiv"]').each { |div| div.parent.remove }
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -78,6 +82,7 @@ class Pdfier
     page.css('#contentDiv div:first-child').remove
     2.times { page.css('.navHeader td:last-child').remove }
     page.css('input[type="image"]').remove
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -93,6 +98,7 @@ class Pdfier
       td.css('div:last-child').remove
       td.next_element.css('div:last-child').remove
     end
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -108,6 +114,7 @@ class Pdfier
       td.css('div:last-child').remove
       td.next_element.css('div:last-child').remove
     end
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
@@ -121,6 +128,7 @@ class Pdfier
     2.times { page.css('.navHeader.fullWidth td:last-child').remove }
     page.css('#contentTable tbody tr td.line[colspan="3"] i a').remove
     page.css('a.anchorLink').remove
+    page.css('a[href]').each { |a| a.attribute('href').remove }
     
     kit = PDFKit.new(page.to_html)
     kit.stylesheets << File.join(Rails.root, 'public', 'tmp', 'styles', 'layout.css')
