@@ -82,11 +82,15 @@ end
   Legal::HostingAbuse::Spam::DetectionMethod.create name: name
 end
 
-["Outbound Emails", "CAPTCHA related", "Forwarded Emails", "System Notifications", "Deliberate Spam", "Bounced Emails Only"].each do |name|
+["CAPTCHA related", "System Notifications", "Deliberate Spam", "Other (Marketing, Newsletter, etc.)"].each do |name|
+  Legal::HostingAbuse::Spam::ContentType.create name: name
+end
+
+["Outbound Emails / Postfix Active Queue", "Forwarded Emails", "Bounced Emails / Postfix Deferred Queue", "Emails Sent in the Past"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
 end
 
-["AOL", "Blue Tie", "Comcast", "Cox", "FastMail", "HostedEmail", "Hotmail", "Microsoft", "PhoenixNAP","Rackspace",
+["AOL", "Blue Tie", "Comcast", "Cox", "FastMail", "HostedEmail", "Hotmail", "Microsoft", "PhoenixNAP","Rackspace", "Lashback",
  "ReturnPath", "RoadRunner", "SpamExperts", "Synacor", "Terra (Brazil)", "USA.net", "United Online", "Yahoo", "Zoho"].each do |name|
   Legal::HostingAbuse::Spam::ReportingParty.create name: name
 end

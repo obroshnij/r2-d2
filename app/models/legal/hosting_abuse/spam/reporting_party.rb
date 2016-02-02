@@ -3,4 +3,6 @@ class Legal::HostingAbuse::Spam::ReportingParty < ActiveRecord::Base
   
   has_many :assignments, class_name: 'Legal::HostingAbuse::Spam::ReportingPartyAssignment', foreign_key: 'reporting_party_id'
   has_many :spam,        through: :assignments
+  
+  default_scope { order(name: :asc) }
 end

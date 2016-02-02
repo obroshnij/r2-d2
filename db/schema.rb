@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114200719) do
+ActiveRecord::Schema.define(version: 20160129144130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,13 +160,11 @@ ActiveRecord::Schema.define(version: 20160114200719) do
 
   create_table "legal_hosting_abuse_resource", force: :cascade do |t|
     t.integer  "report_id"
-    t.integer  "activity_type_id"
     t.integer  "impact_id"
-    t.integer  "measure_id"
     t.integer  "type_id"
     t.integer  "upgrade_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
@@ -227,15 +225,28 @@ ActiveRecord::Schema.define(version: 20160114200719) do
   create_table "legal_hosting_abuse_spam", force: :cascade do |t|
     t.integer  "report_id"
     t.integer  "detection_method_id"
-    t.integer  "queue_type_id"
+    t.integer  "content_type_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_content_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "legal_hosting_abuse_spam_detection_methods", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_queue_type_assignments", force: :cascade do |t|
+    t.integer  "spam_id"
+    t.integer  "queue_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "legal_hosting_abuse_spam_queue_types", force: :cascade do |t|

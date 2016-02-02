@@ -6,10 +6,10 @@ class Legal::HostingAbuse::Form::Resource
   include ActiveModel::Model
   include ActiveModel::Validations
   
-  attr_accessor :shared_plan_id
+  attr_accessor :shared_plan_id, :service_id
   
   attribute :type_id,           Integer
-  attribute :folders,           String
+  attribute :details,           String
   attribute :abuse_type_ids,    Array[Integer]
   attribute :lve_report,        String
   attribute :mysql_queries,     String
@@ -18,9 +18,10 @@ class Legal::HostingAbuse::Form::Resource
   attribute :impact_id,         Integer
   
   validates :type_id,              presence: true
-  validates :type_id,              inclusion: { in: [1, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?
+  validates :type_id,              inclusion: { in: [2], message: 'is not applicable for Business Expert package' }, if: :business_expert?
+  validates :type_id,              inclusion: { in: [1], message: 'is not applicable for Private Email' },           if: :private_email?
   
-  validates :folders,              presence: true, if: :disc_space?
+  validates :details,              presence: true, if: -> { disc_space? || private_email? }
   
   with_options if: :lve_mysql? do |f|
     f.validates :abuse_type_ids,   presence: { message: 'at least one must be checked' }
@@ -54,6 +55,14 @@ class Legal::HostingAbuse::Form::Resource
   
   def business_expert?
     shared_plan_id == 3
+  end
+  
+  def private_email?
+    service_id == 5
+  end
+  
+  def type_id
+    private_email? ? 1 : super
   end
   
   def abuse_type_ids= ids

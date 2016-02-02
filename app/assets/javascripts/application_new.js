@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require jquery.spin
 //= require foundation_six
+//= require moment
+//= require daterangepicker
 //= require underscore
 //= require underscore-string
 //= require backbone

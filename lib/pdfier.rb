@@ -6,7 +6,7 @@ class Pdfier
     files[:html].keys.each do |name|
       send(name.to_sym, files[:html][name].tempfile, folder)
       pdf << CombinePDF.load(File.join Rails.root, 'public', 'tmp', folder, name + '.pdf')
-    end
+    end if files[:html].present?
     (files[:pdf].keys - ['user_info']).each { |name| pdf << CombinePDF.parse(files[:pdf][name].tempfile.read) }
     pdf.save File.join(Rails.root, 'public', 'tmp', folder, 'report.pdf')
   end

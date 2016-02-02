@@ -45,13 +45,17 @@
       if @dependenciesAreSatisfied(fieldValues) then @show() else @hide()
             
     show: ->
-      @set 'isShown', true  if @isHidden()
+      if @isHidden()
+        @set 'isShown', true
+        @trigger 'show'
     
     isShown: ->
       @get 'isShown'
       
     hide: ->
-      @set 'isShown', false if @isShown()
+      if @isShown()
+        @set 'isShown', false
+        @trigger 'hide'
       
     isHidden: ->
       not @isShown()

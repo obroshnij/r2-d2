@@ -65,6 +65,33 @@
   
   class FormFields.HiddenFieldView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/hidden'
+    
+    
+  class FormFields.DateRangePickerView extends FormFields.BaseInputView
+    getTemplate: -> 'form_fields/date_range_picker'
+    
+    getOptions: ->
+      options = @model.get('dateRangePickerOptions') or {}
+      
+      _.defaults options,
+        autoUpdateInput: false
+        locale:
+          cancelLabel: 'Clear'
+          format:      'DD MMMM YYYY'
+          firstDay:    1
+          
+    onAttach: ->
+      @$('input').daterangepicker @getOptions()
+      
+      @$('input').on 'apply.daterangepicker',  (event, picker) ->
+        range = picker.startDate.format('DD MMMM YYYY') + ' - ' + picker.endDate.format('DD MMMM YYYY')
+        $(@).val(range).change()
+      
+      @$('input').on 'cancel.daterangepicker', (event, picker) ->
+        $(@).val('').change()
+        
+    onDestroy: ->
+      @$('input').off()
   
   
   # Form fieldset views
@@ -93,6 +120,7 @@
       return FormFields.HiddenFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'hidden'
       return FormFields.SelectView                 if model.get('tagName') is 'select'
       return FormFields.TextAreaView               if model.get('tagName') is 'textarea'
+      return FormFields.DateRangePickerView        if model.get('tagName') is 'input'  and model.get('type') is 'date_range_picker'
       
     @include 'DynamicFormView'
   

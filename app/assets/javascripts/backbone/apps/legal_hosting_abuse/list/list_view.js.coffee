@@ -57,7 +57,17 @@
     template: 'legal_hosting_abuse/list/_report'
     
     tagName:   'li'
-    className: 'row'
+      
+    ui:
+      'icon'   : 'icon.toggle'
+      'expand' : '.row.expand'
+      
+    triggers:
+      'click @ui.icon' : 'toggle:clicked'
+      
+    onToggleClicked: ->
+      @ui.expand.toggle    200
+      @ui.icon.toggleClass 'fa-rotate-180'
   
   
   class List.Reports extends App.Views.CompositeView

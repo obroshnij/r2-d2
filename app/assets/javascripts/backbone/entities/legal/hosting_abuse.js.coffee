@@ -7,13 +7,14 @@
       'reported_by_id':                 App.request('get:current:user').get('id')
       'suggestion_id':                  3
       'spam[detection_method_id]':      1
-      'spam[queue_type_id]':            1
+      'spam[content_type_id]':          1
       'spam[ip_is_blacklisted]':        false
       'spam[experts_enabled]':          true
+      'spam[sent_by_cpanel]':           true
       'spam[involved_mailboxes_count]': 1
       'spam[mailbox_password_reset]':   true
       'spam[reported_ip_blacklisted]':  true
-      'spam[bounces_queue_present]':    false
+      'ddos[inbound]':                  true
       'ddos[block_type_id]':            1
       'resource[type_id]':              1
       'resource[activity_type_id]':     1

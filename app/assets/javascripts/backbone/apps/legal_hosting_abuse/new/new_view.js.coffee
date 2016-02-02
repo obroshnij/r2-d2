@@ -81,8 +81,8 @@
             service_id:      value: [3, 4]
         ]
       ,
-        legend:     'Email Abuse / Spam',
-        id:         'spam',
+        legend:     'Email Abuse / Spam'
+        id:         'spam'
         dependencies:
           type_id:     value: '1'
         
@@ -93,21 +93,60 @@
           options:  @getSpamDetectionMethods()
           hint:     'How was the issue detected?'
         ,
-          name:     'spam[queue_type_id]'
+          name:     'spam[queue_type_ids]'
           label:    'Queue Type'
-          type:     'collection_radio_buttons'
+          type:     'collection_check_boxes'
           options:  @getSpamQueueTypes()
           dependencies:
             'spam[detection_method_id]':  value: '1'
         ,
-          name:     'spam[bounces_queue_present]'
-          label:    'Bounces Queue'
-          type:     'radio_buttons'
-          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
-          hint:     'Are bounced emails being queued at the same time?'
+          name:     'spam[outgoing_emails_queue]'
+          label:    'Outgoing Emails Queue'
+          hint:     'Amount of emails queued on the server'
+          dependencies:
+            'spam[detection_method_id]':  value: 1
+            'spam[queue_type_ids]':       value: [1, 2]
+        ,
+          name:     'spam[recepients_per_email]'
+          label:    'Recepients per Email'
+          hint:     'Approximate amount of recepients per message if necessary'
+          dependencies:
+            'spam[detection_method_id]':  value: 1
+            'spam[queue_type_ids]':       value: [1, 2]
+        ,
+          name:     'spam[bounced_emails_queue]'
+          label:    'Bounced Emails Queue'
+          hint:     'Amount of bounced emails queued on the server'
+          dependencies:
+            'spam[detection_method_id]':    value: 1
+            'spam[queue_type_ids]':         value: 3
+        ,
+          name:     'spam[sent_emails_count]'
+          label:    'Sent Emails Count'
+          hint:     'How many emails have already been sent?'
+          dependencies:
+            'spam[detection_method_id]':    value: 1
+            'spam[queue_type_ids]':         value: 4
+        ,
+          name:     'spam[sent_emails_daterange]'
+          label:    'Date Range'
+          type:     'date_range_picker'
+          hint:     'Select the period those emails were sent within'
+          dateRangePickerOptions:
+            ranges:
+              'Yesterday':    [moment().subtract(1, 'days'),  moment().subtract(1, 'days')]
+              'Last 7 Days':  [moment().subtract(6, 'days'),  moment()]
+              'Last 30 Days': [moment().subtract(29, 'days'), moment()]
+          dependencies:
+            'spam[detection_method_id]':    value: 1
+            'spam[queue_type_ids]':         value: 4
+        ,
+          name:     'spam[content_type_id]'
+          label:    'Content Type'
+          type:     'collection_radio_buttons'
+          options:  @getSpamContentTypes()
           dependencies:
             'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
         ,
           name:     'spam[other_detection_method]'
           label:    'Other'
@@ -116,57 +155,26 @@
           dependencies:
             'spam[detection_method_id]':  value: '3'
         ,
-          name:     'spam[outgoing_emails_queue]'
-          label:    'Outgoing Emails Queue'
-          hint:     'Amount of emails queued on the server',
-          dependencies:
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
-        ,
-          name:     'spam[recepients_per_email]'
-          label:    'Recepients per Email'
-          hint:     'Amount of recipients per message if necessary',
-          dependencies:
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
-        ,
-          name:     'spam[bounced_emails_queue]'
-          label:    'Bounced Emails Queue'
-          hint:     'Amount of bounced emails queued on the server'
-          dependencies: [
-            'spam[detection_method_id]':    value: '1'
-            'spam[queue_type_id]':          value: ['1', '2', '3', '4', '5']
-            'spam[bounces_queue_present]':  value: 'true'
-          ,
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: '6'
-          ]
-        ,
           name:     'spam[header]'
           label:    'Header'
           tagName:  'textarea'
           dependencies:
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
+            'spam[detection_method_id]':  value: 1
+            'spam[queue_type_ids]':       value: [1, 2]
         ,
           name:     'spam[body]'
           label:    'Body'
           tagName:  'textarea'
           dependencies:
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: ['1', '2', '3', '4', '5']
+            'spam[detection_method_id]':  value: 1
+            'spam[queue_type_ids]':       value: [1, 2]
         ,
           name:     'spam[bounce]'
           label:    'Bounce Example'
           tagName:  'textarea'
-          dependencies: [
-            'spam[detection_method_id]':    value: '1'
-            'spam[queue_type_id]':          value: ['1', '2', '3', '4', '5']
-            'spam[bounces_queue_present]':  value: 'true'
-          ,
-            'spam[detection_method_id]':  value: '1'
-            'spam[queue_type_id]':        value: '6'
-          ]
+          dependencies:
+            'spam[detection_method_id]':    value: 1
+            'spam[queue_type_ids]':         value: 3
         ,
           name:     'spam[example_complaint]'
           label:    'Example / Link'
@@ -203,15 +211,25 @@
             'spam[detection_method_id]': value: ['1', '3']
             'spam[ip_is_blacklisted]':   value: 'true'
         ,
+          name:     'spam[sent_by_cpanel]'
+          label:    'Sent by'
+          type:     'radio_buttons'
+          options:  [{ name: "cPanel", id: true }, { name: "Mailbox(es)", id: false }]
+          dependencies:
+            'service_id':                value: [1, 2, 3, 4]
+            'spam[detection_method_id]': value: 1
+            'spam[queue_type_ids]':      value: 1
+        ,
           name:     'spam[involved_mailboxes_count]'
           label:    'Involved Mailboxes Count'
           type:     'radio_buttons'
           options:  [{ name: '1', id: '1' }, { name: '2', id: '2' }, { name: '3', id: '3' }, { name: '4', id: '4' }, { name: 'more', id: 0 }]
           hint:     'How many abusive mailboxes are involved in the incident?'
           dependencies:
-            'service_id':                value: ['1', '2', '3', '4']
-            'spam[detection_method_id]': value: '1'
-            'spam[queue_type_id]':       value: ['1', '2', '3', '4', '5']
+            'service_id':                value: [1, 2, 3, 4]
+            'spam[detection_method_id]': value: 1
+            'spam[queue_type_ids]':      value: 1
+            'spam[sent_by_cpanel]':      value: 'false'
         ,
           name:     'spam[mailbox_password_reset]'
           label:    'Password Reset?'
@@ -220,9 +238,10 @@
           hint:     'Please reset password for all mailboxes reported'
           dependencies:
             'service_id':                     value: ['1', '2', '3', '4']
-            'spam[detection_method_id]':      value: '1'
+            'spam[detection_method_id]':      value: 1
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
-            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
+            'spam[queue_type_ids]':           value: 1
+            'spam[sent_by_cpanel]':           value: 'false'
         ,
           name:     'spam[involved_mailboxes]'
           label:    'Mailbox(es) Involved'
@@ -233,7 +252,8 @@
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'true'
-            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
+            'spam[queue_type_ids]':           value: 1
+            'spam[sent_by_cpanel]':           value: 'false'
         ,
           name:     'spam[mailbox_password_reset_reason]'
           label:    'Reason'
@@ -243,7 +263,8 @@
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
             'spam[mailbox_password_reset]':   value: 'false'
-            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
+            'spam[queue_type_ids]':           value: 1
+            'spam[sent_by_cpanel]':           value: 'false'
         ,
           name:     'spam[involved_mailboxes_count_other]'
           label:    'Exact / Approximate Amount'
@@ -251,7 +272,8 @@
             'service_id':                     value: ['1', '2', '3', '4']
             'spam[detection_method_id]':      value: '1'
             'spam[involved_mailboxes_count]': value: '0'
-            'spam[queue_type_id]':            value: ['1', '2', '3', '4', '5']
+            'spam[queue_type_ids]':           value: 1
+            'spam[sent_by_cpanel]':           value: 'false'
         ,
           name:     'spam[reported_ip]'
           label:    'Reported IP'
@@ -276,13 +298,19 @@
           label:    'Resource Type'
           type:     'collection_radio_buttons'
           options:  @getResourceTypes()
+          dependencies:
+            service_id:               value: [1, 2, 3, 4]
         ,
-          name:     'resource[folders]'
-          label:    'Folders'
+          name:     'resource[details]'
+          label:    'Details'
           tagName:  'textarea'
           hint:     'Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)',
-          dependencies:
+          dependencies: [
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':      value: '1'
+          ,
+            service_id:               value: 5
+          ]
         ,
           name:     'resource[abuse_type_ids]'
           label:    'Resource Type'
@@ -290,12 +318,14 @@
           hint:     'Please check all resources under impact'
           options:  @getResourceAbuseTypes()
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':      value: '2'
         ,
           name:     'resource[lve_report]'
           label:    'LVE Report'
           tagName:  'textarea'
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':        value: '2'
             'resource[abuse_type_ids]': value: ['1', '2', '3', '4']
         ,
@@ -304,6 +334,7 @@
           tagName:  'textarea'
           hint:     'Along with the command'
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
             'resource[abuse_type_ids]': value: '5'
         ,
@@ -311,6 +342,7 @@
           label:    'Process Logs'
           tagName:  'textarea'
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
             'resource[abuse_type_ids]': value: '6'
         ,
@@ -319,6 +351,7 @@
           tagName:  'select'
           options:  @getResourceUpgrades()
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
         ,
           name:     'resource[impact_id]'
@@ -327,6 +360,7 @@
           options:  @getResourceImpacts()
           hint:     'How much impact does it cause itself (i.e. is it able to overload the server on its own)?'
           dependencies:
+            service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
         ]
       ,
@@ -339,23 +373,48 @@
           name:     'ddos[domain_port]'
           label:    'Domain / Port'
         ,
+          name:     'ddos[inbound]'
+          label:    'Direction'
+          type:     'radio_buttons'
+          options:  [{ name: "Inbound", id: true }, { name: "Outbound", id: false }]
+          dependencies:
+            service_id:              value: [3, 4]
+        ,
           name:     'ddos[block_type_id]'
           label:    'Block Type'
           type:     'collection_radio_buttons'
           options:  @getDdosBlockTypes()
           hint:     'Please mention the method of blocking'
+          dependencies: [
+            service_id:              value: [1, 2]
+          ,
+            service_id:              value: [3, 4]
+            'ddos[inbound]':         value: true
+          ]
         ,
           name:     'ddos[rule]'
           label:    'Rule'
           hint:     'What rule was used for the block?'
-          dependencies:
-            'ddos[block_type_id]':   value: '3'
+          dependencies: [
+            service_id:              value: [1, 2]
+            'ddos[block_type_id]':   value: 3
+          ,
+            service_id:              value: [3, 4]
+            'ddos[block_type_id]':   value: 3
+            'ddos[inbound]':         value: true
+          ]
         ,
           name:     'ddos[other_block_type]'
           label:    'Other'
           hint:     'Please specify as much as possible about the block'
-          dependencies:
-            'ddos[block_type_id]':    value: '4'
+          dependencies: [
+            service_id:              value: [1, 2]
+            'ddos[block_type_id]':    value: 4
+          ,
+            service_id:              value: [3, 4]
+            'ddos[block_type_id]':    value: 4
+            'ddos[inbound]':          value: true
+          ]
         ,
           name:     'ddos[logs]'
           label:    'Logs'
@@ -416,6 +475,7 @@
     getSpamReportingParties:  -> @getOptions 'spam:reporting:party'
     getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'
     getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
+    getSpamContentTypes:      -> @getOptions 'spam:content:type'
     
     onShow: (view) ->
       view.$('#service_id').change()
@@ -431,8 +491,8 @@
 
     _prohibitedOptions:
       '3': ['2']
-      '4': ['2', '3']
-      '5': ['2', '3']
+      '4': ['2']
+      '5': ['3']
 
     _prohibitedOptionsFor: (val) ->
       _.chain(@_prohibitedOptions[val]).map((option) -> "#type_id [value='#{option}']").join(', ').value()

@@ -57,12 +57,12 @@ class Legal::HostingAbuse::Form
     f.validates :username,            presence: true, if: :full_management?
     f.validates :server_rack_label,   presence: true
     f.validates :management_type_id,  presence: true
-    f.validates :type_id,             inclusion: { in: [1], message: "is not applicable for this service" }
+    f.validates :type_id,             inclusion: { in: [1, 3], message: "is not applicable for this service" }
   end
   
   with_options if: :private_email? do |f|
     f.validates :subscription_name,   presence: true
-    f.validates :type_id,             inclusion: { in: [1], message: "is not applicable for this service" }
+    f.validates :type_id,             inclusion: { in: [1, 2], message: "is not applicable for this service" }
   end
   
   validates :suggestion_id,           presence: true
@@ -114,8 +114,10 @@ class Legal::HostingAbuse::Form
   def submit params
     self.attributes = params
     
+    ddos.service_id         = service_id     if ddos?
     spam.service_id         = service_id     if spam?
     resource.shared_plan_id = shared_plan_id if resource_abuse?
+    resource.service_id     = service_id     if resource_abuse?
     
     return false unless valid?
     persist!

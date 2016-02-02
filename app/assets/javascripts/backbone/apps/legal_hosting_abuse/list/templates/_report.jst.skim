@@ -1,15 +1,26 @@
-.large-6.columns
-  .row
-    .large-5.columns.label-text Service
-    .large-7.columns = @service
-  .row
-    .large-5.columns.label-text Abuse Type
-    .large-7.columns = @type
+.row
+  .large-5.columns
+    .row
+      .large-5.columns.label-text Service
+      .large-7.columns = @service
+    .row
+      .large-5.columns.label-text Abuse Type
+      .large-7.columns = @type
 
-.large-6.columns
-  .row
-    .large-5.columns.label-text Reported by
-    .large-7.columns = @reported_by
-  .row
-    .large-5.columns.label-text Reported at
-    .large-7.columns = @created_at_formatted
+  .large-5.columns
+    .row
+      .large-5.columns.label-text Reported by
+      .large-7.columns = @reported_by
+    .row
+      .large-5.columns.label-text Reported at
+      .large-7.columns = @created_at_formatted
+    
+  .large-2.columns
+    .row
+      icon.toggle.fa.fa-angle-double-down
+      
+.row.expand style="display:none"
+  .large-12.columns
+    
+    br
+    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac mi vitae ex venenatis eleifend posuere ut risus. Pellentesque ultricies malesuada finibus.
