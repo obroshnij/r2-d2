@@ -2,10 +2,11 @@
   label.text-right.middle for="#{@id}" = @label
 
 .large-9.columns
-
-  .large-5.columns
+  
+  div class="#{@columnClass} columns"
     input type="#{@type}" name="#{@name}" id="#{@id}"
     span.form-error
-    
-  .large-7.columns
-    label.help-text.middle = @hint
+  
+  - if @hasHint
+    .large-7.columns
+      label.help-text.middle = @hint

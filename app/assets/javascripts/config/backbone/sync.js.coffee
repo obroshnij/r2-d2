@@ -2,7 +2,7 @@ do (Backbone) ->
   _sync = Backbone.sync
 
   Backbone.sync = (method, entity, options = {}) ->
-
+    
     _.defaults options,
       beforeSend: _.bind(methods.beforeSend, entity)
       complete:   _.bind(methods.complete,   entity)
@@ -16,6 +16,8 @@ do (Backbone) ->
   methods =
     beforeSend: ->
       @trigger "sync:start", @
+      @trigger "#{@_entityType}:sync:start", @
 
     complete: ->
       @trigger "sync:stop", @
+      @trigger "#{@_entityType}:sync:stop", @

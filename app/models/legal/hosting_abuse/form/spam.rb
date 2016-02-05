@@ -44,8 +44,8 @@ class Legal::HostingAbuse::Form::Spam
     f.validates :body,                            presence: true,                                       if: -> { outbound_emails? || forwarded_emails? }
     f.validates :header,                          presence: true,                                       if: -> { outbound_emails? || forwarded_emails? }
     
-    f.validates :bounced_emails_queue,            presence: true,                                       if: :bounced_emails?
-    f.validates :bounce,                          presence: true, numericality: true,                   if: :bounced_emails?
+    f.validates :bounced_emails_queue,            presence: true, numericality: true,                   if: :bounced_emails?
+    f.validates :bounce,                          presence: true,                                       if: :bounced_emails?
     
     f.validates :sent_emails_count,               presence: true, numericality: true,                   if: :emails_sent_in_the_past?
     f.validates :sent_emails_daterange,           presence: true,                                       if: :emails_sent_in_the_past?

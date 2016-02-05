@@ -2,6 +2,8 @@
   
   class Entities.Model extends Backbone.Model
     
+    _entityType: 'model'
+    
     save: (data, options = {}) ->
       isNew = @isNew()
       

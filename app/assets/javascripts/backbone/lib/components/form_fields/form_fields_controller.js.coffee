@@ -4,15 +4,17 @@
     
     defaults: ->
       compact: false
+      proxy:   false
     
     initialize: (options) ->
-      { @schema } = options
+      { @schema, proxy } = options
       
       @model = @getModel options
       
       @formFields = @getFormFields()
       @fieldsView = @getFieldsView()
       
+      @parseProxys proxy if proxy
       @createListeners()
       
     getModel: (options) ->
@@ -20,15 +22,26 @@
       
     getFormFields: ->
       fields = App.request 'init:form:fieldset:entities', _.result(@schema, 'schema')
-    
-      fields.each (fieldset) =>
-        fieldset.fields.each (field) =>
-          val = @model.get field.get('name')
-          field.set 'value', val if val
+      
+      App.execute 'when:synced', @model, =>
+      
+        fields.each (fieldset) =>
+          fieldset.fields.each (field) =>
+            
+            val = @parseValue field.get('name')
+            field.set 'value', val if val
         
-      fields.trigger 'field:value:changed'
+        fields.trigger 'field:value:changed'
       
       fields
+      
+    parseValue: (name) ->
+      path = _.compact name.split(/[\[\]]/)
+      
+      if path.length is 1
+        @model.get name
+      else if path.length > 1
+        _.reduce _.without(path, path[0]), ((obj, key) -> obj[key]), @model.get(path[0])
       
     getFieldsView: ->
       view = new FormFields.FieldsetCollectionView
@@ -37,6 +50,10 @@
       view.form = _.result @schema, 'form'
       
       view
+      
+    parseProxys: (proxys) ->
+      for proxy in _([proxys]).flatten()
+        @fieldsView[proxy] = _.result @schema, proxy
       
     createListeners: ->
       @listenTo @fieldsView, 'childview:childview:value:changed', @forwardChangeEvent

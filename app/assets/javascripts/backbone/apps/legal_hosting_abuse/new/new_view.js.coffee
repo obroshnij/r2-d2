@@ -33,6 +33,12 @@
           dependencies:
             service_id:      value: [1, 2, 3, 4]
         ,
+          name:     'efwd_server_name'
+          label:    'Server Name'
+          hint:     'E.g. eforward3d.registrar-servers.com'
+          dependencies:
+            service_id:     value: 6
+        ,
           name:     'shared_plan_id'
           label:    'Package'
           tagName:  'select'
@@ -65,7 +71,7 @@
           name:     'subscription_name'
           label:    'Subcription Name'
           dependencies:
-            service_id:      value: 5
+            service_id:      value: [5, 6]
         ,
           name:     'server_rack_label'
           label:    'Server Rack Label'
@@ -84,7 +90,7 @@
         legend:     'Email Abuse / Spam'
         id:         'spam'
         dependencies:
-          type_id:     value: '1'
+          type_id:     value: 1
         
         fields: [
           name:     'spam[detection_method_id]'
@@ -92,6 +98,8 @@
           type:     'collection_radio_buttons'
           options:  @getSpamDetectionMethods()
           hint:     'How was the issue detected?'
+          callback: (fieldValues) ->
+            if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 2) else @trigger('enable:options', 2)
         ,
           name:     'spam[queue_type_ids]'
           label:    'Queue Type'
@@ -99,6 +107,8 @@
           options:  @getSpamQueueTypes()
           dependencies:
             'spam[detection_method_id]':  value: '1'
+          callback: (fieldValues) ->
+            if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 2) else @trigger('enable:options', 2)
         ,
           name:     'spam[outgoing_emails_queue]'
           label:    'Outgoing Emails Queue'
@@ -138,6 +148,14 @@
               'Last 7 Days':  [moment().subtract(6, 'days'),  moment()]
               'Last 30 Days': [moment().subtract(29, 'days'), moment()]
           dependencies:
+            'spam[detection_method_id]':    value: 1
+            'spam[queue_type_ids]':         value: 4
+        ,
+          name:     'spam[logs]'
+          label:    'Log'
+          tagName:  'textarea'
+          dependencies:
+            service_id:                     value: 6
             'spam[detection_method_id]':    value: 1
             'spam[queue_type_ids]':         value: 4
         ,
@@ -339,7 +357,7 @@
             'resource[abuse_type_ids]': value: '5'
         ,
           name:     'resource[process_logs]'
-          label:    'Process Logs'
+          label:    'Process Log'
           tagName:  'textarea'
           dependencies:
             service_id:               value: [1, 2, 3, 4]
@@ -417,7 +435,7 @@
           ]
         ,
           name:     'ddos[logs]'
-          label:    'Logs'
+          label:    'Log'
           tagName:  'textarea'
         ]
       ,
@@ -432,6 +450,13 @@
           tagName:  'select'
           options:  @getSuggestions()
           hint:     'Is it necessary to suspend the account or there is an amount of time to be provided?'
+          callback: (fieldValues) ->
+            if fieldValues.service_id?.toString() is '6'
+              @trigger('enable:options', 6)
+              @trigger('disable:options', [1, 2, 3, 4, 5])
+            else
+              @trigger('enable:options', [1, 2, 3, 4, 5])
+              @trigger('disable:options', 6)
         ,
           name:     'suspension_reason'
           label:    'Reason'
@@ -478,7 +503,7 @@
     getSpamContentTypes:      -> @getOptions 'spam:content:type'
     
     onShow: (view) ->
-      view.$('#service_id').change()
+      _.defer -> view.$('#service_id').change()
 
     onServiceIdChange: (val, view) ->
       if s.isBlank(val) then view.$('#type_id').val('').change().attr('disabled', true) else view.$('#type_id').attr('disabled', false)
@@ -493,6 +518,7 @@
       '3': ['2']
       '4': ['2']
       '5': ['3']
+      '6': ['2', '3']
 
     _prohibitedOptionsFor: (val) ->
       _.chain(@_prohibitedOptions[val]).map((option) -> "#type_id [value='#{option}']").join(', ').value()

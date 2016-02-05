@@ -8,7 +8,7 @@
       return App.vent.trigger 'access:denied' if legalNavs.length is 0
       
       @listenTo legalNavs, 'select:one', (model, collection, options) ->
-        App.vent.trigger 'legal:nav:selected', model.get('name'), @options.action, @layout.articleRegion
+        App.vent.trigger 'legal:nav:selected', model.get('name'), @options.options, @layout.articleRegion
       
       @layout = @getLayoutView()
       

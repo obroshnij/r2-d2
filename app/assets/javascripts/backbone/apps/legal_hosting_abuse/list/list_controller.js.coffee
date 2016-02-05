@@ -37,6 +37,15 @@
     reportsRegion: (reports) ->
       reportsView = @getReportsView reports
       
+      @listenTo reportsView, 'childview:edit:hosting:abuse:clicked', (child, args) ->
+        App.vent.trigger 'edit:hosting:abuse:clicked', args.model
+        
+      @listenTo reportsView, 'childview:process:hosting:abuse:clicked', (child, args) ->
+        App.vent.trigger 'process:hosting:abuse:clicked', args.model
+      
+      @listenTo reportsView, 'childview:dismiss:hosting:abuse:clicked', (child, args) ->
+        App.vent.trigger 'dismiss:hosting:abuse:clicked', args.model
+      
       @show reportsView,
         loading: true
         region:  @layout.reportsRegion

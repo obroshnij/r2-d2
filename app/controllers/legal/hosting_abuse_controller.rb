@@ -22,4 +22,14 @@ class Legal::HostingAbuseController < ApplicationController
     end
   end
   
+  def update
+    @form = Legal::HostingAbuse::Form.new params[:id]
+    if @form.submit params
+      @hosting_abuse = @form.model
+      render :show
+    else
+      respond_with @form
+    end
+  end
+  
 end

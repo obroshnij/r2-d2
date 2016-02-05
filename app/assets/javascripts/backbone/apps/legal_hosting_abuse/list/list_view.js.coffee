@@ -56,18 +56,23 @@
   class List.Report extends App.Views.ItemView
     template: 'legal_hosting_abuse/list/_report'
     
-    tagName:   'li'
+    tagName:  'li'
       
     ui:
-      'icon'   : 'icon.toggle'
+      'toggle' : 'a.toggle'
+      'icon'   : 'a.toggle icon'
       'expand' : '.row.expand'
       
     triggers:
-      'click @ui.icon' : 'toggle:clicked'
+      'click @ui.toggle'      : 'toggle:clicked'
+      'click .process-report' : 'process:hosting:abuse:clicked'
+      'click .dismiss-report' : 'dismiss:hosting:abuse:clicked'
+      'click .edit-report'    : 'edit:hosting:abuse:clicked'
       
     onToggleClicked: ->
-      @ui.expand.toggle    200
-      @ui.icon.toggleClass 'fa-rotate-180'
+      @ui.expand.toggle      200
+      @ui.toggle.toggleClass 'expanded'
+      @ui.icon.toggleClass   'fa-rotate-180'
   
   
   class List.Reports extends App.Views.CompositeView
@@ -79,8 +84,8 @@
     className: 'clearfix'
       
     collectionEvents:
-      'sync:start' : 'syncStart'
-      'sync:stop'  : 'syncStop'
+      'collection:sync:start' : 'syncStart'
+      'collection:sync:stop'  : 'syncStop'
       
     syncStart: ->
       @addOpacityWrapper()

@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20160129144130) do
     t.integer  "reported_by_id"
     t.integer  "processed_by_id"
     t.boolean  "processed",          default: false
+    t.datetime "processed_at"
     t.integer  "service_id"
     t.integer  "type_id"
     t.integer  "server_id"

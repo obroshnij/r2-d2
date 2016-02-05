@@ -112,6 +112,7 @@ class Legal::HostingAbuse::Form
   end
   
   def submit params
+    ap params.to_unsafe_h
     self.attributes = params
     
     ddos.service_id         = service_id     if ddos?

@@ -31,7 +31,7 @@ end
 
 ########################################################
 
-['Shared Package', 'Reseller Package', 'VPS Hosting', 'Dedicated Server', 'Private Email'].each do |name|
+['Shared Hosting', 'Reseller Hosting', 'VPS Hosting', 'Dedicated Server', 'Private Email', 'Email Forwarding'].each do |name|
   Legal::HostingAbuse::Service.create name: name
 end
 
@@ -51,7 +51,7 @@ end
   Legal::HostingAbuse::SharedPlan.create name: name
 end
 
-['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended'].each do |name|
+['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended', 'Disable Email Forwarding'].each do |name|
   Legal::HostingAbuse::Suggestion.create name: name
 end
 
@@ -86,7 +86,7 @@ end
   Legal::HostingAbuse::Spam::ContentType.create name: name
 end
 
-["Outbound Emails / Postfix Active Queue", "Forwarded Emails", "Bounced Emails / Postfix Deferred Queue", "Emails Sent in the Past"].each do |name|
+["Outbound Emails / Postfix Active Queue", "Forwarded Emails", "Bounced Emails / Postfix Deferred Queue", "Emails Sent in the Past / Logged Activity"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
 end
 

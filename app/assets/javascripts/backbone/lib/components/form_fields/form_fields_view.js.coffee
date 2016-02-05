@@ -12,7 +12,7 @@
       style: if @model.isShown() then 'display:block;' else 'display:none;'
     
     ui: ->
-      input: "#{@getTagName()}[name^='#{@getNameAttr()}']"
+      input: "#{@getTagName()}"
       
     getTagName: ->
       @model.get 'tagName'
@@ -49,10 +49,59 @@
   class FormFields.SelectView extends FormFields.BaseInputView
     getTemplate: -> 
       if @model.isCompact() then 'form_fields/select_compact' else 'form_fields/select'
-  
+      
+    ui: ->
+      ui = { input: "#{@getTagName()}" }
+      ui[option.id] = "option[value='#{option.id}']" for option in @model.attributes.options
+      ui
+      
+    modelEvents:
+      'change:isShown'  : 'toggle'
+      'enable:options'  : 'enableOptions'
+      'disable:options' : 'disableOptions'
+      
+    enableOptions: (ids) ->
+      @ui[id].attr('disabled', false) for id in _.flatten([ids])
+
+    disableOptions: (ids) ->
+      @ui[id].attr('disabled', true) for id in _.flatten([ids])
+      @uncheckDisabled()
+      
+    uncheckDisabled: ->
+      _.defer =>
+        if @$("option:selected").prop('disabled')
+          @ui.input.val('')
+          @updateModelValue()
   
   class FormFields.CollectionCheckBoxesView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/collection_check_boxes'
+    
+    ui: ->
+      ui = { input: "#{@getTagName()}" }
+      ui[option.id] = "[id='#{@model.get('name')}_#{option.id}']" for option in @model.attributes.options
+      ui
+    
+    modelEvents:
+      'change:isShown'  : 'toggle'
+      'enable:options'  : 'enableOptions'
+      'disable:options' : 'disableOptions'
+      
+    enableOptions: (ids) ->
+      @ui[id].attr('disabled', false) for id in _.flatten([ids])
+
+    disableOptions: (ids) ->
+      @ui[id].attr('disabled', true) for id in _.flatten([ids])
+      @uncheckDisabled()
+      
+    uncheckDisabled: ->
+      _.defer =>
+        unchecked = false
+        @$("input:checked").each (index, option) ->
+          if $(option).prop('disabled')
+            $(option).prop('checked', false)
+            unchecked = true
+            
+        @updateModelValue() if unchecked
     
   
   class FormFields.RadioButtonsView extends FormFields.BaseInputView
@@ -61,6 +110,29 @@
   
   class FormFields.CollectionRadioButtonsView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/collection_radio_buttons'
+        
+    ui: ->
+      ui = { input: "#{@getTagName()}" }
+      ui[option.id] = "[id='#{@model.get('name')}_#{option.id}']" for option in @model.attributes.options
+      ui
+    
+    modelEvents:
+      'change:isShown'  : 'toggle'
+      'enable:options'  : 'enableOptions'
+      'disable:options' : 'disableOptions'
+
+    enableOptions: (ids) ->
+      @ui[id].attr('disabled', false) for id in _.flatten([ids])
+
+    disableOptions: (ids) ->
+      @ui[id].attr('disabled', true) for id in _.flatten([ids])
+      @uncheckDisabled()
+
+    uncheckDisabled: ->
+      _.defer =>
+        if @$("input:checked").prop('disabled')
+          @$("input:enabled:first").prop('checked', true)
+          @updateModelValue()
     
   
   class FormFields.HiddenFieldView extends FormFields.BaseInputView
@@ -92,6 +164,7 @@
         
     onDestroy: ->
       @$('input').off()
+      @$('input').data('daterangepicker').remove()
   
   
   # Form fieldset views

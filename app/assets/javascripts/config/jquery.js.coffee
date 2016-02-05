@@ -18,7 +18,9 @@ do ($) ->
     $offset = @offset()
     $width  = @outerWidth(false)
     $height = @outerHeight(false)
-
+    
+    obj.zIndex = +@closest('#modal-region').css('zIndex') + 1 if @closest('#modal-region').length > 0
+    
     if init
       ## don't add another wrapper if one is already present
       return if methods.getWrapperByCid(cid).length

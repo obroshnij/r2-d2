@@ -4,9 +4,6 @@
       
     attachHtml: (view) ->
       @_options = @getDefaultOptions _.result(view, 'modal')
-      view.$el
-        .prepend("<p class='lead'>#{@_options.title}</p>")
-          .append("<button class='close-button' data-close aria-label='Close reveal' type='button'><span aria-hidden='true'>&times;</span></button>")
       super
       
     onShow: (view) ->
@@ -15,7 +12,7 @@
     
     getDefaultOptions: (options = {}) ->
       _.defaults options,
-        title:      'default title',
+        title:      '<br>',
         size:       'small',
         modalClass: options.className ? ''
       
@@ -28,6 +25,8 @@
         .addClass('reveal')
           .addClass(@_options.size)
             .addClass(@_options.modalClass)
+              .prepend("<p class='lead'>#{@_options.title}</p>")
+                .append("<button class='close-button' data-close aria-label='Close reveal' type='button'><span aria-hidden='true'>&times;</span></button>")
       
       @modal = new Foundation.Reveal @$el
       @modal.open()
@@ -36,4 +35,5 @@
       @$el.off 'closed.zf.reveal'
       @$el.removeClass()
       @stopListening()
+      @modal.close()
       @modal.destroy()

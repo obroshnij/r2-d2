@@ -1,6 +1,8 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
   
   class Entities.Collection extends Backbone.PageableCollection
+    
+    _entityType: 'collection'
         
     parseRecords: (resp) ->
       resp.items

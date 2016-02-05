@@ -15,6 +15,7 @@
         
     initialize: ->
       @listenTo @, 'toggle:fields', @toggle
+      @listenTo @, 'toggle:fields', @runCallback
     
     dependenciesAreSatisfied: (fieldValues) ->
       return true                               unless  @attributes.dependencies
@@ -43,6 +44,11 @@
     
     toggle: (fieldValues) ->
       if @dependenciesAreSatisfied(fieldValues) then @show() else @hide()
+
+    runCallback: (fieldValues) ->
+      return unless @get('callback')
+      callback = _.bind @get('callback'), @
+      callback fieldValues
             
     show: ->
       if @isHidden()

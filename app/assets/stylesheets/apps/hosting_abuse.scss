@@ -1,9 +1,11 @@
 .hosting-abuse-list             {
-  li                            { border-top: 1px solid $medium-gray; padding: 1rem;
+  li                            { border-top: 1px solid $medium-gray; padding: 1rem; transition: background-color 0.25s ease-out;
     .label-text                 { text-align: right; font-style: italic; }
     
-    icon.toggle                 { font-size: 2em; color: $primary-color; cursor: pointer; }
+    .toggle                     { color: $primary-color; cursor: pointer; }
+    .toggle::before             { content: 'Show more '; }
+    .toggle.expanded::before    { content: 'Show less '; }
   }
   li:last-child                 { border-bottom: 1px solid $medium-gray; }
-  li:hover                      { background-color: #def0fc; transition: background-color 0.25s ease-out; }
+  li:hover                      { background-color: #def0fc; }
 }

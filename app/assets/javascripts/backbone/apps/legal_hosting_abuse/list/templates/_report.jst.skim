@@ -1,23 +1,58 @@
 .row
-  .large-5.columns
+  .large-2.columns
     .row
-      .large-5.columns.label-text Service
-      .large-7.columns = @service
+      .large-12.columns
+        span class="label #{@typeClass}"
+          icon> class="#{@typeIcon}"
+          = @type
     .row
-      .large-5.columns.label-text Abuse Type
-      .large-7.columns = @type
+      .large-12.columns = @service
+    .row
+      .large-12.columns = @server_name
 
-  .large-5.columns
+  .large-3.columns
     .row
       .large-5.columns.label-text Reported by
       .large-7.columns = @reported_by
     .row
       .large-5.columns.label-text Reported at
       .large-7.columns = @created_at_formatted
-    
-  .large-2.columns
     .row
-      icon.toggle.fa.fa-angle-double-down
+      .large-5.columns.label-text Suggestion
+      .large-7.columns = @suggestion
+  
+  .large-3.columns
+    - if @processed
+      .row
+        .large-5.columns.label-text Processed by
+        .large-7.columns = @processed_by
+      .row
+        .large-5.columns.label-text Processed at
+        .large-7.columns = @processed_at_formatted
+      .row
+        .large-5.columns.label-text Ticket ID
+        .large-7.columns = @ticket_id
+    - else
+      .row
+        .large-5.text-right: span.alert.label Unprocessed
+        
+  .large-4.columns
+    .row
+      .large-12.columns
+        .button-group.small.float-right
+          a.button.success.process-report
+            icon.fi-check
+            |  Process
+          a.button.alert.dismiss-report
+            icon.fi-x
+            |  Dismiss
+          a.button.edit-report
+            icon.fi-pencil
+            |  Edit
+    .row
+      .large-12.columns.text-right
+        a.toggle
+          icon.fa.fa-angle-double-down
       
 .row.expand style="display:none"
   .large-12.columns

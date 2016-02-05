@@ -9,7 +9,6 @@
       App.execute 'register:instance', @, @_instance_id
       
     destroy: ->
-      console.log 'destroying', @
       App.execute 'unregister:instance', @, @_instance_id
       super
     

@@ -1,5 +1,5 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
-    
+  
   class Entities.FormField extends App.Entities.Model
     
     defaults:
@@ -13,6 +13,9 @@
       id: ->
         @get('name')
         
+      columnClass: ->
+        if @get('hasHint') then 'large-5' else 'large-12'
+        
     @include 'DynamicFormElement'
   
   
@@ -24,6 +27,7 @@
     
     defaults:
       isCompact: false
+      hasHints:  true
     
     mutators:
       elementId: ->
@@ -32,6 +36,7 @@
     initialize: ->
       @fields = new Entities.FormFields @get('fields')
       @fields.each (field) => field.set 'isCompact', @get('isCompact')
+      @fields.each (field) => field.set 'hasHint',   @get('hasHints')
       @unset 'fields'
     
     toggle: (fieldValues) ->

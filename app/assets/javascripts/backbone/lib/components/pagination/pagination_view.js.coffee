@@ -20,9 +20,9 @@
       @collection.getNextPage()
       
     collectionEvents:
-      'sync'       : 'render'
-      'sync:start' : 'syncStart'
-      'sync:stop'  : 'syncStop'
+      'sync'                  : 'render'
+      'collection:sync:start' : 'syncStart'
+      'collection:sync:stop'  : 'syncStop'
       
     syncStart: ->
       @addOpacityWrapper()

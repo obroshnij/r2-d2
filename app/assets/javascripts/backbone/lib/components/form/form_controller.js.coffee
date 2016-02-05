@@ -9,6 +9,7 @@
       syncing:         true
       syncingType:     'opacity'
       search:          false
+      proxy:           false
       onBeforeSubmit:  ->
       onCancel:        ->
       onSuccess:       ->
@@ -22,7 +23,8 @@
 
       @formLayout = @getFormLayout config
       @setMainView @formLayout
-
+      
+      @parseProxys config.proxy if config.proxy
       @createListeners config
       
     createListeners: (config) ->
@@ -46,6 +48,10 @@
     formCancel: (config) ->
       config.onCancel()
       @trigger 'form:cancel'
+      
+    parseProxys: (proxys) ->
+      for proxy in _([proxys]).flatten()
+        @formLayout[proxy] = _.result @contentView, proxy
       
     getConfig: (options) ->
       form = _.result @contentView, "form"
