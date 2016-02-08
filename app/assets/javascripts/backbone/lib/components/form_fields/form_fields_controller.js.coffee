@@ -22,26 +22,26 @@
       
     getFormFields: ->
       fields = App.request 'init:form:fieldset:entities', _.result(@schema, 'schema')
+      window.fields = fields
       
       App.execute 'when:synced', @model, =>
       
         fields.each (fieldset) =>
           fieldset.fields.each (field) =>
-            
-            val = @parseValue field.get('name')
-            field.set 'value', val if val
+            val = field.get('value') or @getValueFromModel(field.get('name')) or field.get('default')
+            field.set 'value', val
         
         fields.trigger 'field:value:changed'
       
       fields
       
-    parseValue: (name) ->
+    getValueFromModel: (name) ->
       path = _.compact name.split(/[\[\]]/)
       
       if path.length is 1
         @model.get name
       else if path.length > 1
-        _.reduce _.without(path, path[0]), ((obj, key) -> obj[key]), @model.get(path[0])
+        _.reduce _.without(path, path[0]), ((obj, key) -> obj?[key]), @model.get(path[0])
       
     getFieldsView: ->
       view = new FormFields.FieldsetCollectionView
@@ -58,6 +58,7 @@
     createListeners: ->
       @listenTo @fieldsView, 'childview:childview:value:changed', @forwardChangeEvent
       @listenTo @fieldsView, 'show',    -> @schema.triggerMethod 'show', @fieldsView
+      @listenTo @fieldsView, 'show',    => Backbone.Syphon.deserialize @fieldsView, @formFields.getFieldValues()
       @listenTo @fieldsView, 'destroy', -> @schema.destroy()
       
     forwardChangeEvent: (fieldsetView, inputView, fieldName, fieldValue) ->

@@ -5576,7 +5576,7 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.isActive = false;
     this.cached = {mq: Foundation.MediaQuery.current};
     this.isiOS = iPhoneSniff();
-    console.log(this.isiOS);
+    // console.log(this.isiOS);
     
     if(this.isiOS){ this.$element.addClass('is-ios'); }
 
@@ -5876,7 +5876,6 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       return false;
     }
     var _this = this;
-
     if(this.options.animationOut){
       Foundation.Motion.animateOut(this.$element, this.options.animationOut, function(){
         if(_this.options.overlay){

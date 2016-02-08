@@ -32,6 +32,10 @@ class Legal::HostingAbuse::Form::Resource
     f.validates :process_logs,     presence: true, if: :process_logs_required?
   end
   
+  def name
+    'resource'
+  end
+  
   def disc_space?
     type_id == 1
   end
@@ -66,6 +70,18 @@ class Legal::HostingAbuse::Form::Resource
   end
   
   def abuse_type_ids= ids
-    super ids.delete_if(&:blank?)
+    super ids.present? ? ids.delete_if(&:blank?) : []
+  end
+  
+  def persist hosting_abuse
+    hosting_abuse.resource ||= Legal::HostingAbuse::Resource.new
+    hosting_abuse.resource.assign_attributes resource_params
+  end
+  
+  private
+  
+  def resource_params
+    attr_names = Legal::HostingAbuse::Resource.attribute_names.map(&:to_sym) + [:abuse_type_ids]
+    self.attributes.slice(*attr_names).delete_if { |key, val| val.nil? }
   end
 end

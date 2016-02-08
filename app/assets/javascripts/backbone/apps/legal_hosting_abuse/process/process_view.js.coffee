@@ -12,6 +12,14 @@
         hasHints: false
         
         fields: [
+          name:    'status'
+          type:    'hidden'
+          value:   'processed'
+        ,
+          name:    'processed_by_id'
+          type:    'hidden'
+          default: App.request('get:current:user').id
+        ,
           name:    'ticket_id'
           label:   'Ticket ID'
         ,

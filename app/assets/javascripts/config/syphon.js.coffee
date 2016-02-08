@@ -13,6 +13,19 @@ Backbone.Syphon.KeyAssignmentValidators.register 'checkbox', ($el, key, value) -
   
 Backbone.Syphon.KeyAssignmentValidators.register 'radio', ($el, key, value) ->
   $el.is(':visible') and $el.prop('checked')
-  
+
+
 Backbone.Syphon.InputReaders.register 'checkbox', (el) ->
   el.val()
+
+
+Backbone.Syphon.InputWriters.register 'checkbox', (el, value) ->
+  array = _.map value, (element) -> element.toString()
+  el.prop 'checked', _.contains(array, el.val())
+
+Backbone.Syphon.InputWriters.register 'radio', (el, value) ->
+  if value?.toString()
+    el.prop 'checked', el.val() is value?.toString()
+
+Backbone.Syphon.InputWriters.register 'hidden', (el, value) ->
+  return

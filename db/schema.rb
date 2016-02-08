@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129144130) do
+ActiveRecord::Schema.define(version: 20160205222032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,14 +102,21 @@ ActiveRecord::Schema.define(version: 20160129144130) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "legal_eforward_servers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "legal_hosting_abuse", force: :cascade do |t|
     t.integer  "reported_by_id"
     t.integer  "processed_by_id"
-    t.boolean  "processed",          default: false
+    t.integer  "status",             default: 0
     t.datetime "processed_at"
     t.integer  "service_id"
     t.integer  "type_id"
     t.integer  "server_id"
+    t.integer  "efwd_server_id"
     t.string   "username"
     t.string   "resold_username"
     t.integer  "management_type_id"
@@ -123,8 +130,8 @@ ActiveRecord::Schema.define(version: 20160129144130) do
     t.text     "tech_comments"
     t.text     "legal_comments"
     t.string   "ticket_id"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "legal_hosting_abuse", ["subscription_name"], name: "index_legal_hosting_abuse_on_subscription_name", using: :btree
@@ -134,8 +141,10 @@ ActiveRecord::Schema.define(version: 20160129144130) do
   create_table "legal_hosting_abuse_ddos", force: :cascade do |t|
     t.integer  "report_id"
     t.integer  "block_type_id"
+    t.boolean  "inbound"
     t.string   "domain_port"
     t.string   "other_block_type"
+    t.string   "rule"
     t.text     "logs"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
@@ -164,8 +173,12 @@ ActiveRecord::Schema.define(version: 20160129144130) do
     t.integer  "impact_id"
     t.integer  "type_id"
     t.integer  "upgrade_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "details"
+    t.text     "lve_report"
+    t.text     "mysql_queries"
+    t.text     "process_logs"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
@@ -227,8 +240,31 @@ ActiveRecord::Schema.define(version: 20160129144130) do
     t.integer  "report_id"
     t.integer  "detection_method_id"
     t.integer  "content_type_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.integer  "outgoing_emails_queue"
+    t.integer  "recepients_per_email"
+    t.integer  "bounced_emails_queue"
+    t.integer  "sent_emails_count"
+    t.date     "sent_emails_start_date"
+    t.date     "sent_emails_end_date"
+    t.text     "logs"
+    t.string   "other_detection_method"
+    t.text     "header"
+    t.text     "body"
+    t.text     "bounce"
+    t.text     "example_complaint"
+    t.boolean  "experts_enabled"
+    t.boolean  "ip_is_blacklisted"
+    t.string   "blacklisted_ip"
+    t.boolean  "sent_by_cpanel"
+    t.integer  "involved_mailboxes_count"
+    t.boolean  "mailbox_password_reset"
+    t.text     "involved_mailboxes"
+    t.text     "mailbox_password_reset_reason"
+    t.integer  "involved_mailboxes_count_other"
+    t.string   "reported_ip"
+    t.boolean  "reported_ip_blacklisted"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "legal_hosting_abuse_spam_content_types", force: :cascade do |t|

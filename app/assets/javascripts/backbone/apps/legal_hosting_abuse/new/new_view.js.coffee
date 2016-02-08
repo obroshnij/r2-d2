@@ -15,6 +15,14 @@
         id:         'client-details'
         
         fields: [
+          name:     'reported_by_id'
+          type:     'hidden'
+          value:    App.request('get:current:user').id
+        ,
+          name:     'status'
+          type:     'hidden'
+          value:    'unprocessed'
+        ,
           name:     'service_id'
           label:    'Service'
           tagName:  'select'
@@ -97,6 +105,7 @@
           label:    'Detected by'
           type:     'collection_radio_buttons'
           options:  @getSpamDetectionMethods()
+          default:  1
           hint:     'How was the issue detected?'
           callback: (fieldValues) ->
             if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 2) else @trigger('enable:options', 2)
@@ -108,7 +117,7 @@
           dependencies:
             'spam[detection_method_id]':  value: '1'
           callback: (fieldValues) ->
-            if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 2) else @trigger('enable:options', 2)
+            if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 1) else @trigger('enable:options', 1)
         ,
           name:     'spam[outgoing_emails_queue]'
           label:    'Outgoing Emails Queue'
@@ -163,6 +172,7 @@
           label:    'Content Type'
           type:     'collection_radio_buttons'
           options:  @getSpamContentTypes()
+          default:  1
           dependencies:
             'spam[detection_method_id]':  value: '1'
         ,
@@ -212,6 +222,7 @@
           label:    'Spam Experts Enabled?'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          default:  true
           dependencies:
             service_id:                  value: ['1', '2']
             'spam[detection_method_id]': value: ['1', '2']
@@ -220,6 +231,7 @@
           label:    'IP is Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: '' }]
+          default:  false
           dependencies:
             'spam[detection_method_id]': value: ['1', '3']
         ,
@@ -233,6 +245,7 @@
           label:    'Sent by'
           type:     'radio_buttons'
           options:  [{ name: "cPanel", id: true }, { name: "Mailbox(es)", id: false }]
+          default:  true
           dependencies:
             'service_id':                value: [1, 2, 3, 4]
             'spam[detection_method_id]': value: 1
@@ -242,6 +255,7 @@
           label:    'Involved Mailboxes Count'
           type:     'radio_buttons'
           options:  [{ name: '1', id: '1' }, { name: '2', id: '2' }, { name: '3', id: '3' }, { name: '4', id: '4' }, { name: 'more', id: 0 }]
+          default:  1
           hint:     'How many abusive mailboxes are involved in the incident?'
           dependencies:
             'service_id':                value: [1, 2, 3, 4]
@@ -253,6 +267,7 @@
           label:    'Password Reset?'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          default:  true
           hint:     'Please reset password for all mailboxes reported'
           dependencies:
             'service_id':                     value: ['1', '2', '3', '4']
@@ -302,6 +317,7 @@
           label:    'IP is Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          default:  true
           dependencies:
             'spam[detection_method_id]': value: '2'
         ]
@@ -316,6 +332,7 @@
           label:    'Resource Type'
           type:     'collection_radio_buttons'
           options:  @getResourceTypes()
+          default:  1
           dependencies:
             service_id:               value: [1, 2, 3, 4]
         ,
@@ -395,6 +412,7 @@
           label:    'Direction'
           type:     'radio_buttons'
           options:  [{ name: "Inbound", id: true }, { name: "Outbound", id: false }]
+          default:  true
           dependencies:
             service_id:              value: [3, 4]
         ,
@@ -402,6 +420,7 @@
           label:    'Block Type'
           type:     'collection_radio_buttons'
           options:  @getDdosBlockTypes()
+          default:  1
           hint:     'Please mention the method of blocking'
           dependencies: [
             service_id:              value: [1, 2]
@@ -449,6 +468,7 @@
           label:    'Suggestion'
           tagName:  'select'
           options:  @getSuggestions()
+          default:  3
           hint:     'Is it necessary to suspend the account or there is an amount of time to be provided?'
           callback: (fieldValues) ->
             if fieldValues.service_id?.toString() is '6'

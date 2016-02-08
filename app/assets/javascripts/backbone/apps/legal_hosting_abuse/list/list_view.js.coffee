@@ -57,6 +57,9 @@
     template: 'legal_hosting_abuse/list/_report'
     
     tagName:  'li'
+    
+    modelEvents:
+      'change' : 'render'
       
     ui:
       'toggle' : 'a.toggle'

@@ -5,6 +5,10 @@ class CreateLegalHostingAbuseResource < ActiveRecord::Migration
       t.integer :impact_id
       t.integer :type_id
       t.integer :upgrade_id
+      t.text    :details
+      t.text    :lve_report
+      t.text    :mysql_queries
+      t.text    :process_logs
       
       t.timestamps null: false
     end

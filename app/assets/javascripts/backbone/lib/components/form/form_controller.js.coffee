@@ -69,7 +69,7 @@
       
     formContentRegion: ->
       @show @contentView, region: @formLayout.formContentRegion
-      Backbone.Syphon.deserialize @formLayout, @model.toJSON()
+      # Backbone.Syphon.deserialize @formLayout, @model.toJSON()
       
     getFormLayout: (config) ->
       new Form.FormLayout

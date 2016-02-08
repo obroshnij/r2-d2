@@ -137,8 +137,8 @@
   
   class FormFields.HiddenFieldView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/hidden'
-    
-    
+  
+  
   class FormFields.DateRangePickerView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/date_range_picker'
     
