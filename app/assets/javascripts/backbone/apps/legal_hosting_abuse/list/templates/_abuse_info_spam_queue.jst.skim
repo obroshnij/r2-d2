@@ -60,6 +60,12 @@
           .key Bounce
           .value == @truncate @spam.bounce, 40, true
           
+      - if _.contains [1, 2], @service_id
+        .column: .row.hash
+          .key Spam Experts
+          - val = if @spam.experts_enabled then 'On' else 'Off'
+          .value = val
+          
       - if _.contains(@spam.queue_type_ids, 1) and _.contains([1, 2, 3, 4], @service_id) and @spam.sent_by_cpanel
         .column: .row.hash
           .key Sent by
@@ -74,7 +80,7 @@
             
         - else
           .column: .row.hash
-            .key Involved Mailboxes Count
+            .key Mailboxes Count
             .value = @spam.involved_mailboxes_count
             
           - if @spam.mailbox_password_reset
@@ -83,7 +89,7 @@
               .value Yes
               
             .column: .row.hash
-              .key Mailbox(es) Involved
+              .key Mailboxes
               .value == @truncate @spam.involved_mailboxes, 40, true
               
           - else

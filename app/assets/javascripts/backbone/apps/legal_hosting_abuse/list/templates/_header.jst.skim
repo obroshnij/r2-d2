@@ -9,10 +9,10 @@
     .key Service
     .value = @service
   .row.hash
-    - if @server_name
+    - if _.contains [1, 2, 3, 4], @service_id
       .key Server Name
       .value = @server_name
-    - if @subscription_name
+    - if _.contains [5, 6], @service_id
       .key Domain Name
       .value = @subscription_name
 

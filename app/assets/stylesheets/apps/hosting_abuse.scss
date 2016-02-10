@@ -2,8 +2,8 @@
   li                            { border-top: 1px solid $medium-gray; padding: 1rem; transition: background-color 0.25s ease-out; font-size: 0.875rem;
     .label-text                 { text-align: right; font-style: italic; }
     .hash                       {
-      .key                      { display: inline-block; width: 35%; text-align: right; font-style: italic; padding-right: 0.5rem; color: #666; vertical-align: top; }
-      .value                    { display: inline-block; width: 65%; }
+      .key                      { display: inline-block; width: 35%; text-align: right; font-style: italic; color: #666; vertical-align: top; }
+      .value                    { display: inline-block; width: 65%; word-wrap: break-word; padding-left: 0.5rem; padding-right: 0.5rem; }
     }
     .toggle                     { color: $primary-color; cursor: pointer; }
     .toggle::before             { content: 'Show more '; }
