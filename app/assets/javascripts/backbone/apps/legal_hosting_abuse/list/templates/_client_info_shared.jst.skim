@@ -1,0 +1,12 @@
+.large-12.columns
+  fieldset
+    legend = @service
+    .row.large-up-4
+  
+      .column: .row.hash
+        .key Package
+        .value = @shared_plan
+  
+      .column: .row.hash
+        .key Username
+        .value = @username

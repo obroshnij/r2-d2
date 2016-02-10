@@ -1,0 +1,33 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Domain / Port
+        .value = @ddos.domain_port
+        
+      - if @ddos.direction
+        .column: .row.hash
+          .key Direction
+          .value = @ddos.direction
+          
+      - if @ddos.block_type
+        .column: .row.hash
+          .key Block type
+          .value = @ddos.block_type
+          
+      - if @ddos.other_block_type
+        .column: .row.hash
+          .key Other
+          .value = @ddos.other_block_type
+          
+      - if @ddos.rule
+        .column: .row.hash
+          .key Rule
+          .value = @ddos.rule
+          
+      - if @ddos.logs
+        .column: .row.hash
+          .key Log
+          .value == @truncate @ddos.logs, 40, true

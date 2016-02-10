@@ -77,7 +77,8 @@
             service_id:      value: 2
         ,
           name:     'subscription_name'
-          label:    'Subcription Name'
+          label:    'Domain Name'
+          hint:     'Domain or host name associated with the subscription'
           dependencies:
             service_id:      value: [5, 6]
         ,
@@ -230,7 +231,7 @@
           name:     'spam[ip_is_blacklisted]'
           label:    'IP is Blacklisted'
           type:     'radio_buttons'
-          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: '' }]
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: 'N/A' }]
           default:  false
           dependencies:
             'spam[detection_method_id]': value: ['1', '3']

@@ -18,7 +18,7 @@
       
     getNextPage: (event) ->
       @collection.getNextPage()
-      
+    
     collectionEvents:
       'sync'                  : 'render'
       'collection:sync:start' : 'syncStart'

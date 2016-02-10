@@ -1,0 +1,6 @@
+.row.header
+.row.expand style="display:none"
+  .large-12.columns
+    .row.client-info
+    .row.abuse-info
+    .row.conclusion

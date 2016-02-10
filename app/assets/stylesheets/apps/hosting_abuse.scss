@@ -1,10 +1,19 @@
 .hosting-abuse-list             {
-  li                            { border-top: 1px solid $medium-gray; padding: 1rem; transition: background-color 0.25s ease-out;
+  li                            { border-top: 1px solid $medium-gray; padding: 1rem; transition: background-color 0.25s ease-out; font-size: 0.875rem;
     .label-text                 { text-align: right; font-style: italic; }
-    
+    .hash                       {
+      .key                      { display: inline-block; width: 35%; text-align: right; font-style: italic; padding-right: 0.5rem; color: #666; vertical-align: top; }
+      .value                    { display: inline-block; width: 65%; }
+    }
     .toggle                     { color: $primary-color; cursor: pointer; }
     .toggle::before             { content: 'Show more '; }
     .toggle.expanded::before    { content: 'Show less '; }
+    
+    fieldset                    { border-top: 1px dashed $medium-gray; margin-top: 0.75rem; padding-top: 0.75rem;
+      legend                    { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }
+    }
+    
+    .dropdown-pane              { font-size: 0.875rem; white-space: pre-wrap; }
   }
   li:last-child                 { border-bottom: 1px solid $medium-gray; }
   li:hover                      { background-color: #def0fc; }

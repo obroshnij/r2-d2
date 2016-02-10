@@ -11,7 +11,7 @@ class CreateLegalHostingAbuseSpam < ActiveRecord::Migration
       t.date    :sent_emails_start_date
       t.date    :sent_emails_end_date
       t.text    :logs
-      t.string  :other_detection_method
+      t.text    :other_detection_method
       t.text    :header
       t.text    :body
       t.text    :bounce

@@ -1,0 +1,68 @@
+.large-3.columns
+  .row.hash
+    .key Abuse Type
+    .value
+      span class="label #{@typeClass}"
+        icon> class="#{@typeIcon}"
+        = @type
+  .row.hash
+    .key Service
+    .value = @service
+  .row.hash
+    - if @server_name
+      .key Server Name
+      .value = @server_name
+    - if @subscription_name
+      .key Domain Name
+      .value = @subscription_name
+
+.large-3.columns
+  .row.hash
+    .key Reported by
+    .value = @reported_by
+  .row.hash
+    .key Reported at
+    .value = @created_at_formatted
+  .row.hash
+    .key Suggestion
+    .value = @suggestion
+
+.large-3.columns
+  - if @status is 'processed'
+    .row.hash
+      .key Processed by
+      .value = @processed_by
+    .row.hash
+      .key Processed at
+      .value = @processed_at_formatted
+    .row.hash
+      .key Ticket ID
+      .value = @ticket_id
+  - else if @status is 'dismissed'
+    .row.hash
+      .key Dismissed by
+      .value = @processed_by
+    .row.hash
+      .key Dismissed at
+      .value = @processed_at_formatted
+  - else
+    .row
+      .large-4.text-right: span.alert.label Unprocessed
+      
+.large-3.columns
+  .row
+    .large-12.columns
+      .button-group.tiny.float-right
+        a.button.success.process-report
+          icon.fi-check
+          |  Process
+        a.button.alert.dismiss-report
+          icon.fi-x
+          |  Dismiss
+        a.button.edit-report
+          icon.fi-pencil
+          |  Edit
+  .row
+    .large-12.columns.text-right
+      a.toggle
+        icon.fa.fa-angle-double-down

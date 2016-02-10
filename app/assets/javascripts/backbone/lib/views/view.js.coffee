@@ -53,3 +53,16 @@
         
       rootRoute:
         App.request 'get:root:route'
+        
+      truncate: (text, length = 20, dropdown = false) ->
+        result = @escape s.truncate(text, length)
+        
+        if dropdown and s.endsWith(result, '...')
+          id = _.uniqueId('drop-')
+          result = "<span>
+            #{result}
+            <a data-toggle='#{id}'>more</a>
+            <div class='dropdown-pane' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+          </span>"
+        
+        result

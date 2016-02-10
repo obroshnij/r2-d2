@@ -1,0 +1,96 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Detected by
+        .value = @spam.detected_by
+        
+      .column: .row.hash
+        .key Queue Type
+        .value == @truncate @spam.queue_types.join(',\n'), 40, true
+        
+      .column: .row.hash
+        .key Content Type
+        .value = @spam.content_type
+        
+      .column: .row.hash
+        - if @spam.ip_is_blacklisted is true
+          .key Blacklisted IP
+          .value = @spam.blacklisted_ip
+        - else if @spam.ip_is_blacklisted is false
+          .key IP is blacklisted
+          .value No
+        - else
+          .key IP is blacklisted
+          .value N/A
+      
+      - if _.contains(@spam.queue_type_ids, 1) or _.contains(@spam.queue_type_ids, 2)
+        .column: .row.hash
+          .key Outgoing Queue
+          .value = @spam.outgoing_emails_queue + ' x ' + @spam.recepients_per_email
+        
+      - if _.contains @spam.queue_type_ids, 3
+        .column: .row.hash
+          .key Bounced Queue
+          .value = @spam.bounced_emails_queue
+          
+      - if _.contains @spam.queue_type_ids, 4
+        .column: .row.hash
+          .key Already Sent
+          .value = @spam.sent_emails_count
+          
+        .column: .row.hash
+          .key Sent Within
+          .value = @spam.sent_emails_daterange_short
+    
+      - if _.contains(@spam.queue_type_ids, 1) or _.contains(@spam.queue_type_ids, 2)
+        .column: .row.hash
+          .key Header
+          .value == @truncate @spam.header, 40, true
+        
+      - if _.contains(@spam.queue_type_ids, 1) or _.contains(@spam.queue_type_ids, 2)
+        .column: .row.hash
+          .key Body
+          .value == @truncate @spam.body, 40, true
+        
+      - if _.contains @spam.queue_type_ids, 3
+        .column: .row.hash
+          .key Bounce
+          .value == @truncate @spam.bounce, 40, true
+          
+      - if _.contains(@spam.queue_type_ids, 1) and _.contains([1, 2, 3, 4], @service_id) and @spam.sent_by_cpanel
+        .column: .row.hash
+          .key Sent by
+          .value cPanel / Script
+          
+      - if _.contains(@spam.queue_type_ids, 1) and _.contains([1, 2, 3, 4], @service_id) and !@spam.sent_by_cpanel
+          
+        - if @spam.involved_mailboxes_count is 0
+          .column: .row.hash
+            .key Involved Mailboxes Count
+            .value = @spam.involved_mailboxes_count_other
+            
+        - else
+          .column: .row.hash
+            .key Involved Mailboxes Count
+            .value = @spam.involved_mailboxes_count
+            
+          - if @spam.mailbox_password_reset
+            .column: .row.hash
+              .key Password reset
+              .value Yes
+              
+            .column: .row.hash
+              .key Mailbox(es) Involved
+              .value == @truncate @spam.involved_mailboxes, 40, true
+              
+          - else
+            .column: .row.hash
+              .key Password reset
+              .value No
+              
+            .column: .row.hash
+              .key Reason
+              .value == @truncate @spam.mailbox_password_reset_reason, 40, true

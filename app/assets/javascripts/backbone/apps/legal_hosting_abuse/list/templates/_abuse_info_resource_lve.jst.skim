@@ -1,0 +1,35 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Abuse Type
+        .value = @resource.type
+        
+      .column: .row.hash
+        .key Resource
+        .value == @truncate @resource.abuse_types.join(',\n'), 40, true
+        
+      - if @resource.lve_report
+        .column: .row.hash
+          .key LVE Report
+          .value == @truncate @resource.lve_report, 40, true
+          
+      - if @resource.mysql_queries
+        .column: .row.hash
+          .key MySQL Queries
+          .value == @truncate @resource.mysql_queries, 40, true
+          
+      - if @resource.process_logs
+        .column: .row.hash
+          .key Process Logs
+          .value == @truncate @resource.process_logs, 40, true
+          
+      .column: .row.hash
+        .key Upgrade
+        .value = @resource.upgrade
+      
+      .column: .row.hash
+        .key Impact
+        .value = @resource.impact

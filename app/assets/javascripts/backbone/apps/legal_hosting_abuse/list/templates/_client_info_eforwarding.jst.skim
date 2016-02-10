@@ -1,0 +1,8 @@
+.large-12.columns
+  fieldset
+    legend = @service
+    .row.large-up-4
+  
+      .column: .row.hash
+        .key Server Name
+        .value = @efwd_server_name

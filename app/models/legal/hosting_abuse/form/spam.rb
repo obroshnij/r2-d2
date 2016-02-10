@@ -66,7 +66,7 @@ class Legal::HostingAbuse::Form::Spam
 
   validates :other_detection_method,              presence: true,                   if: :other_detection_method?
   
-  validates :blacklisted_ip,                      presence: true, ip_address: true, if: -> { ip_is_blacklisted? && (queue? || other_detection_method?) }
+  validates :blacklisted_ip,                      presence: true, ip_address: true, if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
   
   def name
     'spam'
@@ -115,6 +115,11 @@ class Legal::HostingAbuse::Form::Spam
   def sent_emails_daterange= range
     @sent_emails_start_date = Date.parse range.split(' - ').first
     @sent_emails_end_date   = Date.parse range.split(' - ').last
+    super
+  end
+  
+  def ip_is_blacklisted= blacklisted
+    @ip_is_blacklisted = 'N/A' and return if blacklisted == ""
     super
   end
   

@@ -53,29 +53,101 @@
     getAbuseTypes:  -> @getOptions 'type'
   
   
-  class List.Report extends App.Views.ItemView
-    template: 'legal_hosting_abuse/list/_report'
+  class List.ReportHeader extends App.Views.ItemView
+    template: 'legal_hosting_abuse/list/_header'
     
-    tagName:  'li'
+    ui:
+      'toggle' : 'a.toggle'
+      'icon'   : 'a.toggle icon'
+      
+    triggers:
+      'click @ui.toggle'      : 'toggle:clicked'
+      'click .process-report' : 'process:clicked'
+      'click .dismiss-report' : 'dismiss:clicked'
+      'click .edit-report'    : 'edit:clicked'
+      
+    modelEvents:
+      'change' : 'render'
+      
+    onToggleClicked: ->
+      @ui.toggle.toggleClass 'expanded'
+      @ui.icon.toggleClass   'fa-rotate-180'
+      
+      
+  class List.ReportClientInfo extends App.Views.ItemView
+    
+    getTemplate: ->
+      return 'legal_hosting_abuse/list/_client_info_shared'         if @model.get('service_id') is 1
+      return 'legal_hosting_abuse/list/_client_info_reseller'       if @model.get('service_id') is 2
+      return 'legal_hosting_abuse/list/_client_info_vps'            if @model.get('service_id') is 3
+      return 'legal_hosting_abuse/list/_client_info_dedicated'      if @model.get('service_id') is 4
+      return false                                                  if @model.get('service_id') is 5
+      return 'legal_hosting_abuse/list/_client_info_eforwarding'    if @model.get('service_id') is 6
+      
+    modelEvents:
+      'change' : 'render'
+      
+      
+  class List.ReportAbuseInfo extends App.Views.ItemView
+    
+    getTemplate: ->
+      return 'legal_hosting_abuse/list/_abuse_info_spam_queue'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 1
+      return 'legal_hosting_abuse/list/_abuse_info_spam_feedback' if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_spam_other'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 3
+      return 'legal_hosting_abuse/list/_abuse_info_resource_disc' if @model.get('type_id') is 2 and @model.get('resource').type_id is 1
+      return 'legal_hosting_abuse/list/_abuse_info_resource_lve'  if @model.get('type_id') is 2 and @model.get('resource').type_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_ddos'          if @model.get('type_id') is 3
+      
+    modelEvents:
+      'change' : 'render'
+      
+    @include 'HasDropdowns'
+      
+  
+  class List.ReportConclusion extends App.Views.ItemView
+    template: 'legal_hosting_abuse/list/_conclusion'
     
     modelEvents:
       'change' : 'render'
       
-    ui:
-      'toggle' : 'a.toggle'
-      'icon'   : 'a.toggle icon'
-      'expand' : '.row.expand'
+    @include 'HasDropdowns'
+  
+  
+  class List.Report extends App.Views.LayoutView
+    template: 'legal_hosting_abuse/list/report'
+    
+    regions:
+      'headerRegion'     : '.header'
+      'clientInfoRegion' : '.client-info'
+      'abuseInfoRegion'  : '.abuse-info'
+      'conclusionRegion' : '.conclusion'
+    
+    tagName:  'li'
+    
+    onShow: ->
+      headerView = new List.ReportHeader model: @model
+      @headerRegion.show headerView
       
-    triggers:
-      'click @ui.toggle'      : 'toggle:clicked'
-      'click .process-report' : 'process:hosting:abuse:clicked'
-      'click .dismiss-report' : 'dismiss:hosting:abuse:clicked'
-      'click .edit-report'    : 'edit:hosting:abuse:clicked'
+      clientInfoView = new List.ReportClientInfo model: @model
+      @clientInfoRegion.show clientInfoView
       
-    onToggleClicked: ->
-      @ui.expand.toggle      200
-      @ui.toggle.toggleClass 'expanded'
-      @ui.icon.toggleClass   'fa-rotate-180'
+      abuseInfoView = new List.ReportAbuseInfo model: @model
+      @abuseInfoRegion.show abuseInfoView
+      
+      conclusionView = new List.ReportConclusion model: @model
+      @conclusionRegion.show conclusionView
+      
+    onChildviewToggleClicked: ->
+      @$('.expand').toggle 200
+      
+    onChildviewProcessClicked: (child, options) ->
+      @trigger 'process:hosting:abuse:clicked', options
+      
+    onChildviewDismissClicked: (child, options) ->
+      @trigger 'dismiss:hosting:abuse:clicked', options
+      
+    onChildviewEditClicked: (child, options) ->
+      @trigger 'edit:hosting:abuse:clicked', options
   
   
   class List.Reports extends App.Views.CompositeView

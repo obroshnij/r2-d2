@@ -1,0 +1,13 @@
+.large-12.columns
+  fieldset
+    legend = @service
+    .row.large-up-4
+    
+      .column: .row.hash
+        .key Management
+        .value = @management_type
+        
+      - if @username
+        .column: .row.hash
+          .key Username
+          .value = @username

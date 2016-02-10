@@ -1,0 +1,25 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Detected by
+        .value = @spam.detected_by
+        
+      .column: .row.hash
+        .key Example
+        .value == @truncate @spam.example_complaint, 40, true
+        
+      .column: .row.hash
+        .key Reporting Parties
+        .value == @truncate @spam.reporting_parties.join(',\n'), 40, true
+        
+      .column: .row.hash
+        .key Reported IP
+        .value = @spam.reported_ip
+        
+      .column: .row.hash
+        .key IP is blacklisted
+        - blacklisted = if @spam.reported_ip_blacklisted then 'Yes' else 'No'
+        .value = blacklisted

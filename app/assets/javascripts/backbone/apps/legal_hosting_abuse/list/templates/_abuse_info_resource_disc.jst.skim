@@ -1,0 +1,12 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Resource
+        .value = @resource.type
+        
+      .column: .row.hash
+        .key Details
+        .value == @truncate @resource.details, 40, true

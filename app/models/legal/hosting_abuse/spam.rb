@@ -11,4 +11,13 @@ class Legal::HostingAbuse::Spam < ActiveRecord::Base
   
   has_many  :reporting_party_assignments, class_name: 'Legal::HostingAbuse::Spam::ReportingPartyAssignment', foreign_key: 'spam_id'
   has_many  :reporting_parties,           through: :reporting_party_assignments
+  
+  def ip_is_blacklisted= blacklisted
+    blacklisted = blacklisted == 'N/A' ? nil : blacklisted
+    super blacklisted
+  end
+  
+  def ip_is_blacklisted
+    super.nil? ? 'N/A' : super
+  end
 end

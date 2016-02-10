@@ -63,13 +63,13 @@ class Legal::HostingAbuse::Form
   end
   
   with_options if: :private_email? do |f|
-    f.validates :subscription_name,   presence: true
+    f.validates :subscription_name,   presence: true, host_name: true
     f.validates :type_id,             inclusion: { in: [1, 2], message: "is not applicable for this service" }
   end
   
   with_options if: :eforward? do |f|
     f.validates :efwd_server_name,    presence: true, host_name: true
-    f.validates :subscription_name,   presence: true
+    f.validates :subscription_name,   presence: true, host_name: true
     f.validates :type_id,             inclusion: { in: [1], message: "is not applicable for this service" }
   end
   

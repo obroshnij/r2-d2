@@ -11,6 +11,6 @@
   
   App.reqres.setHandler "pagination:component", (collection, options = {}) ->
     throw new Error "Pagination Component requires a collection to be passed in" if not collection
-
+    
     options.collection = collection
     new Pagination.PaginationController options

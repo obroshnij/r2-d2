@@ -1,0 +1,16 @@
+.large-12.columns
+  fieldset
+    legend = @service
+    .row.large-up-4
+  
+      .column: .row.hash
+        .key Package
+        .value = @reseller_plan
+        
+      .column: .row.hash
+        .key Username
+        .value = @username
+        
+      .column: .row.hash
+        .key Resold Username
+        .value = @resold_username
