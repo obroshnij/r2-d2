@@ -2,7 +2,7 @@
   
   Concerns.HasEditableFields =
           
-    onShow: ->
+    onDomRefresh: ->
       @manageEditables()
               
     manageEditables: ->
