@@ -13,7 +13,7 @@
       legend                    { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }
     }
     
-    .dropdown-pane              { font-size: 0.875rem; white-space: pre-wrap; }
+    .dropdown-pane              { font-size: 0.875rem; white-space: pre-wrap; max-height: 300px; overflow: scroll; }
   }
   li:last-child                 { border-bottom: 1px solid $medium-gray; }
   li:hover                      { background-color: #def0fc; }

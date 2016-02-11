@@ -64,6 +64,7 @@
         ,
           name:     'username'
           label:    'Username'
+          hint:     'Ubersmith username (OWNER for resellers)'
           dependencies: [
             service_id:         value: [1, 2]
           ,

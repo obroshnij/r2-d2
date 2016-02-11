@@ -10,7 +10,7 @@ class Ability
     abuse_report:             %i( read update create approve ),
     nc_user:                  %i( read create comment ),
     nc_service:               %i( read create comment ),
-    :'legal/hosting_abuse' => %i( read create ),
+    :'legal/hosting_abuse' => %i( read create update ),
     rbl:                      %i( read create ),
     watched_domain:           %i( read create delete ),
     ## Controllers

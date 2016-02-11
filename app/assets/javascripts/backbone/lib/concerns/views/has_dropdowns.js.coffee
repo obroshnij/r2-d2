@@ -1,11 +1,18 @@
 @Artoo.module "Concerns", (Concerns, App, Backbone, Marionette, $, _) ->
   
   Concerns.HasDropdowns =
-    
-    onAttach: ->
+          
+    onDestroy: ->
+      @clearDropdowns()
+      
+    onDomRefresh: ->
+      @clearDropdowns()
+      @initDropdowns()
+      
+    initDropdowns: ->
       @dropdowns = @$(".dropdown-pane").map (index, element) ->
         new Foundation.Dropdown $(element)
       .toArray()
       
-    onDestroy: ->
-      _.each @dropdowns, (dropdown) -> dropdown.destroy()
+    clearDropdowns: ->
+      _.each @dropdowns, (dropdown) -> dropdown.destroy() if @dropdowns

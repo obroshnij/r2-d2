@@ -19,8 +19,8 @@
     
     form:
       buttons:
-        primary: 'Search'
-        cancel:  false
+        primary:   'Search'
+        cancel:    false
         placement: 'left'
       syncingType: 'buttons'
       focusFirstInput: false

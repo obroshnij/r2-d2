@@ -62,7 +62,7 @@
           result = "<span>
             #{result}
             <a data-toggle='#{id}'>more</a>
-            <div class='dropdown-pane' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+            <div class='dropdown-pane left' id='#{id}' data-dropdown data-close-on-click='true'>#{text}</div>
           </span>"
         
         result
