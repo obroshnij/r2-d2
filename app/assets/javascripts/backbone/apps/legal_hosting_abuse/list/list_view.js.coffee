@@ -102,6 +102,7 @@
       'change' : 'render'
       
     @include 'HasDropdowns'
+    @include 'HasEditableFields'
       
   
   class List.ReportConclusion extends App.Views.ItemView

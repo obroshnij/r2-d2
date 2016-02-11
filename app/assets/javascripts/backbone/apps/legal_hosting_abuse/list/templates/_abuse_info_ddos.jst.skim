@@ -27,7 +27,7 @@
           .key Rule
           .value = @ddos.rule
           
-      - if @ddos.logs
-        .column: .row.hash
-          .key Log
-          .value == @truncate @ddos.logs, 40, true
+    - if @ddos.logs
+      .row.hash.editable
+        .key Log
+        .value = @ddos.logs
