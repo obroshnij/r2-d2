@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205222032) do
+ActiveRecord::Schema.define(version: 20160211165947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,12 +173,15 @@ ActiveRecord::Schema.define(version: 20160205222032) do
     t.integer  "impact_id"
     t.integer  "type_id"
     t.integer  "upgrade_id"
+    t.integer  "activity_type_id"
+    t.integer  "measure_id"
+    t.string   "other_measure"
     t.text     "details"
     t.text     "lve_report"
     t.text     "mysql_queries"
     t.text     "process_logs"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
@@ -247,7 +250,7 @@ ActiveRecord::Schema.define(version: 20160205222032) do
     t.date     "sent_emails_start_date"
     t.date     "sent_emails_end_date"
     t.text     "logs"
-    t.string   "other_detection_method"
+    t.text     "other_detection_method"
     t.text     "header"
     t.text     "body"
     t.text     "bounce"

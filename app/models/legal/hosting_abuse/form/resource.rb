@@ -16,10 +16,14 @@ class Legal::HostingAbuse::Form::Resource
   attribute :process_logs,      String
   attribute :upgrade_id,        Integer
   attribute :impact_id,         Integer
+  attribute :activity_type_id,  Integer
+  attribute :measure_id,        Integer
+  attribute :other_measure,     String
   
   validates :type_id,              presence: true
-  validates :type_id,              inclusion: { in: [2], message: 'is not applicable for Business Expert package' }, if: :business_expert?
-  validates :type_id,              inclusion: { in: [1], message: 'is not applicable for Private Email' },           if: :private_email?
+  validates :type_id,              inclusion: { in: [2, 3], message: 'is not applicable for Business Expert package' }, if:     :business_expert?
+  validates :type_id,              inclusion: { in: [1],    message: 'is not applicable for Private Email' },           if:     :private_email?
+  validates :type_id,              inclusion: { in: [1, 2], message: 'is not applicable for this hosting plan' },       unless: :cron_allowed?
   
   validates :details,              presence: true, if: -> { disc_space? || private_email? }
   
@@ -30,6 +34,12 @@ class Legal::HostingAbuse::Form::Resource
     f.validates :lve_report,       presence: true, if: :lve_report_required?
     f.validates :mysql_queries,    presence: true, if: :mysql_queries_required?
     f.validates :process_logs,     presence: true, if: :process_logs_required?
+  end
+  
+  with_options if: :cron? do |f|
+    f.validates :activity_type_id,  presence: true
+    f.validates :measure_id,        presence: true
+    f.validates :other_measure,     presence: true
   end
   
   def name
@@ -44,6 +54,10 @@ class Legal::HostingAbuse::Form::Resource
     type_id == 2
   end
   
+  def cron?
+    type_id == 3
+  end
+  
   def lve_report_required?
     intersection = abuse_type_ids & [1, 2, 3, 4]
     intersection.present?
@@ -55,6 +69,10 @@ class Legal::HostingAbuse::Form::Resource
   
   def process_logs_required?
     abuse_type_ids.include? 6
+  end
+  
+  def cron_allowed?
+    service_id == 1 && [2, 3].include?(shared_plan_id)
   end
   
   def business_expert?

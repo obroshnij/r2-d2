@@ -166,7 +166,6 @@
           label:    'Log'
           tagName:  'textarea'
           dependencies:
-            service_id:                     value: 6
             'spam[detection_method_id]':    value: 1
             'spam[queue_type_ids]':         value: 4
         ,
@@ -337,6 +336,8 @@
           default:  1
           dependencies:
             service_id:               value: [1, 2, 3, 4]
+          callback: (fieldValues) ->
+            if _.contains ['2', '3'], fieldValues.shared_plan_id?.toString() then @trigger('enable:options', 3) else @trigger('disable:options', 3)
         ,
           name:     'resource[details]'
           label:    'Details'
@@ -399,6 +400,29 @@
           dependencies:
             service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
+        ,
+          name:     'resource[activity_type_id]'
+          label:    'Activity Type'
+          type:     'radio_buttons'
+          default:  1
+          options: @getResourceActivityTypes()
+          dependencies:
+            'resource[type_id]':      value: 3
+        ,
+          name:     'resource[measure_id]'
+          label:    'Measures taken'
+          type:     'collection_radio_buttons'
+          options:  @getResourceMeasures()
+          default:  1
+          hint:     'What was done?'
+          dependencies:
+            'resource[type_id]':      value: 3
+        ,
+          name:     'resource[other_measure]'
+          label:    'Other'
+          dependencies:
+            'resource[type_id]':      value: 3
+            'resource[measure_id]':   value: 3
         ]
       ,
         legend:     'DDoS'
@@ -518,6 +542,8 @@
     getResourceTypes:         -> @getOptions 'resource:type'
     getResourceUpgrades:      -> @getOptions 'resource:upgrade'
     getResourceImpacts:       -> @getOptions 'resource:impact'
+    getResourceActivityTypes: -> @getOptions 'resource:activity:type'
+    getResourceMeasures:      -> @getOptions 'resource:measure'
     
     getSpamReportingParties:  -> @getOptions 'spam:reporting:party'
     getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'

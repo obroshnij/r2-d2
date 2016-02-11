@@ -85,6 +85,7 @@
             .column: .row.hash
               .key Reason
               .value == @truncate @spam.mailbox_password_reset_reason, 40, true
+    br
               
     - if _.contains(@spam.queue_type_ids, 1) or _.contains(@spam.queue_type_ids, 2)
       .row.hash.editable
@@ -100,3 +101,8 @@
       .row.hash.editable
         .key Bounce
         .value = @spam.bounce
+        
+    - if _.contains @spam.queue_type_ids, 4
+      .row.hash.editable
+        .key Log
+        .value = @spam.logs

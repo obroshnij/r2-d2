@@ -96,6 +96,7 @@
       return 'legal_hosting_abuse/list/_abuse_info_spam_other'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 3
       return 'legal_hosting_abuse/list/_abuse_info_resource_disc' if @model.get('type_id') is 2 and @model.get('resource').type_id is 1
       return 'legal_hosting_abuse/list/_abuse_info_resource_lve'  if @model.get('type_id') is 2 and @model.get('resource').type_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_resource_cron' if @model.get('type_id') is 2 and @model.get('resource').type_id is 3
       return 'legal_hosting_abuse/list/_abuse_info_ddos'          if @model.get('type_id') is 3
       
     modelEvents:

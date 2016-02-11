@@ -43,6 +43,14 @@ child(:resource) do
   node(:impact, if: -> (r) { r.impact_id }) do |r|
     r.impact.name
   end
+  
+  node(:activity_type, if: -> (r) { r.activity_type_id }) do |r|
+    r.activity_type.name
+  end
+  
+  node(:measure, if: -> (r) { r.measure_id }) do |r|
+    r.measure.name
+  end
 end
 
 child(:spam) do

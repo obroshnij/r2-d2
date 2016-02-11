@@ -3,8 +3,8 @@
     .key Abuse Type
     .value
       span class="label #{@typeClass}"
-        icon> class="#{@typeIcon}"
-        = @type
+        icon class="#{@typeIcon}"
+        == "&nbsp;&nbsp;" + @type
   .row.hash
     .key Service
     .value = @service

@@ -1,0 +1,17 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Activity Type
+        .value = @resource.activity_type
+        
+      .column: .row.hash
+        .key Measures Taken
+        .value = @resource.measure
+      
+      - if @resource.measure_id is 3
+        .column: .row.hash
+          .key Other
+          .value = @resource.other_measure

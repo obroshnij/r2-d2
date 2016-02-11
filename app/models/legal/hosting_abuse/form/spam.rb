@@ -52,6 +52,7 @@ class Legal::HostingAbuse::Form::Spam
     
     f.validates :sent_emails_count,               presence: true, numericality: true,    if: :emails_sent_in_the_past?
     f.validates :sent_emails_daterange,           presence: true,                        if: :emails_sent_in_the_past?
+    f.validates :logs,                            presence: true,                        if: :emails_sent_in_the_past?
   end
 
   with_options if: :feedback_loop? do |f|
@@ -113,8 +114,8 @@ class Legal::HostingAbuse::Form::Spam
   end
   
   def sent_emails_daterange= range
-    @sent_emails_start_date = Date.parse range.split(' - ').first
-    @sent_emails_end_date   = Date.parse range.split(' - ').last
+    @sent_emails_start_date = Date.parse range.split(' - ').first rescue nil
+    @sent_emails_end_date   = Date.parse range.split(' - ').last rescue nil
     super
   end
   
