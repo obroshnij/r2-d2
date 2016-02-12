@@ -31,8 +31,15 @@ end
 
 ########################################################
 
-['Shared Hosting', 'Reseller Hosting', 'VPS Hosting', 'Dedicated Server', 'Private Email', 'Email Forwarding'].each do |name|
-  Legal::HostingAbuse::Service.create name: name
+[
+  { name: 'Shared Hosting',   properties: { url: 'https://www.namecheap.com/hosting/shared.aspx' } },
+  { name: 'Reseller Hosting', properties: { url: 'https://www.namecheap.com/hosting/reseller.aspx' } },
+  { name: 'VPS Hosting',      properties: { url: 'https://www.namecheap.com/hosting/vps.aspx' } },
+  { name: 'Dedicated Server', properties: { url: 'https://www.namecheap.com/hosting/dedicated-servers.aspx' } },
+  { name: 'Private Email',    properties: { url: 'https://www.namecheap.com/hosting/email.aspx' } },
+  { name: 'Email Forwarding', properties: {} }
+].each do |service|
+  Legal::HostingAbuse::Service.create name: service[:name], properties: service[:properties]
 end
 
 ['Email Abuse / Spam', 'Resource Abuse', 'DDoS'].each do |name|

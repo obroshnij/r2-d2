@@ -1,17 +1,18 @@
 attributes *Legal::HostingAbuse.attribute_names
 
-node(:reported_by)                                                      { |h| h.reported_by.name }
-node(:service)                                                          { |h| h.service.name }
-node(:type)                                                             { |h| h.type.name }
-node(:created_at_formatted)                                             { |h| h.created_at.strftime '%d %b %Y, %H:%M' }
-node(:processed_by,           if: -> (h) { !h.unprocessed? })           { |h| h.processed_by.name }
-node(:processed_at_formatted, if: -> (h) { !h.unprocessed? })           { |h| h.processed_at.strftime '%d %b %Y, %H:%M' }
-node(:server_name,            if: -> (h) { h.server_id })               { |h| h.server.name }
-node(:efwd_server_name,       if: -> (h) { h.efwd_server_id })          { |h| h.efwd_server.name }
-node(:suggestion)                                                       { |h| h.suggestion.name }
-node(:shared_plan,            if: -> (h) { h.shared_plan_id })          { |h| h.shared_plan.name }
-node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })        { |h| h.reseller_plan.name }
-node(:management_type,        if: -> (h) { h.management_type_id })      { |h| h.management_type.name }
+node(:reported_by)                                                        { |h| h.reported_by.name }
+node(:service)                                                            { |h| h.service.name }
+node(:service_url,            if: -> (h) { h.service.properties['url'] }) { |h| h.service.properties['url'] }
+node(:type)                                                               { |h| h.type.name }
+node(:created_at_formatted)                                               { |h| h.created_at.strftime '%d %b %Y, %H:%M' }
+node(:processed_by,           if: -> (h) { !h.unprocessed? })             { |h| h.processed_by.name }
+node(:processed_at_formatted, if: -> (h) { !h.unprocessed? })             { |h| h.processed_at.strftime '%d %b %Y, %H:%M' }
+node(:server_name,            if: -> (h) { h.server_id })                 { |h| h.server.name }
+node(:efwd_server_name,       if: -> (h) { h.efwd_server_id })            { |h| h.efwd_server.name }
+node(:suggestion)                                                         { |h| h.suggestion.name }
+node(:shared_plan,            if: -> (h) { h.shared_plan_id })            { |h| h.shared_plan.name }
+node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })          { |h| h.reseller_plan.name }
+node(:management_type,        if: -> (h) { h.management_type_id })        { |h| h.management_type.name }
 
 child(:ddos) do
   attributes *Legal::HostingAbuse::Ddos.attribute_names

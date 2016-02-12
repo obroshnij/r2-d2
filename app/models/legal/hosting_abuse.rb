@@ -41,4 +41,8 @@ class Legal::HostingAbuse < ActiveRecord::Base
     end
   end
   
+  def self.reported_by
+    User.where id: select(:reported_by_id).distinct.pluck(:reported_by_id)
+  end
+  
 end

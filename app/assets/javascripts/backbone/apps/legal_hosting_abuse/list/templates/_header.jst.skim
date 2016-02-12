@@ -7,7 +7,10 @@
         == "&nbsp;&nbsp;" + @type
   .row.hash
     .key Service
-    .value = @service
+    - if @service_url
+      .value == @linkTo @service, @service_url, external: true
+    - else
+      .value = @service
   .row.hash
     - if _.contains [1, 2, 3, 4], @service_id
       .key Server Name

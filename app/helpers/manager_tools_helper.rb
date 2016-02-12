@@ -71,7 +71,7 @@ module ManagerToolsHelper
     shifts = []
     shifts << employee["Night Shifts"].to_s + " night #{"shift".pluralize(employee["Night Shifts"])} which will be paid at 1.5 rate" if employee["Night Shifts"] && employee["Night Shifts"].to_f != 0
     shifts << employee["Overtimes x 2"].to_s + " double-paid #{"overshift".pluralize(employee["Overtimes x 2"])}" if employee["Overtimes x 2"]
-    shifts << employee["Shifts x 2"].to_s + " double-paid #{"shift".pluralize(employee["Shifts x 2"])} from our Lviv office" if employee["Shifts x 2"]
+    shifts << employee["Shifts x 2"].to_s + " double-paid #{"shift".pluralize(employee["Shifts x 2"])}" if employee["Shifts x 2"]
     if shifts.count > 0
       shifts.first.split(" ").first.to_i > 1 ? canned << " There were " : canned << " There was "
       if shifts.count > 1

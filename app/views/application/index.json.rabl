@@ -33,12 +33,13 @@ node :entities do
           content_type:     Legal::HostingAbuse::Spam::ContentType.all.as_json(only: [:id, :name]),
           reporting_party:  Legal::HostingAbuse::Spam::ReportingParty.all.as_json(only: [:id, :name])
         },
-        service:         Legal::HostingAbuse::Service.all.as_json(only: [:id, :name]),
+        service:         Legal::HostingAbuse::Service.all.as_json(only: [:id, :name, :properties]),
         type:            Legal::HostingAbuse::AbuseType.all.as_json(only: [:id, :name]),
         management_type: Legal::HostingAbuse::ManagementType.all.as_json(only: [:id, :name]),
         reseller_plan:   Legal::HostingAbuse::ResellerPlan.all.as_json(only: [:id, :name]),
         shared_plan:     Legal::HostingAbuse::SharedPlan.all.as_json(only: [:id, :name]),
-        suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name])
+        suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name]),
+        reported_by:     Legal::HostingAbuse.reported_by.as_json(only: [:id, :name])
       }
     },
     navs: Nav.accessible_by_as_json(current_ability)

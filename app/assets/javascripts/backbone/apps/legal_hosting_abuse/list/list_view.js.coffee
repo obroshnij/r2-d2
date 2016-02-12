@@ -41,6 +41,11 @@
           label:    'Abuse Type'
           tagName:  'select'
           options:  @getAbuseTypes()
+        ,
+          name:     'reported_by_id_eq'
+          label:    'Reported by'
+          tagName:  'select'
+          options:  @getReportedBy()
         ]
       ]
     
@@ -51,6 +56,7 @@
     
     getServices:    -> @getOptions 'service'
     getAbuseTypes:  -> @getOptions 'type'
+    getReportedBy:  -> App.entities.legal.hosting_abuse.reported_by
   
   
   class List.ReportHeader extends App.Views.ItemView
@@ -140,6 +146,7 @@
       @conclusionRegion.show conclusionView
       
     onChildviewToggleClicked: ->
+      @$el.toggleClass 'expanded'
       @$('.expand').toggle 200
       
     onChildviewProcessClicked: (child, options) ->

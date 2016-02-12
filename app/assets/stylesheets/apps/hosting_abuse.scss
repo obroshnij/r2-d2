@@ -23,6 +23,15 @@
     
     .dropdown-pane                        { font-size: 0.875rem; white-space: pre-wrap; max-height: 300px; overflow: scroll; }
   }
+  
+  li.expanded                             { padding-top: 0;
+    .header                               { background-color: #eee; padding-top: 1rem; padding-bottom: 1rem; margin-left: -1rem; margin-right: -1rem; }
+  }
+  
+  li.expanded:hover                       {
+    .header                               { background-color: #def0fc; }
+  }
+  
   li:last-child                           { border-bottom: 1px solid $medium-gray; }
   li:hover                                { background-color: #def0fc; }
 }

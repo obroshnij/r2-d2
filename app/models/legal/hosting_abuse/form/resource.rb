@@ -39,7 +39,7 @@ class Legal::HostingAbuse::Form::Resource
   with_options if: :cron? do |f|
     f.validates :activity_type_id,  presence: true
     f.validates :measure_id,        presence: true
-    f.validates :other_measure,     presence: true
+    f.validates :other_measure,     presence: true, if: :other_measure_required?
   end
   
   def name
@@ -73,6 +73,10 @@ class Legal::HostingAbuse::Form::Resource
   
   def cron_allowed?
     service_id == 1 && [2, 3].include?(shared_plan_id)
+  end
+  
+  def other_measure_required?
+    measure_id == 3
   end
   
   def business_expert?

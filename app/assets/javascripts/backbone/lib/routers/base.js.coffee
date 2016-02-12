@@ -42,4 +42,5 @@
     
     _getActionAlias: (action) ->
       return 'read'   if action is 'list'
+      return 'update' if action is 'edit'
       return 'create' if /^new/.test action

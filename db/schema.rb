@@ -229,8 +229,9 @@ ActiveRecord::Schema.define(version: 20160211165947) do
 
   create_table "legal_hosting_abuse_services", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.jsonb    "properties", default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "legal_hosting_abuse_shared_plans", force: :cascade do |t|
