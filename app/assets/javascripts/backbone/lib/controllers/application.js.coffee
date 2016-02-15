@@ -4,11 +4,15 @@
     
     constructor: (options = {}) ->
       @region = options.region or App.request 'default:region'
-      super options
+      
       @_instance_id = _.uniqueId('controller')
       App.execute 'register:instance', @, @_instance_id
       
+      super
+      
     destroy: ->
+      console.log 'destroying', @ if App.environment is 'development'
+      
       App.execute 'unregister:instance', @, @_instance_id
       super
     

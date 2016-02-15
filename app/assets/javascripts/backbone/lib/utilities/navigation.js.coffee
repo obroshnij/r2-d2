@@ -3,12 +3,10 @@
   _.extend App,
   
     navigate: (route, options = {}) ->
-      route = '#' + route if route.charAt(0) is '/'
       Backbone.history.navigate route, options
     
     getCurrentRoute: ->
       fragment = Backbone.history.fragment
-      fragment = s.ltrim(fragment, '/') if s.startsWith(fragment, '/')
       if _.isEmpty(fragment) then null else fragment
       
     startHistory: ->
