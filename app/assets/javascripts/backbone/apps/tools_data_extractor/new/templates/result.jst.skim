@@ -2,6 +2,6 @@
   form
     fieldset
       legend = @objectTypeName
-      textarea rows='5' id='data-extractor-result'
+      textarea rows='5'
         = @items?.join("\n")
       .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"

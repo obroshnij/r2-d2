@@ -22,7 +22,7 @@ class Nav
           icon:   'fa fa-fw fa-search'
         }, {
           name:   'Lists Compare Tool',
-          url:    '/compare',
+          url:    '#/tools/lists_diff',
           icon:   'fa fa-fw fa-list'
         }
       ]

@@ -66,3 +66,10 @@
           </span>"
         
         result
+        
+      dropdown: (label, text) ->
+        id = _.uniqueId('drop-')
+        "<span>
+          <a data-toggle='#{id}'>#{label}</a>
+          <div class='dropdown-pane' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+        </span>"

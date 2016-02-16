@@ -20,8 +20,6 @@
     fieldset                              { border-top: 1px dashed $medium-gray; margin-top: 0.75rem; padding-top: 0.75rem;
       legend                              { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }
     }
-    
-    .dropdown-pane                        { font-size: 0.875rem; white-space: pre-wrap; max-height: 300px; overflow: scroll; }
   }
   
   li.expanded                             { padding-top: 0;
