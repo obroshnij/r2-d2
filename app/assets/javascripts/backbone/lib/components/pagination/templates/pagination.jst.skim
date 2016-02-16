@@ -1,5 +1,6 @@
 - if @paginationRequired
-  p.pagination.float-left = "Displaying #{@firstItemNumber} - #{@lastItemNumber} entries of #{@totalItems} in total"
+  p.pagination.float-left == "Displaying #{@escape(@firstItemNumber)} - #{@escape(@lastItemNumber)} entries of #{@escape(@totalItems)} in total,
+                              <input type='text' class='per-page' value='#{@escape(@perPage)}'></input> per page"
 
 - else
   - if @totalItems is 0
@@ -7,7 +8,7 @@
   - else if @totalItems is 1
     p.pagination.float-left Displaying 1 entry
   - else
-    p.pagination.float-left = "Displaying #{@totalItems} entries"
+    p.pagination.float-left == "Displaying #{@totalItems} entries, <input type='text' class='per-page' value='#{@escape(@perPage)}'></input> per page"
 
 
 - if @paginationRequired

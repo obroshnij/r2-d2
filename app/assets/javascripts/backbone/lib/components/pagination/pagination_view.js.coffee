@@ -9,6 +9,7 @@
       'click a.previous'    : 'getPreviousPage'
       'click a.page-number' : 'getPage'
       'click a.next'        : 'getNextPage'
+      'keypress .per-page'  : 'setPerPage'
       
     getPreviousPage: (event) ->
       @collection.getPreviousPage()
@@ -18,6 +19,11 @@
       
     getNextPage: (event) ->
       @collection.getNextPage()
+      
+    setPerPage: (event) ->
+      if event.keyCode is 13
+        perPage = parseInt(event.target.value) || 25
+        @collection.setPageSize perPage
     
     collectionEvents:
       'sync'                  : 'render'
@@ -35,6 +41,9 @@
     
     totalItems: ->
       @collection.state.totalRecords
+      
+    pageSize: ->
+      @collection.state.pageSize
       
     firstItemNumber: ->
       @_itemNumberOffset() + 1
@@ -90,3 +99,4 @@
       currentPage:        @currentPage()
       previousIsDisabled: @currentPage() is 1
       nextIsDisabled:     @currentPage() is @totalPages()
+      perPage:            @perPage()
