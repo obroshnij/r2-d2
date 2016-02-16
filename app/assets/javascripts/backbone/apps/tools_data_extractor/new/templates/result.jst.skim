@@ -4,3 +4,4 @@
       legend = @objectTypeName
       textarea rows='5' id='data-extractor-result'
         = @items?.join("\n")
+      .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
