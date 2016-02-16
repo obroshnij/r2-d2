@@ -7,6 +7,8 @@
       
       @listenTo toolsNavs, 'select:one', (model, collection, options) ->
         App.vent.trigger 'tools:nav:selected', model.get('name'), @options.action, @layout.articleRegion
+        
+      delete @options.action # action is only needed once, when the app is initiated
       
       @layout = @getLayoutView()
       

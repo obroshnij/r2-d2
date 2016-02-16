@@ -1,0 +1,6 @@
+.callout.secondary
+  form
+    fieldset
+      legend = @objectTypeName
+      textarea rows='5' id='data-extractor-result'
+        = @items?.join("\n")

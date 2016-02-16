@@ -17,8 +17,8 @@ class Nav
           url:    '/whois',
           icon:   'fa fa-fw fa-files-o'
         }, {
-          name:   'Domains Extractor',
-          url:    '/parse_domains',
+          name:   'Data Extractor',
+          url:    '#/tools/data_extractor',
           icon:   'fa fa-fw fa-search'
         }, {
           name:   'Lists Compare Tool',
