@@ -20,5 +20,7 @@ form                                                  {
     label                                             { font-size: 0.875rem; }
   }
   
+  textarea                                            { resize: vertical; }
+  
   .stats                                              { margin-top: -1rem; font-size: 0.875rem; }
 }

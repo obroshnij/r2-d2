@@ -1,7 +1,9 @@
-.callout.secondary
-  form
-    fieldset
-      legend = @objectTypeName
-      textarea rows='5'
-        = @items?.join("\n")
-      .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
+form
+  .callout.secondary
+    .fields.row
+      .large-12.columns
+        label
+          = @objectTypeName
+          textarea rows='5'
+            = @items?.join("\n")
+          .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"

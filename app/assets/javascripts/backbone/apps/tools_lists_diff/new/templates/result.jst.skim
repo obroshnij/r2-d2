@@ -1,9 +1,9 @@
 form
   .callout.secondary  
-    .row
+    .fields.row
       .large-3.columns
-        fieldset
-          legend List 1 Only
+        label
+          | List 1 Only
           textarea rows='10'
             = @list_one_only?.join("\n")
           .stats
@@ -12,8 +12,8 @@ form
               - label = "(#{@list_one_dup.length} #{if @list_one_dup.length is 1 then 'duplicate' else 'duplicates' })"
               == @dropdown label, @list_one_dup.join("\n")
       .large-3.columns
-        fieldset
-          legend List 2 Only
+        label
+          | List 2 Only
           textarea rows='10'
             = @list_two_only?.join("\n")
           .stats
@@ -22,14 +22,14 @@ form
               - label = "(#{@list_two_dup.length} #{if @list_two_dup.length is 1 then 'duplicate' else 'duplicates' })"
               == @dropdown label, @list_two_dup.join("\n")
       .large-3.columns
-        fieldset
-          legend Unique Items
+        label
+          | Unique Items
           textarea rows='10'
             = @unique?.join("\n")
           .stats = "#{@unique?.length} #{if @unique?.length is 1 then 'item' else 'items' }"
       .large-3.columns
-        fieldset
-          legend Common Items
+        label
+          | Common Items
           textarea rows='10'
             = @common?.join("\n")
           .stats = "#{@common?.length} #{if @common?.length is 1 then 'item' else 'items' }"
