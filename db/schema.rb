@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211165947) do
+ActiveRecord::Schema.define(version: 20160218161128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,15 +173,13 @@ ActiveRecord::Schema.define(version: 20160211165947) do
     t.integer  "impact_id"
     t.integer  "type_id"
     t.integer  "upgrade_id"
-    t.integer  "activity_type_id"
-    t.integer  "measure_id"
     t.string   "other_measure"
     t.text     "details"
     t.text     "lve_report"
     t.text     "mysql_queries"
     t.text     "process_logs"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
@@ -197,6 +195,13 @@ ActiveRecord::Schema.define(version: 20160211165947) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "legal_hosting_abuse_resource_activity_type_assignments", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.integer  "activity_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "legal_hosting_abuse_resource_activity_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -207,6 +212,13 @@ ActiveRecord::Schema.define(version: 20160211165947) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_measure_assignments", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.integer  "measure_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "legal_hosting_abuse_resource_measures", force: :cascade do |t|

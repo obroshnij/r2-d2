@@ -5,8 +5,6 @@ class CreateLegalHostingAbuseResource < ActiveRecord::Migration
       t.integer :impact_id
       t.integer :type_id
       t.integer :upgrade_id
-      t.integer :activity_type_id
-      t.integer :measure_id
       t.string  :other_measure
       t.text    :details
       t.text    :lve_report

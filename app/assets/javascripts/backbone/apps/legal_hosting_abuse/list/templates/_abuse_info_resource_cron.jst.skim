@@ -5,13 +5,13 @@
         
       .column: .row.hash
         .key Activity Type
-        .value = @resource.activity_type
+        .value == @truncate @resource.activity_types.join(',\n'), 40, true
         
       .column: .row.hash
         .key Measures Taken
-        .value = @resource.measure
+        .value == @truncate @resource.measures.join(',\n'), 40, true
       
-      - if @resource.measure_id is 3
+      - if _.contains @resource.measure_ids, 3
         .column: .row.hash
           .key Other
           .value = @resource.other_measure

@@ -27,7 +27,7 @@ child(:ddos) do
 end
 
 child(:resource) do
-  attributes *(Legal::HostingAbuse::Resource.attribute_names + [:abuse_type_ids])
+  attributes *(Legal::HostingAbuse::Resource.attribute_names + [:abuse_type_ids, :activity_type_ids, :measure_ids])
   
   node(:type, if: -> (r) { r.type_id }) do |r|
     r.type.name
@@ -45,12 +45,12 @@ child(:resource) do
     r.impact.name
   end
   
-  node(:activity_type, if: -> (r) { r.activity_type_id }) do |r|
-    r.activity_type.name
+  node(:activity_types, if: -> (r) { r.activity_type_ids.present? }) do |r|
+    r.activity_types.map(&:name)
   end
   
-  node(:measure, if: -> (r) { r.measure_id }) do |r|
-    r.measure.name
+  node(:measures, if: -> (r) { r.measure_ids.present? }) do |r|
+    r.measures.map(&:name)
   end
 end
 

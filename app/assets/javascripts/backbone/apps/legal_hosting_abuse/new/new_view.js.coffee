@@ -336,8 +336,6 @@
           default:  1
           dependencies:
             service_id:               value: [1, 2, 3, 4]
-          callback: (fieldValues) ->
-            if _.contains ['2', '3'], fieldValues.shared_plan_id?.toString() then @trigger('enable:options', 3) else @trigger('disable:options', 3)
         ,
           name:     'resource[details]'
           label:    'Details'
@@ -401,17 +399,17 @@
             service_id:               value: [1, 2, 3, 4]
             'resource[type_id]':       value: '2'
         ,
-          name:     'resource[activity_type_id]'
+          name:     'resource[activity_type_ids]'
           label:    'Activity Type'
-          type:     'radio_buttons'
+          type:     'collection_check_boxes'
           default:  1
           options: @getResourceActivityTypes()
           dependencies:
             'resource[type_id]':      value: 3
         ,
-          name:     'resource[measure_id]'
+          name:     'resource[measure_ids]'
           label:    'Measures taken'
-          type:     'collection_radio_buttons'
+          type:     'collection_check_boxes'
           options:  @getResourceMeasures()
           default:  1
           hint:     'What was done?'
@@ -422,7 +420,7 @@
           label:    'Other'
           dependencies:
             'resource[type_id]':      value: 3
-            'resource[measure_id]':   value: 3
+            'resource[measure_ids]':   value: 3
         ]
       ,
         legend:     'DDoS'
