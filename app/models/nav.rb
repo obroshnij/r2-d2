@@ -40,6 +40,19 @@ class Nav
           klass:  Legal::HostingAbuse
         }
       ]
+    }, {
+      name:       'User Management',
+      url:        '#/user_management',
+      icon:       'fi-torsos-all',
+      auth:       false,
+      navs_name:  'user_management_navs',
+      child_navs: [
+        {
+          name:   'Users',
+          url:    '#/user_management/users',
+          icon:   'fa fa-fw fa-users'
+        }
+      ]
     }
   ]
   

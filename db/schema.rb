@@ -11,10 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218161128) do
+ActiveRecord::Schema.define(version: 20160219101454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ability_permission_groups", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.string   "name"
+    t.boolean  "exclusive",   default: false
+    t.jsonb    "attrs",       default: {}
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "ability_permissions", force: :cascade do |t|
+    t.integer  "group_id"
+    t.string   "action"
+    t.jsonb    "conditions", default: {}
+    t.jsonb    "attrs",      default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "ability_resources", force: :cascade do |t|
+    t.string   "name"
+    t.jsonb    "attrs",      default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "abuse_notes_infos", force: :cascade do |t|
     t.integer  "abuse_report_id"
