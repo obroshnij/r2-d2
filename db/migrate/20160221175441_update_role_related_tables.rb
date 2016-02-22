@@ -13,6 +13,7 @@ class UpdateRoleRelatedTables < ActiveRecord::Migration
     
     ## Roles <-> Users join table
     drop_table :roles_users do |t|
+      t.references :role, :user
     end
   end
 end

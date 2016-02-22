@@ -425,6 +425,8 @@ ActiveRecord::Schema.define(version: 20160218161128) do
   end
 
   create_table "roles_users", force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "user_id"
   end
 
   create_table "sbl_infos", force: :cascade do |t|
