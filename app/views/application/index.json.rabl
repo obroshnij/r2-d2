@@ -42,6 +42,26 @@ node :entities do
         reported_by:     Legal::HostingAbuse.reported_by.as_json(only: [:id, :name])
       }
     },
-    navs: Nav.accessible_by_as_json(current_ability)
+    navs:                 Nav.accessible_by_as_json(current_ability),
+    directory_groups:     DirectoryGroup.order(:name).as_json(only: [:id, :name]),
+    ability_resources:    Ability::Resource.all.map do |resource|
+      {
+        name:              resource.name,
+        description:       resource.description,
+        permission_groups: resource.permission_groups.map do |group|
+          {
+            name:        group.name,
+            exclusive:   group.exclusive,
+            permissions: group.permissions.map do |permission|
+              {
+                id:          permission.id,
+                description: permission.description,
+                action_type: permission.action_type
+              }
+            end
+          }
+        end
+      }
+    end
   }
 end

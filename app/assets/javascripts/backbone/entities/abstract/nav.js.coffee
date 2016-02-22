@@ -26,6 +26,9 @@
       
     getToolsNavs: ->
       new Entities.Navs App.entities.navs.tools_navs
+      
+    getUserManagementNavs: ->
+      new Entities.Navs App.entities.navs.user_management_navs
   
   
   App.reqres.setHandler 'nav:entities', ->
@@ -36,3 +39,6 @@
     
   App.reqres.setHandler 'tools:nav:entities', ->
     API.getToolsNavs()
+    
+  App.reqres.setHandler 'user:management:nav:entities', ->
+    API.getUserManagementNavs()

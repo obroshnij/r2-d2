@@ -1,0 +1,25 @@
+.row
+  .large-4.columns
+    .row.hash
+      .key Name
+      .value = @name
+    .row.hash
+      .key Email Address
+      .value = @email
+  
+  .large-4.columns
+    .row.hash
+      .key Role
+      .value = @role
+    .row.hash
+      .key Latest Sign in
+      .value = @latest_sign_in
+      
+  .large-4.columns
+    .row.hash
+      .key NC Directory Groups
+      .value
+        - if _.size(@groups) > 0
+          = @groups.join(', ')
+        - else
+          = 'None'

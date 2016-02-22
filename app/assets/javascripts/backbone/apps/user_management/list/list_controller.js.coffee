@@ -3,34 +3,34 @@
   class List.Controller extends App.Controllers.Application
     
     initialize: (options) ->
-      toolsNavs = App.request 'user:management:nav:entities'
+      userManagementNavs = App.request 'user:management:nav:entities'
       
-      @listenTo toolsNavs, 'select:one', (model, collection, options) ->
-        App.vent.trigger 'user:management:nav:selected', model.get('name'), @options.action, @layout.articleRegion
-        
-      delete @options.action # action is only needed once, when the app is initiated
+      @listenTo userManagementNavs, 'select:one', (model, collection, options) ->
+        App.vent.trigger 'user:management:nav:selected', model.get('name'), @options.options, @layout.articleRegion
       
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
         @titleRegion()
-        @breadcrumbsRegion toolsNavs
-        @navsRegion toolsNavs, options.nav
+        @breadcrumbsRegion userManagementNavs
+        @navsRegion userManagementNavs, options.nav
         
       @show @layout
+      
+      delete @options.options # action is only needed once, when the app is initiated
       
     titleRegion: ->
       titleView = @getTitleView()
       @show titleView, region: @layout.titleRegion
       
-    breadcrumbsRegion: (toolsNavs) ->
-      breadcrumbsView = @getBreadcrumbs toolsNavs
+    breadcrumbsRegion: (userManagementNavs) ->
+      breadcrumbsView = @getBreadcrumbs userManagementNavs
       @show breadcrumbsView, region: @layout.breadcrumbsRegion
       
-    navsRegion: (toolsNavs, nav) ->
-      toolsNavs.selectByName nav
-      toolsNavsView = @getToolsNavsView toolsNavs
-      @show toolsNavsView, region: @layout.toolsNavsRegion
+    navsRegion: (userManagementNavs, nav) ->
+      userManagementNavs.selectByName nav
+      toolsNavsView = @getUserManagementNavsView userManagementNavs
+      @show toolsNavsView, region: @layout.userManagementNavsRegion
       
     getTitleView: ->
       new List.Title
@@ -39,9 +39,9 @@
       new List.Breadcrumbs
         collection: toolsNavs
         
-    getToolsNavsView: (toolsNavs) ->
+    getUserManagementNavsView: (userManagementNavs) ->
       new List.Navs
-        collection: toolsNavs
+        collection: userManagementNavs
       
     getLayoutView: ->
       new List.Layout

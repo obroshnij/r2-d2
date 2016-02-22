@@ -4,9 +4,18 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @search = User.ransack params[:q]
-    @per_page = params[:per_page].blank? ? 25 : params[:per_page]
-    @users = @search.result(distinct: true).accessible_by(current_ability).paginate(page: params[:page], per_page: @per_page)
+    respond_to do |format|
+      format.html do
+        @search = User.ransack params[:q]
+        @per_page = params[:per_page].blank? ? 25 : params[:per_page]
+        @users = @search.result(distinct: true).accessible_by(current_ability).paginate(page: params[:page], per_page: @per_page)
+      end
+      
+      format.json do
+        @search = User.ransack params[:q]
+        @users = @search.result(distinct: true).paginate(page: params[:page], per_page: params[:per_page])
+      end
+    end
   end
 
   def show

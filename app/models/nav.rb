@@ -50,7 +50,11 @@ class Nav
         {
           name:   'Users',
           url:    '#/user_management/users',
-          icon:   'fa fa-fw fa-users'
+          icon:   'fa fa-fw fa-user'
+        }, {
+          name:   'Roles & Permissions',
+          url:    '#/user_management/roles',
+          icon:   'fa fa-fw fa-key'
         }
       ]
     }

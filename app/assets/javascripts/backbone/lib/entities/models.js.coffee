@@ -11,7 +11,7 @@
         wait:    true
         success: _.bind(@saveSuccess, @, isNew, options.collection, options.callback)
         error:   _.bind(@saveError, @)
-        
+            
       @unset '_errors'
       super data, options
       

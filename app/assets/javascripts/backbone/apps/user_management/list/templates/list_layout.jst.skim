@@ -1,0 +1,9 @@
+#title-region
+#breadcrumbs-region
+
+.row
+  .large-2.columns
+    #user-management-navs-region
+  
+  .large-10.columns
+    #article-region

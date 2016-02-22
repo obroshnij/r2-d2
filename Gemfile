@@ -67,6 +67,8 @@ gem 'combine_pdf'
 gem 'gon'
 gem 'rabl-rails'
 
+gem 'net-ldap'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -9,4 +9,14 @@ class Role < ActiveRecord::Base
     self.all - [self.find_by_name("Admin")]
   end
   
+  def self.for_user user
+    return find(user.role_id) unless user.auto_role
+    roles = where(group_ids: user.group_ids)
+    roles.present? ? roles.first : find_by_name('Other')
+  end
+  
+  def group_ids= ids
+    super ids.delete_if { |id| id.blank? }
+  end
+  
 end

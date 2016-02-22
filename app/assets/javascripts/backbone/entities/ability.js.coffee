@@ -1,7 +1,7 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
   
   class Entities.Rule extends App.Entities.Model
-    
+  
   
   class Entities.Ability extends App.Entities.Collection
     model: Entities.Rule
