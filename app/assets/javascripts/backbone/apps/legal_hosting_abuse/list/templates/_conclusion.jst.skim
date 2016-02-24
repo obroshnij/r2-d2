@@ -12,7 +12,7 @@
           .key Reason
           .value == @truncate @suspension_reason, 40, true
       
-      - if @suggestion_id is 5
+      - if @scan_report_path
         .column: .row.hash
           .key Scan Report Path
           .value = @scan_report_path
