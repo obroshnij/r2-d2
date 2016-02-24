@@ -2,8 +2,12 @@
   li                                      { border-top: 1px solid $medium-gray; padding: 1rem; transition: background-color 0.25s ease-out; font-size: 0.875rem;
     .label-text                           { text-align: right; font-style: italic; }
     .hash                                 {
-      .key                                { display: inline-block; width: 35%; text-align: right; font-style: italic; color: #666; vertical-align: top; }
-      .value                              { display: inline-block; width: 65%; word-wrap: break-word; padding-left: 0.5rem; padding-right: 0.5rem; }
+      .key                                { display: inline-block; width: 35%; text-align: right; font-style: italic; color: #666; vertical-align: top;
+        span                              { cursor: text; }
+      }
+      .value                              { display: inline-block; width: 65%; word-wrap: break-word; padding-left: 0.5rem; padding-right: 0.5rem;
+        span                              { cursor: text; }
+      }
     }
     
     .hash.editable                        {
@@ -18,10 +22,12 @@
     .toggle.expanded::before              { content: 'Collapse '; }
     
     fieldset                              { border-top: 1px dashed $medium-gray; margin-top: 0.75rem; padding-top: 0.75rem;
-      legend                              { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }
+      legend                              { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }  
     }
   }
   
+  .header                                 { cursor: pointer; }
+    
   li.expanded                             { padding-top: 0;
     .header                               { background-color: #eee; padding-top: 1rem; padding-bottom: 1rem; margin-left: -1rem; margin-right: -1rem; }
   }

@@ -14,6 +14,7 @@ class CreateLegalHostingAbuse < ActiveRecord::Migration
       t.integer  :management_type_id
       t.integer  :reseller_plan_id
       t.integer  :shared_plan_id
+      t.integer  :vps_plan_id
       t.string   :server_rack_label
       t.string   :subscription_name, index: true
       t.integer  :suggestion_id

@@ -62,6 +62,13 @@
           dependencies:
             service_id:      value: 2
         ,
+          name:     'vps_plan_id'
+          label:    'Package'
+          tagName:  'select'
+          options:  @getVpsPlans()
+          dependencies:
+            service_id:      value: 3
+        ,
           name:     'username'
           label:    'Username'
           hint:     'Ubersmith username (OWNER for resellers)'
@@ -101,6 +108,7 @@
         id:         'spam'
         dependencies:
           type_id:     value: 1
+          service_id:  value: [1, 2, 3, 4, 6]
         
         fields: [
           name:     'spam[detection_method_id]'
@@ -117,7 +125,7 @@
           type:     'collection_check_boxes'
           options:  @getSpamQueueTypes()
           dependencies:
-            'spam[detection_method_id]':  value: '1'
+            'spam[detection_method_id]':  value: 1
           callback: (fieldValues) ->
             if fieldValues.service_id?.toString() is '6' then @trigger('disable:options', 1) else @trigger('enable:options', 1)
         ,
@@ -271,9 +279,9 @@
           default:  true
           hint:     'Please reset password for all mailboxes reported'
           dependencies:
-            'service_id':                     value: ['1', '2', '3', '4']
+            'service_id':                     value: [1, 2, 3, 4]
             'spam[detection_method_id]':      value: 1
-            'spam[involved_mailboxes_count]': value: ['1', '2', '3', '4']
+            'spam[involved_mailboxes_count]': value: [1, 2, 3, 4]
             'spam[queue_type_ids]':           value: 1
             'spam[sent_by_cpanel]':           value: 'false'
         ,
@@ -323,6 +331,153 @@
             'spam[detection_method_id]': value: '2'
         ]
       ,
+        legend:     'Email Abuse / Spam'
+        id:         'pe-spam'
+        dependencies:
+          type_id:    value: 1
+          service_id: value: 5
+          
+        fields: [
+          name:     'pe_spam[detection_method_id]'
+          label:    'Detected by'
+          type:     'collection_radio_buttons'
+          options:  @getSpamDetectionMethods()
+          default:  1
+          hint:     'How was the issue detected?'
+        ,
+          name:     'pe_spam[pe_queue_type_ids]'
+          label:    'Queue Type'
+          type:     'collection_check_boxes'
+          options:  @getSpamPeQueueTypes()
+          default:  [1]
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+        ,
+          name:     'pe_spam[sent_emails_daterange]'
+          label:    'Date Range'
+          type:     'date_range_picker'
+          hint:     'Select the period those emails were sent within'
+          dateRangePickerOptions:
+            ranges:
+              'Yesterday':    [moment().subtract(1, 'days'),  moment().subtract(1, 'days')]
+              'Last 7 Days':  [moment().subtract(6, 'days'),  moment()]
+              'Last 30 Days': [moment().subtract(29, 'days'), moment()]
+          dependencies:
+            'pe_spam[detection_method_id]':    value: 1
+            'pe_spam[pe_queue_type_ids]':      value: 1
+        ,
+          name:     'pe_spam[sent_emails_amount]'
+          label:    'Sent Emails Amount'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+            'pe_spam[pe_queue_type_ids]':    value: 1
+        ,
+          name:     'pe_spam[recepients_per_email]'
+          label:    'Recepients per Email'
+          hint:     'Approximate amount of recepients per message if necessary'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+            'pe_spam[pe_queue_type_ids]':    value: 1
+        ,
+          name:     'pe_spam[example_complaint]'
+          label:    'Example / Link'
+          tagName:  'textarea',
+          hint:     'Feedback loop example or a link to one',
+          dependencies:
+            'pe_spam[detection_method_id]':  value: '2'
+        ,
+          name:     'pe_spam[reporting_party_ids]'
+          label:    'Reporting Parties'
+          type:     'collection_check_boxes'
+          options:  @getSpamReportingParties()
+          dependencies:
+            'pe_spam[detection_method_id]':  value: '2'
+        ,
+          name:     'pe_spam[reported_ip]'
+          label:    'Reported IP'
+          dependencies:
+            'pe_spam[detection_method_id]': value: '2'
+        ,
+          name:     'pe_spam[reported_ip_blacklisted]'
+          label:    'IP is Blacklisted'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          default:  true
+          dependencies:
+            'pe_spam[detection_method_id]': value: '2'
+        ,
+          name:     'pe_spam[other_detection_method]'
+          label:    'Other'
+          tagName:  'textarea'
+          hint:     'Please describe the incident in detail'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: '3'
+        ,
+          name:     'pe_spam[postfix_deferred_queue]'
+          label:    'Postfix Deffered Queue'
+          hint:     'Amount of emails queued on the server'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+            'pe_spam[pe_queue_type_ids]':    value: 2
+        ,
+          name:     'pe_spam[postfix_active_queue]'
+          label:    'Postfix Active Queue'
+          hint:     'Amount of emails queued on the server'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+            'pe_spam[pe_queue_type_ids]':    value: 3
+        ,
+          name:     'pe_spam[mailer_daemon_queue]'
+          label:    'MAILER-DAEMON Queue'
+          hint:     'Amount of emails queued on the server'
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+            'pe_spam[pe_queue_type_ids]':    value: 4
+        ,
+          name:     'pe_spam[ip_is_blacklisted]'
+          label:    'IP is Blacklisted'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: 'N/A' }]
+          default:  false
+          dependencies:
+            'pe_spam[detection_method_id]': value: [1, 3]
+        ,
+          name:     'pe_spam[blacklisted_ip]'
+          label:    'Blacklisted IP'
+          dependencies:
+            'pe_spam[detection_method_id]': value: [1, 3]
+            'pe_spam[ip_is_blacklisted]':   value: 'true'
+        ,
+          name:     'pe_spam[header]'
+          label:    'Header'
+          tagName:  'textarea'
+          dependencies:
+            'pe_spam[detection_method_id]': value: 1
+            'pe_spam[pe_queue_type_ids]':   value: [1, 2, 3]
+        ,
+          name:     'pe_spam[body]'
+          label:    'Body'
+          tagName:  'textarea'
+          dependencies:
+            'pe_spam[detection_method_id]': value: 1
+            'pe_spam[pe_queue_type_ids]':   value: [1, 2, 3]
+        ,
+          name:     'pe_spam[bounce]'
+          label:    'Bounce'
+          tagName:  'textarea'
+          dependencies:
+            'pe_spam[detection_method_id]': value: 1
+            'pe_spam[pe_queue_type_ids]':   value: 4
+        ,
+          name:     'pe_spam[outbound_blocked]'
+          label:    'Outbound Emails Blocked'
+          type:     'radio_buttons'
+          options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
+          default:  false
+          dependencies:
+            'pe_spam[detection_method_id]': value: 1
+        ]
+      ,
         legend:     'Resource Abuse'
         id:         'resource-abuse'
         dependencies:
@@ -349,7 +504,7 @@
           ]
         ,
           name:     'resource[abuse_type_ids]'
-          label:    'Resource Type'
+          label:    'Affected Resources'
           type:     'collection_check_boxes'
           hint:     'Please check all resources under impact'
           options:  @getResourceAbuseTypes()
@@ -482,14 +637,38 @@
           tagName:  'textarea'
         ]
       ,
+        legend:     'Other'
+        id:         'other'
+        dependencies:
+          type_id:    value: 4
+          
+        fields: [
+          name:     'other[abuse_type_ids]'
+          label:    'Abuse Type'
+          type:     'collection_check_boxes'
+          options:  @getOtherAbuseTypes()
+        ,
+          name:     'other[domain_name]'
+          label:    'Domain Name'
+        ,
+          name:     'other[url]'
+          label:    'URL'
+          hint:     'Exact URL to the infringing content'
+        ,
+          name:     'other[logs]'
+          label:    'Log'
+          tagName:  'textarea'
+          hint:     "Either URL or Log must be provided, both fields can't be blank"
+        ]
+      ,
         legend:     'Conclusion'
         id:         'conclusion'
         dependencies:
-          type_id:     value: ['1', '2', '3']
+          type_id:     value: [1, 2, 3, 4]
         
         fields: [
           name:     'suggestion_id'
-          label:    'Suggestion'
+          label:    'Suggested Action'
           tagName:  'select'
           options:  @getSuggestions()
           default:  3
@@ -513,12 +692,14 @@
           label:    'Scan Report Path'
           hint:     'If account is suspended for queue (1000+) or Exim is stopped for managed server, please start CXS scan and save the report in homedir of the shared user/managed server'
           dependencies:
-            suggestion_id:   value: '5'
+            suggestion_id:   value: 5
+            type_id:         value: 1
+            service_id:      value: [1, 2, 3, 4]
         ,
           name:     'tech_comments'
-          label:    'Additional Comments'
+          label:    'Comments'
           tagName:  'textarea'
-          hint:     'Anything you would like to add on this case'
+          hint:     'Anything you would like to add on this case. E.g. additional details, non-standard logs, notes, etc.'
         ]
       ]
       
@@ -531,6 +712,7 @@
     getAbuseTypes:            -> @getOptions 'type'
     getSharedPlans:           -> @getOptions 'shared:plan'
     getResellerPlans:         -> @getOptions 'reseller:plan'
+    getVpsPlans:              -> @getOptions 'vps:plan'
     getManagementTypes:       -> @getOptions 'management:type'
     getSuggestions:           -> @getOptions 'suggestion'
     
@@ -546,10 +728,16 @@
     getSpamReportingParties:  -> @getOptions 'spam:reporting:party'
     getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'
     getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
+    getSpamPeQueueTypes:      -> @getOptions 'spam:pe:queue:type'
     getSpamContentTypes:      -> @getOptions 'spam:content:type'
     
+    getOtherAbuseTypes:       -> @getOptions 'other:abuse:type'
+    
     onShow: (view) ->
-      _.defer -> view.$('#service_id').change()
+      _.defer ->
+        view.$('#service_id').change()
+        view.$("[id='pe_spam[pe_queue_type_ids]_1']").attr 'disabled', true
+        _.each [1, 4, 7, 11], (num) -> view.$("[id='other[abuse_type_ids]_#{num}']").closest('.clearfix').css 'margin-bottom', '1rem'
 
     onServiceIdChange: (val, view) ->
       if s.isBlank(val) then view.$('#type_id').val('').change().attr('disabled', true) else view.$('#type_id').attr('disabled', false)
@@ -563,8 +751,8 @@
     _prohibitedOptions:
       '3': ['2']
       '4': ['2']
-      '5': ['3']
-      '6': ['2', '3']
+      '5': ['3', '4']
+      '6': ['2', '3', '4']
 
     _prohibitedOptionsFor: (val) ->
       _.chain(@_prohibitedOptions[val]).map((option) -> "#type_id [value='#{option}']").join(', ').value()

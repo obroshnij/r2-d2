@@ -1,53 +1,53 @@
 .large-3.columns
   .row.hash
-    .key Abuse Type
-    .value
+    .key: span Abuse Type
+    .value: span
       span class="label #{@typeClass}"
         icon class="#{@typeIcon}"
         == "&nbsp;&nbsp;" + @type
   .row.hash
-    .key Service
+    .key: span Service
     - if @service_url
-      .value == @linkTo @service, @service_url, external: true
+      .value: span == @linkTo @service, @service_url, external: true
     - else
-      .value = @service
+      .value: span = @service
   .row.hash
     - if _.contains [1, 2, 3, 4], @service_id
-      .key Server Name
-      .value = @server_name
+      .key: span Server Name
+      .value: span = @server_name
     - if _.contains [5, 6], @service_id
-      .key Domain Name
-      .value = @subscription_name
+      .key: span Domain Name
+      .value: span = @subscription_name
 
 .large-3.columns
   .row.hash
-    .key Reported by
-    .value = @reported_by
+    .key: span Reported by
+    .value: span = @reported_by
   .row.hash
-    .key Reported at
-    .value = @created_at_formatted
+    .key: span Reported at
+    .value: span = @created_at_formatted
   .row.hash
-    .key Suggestion
-    .value = @suggestion
+    .key: span Suggested Action
+    .value: span = @suggestion
 
 .large-3.columns
   - if @status is 'processed'
     .row.hash
-      .key Processed by
-      .value = @processed_by
+      .key: span Processed by
+      .value: span = @processed_by
     .row.hash
-      .key Processed at
-      .value = @processed_at_formatted
+      .key: span Processed at
+      .value: span = @processed_at_formatted
     .row.hash
-      .key Ticket ID
-      .value = @ticket_id
+      .key: span Ticket ID
+      .value: span = @ticket_id
   - else if @status is 'dismissed'
     .row.hash
-      .key Dismissed by
-      .value = @processed_by
+      .key: span Dismissed by
+      .value: span = @processed_by
     .row.hash
-      .key Dismissed at
-      .value = @processed_at_formatted
+      .key: span Dismissed at
+      .value: span = @processed_at_formatted
   - else
     .row
       .large-4.text-right: span.alert.label Unprocessed

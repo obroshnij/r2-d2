@@ -3,9 +3,9 @@
   class Entities.HostingAbuse extends App.Entities.Model
     urlRoot: -> Routes.legal_hosting_abuse_index_path()
     
-    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary' }
+    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary', 'Other': 'warning' }
     
-    typeIconLookups:  { 'Email Abuse / Spam': 'fa fa-envelope-o', 'Resource Abuse': 'fa fa-sliders', 'DDoS': 'fa fa-bolt' }
+    typeIconLookups:  { 'Email Abuse / Spam': 'fa fa-envelope-o', 'Resource Abuse': 'fa fa-sliders', 'DDoS': 'fa fa-bolt', 'Other': 'fa fa-fire' }
     
     mutators:
             
@@ -25,6 +25,7 @@
   class Entities.HostingAbuse.Ddos
   class Entities.HostingAbuse.Resource
   class Entities.HostingAbuse.Spam
+  class Entities.HostingAbuse.Other
   
   
   API =

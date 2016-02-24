@@ -9,7 +9,10 @@ form                                                  {
     label                                             { font-size: 0.875rem; }
   }
   .collection                                         { margin-bottom: 1rem; padding-top: 0;
-    input[type='checkbox'], input[type='radio']       { margin: 0; }
+    > div                                             { margin-bottom: 0.2rem; }
+    .inpt                                             { float: left; padding-top: 0.2rem; }
+    .lbl                                              { margin-left: 1.4rem; }
+    input[type='checkbox'], input[type='radio']       { margin: 0; display: block; }
   }
   footer                                              { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
   span.form-error                                     { margin-top: -1rem; }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218161128) do
+ActiveRecord::Schema.define(version: 20160224135712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20160218161128) do
     t.integer  "management_type_id"
     t.integer  "reseller_plan_id"
     t.integer  "shared_plan_id"
+    t.integer  "vps_plan_id"
     t.string   "server_rack_label"
     t.string   "subscription_name"
     t.integer  "suggestion_id"
@@ -157,6 +158,58 @@ ActiveRecord::Schema.define(version: 20160218161128) do
   end
 
   create_table "legal_hosting_abuse_management_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_other", force: :cascade do |t|
+    t.integer  "report_id"
+    t.string   "domain_name"
+    t.string   "url"
+    t.text     "logs"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "legal_hosting_abuse_other_abuse_type_assignments", force: :cascade do |t|
+    t.integer  "other_id"
+    t.integer  "abuse_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "legal_hosting_abuse_other_abuse_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_pe_spam", force: :cascade do |t|
+    t.integer  "report_id"
+    t.integer  "detection_method_id"
+    t.text     "other_detection_method"
+    t.integer  "sent_emails_amount"
+    t.integer  "recepients_per_email"
+    t.date     "sent_emails_start_date"
+    t.date     "sent_emails_end_date"
+    t.text     "example_complaint"
+    t.boolean  "ip_is_blacklisted"
+    t.string   "blacklisted_ip"
+    t.string   "reported_ip"
+    t.boolean  "reported_ip_blacklisted"
+    t.integer  "postfix_deferred_queue"
+    t.integer  "postfix_active_queue"
+    t.integer  "mailer_daemon_queue"
+    t.text     "header"
+    t.text     "body"
+    t.text     "bounce"
+    t.boolean  "outbound_blocked"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "legal_hosting_abuse_pe_spam_queue_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -295,6 +348,20 @@ ActiveRecord::Schema.define(version: 20160218161128) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "legal_hosting_abuse_spam_pe_queue_type_assignments", force: :cascade do |t|
+    t.integer  "pe_spam_id"
+    t.integer  "pe_queue_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_pe_reporting_party_assignments", force: :cascade do |t|
+    t.integer  "pe_spam_id"
+    t.integer  "reporting_party_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
   create_table "legal_hosting_abuse_spam_queue_type_assignments", force: :cascade do |t|
     t.integer  "spam_id"
     t.integer  "queue_type_id"
@@ -328,6 +395,12 @@ ActiveRecord::Schema.define(version: 20160218161128) do
   end
 
   create_table "legal_hosting_abuse_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_vps_plans", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -424,7 +497,7 @@ ActiveRecord::Schema.define(version: 20160218161128) do
     t.datetime "updated_at"
   end
 
-  create_table "roles_users", id: false, force: :cascade do |t|
+  create_table "roles_users", force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
   end
@@ -473,11 +546,7 @@ ActiveRecord::Schema.define(version: 20160218161128) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",                   limit: 255
     t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
-    t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
@@ -486,10 +555,13 @@ ActiveRecord::Schema.define(version: 20160218161128) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "encrypted_password",                 default: "", null: false
+    t.string   "name"
+    t.datetime "reset_password_sent_at"
+    t.string   "reset_password_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "watched_domains", force: :cascade do |t|
     t.string   "name"

@@ -18,6 +18,7 @@ class Legal::HostingAbuse::Form
   attribute :server_id,               Integer
   attribute :shared_plan_id,          Integer
   attribute :reseller_plan_id,        Integer
+  attribute :vps_plan_id,             Integer
   attribute :username,                String
   attribute :resold_username,         String
   attribute :server_rack_label,       String
@@ -34,10 +35,10 @@ class Legal::HostingAbuse::Form
   validates :type_id,                 presence: true
   
   with_options if: :shared? do |f|
-    f.validates :type_id,             inclusion: { in: [1], message: 'is not applicable for Email Only package' }, if: :email_only?
     f.validates :server_name,         presence: true, host_name: true
     f.validates :shared_plan_id,      presence: true
     f.validates :username,            presence: true
+    f.validates :type_id,             inclusion: { in: [1], message: 'is not applicable for Email Only package' }, if: :email_only?
   end
   
   with_options if: :reseller? do |f|
@@ -51,7 +52,8 @@ class Legal::HostingAbuse::Form
     f.validates :server_name,         presence: true, host_name: true
     f.validates :username,            presence: true, if: :full_management?
     f.validates :management_type_id,  presence: true
-    f.validates :type_id,             inclusion: { in: [1, 3], message: "is not applicable for this service" }
+    f.validates :vps_plan_id,         presence: true
+    f.validates :type_id,             inclusion: { in: [1, 3, 4], message: "is not applicable for this service" }
   end
   
   with_options if: :dedicated_server? do |f|
@@ -59,7 +61,7 @@ class Legal::HostingAbuse::Form
     f.validates :username,            presence: true, if: :full_management?
     f.validates :server_rack_label,   presence: true
     f.validates :management_type_id,  presence: true
-    f.validates :type_id,             inclusion: { in: [1, 3], message: "is not applicable for this service" }
+    f.validates :type_id,             inclusion: { in: [1, 3, 4], message: "is not applicable for this service" }
   end
   
   with_options if: :private_email? do |f|
@@ -110,13 +112,17 @@ class Legal::HostingAbuse::Form
   
   def email_only?()        service_id == 1 && shared_plan_id == 6   end
   
-  def spam?()              type_id == 1      end
-  def resource_abuse?()    type_id == 2      end
-  def ddos?()              type_id == 3      end
+  def spam?()              type_id == 1 && !private_email?  end
+  def pe_spam?()           type_id == 1 &&  private_email?  end
+  def resource_abuse?()    type_id == 2                     end
+  def ddos?()              type_id == 3                     end
+  def other_abuse?()       type_id == 4                     end
   
   def suspension_reason_required?()  [1, 2, 4].include? suggestion_id   end
-  def scan_report_path_required?()   suggestion_id == 5                 end
   def full_management?()             management_type_id == 3            end
+  def scan_report_path_required?
+    suggestion_id == 5 && spam? && (shared? || reseller? || vps? || dedicated_server?)
+  end
     
   def processed?()  status == 'processed'   end
   def dismissed?()  status == 'dismissed'   end
@@ -158,16 +164,15 @@ class Legal::HostingAbuse::Form
   private
   
   def child_form
-    @child_form ||= get_child_form
+    @child_form ||= get_child_form.try(:new)
   end
   
   def get_child_form
-    mapping = {
-      1 => Legal::HostingAbuse::Form::Spam,
-      2 => Legal::HostingAbuse::Form::Resource,
-      3 => Legal::HostingAbuse::Form::Ddos
-    }
-    mapping[type_id].try :new
+    return Legal::HostingAbuse::Form::PeSpam    if pe_spam?
+    return Legal::HostingAbuse::Form::Spam      if spam?
+    return Legal::HostingAbuse::Form::Resource  if resource_abuse?
+    return Legal::HostingAbuse::Form::Ddos      if ddos?
+    return Legal::HostingAbuse::Form::Other     if other_abuse?
   end
   
   def persist!

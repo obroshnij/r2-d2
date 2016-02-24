@@ -79,6 +79,8 @@
       @ui.toggle.toggleClass 'expanded'
       @ui.icon.toggleClass   'fa-rotate-180'
       
+    @include 'HasDropdowns'
+      
       
   class List.ReportClientInfo extends App.Views.ItemView
     
@@ -97,13 +99,17 @@
   class List.ReportAbuseInfo extends App.Views.ItemView
     
     getTemplate: ->
-      return 'legal_hosting_abuse/list/_abuse_info_spam_queue'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 1
-      return 'legal_hosting_abuse/list/_abuse_info_spam_feedback' if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 2
-      return 'legal_hosting_abuse/list/_abuse_info_spam_other'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 3
-      return 'legal_hosting_abuse/list/_abuse_info_resource_disc' if @model.get('type_id') is 2 and @model.get('resource').type_id is 1
-      return 'legal_hosting_abuse/list/_abuse_info_resource_lve'  if @model.get('type_id') is 2 and @model.get('resource').type_id is 2
-      return 'legal_hosting_abuse/list/_abuse_info_resource_cron' if @model.get('type_id') is 2 and @model.get('resource').type_id is 3
-      return 'legal_hosting_abuse/list/_abuse_info_ddos'          if @model.get('type_id') is 3
+      return 'legal_hosting_abuse/list/_abuse_info_pe_spam_queue'    if @model.get('type_id') is 1 and @model.get('service_id') is 5 and @model.get('pe_spam').detection_method_id is 1
+      return 'legal_hosting_abuse/list/_abuse_info_pe_spam_feedback' if @model.get('type_id') is 1 and @model.get('service_id') is 5 and @model.get('pe_spam').detection_method_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_pe_spam_other'    if @model.get('type_id') is 1 and @model.get('service_id') is 5 and @model.get('pe_spam').detection_method_id is 3
+      return 'legal_hosting_abuse/list/_abuse_info_spam_queue'       if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 1
+      return 'legal_hosting_abuse/list/_abuse_info_spam_feedback'    if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_spam_other'       if @model.get('type_id') is 1 and @model.get('spam').detection_method_id is 3
+      return 'legal_hosting_abuse/list/_abuse_info_resource_disc'    if @model.get('type_id') is 2 and @model.get('resource').type_id is 1
+      return 'legal_hosting_abuse/list/_abuse_info_resource_lve'     if @model.get('type_id') is 2 and @model.get('resource').type_id is 2
+      return 'legal_hosting_abuse/list/_abuse_info_resource_cron'    if @model.get('type_id') is 2 and @model.get('resource').type_id is 3
+      return 'legal_hosting_abuse/list/_abuse_info_ddos'             if @model.get('type_id') is 3
+      return 'legal_hosting_abuse/list/_abuse_info_other'            if @model.get('type_id') is 4
       
     modelEvents:
       'change' : 'render'
@@ -119,6 +125,7 @@
       'change' : 'render'
       
     @include 'HasDropdowns'
+    @include 'HasEditableFields'
   
   
   class List.Report extends App.Views.LayoutView
@@ -129,6 +136,9 @@
       'clientInfoRegion' : '.client-info'
       'abuseInfoRegion'  : '.abuse-info'
       'conclusionRegion' : '.conclusion'
+      
+    triggers:
+      'click .header'    : 'childview:toggle:clicked'
     
     tagName:  'li'
     

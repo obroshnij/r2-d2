@@ -5,22 +5,22 @@
         
       .column: .row.hash
         .key Detected by
-        .value = @spam.detected_by
+        .value = @pe_spam.detected_by
           
       .column: .row.hash
         .key Reporting Parties
-        .value == @truncate @spam.reporting_parties.join(',\n'), 40, true
+        .value == @truncate @pe_spam.reporting_parties.join(',\n'), 40, true
         
       .column: .row.hash
         .key Reported IP
-        .value = @spam.reported_ip
+        .value = @pe_spam.reported_ip
         
       .column: .row.hash
         .key IP is blacklisted
-        - blacklisted = if @spam.reported_ip_blacklisted then 'Yes' else 'No'
+        - blacklisted = if @pe_spam.reported_ip_blacklisted then 'Yes' else 'No'
         .value = blacklisted
     br
     
     .row.hash.editable
       .key Example
-      .value = @spam.example_complaint
+      .value = @pe_spam.example_complaint

@@ -5,9 +5,9 @@
   
   .large-5.columns.checkboxes.collection
     - for option in @options
-      div
-        input type='checkbox' name="#{@name}[]" value="#{option.id}" id="#{@name}_#{option.id}"
-        label.errorless for="#{@name}_#{option.id}" = option.name
+      div.clearfix
+        .inpt: input type='checkbox' name="#{@name}[]" value="#{option.id}" id="#{@name}_#{option.id}"
+        .lbl:  label.errorless for="#{@name}_#{option.id}" = option.name
     input type='hidden' name="#{@name}[]" value='' syphon='visible'
     .large-12: span.form-error
   

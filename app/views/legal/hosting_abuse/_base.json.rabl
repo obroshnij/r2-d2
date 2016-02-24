@@ -4,14 +4,15 @@ node(:reported_by)                                                        { |h| 
 node(:service)                                                            { |h| h.service.name }
 node(:service_url,            if: -> (h) { h.service.properties['url'] }) { |h| h.service.properties['url'] }
 node(:type)                                                               { |h| h.type.name }
-node(:created_at_formatted)                                               { |h| h.created_at.strftime '%d %b %Y, %H:%M' }
+node(:created_at_formatted)                                               { |h| h.created_at.strftime '%b/%d/%Y, %H:%M' }
 node(:processed_by,           if: -> (h) { !h.unprocessed? })             { |h| h.processed_by.name }
-node(:processed_at_formatted, if: -> (h) { !h.unprocessed? })             { |h| h.processed_at.strftime '%d %b %Y, %H:%M' }
+node(:processed_at_formatted, if: -> (h) { !h.unprocessed? })             { |h| h.processed_at.strftime '%b/%d/%Y, %H:%M' }
 node(:server_name,            if: -> (h) { h.server_id })                 { |h| h.server.name }
 node(:efwd_server_name,       if: -> (h) { h.efwd_server_id })            { |h| h.efwd_server.name }
 node(:suggestion)                                                         { |h| h.suggestion.name }
 node(:shared_plan,            if: -> (h) { h.shared_plan_id })            { |h| h.shared_plan.name }
 node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })          { |h| h.reseller_plan.name }
+node(:vps_plan,               if: -> (h) { h.vps_plan_id })               { |h| h.vps_plan.name }
 node(:management_type,        if: -> (h) { h.management_type_id })        { |h| h.management_type.name }
 
 child(:ddos) do
@@ -79,5 +80,37 @@ child(:spam) do
   
   node(:queue_types, if: -> (s) { s.queue_type_ids.present? }) do |s|
     s.queue_types.map(&:name)
+  end
+end
+
+child(:pe_spam) do
+  attributes *(Legal::HostingAbuse::PeSpam.attribute_names + [:pe_queue_type_ids, :reporting_party_ids])
+  
+  node(:sent_emails_daterange, if: -> (s) { s.sent_emails_start_date.present? && s.sent_emails_end_date.present? }) do |s|
+    s.sent_emails_start_date.strftime('%d %B %Y') + ' - ' + s.sent_emails_end_date.strftime('%d %B %Y')
+  end
+  
+  node(:sent_emails_daterange_short, if: -> (s) { s.sent_emails_start_date.present? && s.sent_emails_end_date.present? }) do |s|
+    s.sent_emails_start_date.strftime('%d %b %Y') + ' - ' + s.sent_emails_end_date.strftime('%d %b %Y')
+  end
+  
+  node(:detected_by) do |s|
+    s.detection_method.name
+  end
+  
+  node(:reporting_parties, if: -> (s) { s.reporting_party_ids.present? }) do |s|
+    s.reporting_parties.map(&:name)
+  end
+  
+  node(:pe_queue_types, if: -> (s) { s.pe_queue_type_ids.present? }) do |s|
+    s.pe_queue_types.map(&:name)
+  end
+end
+
+child(:other) do
+  attributes *(Legal::HostingAbuse::Other.attribute_names + [:abuse_type_ids])
+  
+  node(:abuse_types, if: -> (o) { o.abuse_type_ids.present? }) do |o|
+    o.abuse_types.map(&:name)
   end
 end

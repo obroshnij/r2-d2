@@ -42,7 +42,7 @@ end
   Legal::HostingAbuse::Service.create name: service[:name], properties: service[:properties]
 end
 
-['Email Abuse / Spam', 'Resource Abuse', 'DDoS'].each do |name|
+['Email Abuse / Spam', 'Resource Abuse', 'DDoS', 'Other'].each do |name|
   Legal::HostingAbuse::AbuseType.create name: name
 end
 
@@ -58,7 +58,11 @@ end
   Legal::HostingAbuse::SharedPlan.create name: name
 end
 
-['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended', 'Disable Email Forwarding'].each do |name|
+['VPS Lite - Xen', 'VPS 1 - Xen', 'VPS 2 - Xen', 'VPS 3 - Xen'].each do |name|
+  Legal::HostingAbuse::VpsPlan.create name: name
+end
+
+['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended', 'Disable Email Forwarding', 'Suspend Permanently'].each do |name|
   Legal::HostingAbuse::Suggestion.create name: name
 end
 
@@ -101,11 +105,35 @@ end
   Legal::HostingAbuse::Spam::ContentType.create name: name
 end
 
-["Outbound Emails / Postfix Active Queue", "Forwarded Emails", "Bounced Emails / Postfix Deferred Queue", "Emails Sent in the Past / Logged Activity"].each do |name|
+["Outbound Emails", "Forwarded Emails", "Bounced Emails", "Logged Activity"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
+end
+
+["Emails Sent within a Time Frame", "Postfix Deferred Queue / Non-Deliverable", "Postfix Active Queue", "MAILER-DAEMON Bounced Emails"].each do |name|
+  Legal::HostingAbuse::Spam::PeQueueType.create name: name
 end
 
 ["AOL", "Blue Tie", "Comcast", "Cox", "FastMail", "HostedEmail", "Hotmail", "Microsoft", "PhoenixNAP","Rackspace", "Lashback",
  "ReturnPath", "RoadRunner", "SpamExperts", "Synacor", "Terra (Brazil)", "USA.net", "United Online", "Yahoo", "Zoho"].each do |name|
   Legal::HostingAbuse::Spam::ReportingParty.create name: name
+end
+
+[
+  "Copyright / Trademark Infringement",
+  "Adult Websites / Child Porn",
+  "Terrorism / Violence / Hate Sites / Illegal Activities",
+  "Drugs (Controlled Substances)",
+  "Malware",
+  "Port Scans / Brute Force / IP Scanners",
+  "IRC bots",
+  "Warez",
+  "Torrents / Mirrors",
+  "Streaming",
+  "Proxy / Traffic Relaying Soft",
+  "Banner-Ad Services / TopSites / AutoSurf Websites / etc.",
+  "Escrow / HYIP / FOREX / E-Gold Exchange / etc.",
+  "Gambling / Lottery Websites",
+  "BitCoin Miners"
+].each do |name|
+  Legal::HostingAbuse::Other::AbuseType.create name: name
 end

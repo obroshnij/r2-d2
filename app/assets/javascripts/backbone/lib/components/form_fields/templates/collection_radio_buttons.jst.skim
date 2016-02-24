@@ -5,9 +5,9 @@
   
   .large-5.columns.radiobuttons.collection
     - for option in @options
-      div
-        input type='radio' name="#{@name}" value="#{option.id}" id="#{@name}_#{option.id}"
-        label.errorless for="#{@name}_#{option.id}" = option.name
+      div.clearfix
+        .inpt: input type='radio' name="#{@name}" value="#{option.id}" id="#{@name}_#{option.id}"
+        .lbl: label.errorless for="#{@name}_#{option.id}" = option.name
     .large-12: span.form-error
   
   .large-7.columns

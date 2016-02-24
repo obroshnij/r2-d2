@@ -30,14 +30,19 @@ node :entities do
         spam: {
           detection_method: Legal::HostingAbuse::Spam::DetectionMethod.all.as_json(only: [:id, :name]),
           queue_type:       Legal::HostingAbuse::Spam::QueueType.all.as_json(only: [:id, :name]),
+          pe_queue_type:    Legal::HostingAbuse::Spam::PeQueueType.all.as_json(only: [:id, :name]),
           content_type:     Legal::HostingAbuse::Spam::ContentType.all.as_json(only: [:id, :name]),
           reporting_party:  Legal::HostingAbuse::Spam::ReportingParty.all.as_json(only: [:id, :name])
+        },
+        other: {
+          abuse_type: Legal::HostingAbuse::Other::AbuseType.all.as_json(only: [:id, :name])
         },
         service:         Legal::HostingAbuse::Service.all.as_json(only: [:id, :name, :properties]),
         type:            Legal::HostingAbuse::AbuseType.all.as_json(only: [:id, :name]),
         management_type: Legal::HostingAbuse::ManagementType.all.as_json(only: [:id, :name]),
         reseller_plan:   Legal::HostingAbuse::ResellerPlan.all.as_json(only: [:id, :name]),
         shared_plan:     Legal::HostingAbuse::SharedPlan.all.as_json(only: [:id, :name]),
+        vps_plan:        Legal::HostingAbuse::VpsPlan.all.as_json(only: [:id, :name]),
         suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name]),
         reported_by:     Legal::HostingAbuse.reported_by.as_json(only: [:id, :name])
       }

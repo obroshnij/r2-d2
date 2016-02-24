@@ -4,25 +4,26 @@
     .row.large-up-4
     
       .column: .row.hash
-        .key Suggestion
+        .key Suggested Action
         .value = @suggestion
       
       - if _.contains [1, 2, 4], @suggestion_id
         .column: .row.hash
           .key Reason
-          .value = @suspension_reason
+          .value == @truncate @suspension_reason, 40, true
       
       - if @suggestion_id is 5
         .column: .row.hash
           .key Scan Report Path
           .value = @scan_report_path
           
-      - if @tech_comments
-        .column: .row.hash
-          .key Tech Comments
-          .value == @truncate @tech_comments, 40, true
-          
       - if @legal_comments
         .column: .row.hash
           .key L&A Comments
           .value == @truncate @legal_comments, 40, true
+    
+    - if @tech_comments
+      br
+      .row.hash.editable
+        .key Tech Comments
+        .value = @tech_comments
