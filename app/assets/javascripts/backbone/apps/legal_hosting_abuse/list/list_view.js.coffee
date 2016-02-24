@@ -61,23 +61,14 @@
   
   class List.ReportHeader extends App.Views.ItemView
     template: 'legal_hosting_abuse/list/_header'
-    
-    ui:
-      'toggle' : 'a.toggle'
-      'icon'   : 'a.toggle icon'
       
     triggers:
-      'click @ui.toggle'      : 'toggle:clicked'
       'click .process-report' : 'process:clicked'
       'click .dismiss-report' : 'dismiss:clicked'
       'click .edit-report'    : 'edit:clicked'
       
     modelEvents:
       'change' : 'render'
-      
-    onToggleClicked: ->
-      @ui.toggle.toggleClass 'expanded'
-      @ui.icon.toggleClass   'fa-rotate-180'
       
     @include 'HasDropdowns'
       
@@ -130,7 +121,7 @@
   
   class List.Report extends App.Views.LayoutView
     template: 'legal_hosting_abuse/list/report'
-    
+        
     regions:
       'headerRegion'     : '.header'
       'clientInfoRegion' : '.client-info'
@@ -138,7 +129,7 @@
       'conclusionRegion' : '.conclusion'
       
     triggers:
-      'click .header'    : 'childview:toggle:clicked'
+      'click .header'    : 'toggle:clicked'
     
     tagName:  'li'
     
@@ -155,9 +146,12 @@
       conclusionView = new List.ReportConclusion model: @model
       @conclusionRegion.show conclusionView
       
-    onChildviewToggleClicked: ->
+    onToggleClicked: ->      
       @$el.toggleClass 'expanded'
       @$('.expand').toggle 200
+      
+      @$('.header a.toggle').toggleClass      'expanded'
+      @$('.header a.toggle icon').toggleClass 'fa-rotate-180'
       
     onChildviewProcessClicked: (child, options) ->
       @trigger 'process:hosting:abuse:clicked', options

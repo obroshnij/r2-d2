@@ -28,6 +28,7 @@
           .value = @ddos.rule
           
     - if @ddos.logs
+      br
       .row.hash.editable
         .key Log
         .value = @ddos.logs
