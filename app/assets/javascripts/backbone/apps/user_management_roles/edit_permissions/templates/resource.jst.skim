@@ -1,0 +1,10 @@
+- console.log @
+
+h6 = @description
+
+- for group in @permission_groups
+  .permission-group
+    - for permission in group.permissions
+      .row
+        .large-12.columns
+          = permission.description
