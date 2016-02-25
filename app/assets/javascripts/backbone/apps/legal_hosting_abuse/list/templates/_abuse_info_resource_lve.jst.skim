@@ -4,11 +4,11 @@
     .row.large-up-4
         
       .column: .row.hash
-        .key Abuse Type
+        .key Resource Type
         .value = @resource.type
         
       .column: .row.hash
-        .key Resource
+        .key Affected Resources
         .value == @truncate @resource.abuse_types.join(',\n'), 40, true
                 
       .column: .row.hash
@@ -18,7 +18,8 @@
       .column: .row.hash
         .key Impact
         .value = @resource.impact
-        
+    br
+    
     - if @resource.lve_report
       .row.hash.editable
         .key LVE Report

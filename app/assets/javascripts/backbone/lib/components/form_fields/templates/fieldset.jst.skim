@@ -1,3 +1,7 @@
 fieldset
   legend = @legend
+  - if @hint
+    .row: .large-12.columns.fieldset-hint
+      - for line in s.lines(@hint)
+        p = line
   .fields

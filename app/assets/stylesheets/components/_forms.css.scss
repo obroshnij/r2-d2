@@ -2,6 +2,9 @@ form                                                  {
   input[type], select, textarea                       { font-size: 0.875rem; }
   fieldset                                            { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
     legend                                            { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
+    .fieldset-hint                                    { font-size: 1rem; color: #7d7d7d; white-space: pre-wrap; font-style: italic; margin-bottom: 1rem;
+      p                                               { text-indent: 2rem; margin-bottom: 0.5rem; text-align: justify; }
+    }
   }
   label                                               { font-size: 1rem; color: #333333; line-height: 1.3rem; }
   .help-text                                          { font-size: 1rem; color: #7d7d7d; margin-bottom: 0; white-space: pre-wrap; }
@@ -9,7 +12,10 @@ form                                                  {
     label                                             { font-size: 0.875rem; }
   }
   .collection                                         { margin-bottom: 1rem; padding-top: 0;
-    input[type='checkbox'], input[type='radio']       { margin: 0; }
+    > div                                             { margin-bottom: 0.2rem; }
+    .inpt                                             { float: left; padding-top: 0.2rem; }
+    .lbl                                              { margin-left: 1.4rem; }
+    input[type='checkbox'], input[type='radio']       { margin: 0; display: block; }
   }
   footer                                              { border-top: 1px solid rgba($black, 0.25); padding-top: 1rem; }
   span.form-error                                     { margin-top: -1rem; }

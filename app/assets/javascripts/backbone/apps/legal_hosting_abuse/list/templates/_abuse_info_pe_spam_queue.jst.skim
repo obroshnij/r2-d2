@@ -1,0 +1,67 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Detected by
+        .value = @pe_spam.detected_by
+        
+      .column: .row.hash
+        .key Queue Type
+        .value == @truncate @pe_spam.pe_queue_types.join(',\n'), 40, true
+        
+      .column: .row.hash
+        - if @pe_spam.ip_is_blacklisted is true
+          .key Blacklisted IP
+          .value = @pe_spam.blacklisted_ip
+        - else if @pe_spam.ip_is_blacklisted is false
+          .key IP is blacklisted
+          .value No
+        - else
+          .key IP is blacklisted
+          .value N/A
+          
+      .column: .row.hash
+        .key Outbound Blocked
+        - blocked = if @pe_spam.outbound_blocked then 'Yes' else 'No'
+        .value = blocked
+          
+      - if _.contains(@pe_spam.pe_queue_type_ids, 1)
+        .column: .row.hash
+          .key Date Range
+          .value = @pe_spam.sent_emails_daterange_short
+        
+        .column: .row.hash
+          .key Outgoing Queue
+          .value = @pe_spam.sent_emails_amount + ' x ' + @pe_spam.recepients_per_email
+          
+      - if _.contains(@pe_spam.pe_queue_type_ids, 2)
+        .column: .row.hash
+          .key Deferred Queue
+          .value = @pe_spam.postfix_deferred_queue
+          
+      - if _.contains(@pe_spam.pe_queue_type_ids, 3)
+        .column: .row.hash
+          .key Active Queue
+          .value = @pe_spam.postfix_active_queue
+          
+      - if _.contains(@pe_spam.pe_queue_type_ids, 4)
+        .column: .row.hash
+          .key DAEMON Queue
+          .value = @pe_spam.postfix_active_queue
+    br
+        
+    - if _.contains(@pe_spam.pe_queue_type_ids, 1) or _.contains(@pe_spam.pe_queue_type_ids, 2) or _.contains(@pe_spam.pe_queue_type_ids, 3)
+      .row.hash.editable
+        .key Header
+        .value = @pe_spam.header
+        
+      .row.hash.editable
+        .key Body
+        .value = @pe_spam.body
+        
+    - if _.contains(@pe_spam.pe_queue_type_ids, 4)
+      .row.hash.editable
+        .key Body
+        .value = @pe_spam.bounce

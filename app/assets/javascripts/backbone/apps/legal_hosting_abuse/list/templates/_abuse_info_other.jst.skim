@@ -1,0 +1,23 @@
+.large-12.columns
+  fieldset
+    legend = @type
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Abuse Type
+        .value == @truncate @other.abuse_types.join(',\n'), 40, true
+
+      .column: .row.hash
+        .key Domain Name
+        .value = @other.domain_name
+        
+      - if @other.url
+        .column: .row.hash
+          .key URL
+          .value == @truncate @other.url, 40, true
+        
+    - if @other.logs
+      br
+      .row.hash.editable
+        .key Log
+        .value = @other.logs

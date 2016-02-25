@@ -61,13 +61,13 @@ class Legal::HostingAbuse::Form::Spam
     f.validates :reported_ip,                     presence: true, ip_address: true
   end
   
-    validates :involved_mailboxes,              presence: true,                     if: -> { sent_by_cpanel == false &&  low_mailboxes_count? &&  mailbox_password_reset }
-    validates :mailbox_password_reset_reason,   presence: true,                     if: -> { sent_by_cpanel == false &&  low_mailboxes_count? && !mailbox_password_reset }
-    validates :involved_mailboxes_count_other,  presence: true, numericality: true, if: -> { sent_by_cpanel == false && !low_mailboxes_count? }
+  validates :involved_mailboxes,                  presence: true,                     if: -> { sent_by_cpanel == false &&  low_mailboxes_count? &&  mailbox_password_reset }
+  validates :mailbox_password_reset_reason,       presence: true,                     if: -> { sent_by_cpanel == false &&  low_mailboxes_count? && !mailbox_password_reset }
+  validates :involved_mailboxes_count_other,      presence: true, numericality: true, if: -> { sent_by_cpanel == false && !low_mailboxes_count? }
 
-  validates :other_detection_method,              presence: true,                   if: :other_detection_method?
+  validates :other_detection_method,              presence: true,                     if: :other_detection_method?
   
-  validates :blacklisted_ip,                      presence: true, ip_address: true, if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
+  validates :blacklisted_ip,                      presence: true, ip_address: true,   if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
   
   def name
     'spam'
@@ -115,7 +115,7 @@ class Legal::HostingAbuse::Form::Spam
   
   def sent_emails_daterange= range
     @sent_emails_start_date = Date.parse range.split(' - ').first rescue nil
-    @sent_emails_end_date   = Date.parse range.split(' - ').last rescue nil
+    @sent_emails_end_date   = Date.parse range.split(' - ').last  rescue nil
     super
   end
   
