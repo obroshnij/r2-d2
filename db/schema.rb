@@ -19,13 +19,13 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   create_table "ability_permission_groups", force: :cascade do |t|
     t.integer  "resource_id"
     t.string   "name"
-    t.boolean  "exclusive",   default: false
     t.jsonb    "attrs",       default: {}
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "ability_permissions", force: :cascade do |t|
+    t.string   "identifier"
     t.integer  "group_id"
     t.string   "action"
     t.string   "conditions", default: ""
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20160224135712) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
+
+  add_index "ability_permissions", ["identifier"], name: "index_ability_permissions_on_identifier", unique: true, using: :btree
 
   create_table "ability_resources", force: :cascade do |t|
     t.string   "name"

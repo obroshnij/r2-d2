@@ -12,7 +12,7 @@ module Devise
       def authenticate!
         if params[:user]
           entries = ldap.bind_as(
-            base:     "cn=users,cn=accounts,dc=namecheap,dc=directory",
+            base:     Rails.application.secrets.ldap_search_base,
             filter:   "(uid=#{uid})",
             password: password
           )
@@ -28,9 +28,9 @@ module Devise
       
       def ldap
         ldap = Net::LDAP.new
-        ldap.host = 'ldap.namecheap.directory'
+        ldap.host = Rails.application.secrets.ldap_host
         ldap.port = 389
-        ldap.auth 'uid=stast,cn=users,cn=accounts,dc=namecheap,dc=directory', '1k0XYGF3xcQA4fEn*p6J'
+        ldap.auth Rails.application.secrets.ldap_uid, Rails.application.secrets.ldap_password
         ldap
       end
 

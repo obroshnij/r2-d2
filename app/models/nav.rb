@@ -24,6 +24,31 @@ class Nav
           name:   'Lists Compare Tool',
           url:    '#/tools/lists_diff',
           icon:   'fa fa-fw fa-list'
+        }, {
+          name:   'Bulk Dig',
+          url:    '/bulk_dig',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Email Verifier',
+          url:    '/verify_email',
+          icon:   'fa fa-fw fa-envelope-o'
+        }
+      ]
+    }, {
+      name:       'Domains',
+      url:        '#/domains',
+      icon:       'fi-web',
+      auth:       false,
+      navs_name:  'domains_navs',
+      child_navs: [
+        {
+          name:   'Watched Domains',
+          url:    '/watched_domains',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Maintenance Alerts',
+          url:    '/alerts',
+          icon:   'fa fa-fw fa-bullhorn'
         }
       ]
     }, {
@@ -38,6 +63,50 @@ class Nav
           url:    '#/legal/hosting_abuse',
           icon:   'fa fa-fw fa-server',
           klass:  Legal::HostingAbuse
+        }, {
+          name:   'Abuse Reports',
+          url:    '/abuse_reports',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Namecheap Users',
+          url:    '/nc_users',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Namecheap Domains',
+          url:    '/domains',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Private Emails',
+          url:    '/private_emails',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Multi RBL',
+          url:    '/rbls',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'DBL/SURBL Check',
+          url:    '/dbl_surbl',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Bulk CURL',
+          url:    '/bulk_curl',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Resource Abuse',
+          url:    '/resource_abuse',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Process Spam',
+          url:    '/spam',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'Spam Reports',
+          url:    '/spam_reports',
+          icon:   'fa fa-fw'
+        }, {
+          name:   'HTML PDFier',
+          url:    '/html_pdfier',
+          icon:   'fa fa-fw'
         }
       ]
     }, {

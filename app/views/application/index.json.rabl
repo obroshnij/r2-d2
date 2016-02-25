@@ -56,12 +56,10 @@ node :entities do
         permission_groups: resource.permission_groups.map do |group|
           {
             name:        group.name,
-            exclusive:   group.exclusive,
             permissions: group.permissions.map do |permission|
               {
-                id:          permission.id,
-                description: permission.description,
-                action_type: permission.action_type
+                identifier:  permission.identifier,
+                description: permission.description
               }
             end
           }

@@ -17,7 +17,8 @@
       resourcesView = @getResourcesView resources
       
       form = App.request 'form:component', resourcesView,
-        model: role
+        model:           role
+        focusFirstInput: false
       
       @show form, region: @layout.formRegion
       

@@ -1,10 +1,13 @@
-- console.log @
-
 legend = @description
+input type='hidden' name="permission_ids[]" value='' syphon='visible'
 
 - for group in @permission_groups
-  .permission-group
-    - for permission in group.permissions
-      .row
-        .large-12.columns
-          = permission.description
+  .row style='margin-bottom:0.75rem;'
+    .large-3.columns
+      label.text-right = group.name
+    .large-9.columns
+      .checkboxes.collection
+        - for permission in group.permissions
+          div.clearfix
+            .inpt: input type='checkbox' name="permission_ids[]" value="#{permission.identifier}" id="permission_ids_#{permission.identifier}"
+            .lbl:  label.errorless for="permission_ids_#{permission.identifier}" = permission.description
