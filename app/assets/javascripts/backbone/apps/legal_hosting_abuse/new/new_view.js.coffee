@@ -71,7 +71,7 @@
         ,
           name:     'username'
           label:    'Username'
-          hint:     'Ubersmith username (OWNER for resellers)'
+          hint:     'cPanel username (OWNER for resellers)'
           dependencies: [
             service_id:         value: [1, 2]
           ,
@@ -639,6 +639,10 @@
       ,
         legend:     'Other'
         id:         'other'
+        hint:       'This option should only be selected if we have some activity that highly influences a shared server and it is 
+                     not possible to obtain standard evidences of Resource / Email Abuse.\nAccording to Namecheap internal policies, 
+                     generally, such activities *must not* be reported internally without an urgent reason. Legal & Abuse Shift Leader 
+                     might refuse taking actions if the reason/evidence provided is not enough for him/her to initiate a case.'
         dependencies:
           type_id:    value: 4
           
