@@ -9,14 +9,17 @@
       @layout = @getLayoutView role
       
       @listenTo @layout, 'show', =>
-        @resourcesRegion resources
+        @formRegion role, resources
       
       @show @layout, loading: true
       
-    resourcesRegion: (resources) ->
+    formRegion: (role, resources) ->
       resourcesView = @getResourcesView resources
       
-      @show resourcesView, region: @layout.resourcesRegion
+      form = App.request 'form:component', resourcesView,
+        model: role
+      
+      @show form, region: @layout.formRegion
       
     getResourcesView: (resources) ->
       new EditPermissions.Resources

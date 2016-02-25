@@ -4,17 +4,16 @@
     template: 'user_management_roles/edit_permissions/layout'
     
     regions:
-      resourcesRegion: '#resources-region'
+      formRegion: '#form-region'
       
   
   class EditPermissions.Resource extends App.Views.ItemView
     template: 'user_management_roles/edit_permissions/resource'
     
-    tagName: 'li'
+    tagName: 'fieldset'
   
   
-  class EditPermissions.Resources extends App.Views.CompositeView
-    template:  'user_management_roles/edit_permissions/resources'
+  class EditPermissions.Resources extends App.Views.CollectionView
+    template:  false
     
     childView:          EditPermissions.Resource
-    childViewContainer: 'ul'
