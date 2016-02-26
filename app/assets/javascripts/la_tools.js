@@ -96,7 +96,7 @@ var generate = function() {
   
   text = text + advice.join('<br>');
   
-  text = text + "<br>The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux<br><br>";
+  text = text + "<br><br>The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux<br><br>";
   
   text = text + "Additionally, you might consider upgrading your current hosting plan to " + upgrade + ". All upgrades are processed on the prorate basis, thus it will be needed to pay only for the difference between the two plans. The prorated refund for your *current plan* will be carried over to your Namecheap funds, that can be used to settle the next generated invoice or pay for any other services with Namecheap."
   
