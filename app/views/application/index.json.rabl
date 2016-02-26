@@ -32,6 +32,7 @@ node :entities do
           queue_type:       Legal::HostingAbuse::Spam::QueueType.all.as_json(only: [:id, :name]),
           pe_queue_type:    Legal::HostingAbuse::Spam::PeQueueType.all.as_json(only: [:id, :name]),
           content_type:     Legal::HostingAbuse::Spam::ContentType.all.as_json(only: [:id, :name]),
+          pe_content_type:  Legal::HostingAbuse::Spam::PeContentType.all.as_json(only: [:id, :name]),
           reporting_party:  Legal::HostingAbuse::Spam::ReportingParty.all.as_json(only: [:id, :name])
         },
         other: {

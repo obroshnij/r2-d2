@@ -4,6 +4,7 @@ class Legal::HostingAbuse::PeSpam < ActiveRecord::Base
   belongs_to :report, class_name: 'Legal::HostingAbuse', foreign_key: 'report_id'
   
   belongs_to :detection_method,              class_name: 'Legal::HostingAbuse::Spam::DetectionMethod',            foreign_key: 'detection_method_id'
+  belongs_to :pe_content_type,               class_name: 'Legal::HostingAbuse::Spam::PeContentType',              foreign_key: 'pe_content_type_id'
   
   has_many  :pe_queue_type_assignments,      class_name: 'Legal::HostingAbuse::Spam::PeQueueTypeAssignment',      foreign_key: 'pe_spam_id'
   has_many  :pe_queue_types,                 through: :pe_queue_type_assignments

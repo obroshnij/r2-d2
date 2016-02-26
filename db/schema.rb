@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224135712) do
+ActiveRecord::Schema.define(version: 20160226113605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   create_table "legal_hosting_abuse_pe_spam", force: :cascade do |t|
     t.integer  "report_id"
     t.integer  "detection_method_id"
+    t.integer  "pe_content_type_id"
     t.text     "other_detection_method"
     t.integer  "sent_emails_amount"
     t.integer  "recepients_per_email"
@@ -383,6 +384,12 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   end
 
   create_table "legal_hosting_abuse_spam_detection_methods", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_spam_pe_content_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
