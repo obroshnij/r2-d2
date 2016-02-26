@@ -12,6 +12,10 @@
         .value == @truncate @pe_spam.pe_queue_types.join(',\n'), 40, true
         
       .column: .row.hash
+        .key Content Type
+        .value = @pe_spam.pe_content_type
+        
+      .column: .row.hash
         - if @pe_spam.ip_is_blacklisted is true
           .key Blacklisted IP
           .value = @pe_spam.blacklisted_ip

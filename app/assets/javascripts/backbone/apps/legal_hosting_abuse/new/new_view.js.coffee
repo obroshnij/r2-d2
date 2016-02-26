@@ -353,6 +353,14 @@
           dependencies:
             'pe_spam[detection_method_id]':  value: 1
         ,
+          name:     'pe_spam[pe_content_type_id]'
+          label:    'Content Type'
+          type:     'collection_radio_buttons'
+          options:  @getSpamPeContentTypes()
+          default:  1
+          dependencies:
+            'pe_spam[detection_method_id]':  value: 1
+        ,
           name:     'pe_spam[sent_emails_daterange]'
           label:    'Date Range'
           type:     'date_range_picker'
@@ -734,6 +742,7 @@
     getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
     getSpamPeQueueTypes:      -> @getOptions 'spam:pe:queue:type'
     getSpamContentTypes:      -> @getOptions 'spam:content:type'
+    getSpamPeContentTypes:    -> @getOptions 'spam:pe:content:type'
     
     getOtherAbuseTypes:       -> @getOptions 'other:abuse:type'
     

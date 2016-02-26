@@ -105,6 +105,10 @@ child(:pe_spam) do
   node(:pe_queue_types, if: -> (s) { s.pe_queue_type_ids.present? }) do |s|
     s.pe_queue_types.map(&:name)
   end
+  
+  node(:pe_content_type, if: -> (s) { s.pe_content_type_id.present? }) do |s|
+    s.pe_content_type.name
+  end
 end
 
 child(:other) do

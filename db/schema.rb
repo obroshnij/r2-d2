@@ -11,10 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224135712) do
+ActiveRecord::Schema.define(version: 20160226113605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ability_permission_groups", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.string   "name"
+    t.jsonb    "attrs",       default: {}
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "ability_permissions", force: :cascade do |t|
+    t.string   "identifier"
+    t.integer  "group_id"
+    t.string   "action"
+    t.string   "conditions", default: ""
+    t.jsonb    "attrs",      default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "ability_permissions", ["identifier"], name: "index_ability_permissions_on_identifier", unique: true, using: :btree
+
+  create_table "ability_resources", force: :cascade do |t|
+    t.string   "name"
+    t.jsonb    "attrs",      default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "abuse_notes_infos", force: :cascade do |t|
     t.integer  "abuse_report_id"
@@ -75,6 +102,19 @@ ActiveRecord::Schema.define(version: 20160224135712) do
     t.string   "impact",             default: "Low"
     t.string   "target_service",     default: "FreeDNS"
     t.boolean  "random_domains",     default: false
+  end
+
+  create_table "directory_group_assignments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directory_groups", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "hosting_abuse_cron_jobs", force: :cascade do |t|
@@ -188,6 +228,7 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   create_table "legal_hosting_abuse_pe_spam", force: :cascade do |t|
     t.integer  "report_id"
     t.integer  "detection_method_id"
+    t.integer  "pe_content_type_id"
     t.text     "other_detection_method"
     t.integer  "sent_emails_amount"
     t.integer  "recepients_per_email"
@@ -348,6 +389,12 @@ ActiveRecord::Schema.define(version: 20160224135712) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "legal_hosting_abuse_spam_pe_content_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "legal_hosting_abuse_spam_pe_queue_type_assignments", force: :cascade do |t|
     t.integer  "pe_spam_id"
     t.integer  "pe_queue_type_id"
@@ -492,9 +539,11 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   add_index "report_assignments", ["reportable_type", "reportable_id"], name: "index_report_assignments_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_ids",                  default: [], array: true
+    t.string   "permission_ids",             default: [], array: true
   end
 
   create_table "roles_users", force: :cascade do |t|
@@ -546,19 +595,22 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "email",                  limit: 255, default: "",   null: false
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_password",                 default: "", null: false
+    t.string   "encrypted_password",                 default: "",   null: false
     t.string   "name"
     t.datetime "reset_password_sent_at"
     t.string   "reset_password_token"
+    t.string   "uid"
+    t.integer  "role_id"
+    t.boolean  "auto_role",                          default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -9,6 +9,7 @@ class Legal::HostingAbuse::Form::PeSpam
   attr_accessor :shared_plan_id, :service_id
   
   attribute :detection_method_id,             Integer
+  attribute :pe_content_type_id,              Integer
   attribute :other_detection_method,          String
   attribute :pe_queue_type_ids,               Array[Integer]
   attribute :sent_emails_amount,              Integer

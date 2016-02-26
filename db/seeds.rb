@@ -105,6 +105,10 @@ end
   Legal::HostingAbuse::Spam::ContentType.create name: name
 end
 
+["Forwarded Emails", "Deliberate Spam", "Other (Marketing, Newsletter, etc.)"].each do |name|
+  Legal::HostingAbuse::Spam::PeContentType.create name: name
+end
+
 ["Outbound Emails", "Forwarded Emails", "Bounced Emails", "Logged Activity"].each do |name|
   Legal::HostingAbuse::Spam::QueueType.create name: name
 end
