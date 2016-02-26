@@ -4,14 +4,13 @@ require 'resque/scheduler/server'
 
 Rails.application.routes.draw do
   
-  get '/r2' => 'application#index'
-  root 'domain_box#whois'
+  root 'application#index'
   
   # get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
 
   mount Resque::Server.new, :at => '/resque'
   
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users
   resources :users
   
   resources :roles

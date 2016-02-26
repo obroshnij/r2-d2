@@ -2,6 +2,7 @@
   .large-12.columns
     br
     - flash.each do |key, value|
-      div data-alert='' class="alert-box #{key}"
-        = value
-        a.close href="#" ×
+      - if value.present?
+        div data-alert='' class="alert-box #{key}"
+          = value
+          a.close href="#" ×

@@ -5,7 +5,6 @@ class Nav
       name:       'Tools',
       url:        '#/tools',
       icon:       'fi-widget',
-      auth:       false,
       navs_name:  'tools_navs',
       child_navs: [
         {
@@ -38,7 +37,6 @@ class Nav
       name:       'Domains',
       url:        '#/domains',
       icon:       'fi-web',
-      auth:       false,
       navs_name:  'domains_navs',
       child_navs: [
         {
@@ -55,7 +53,6 @@ class Nav
       name:       'Legal & Abuse',
       url:        '#/legal',
       icon:       'fi-sheriff-badge',
-      auth:       true,
       navs_name:  'legal_navs',
       child_navs: [
         {
@@ -113,7 +110,6 @@ class Nav
       name:       'User Management',
       url:        '#/user_management',
       icon:       'fi-torsos-all',
-      auth:       false,
       navs_name:  'user_management_navs',
       child_navs: [
         {
@@ -152,7 +148,7 @@ class Nav
   
   def self.accessible_by ability
     navs = all.each do |nav|
-      nav.child_navs.delete_if { |child_nav| child_nav.auth && ability.cannot?(:read, child_nav.klass) }
+      nav.child_navs.delete_if { |child_nav| child_nav.klass && ability.cannot?(:read, child_nav.klass) }
     end
     
     navs.delete_if { |nav| nav.child_navs.blank? }

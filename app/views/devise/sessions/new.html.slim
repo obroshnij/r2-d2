@@ -1,24 +1,31 @@
-- provide :title, "Sign In"
+css:
+  form { margin-top: 5rem; }
 
 .row: .large-4.large-offset-4.columns
   = form_for resource, as: resource_name, url: session_path(resource_name) do |f|
-    fieldset
-      legend Sign in
-            
-      .form-field
-        = f.label :uid, 'User ID'
-        = f.email_field :uid, autofocus: true
-
-      .form-field
-        = f.label :password, 'Password'
-        = f.password_field :password, autocomplete: "off"
-
-      - if devise_mapping.rememberable?
-       .form-field.left
-         = f.check_box :remember_me
-         = f.label :remember_me, 'Remember me'
-
-      .right
-        = render "devise/shared/links"
+    .callout.primary
+      fieldset
+        legend Sign in
         
-    = f.submit "Sign in", class: "button tiny"
+        .row
+          .large-3.columns
+            = f.label :uid, 'User ID', class: 'text-right middle'
+          .large-9.columns
+            = f.email_field :uid, autofocus: true
+        
+        .row
+          .large-3.columns
+            = f.label :password, 'Password', class: 'text-right middle'
+          .large-9.columns
+            = f.password_field :password, autocomplete: 'off'
+
+        - if devise_mapping.rememberable?
+          .row
+            .large-9.large-offset-3.columns
+              .collection.checkboxes
+                .inpt = f.check_box :remember_me
+                .lbl  = f.label :remember_me, 'Remember me'
+                
+      footer.clearfix
+        .button-group.small.float-right
+          = f.submit 'Sign in', class: 'button'

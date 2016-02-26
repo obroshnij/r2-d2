@@ -1,6 +1,5 @@
 class NcServicesController < ApplicationController
   
-  before_action :authenticate_user!
   authorize_resource class: 'NcService'
   
   def index

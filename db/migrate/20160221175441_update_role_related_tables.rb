@@ -10,6 +10,7 @@ class UpdateRoleRelatedTables < ActiveRecord::Migration
     
     ## Roles table
     add_column    :roles, :group_ids,              :integer,  array: true,   default: []
+    add_column    :roles, :permission_ids,         :string,   array: true,   default: []
     
     ## Roles <-> Users join table
     # drop_table :roles_users do |t|

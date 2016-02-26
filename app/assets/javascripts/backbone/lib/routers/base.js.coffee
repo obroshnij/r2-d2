@@ -4,7 +4,7 @@
     
     constructor: (options = {}) ->
       _.defaults options,
-        auth:     false
+        auth:     true
         resource: false
       
       { @auth, @resource } = options

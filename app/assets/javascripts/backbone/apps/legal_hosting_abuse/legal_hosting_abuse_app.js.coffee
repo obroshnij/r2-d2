@@ -80,5 +80,4 @@
   LegalHostingAbuseApp.on 'start', ->
     new LegalHostingAbuseApp.Router
       controller: API
-      auth:       true
       resource:   'Legal::HostingAbuse'

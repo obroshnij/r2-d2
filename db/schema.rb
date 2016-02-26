@@ -532,10 +532,11 @@ ActiveRecord::Schema.define(version: 20160224135712) do
   add_index "report_assignments", ["reportable_type", "reportable_id"], name: "index_report_assignments_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_ids",              default: [], array: true
+    t.integer  "group_ids",                  default: [], array: true
+    t.string   "permission_ids",             default: [], array: true
   end
 
   create_table "roles_users", force: :cascade do |t|

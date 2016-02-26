@@ -32,7 +32,7 @@ class Ability::Setup
             },{
               action:       'update',
               description:  'Update existing reports submitted by the current user',
-              conditions:   '{ reported_by_id: current_user.id }',
+              conditions:   '{ reported_by_id: user.id }',
               identifier:   'legal_hosting_abuse_update_own'
             },{
               action:       'process',

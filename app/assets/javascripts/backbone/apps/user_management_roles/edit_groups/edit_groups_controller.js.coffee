@@ -8,10 +8,11 @@
       editGroupsView = @getEditGroupsView role
       
       form = App.request 'form:component', editGroupsView,
-        proxy:     'modal'
-        model:     role
-        onCancel:  => @region.empty()
-        onSuccess: => @region.empty()
+        proxy:           'modal'
+        model:           role
+        focusFirstInput: false
+        onCancel:        => @region.empty()
+        onSuccess:       => @region.empty()
       
       @show form
           
