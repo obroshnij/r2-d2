@@ -16,62 +16,139 @@ $(document).ready(function(){
 
 var generate = function() {
   var text;
+  
+  var shared   = document.getElementById("shared").checked;
+  var reseller = document.getElementById("reseller").checked;
        
-  var warning=document.getElementById("warning").checked;
-  var suspend=document.getElementById("suspend").checked;
+  var warning = document.getElementById("warning").checked;
+  var suspend = document.getElementById("suspend").checked;
   
-  var user=document.getElementById("user").value;
-  var domain=document.getElementById("domain").value;
-  var server=document.getElementById("server").value;
-  var upgrade=document.getElementById("upgrade").value;
+  var user    = document.getElementById("user").value;
+  var domain  = document.getElementById("domain").value;
+  var server  = document.getElementById("server").value;
+  var upgrade = document.getElementById("upgrade").value;
+  var time    = document.getElementById("allow_time").value;
   
-  if (!(warning||suspend)) {toastr.error("Select action type (Warning/Suspend)"); return;};    
+  if (!(shared||reseller)) {toastr.error("Select hosting type (Shared/Reseller)"); return;}
+  
+  if (!(warning||suspend)) {toastr.error("Select action type (Warning/Suspend)"); return;};
+  
+  if (!mysql && !cpu && !memory && !ep && !io) { toastr.error("Select at least one exceeded resource limit"); return; }
  
-  if (warning) {text = "WARNING: Resource abuse on account \'"+user+"\'";};
-  if (suspend) {text = "IMPORTANT: account \'"+user+"\'";};
+  if (warning) {text = "WARNING: Resource Abuse on Account '" + user + "' (" + domain + ") - " + server;}
+  if (suspend) {text = "IMPORTANT: Account '" + user + "' (" + domain + ") is suspended due to Resource Abuse - " + server;};
   
-  if (domain.length > 0) {text = text + " ("+domain+")";};
+  text = text + "<br><br>";
   
-  if (warning) {text = text + " - "+server+" <br><br>";};
-  if (suspend) {text = text + " is suspended due to Resource abuse - "+server+" <br><br>";};
+  text = text + "It has come to our attention that the '" + user + "' hosting account is overusing limits of shared resources, affecting the server performance and all accounts hosted therein. In order to obtain additional information about the limits please refer to Paragraph 10. “Additional Acceptable Use Policy for Virtual accounts” of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx<br><br>";
   
-  text = text + "Hello, <br><br>It has come to our attention that "+user+" hosting account is using more than its fair share of the server resources, causing poor server performance for your account and for other users on the server. Unoptimized scripts, incorrectly configured crons, or a lot of simultaneous visitors are some possible causes of such load. You are welcome to refer to Terms of Service, paragraph 10 point 1 \"Server Resource Provision\": http://www.namecheap.com/legal/hosting/aup.aspx <br><br>";
+  if ( mysql && !cpu && !memory && !ep && !io ) {
+    text = text + "The server is abused by MySQL queries.";
+  } else if ( !mysql && (cpu || memory || ep || io) ) {
+    text = text + "The following resource limits are being exceeded: ";
+    limits = [];
+    if (cpu)    { limits.push('CPU usage'); }
+    if (memory) { limits.push('Memory Usage'); }
+    if (ep)     { limits.push('Entry Processes'); }
+    if (io)     { limits.push('Input/Output'); }
+    text = text + limits.join(', ') + '.';
+  } else {
+    text = text + "The server is abused by MySQL queries and the following resource limits are being exceeded: ";
+    limits = [];
+    if (cpu)    { limits.push('CPU usage'); }
+    if (memory) { limits.push('Memory Usage'); }
+    if (ep)     { limits.push('Entry Processes'); }
+    if (io)     { limits.push('Input/Output'); }
+    text = text + limits.join(', ') + '.';
+  }
   
-  if (cpu||memory||ep||io) {text = text + "As we see the following limits are being exceeded: <br>";};
-  if (cpu) {text = text + "CPU Usage<br>"};
-  if (memory) {text = text + "Memory Usage<br>"};
-  if (ep) {text = text + "Entry Processes<br>"};
-  if (io) {text = text + "Input/Output<br>"};
+  text = text + "<br><br>";
   
-  if (mysql) {text = text + "The server is being abused by MySQL queries.<br>";};
+  text = text + "Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. Here are the diagnostic steps generally suggested for finding the corresponding solution:<br><br>";
   
-  text = text + "<br>";
+  advice = [];
   
-  if (ep) {text = text + "Make sure there is no RSS enabled on your site. ";};
+  if (mysql || cpu || memory | ep) {
+    advice.push("- enable caching plugins (Note: Such plugins in conjunction with other website elements might malfunction. That is why in case one of the plugins is already in use it is required to disable the plugin temporary and monitor the account’s activity.)");
+  }
   
-  if (cpu||memory||ep) {text = text + "Please consider turning off some unnecessary plugins and possibly change the theme. ";}
-    
-  if (io) {text = text + "Please be advised to have CloudFlare enabled (you may find the corresponding instruction at http://www.namecheap.com/support/knowledgebase/article.aspx/1191/176/ ). ";};
+  if (mysql) {
+    advice.push("- revise all active plugins disabling unnecessary ones (in some cases even changing the current theme might be of use)");
+    advice.push("- make sure that all websites are well optimized and working as expected (if you are not a developer or professional in website administration, we strongly recommend reaching out to webmaster services)");
+    advice.push("- if the SSH access is enabled for the account it is possible to check which threads are being processed by the MySQL server:");
+    advice.push("Step 1 - Connect to your database using the following command:");
+    advice.push("mysql -uusername -ppassword database_name");
+    advice.push("Step 2 - Once connected, please use the following command to see the active threads:");
+    advice.push("show full processlist");
+  }
   
-  if (cpu||memory||ep||mysql) {text = text + "It may make sense to enable caching plugins. But please note that sometimes these plugins, in conjunction with other site elements, may malfunction, creating serious load. If you use one, check if disabling reduces the load. We would also recommend to make sure that your site(s) are well optimized and function normally. If you have doubts, and you are not a developer or professional in sites administration, we recommend to take advantage of webmaster services.";};
+  if (ep) {
+    advice.push("- make sure that RSS is not enabled on your website");
+    advice.push("- please refer to the Awstats option in cPanel (in case at least one of your websites is receiving a considerably high amount of hits/incoming traffic volume, an upgrade is the most valid solution)");
+    advice.push("- if the SSH access is enabled for the account the “ top -c ” command is of use in order to find the webpages causing the most significant impact (in case an active process takes much time or a critical amount of virtual memory for being completed, it should be disabled)");
+  }
   
-  if (ep||mysql) {text = text + "<br>If SSH access is enabled for your account, ";};
+  if (io) {
+    advice.push("- make sure that the CloudFlare service is enabled. Please refer to the following Namecheap KnowledgeBase articles:");
+    advice.push("+ to enable the CloudFlare cPanel add-on https://www.namecheap.com/support/knowledgebase/article.aspx/1191/2210/how-to-enable-cloudflare-for-your-domain-name");
+    advice.push("+ to obtain additional information about CloudFlare https://www.namecheap.com/support/knowledgebase/subcategory.aspx?type=category&contentid=2210&categorytitle=cpanel%20addons");
+  }
   
-  if (mysql) {text = text + " you can easily check which threads are processing by the MySQL server. First you will need to connect to your database. Please use the following command:<br>mysql -uusername -ppassword database_name<br>Once you connected to the database, please use the following command to see the threads running:<br>show full processlist;";};
+  text = text + advice.join('<br>');
   
-  if (mysql&&ep) {text = text + "<br>You might also find what sites/pages are causing the load using \"top -c\" command. If you can see that it takes much time to process a single process or that they take a considerable amount of memory, then it make sense to disable it . Otherwise it may mean that your sites are receiving too much traffic/many hits. You may check it in Awstats in cPanel. In this case upgrade is the most often advised solution. ";}
-    else {if (ep) {text = text + "you might also find what sites/pages are causing the load using \"top -c\" command. If you can see that it takes much time to process a single process or that they take a considerable amount of memory, then it make sense to disable it . Otherwise it may mean that your sites are receiving too much traffic/many hits. You may check it in Awstats in cPanel. In this case upgrade is the most often advised solution. ";};};
-    
-  text = text + "<br><br>You might also consider upgrading your account to "+upgrade+". All upgrades are processed on the prorate basis, thus you will need to pay only for the difference between two plans. <br><br> Please let us suggest you to refer to your cPanel and check the corresponding Resource Usage limits and statistics powered by the LVE technology. Additional information and instructions on how to use those features are available in our Knowledge Base article at https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux <br><br>";
+  text = text + "<br>The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux<br><br>";
   
-  if (warning) {text=text + "Kindly resolve the issue and update us with the actions taken within 24 hours in order to prevent suspension of the account reported. If we do not receive your response or if the issue is not resolved within the specified timeframe, we will be forced to suspend the account in order to prevent the resource abuse. Please also note that in case the negative effect on the server caused by the account activity grows, we may be forced to suspend the account in question immediately, to our regret. <br><br>";};
-  if (suspend) {text=text + "To our regret we have been forced to suspend the reported account in order to prevent the resource abuse. In order to have the account unsuspended you will need to take actions necessary for resolving the issue immediately after unsuspension. <br><br>";};
+  text = text + "Additionally, you might consider upgrading your current hosting plan to " + upgrade + ". All upgrades are processed on the prorate basis, thus it will be needed to pay only for the difference between the two plans. The prorated refund for your *current plan* will be carried over to your Namecheap funds, that can be used to settle the next generated invoice or pay for any other services with Namecheap."
   
-  text = text + "Please let us know if you have any questions. You may find the details below: <br>";  
+  if (reseller) { text = text + " If you are using third-party licenses (e.g. cPanel, Softaculous or WHMCS) purchased separately, pleases let us draw your attention that they are non-refundable according to the Acceptable Use Policy." }
   
-  if (mysql) {text = text + "<br>============================================ <br>" + document.getElementById("mysqlLogs").value;}; 
+  text = text + "<br><br>";
   
-  if (cpu||memory||ep||io) {text = text + "<br>============================================ <br>" + document.getElementById("logs").value.replace(/\n/g, '<br>') + "<br>============================================<br>ID : LVE Id or username<br>aCPU : Average CPU usage<br>mCPU : Max CPU usage<br>lCPU : CPU Limit<br>aEP : Average Entry Processes<br>mEP : Max Entry Processes<br>lEP : maxEntryProc limit<br>aVMem : Average Virtual Memory Usage<br>mVMem : Max Virtual Memory Usage<br>lVMem : Virtual Memory Limit<br>VMemF : Out Of Memory Faults<br>EPf : Entry processes faults<br>aPMem : Average Physical Memory Usage<br>mPMem : Max Physical Memory Usage<br>lPMem : Physical Memory Limit<br>aNproc : Average Number of processes<br>mNproc : Max Number of processes<br>lNproc : Limit of Number of processes<br>PMemF : Out Of Physical Memory Faults<br>NprocF : Number of processes faults<br>aIO : Average I/O<br>mIO : Max I/O<br>lIO : I/O Limit";};
+  if (suspend) { text = text + "Unfortunately, we have been forced to suspend the reported account in order to prevent the resource abuse and its impact on other accounts located on the server. In order to have the account unsuspended it is required to confirm that all measures necessary for the issue resolving will be taken immediately after the unsuspension.<br><br>"; }
+  
+  if (warning) { text = text + "It is required to look into the issue decreasing the resource usage and providing us with the corresponding results within the next " + time + ". Otherwise, if the resource overuse persists after the time-frame provided and/or no response is received from your side we might be forced to suspend the account in question. We would like to emphasize that in case the impact on the server increases within the specified time-frame there might no other option but to suspend the account immediately, to our regret.<br><br>"; }
+  
+  text = text + "Looking forward to your reply.<br><br>";
+  
+  mysqllog = document.getElementById("mysqlLogs").value.replace(/\n/g, '<br>');
+  lvelog   = document.getElementById("logs").value.replace(/\n/g, '<br>');
+  
+  log = [];
+  if (mysqllog.length > 0) { log.push(mysqllog); }
+  if (lvelog.length > 0)   { log.push(lvelog); }
+  
+  if (log.length > 0) {
+    text = text + "================[ Please find the additional information below / attached. ]================<br><br>";
+    text = text + log.join("<br><br>==========================================<br><br>");
+  }
+  
+  text = text + "<br><br>================[ Notations  ]================<br><br>";
+
+  text = text + "ID : LVE Id or username<br>";
+  text = text + "aCPU : Average CPU usage<br>";
+  text = text + "mCPU : Max CPU usage<br>";
+  text = text + "lCPU : CPU Limit<br>";
+  text = text + "aEP : Average Entry Processes<br>";
+  text = text + "mEP : Max Entry Processes<br>";
+  text = text + "lEP : maxEntryProc limit<br>";
+  text = text + "aVMem : Average Virtual Memory Usage<br>";
+  text = text + "mVMem : Max Virtual Memory Usage<br>";
+  text = text + "lVMem : Virtual Memory Limit<br>";
+  text = text + "VMemF : Out Of Memory Faults<br>";
+  text = text + "EPf : Entry processes faults<br>";
+  text = text + "aPMem : Average Physical Memory Usage<br>";
+  text = text + "mPMem : Max Physical Memory Usage<br>";
+  text = text + "lPMem : Physical Memory Limit<br>";
+  text = text + "aNproc : Average Number of processes<br>";
+  text = text + "mNproc : Max Number of processes<br>";
+  text = text + "lNproc : Limit of Number of processes<br>";
+  text = text + "PMemF : Out Of Physical Memory Faults<br>";
+  text = text + "NprocF : Number of processes faults<br>";
+  text = text + "aIO : Average I/O<br>";
+  text = text + "mIO : Max I/O<br>";
+  text = text + "lIO : I/O Limit<br>";
+  
+  text = text + "<br>=========================================="
   
   div.innerHTML = text;
   div.style.display = '';

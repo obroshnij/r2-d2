@@ -10,20 +10,34 @@
         = text_field_tag :user, "xxUSERNAMExx"
   
         = label_tag :domain, "Domain"
-        = text_field_tag :domain, nil
+        = text_field_tag :domain, "xxDOMAINxx"
     
         = label_tag :server, "Server"
         = text_field_tag :server, "xxSERVERxx"
     
         = label_tag :upgrade, "Upgrade Suggestion"
         = text_field_tag :upgrade, "xxUPGRADExx"
+        
+        = label_tag :allow_time, "Allow Time"
+        = text_field_tag :allow_time, "24 hours"
     
       .large-8.columns
       
         = label_tag :logs, "LVE Logs"
-        = text_area_tag :logs, nil, rows: 15
+        = text_area_tag :logs, nil, rows: 19
         
     .row: .large-12.columns: hr
+    
+    .row
+      .large-12.columns
+        
+        = radio_button_tag :whathosting, nil, false, id: "shared"
+        = label_tag :shared, "Shared"
+    
+        = radio_button_tag :whathosting, nil, false, id: "reseller"
+        = label_tag :reseller, "Reseller"
+        br
+        hr
           
     .row
       .large-12.columns
