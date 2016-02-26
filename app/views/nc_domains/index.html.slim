@@ -2,7 +2,7 @@
 
 .row: .large-12.columns
 
-  = search_form_for @search, url: { controller: :domains } do |f|
+  = search_form_for @search, url: { controller: :nc_domains } do |f|
     fieldset
       legend Filters
       ul.large-block-grid-4
@@ -44,7 +44,7 @@
             td = domain.nc_user.try(:username)
             td = domain.abuse_reports.direct.count
             td = domain.status_icons
-            td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), domain_path(domain.id)
+            td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_domain_path(domain.id)
 .row: .large-12.columns
   span.pageInfo = page_entries_info @services
   = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

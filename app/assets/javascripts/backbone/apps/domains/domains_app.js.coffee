@@ -22,4 +22,3 @@
   DomainsApp.on 'start', ->
     new DomainsApp.Router
       controller: API
-      auth:       false

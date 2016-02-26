@@ -42,7 +42,7 @@ class Nav
         {
           name:   'Watched Domains',
           url:    '/watched_domains',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw fa-binoculars'
         }, {
           name:   'Maintenance Alerts',
           url:    '/alerts',

@@ -27,4 +27,3 @@
   ToolsDataExtractorApp.on 'start', ->
     new ToolsDataExtractorApp.Router
       controller: API
-      auth:       false

@@ -62,13 +62,11 @@ Rails.application.routes.draw do
   end
   
   resources :nc_users
-  resources :nc_services, as: 'domains', path: '/domains', controller: 'domains'
+  resources :nc_services, as: 'nc_domains', path: '/nc_domains', controller: 'nc_domains'
   resources :nc_services, as: 'private_emails', path: '/private_emails', controller: 'private_emails'
   
   resources :rbls
-  
-  resources :watched_domains
-  
+    
   namespace :api do
     resources :whois_records
   end
@@ -85,6 +83,10 @@ Rails.application.routes.draw do
   
   namespace :legal do
     resources :hosting_abuse
+  end
+  
+  namespace :domains do
+    resources :watched_domains
   end
   
 end

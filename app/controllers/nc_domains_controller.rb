@@ -1,4 +1,4 @@
-class DomainsController < NcServicesController
+class NcDomainsController < NcServicesController
   
   private
   

@@ -22,4 +22,3 @@
   ToolsApp.on 'start', ->
     new ToolsApp.Router
       controller: API
-      auth:       false

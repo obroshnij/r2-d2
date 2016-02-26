@@ -28,4 +28,3 @@
   UserManagementUsersApp.on 'start', ->
     new UserManagementUsersApp.Router
       controller: API
-      auth:       false

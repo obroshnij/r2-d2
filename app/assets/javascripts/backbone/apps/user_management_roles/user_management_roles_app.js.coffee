@@ -51,4 +51,3 @@
   UserManagementRolesApp.on 'start', ->
     new UserManagementRolesApp.Router
       controller: API
-      auth:       false

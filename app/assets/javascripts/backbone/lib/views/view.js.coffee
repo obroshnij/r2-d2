@@ -12,10 +12,9 @@
   
     destroy: (args...) ->
       if @model?.isDestroyed()
-        
-        wrapper = @$el.toggleWrapper
-          className: 'opacity'
-          backgroundColor: 'red'
+                  
+        wrapper = @addOpacityWrapper true,
+          backgroundColor: "#ec5840"
         
         wrapper.fadeOut 400, ->
           $(@).remove()

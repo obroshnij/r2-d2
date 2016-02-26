@@ -17,7 +17,7 @@ nav.top-bar data-topbar='' role="navigation"
           li = link_to "Compare Lists", compare_path
           li = link_to "Bulk Dig", bulk_dig_path
           li = link_to "Email Verifier", verify_email_path
-          li = link_to "Watched Domains", watched_domains_path if can? :read, WatchedDomain
+          li = link_to "Watched Domains", '/#domains/watched' if can? :read, Domains::WatchedDomain
       li.divider
       
       - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
@@ -45,7 +45,7 @@ nav.top-bar data-topbar='' role="navigation"
                 ul.dropdown
                   li = link_to "Abuse Reports", abuse_reports_path if can? :read, AbuseReport
                   li = link_to "Namecheap Users", nc_users_path if can? :read, NcUser
-                  li = link_to "Namecheap Domains", domains_path if can? :read, NcService
+                  li = link_to "Namecheap Domains", nc_domains_path if can? :read, NcService
                   li = link_to "Private Emails", private_emails_path if can? :read, NcService
                   li = link_to "Multi RBL", rbls_path if can? :read, Rbl
         li.divider

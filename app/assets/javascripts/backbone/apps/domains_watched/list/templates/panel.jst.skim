@@ -1,0 +1,5 @@
+.clearfix
+  h4.float-left Watched Domains
+  a.button.small.float-right
+    icon.fi-plus
+    |  New Domain

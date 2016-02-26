@@ -1,8 +1,8 @@
-class WatchedDomain < ActiveRecord::Base
+class Domains::WatchedDomain < ActiveRecord::Base
+  self.table_name = 'watched_domains'
   
-  validates :name, presence: true
+  validates :name, presence: true, host_name: true
   validates :name, uniqueness: { case_sensitive: false, message: 'has already been added' }
-  validate  :name_must_be_valid
   
   before_validation do
     self.name = self.name.strip.downcase
@@ -12,14 +12,10 @@ class WatchedDomain < ActiveRecord::Base
     self.status = self.new_status
   end
   
-  def name_must_be_valid
-    errors.add(:name, 'is invalid') unless PublicSuffix.valid? self.name
-  end
-  
   def new_status
     if self.valid?
       return whois[:status] if whois[:status].present?
-      return ['unknown'] if whois[:available] == 'unknown'
+      return ['unknown']    if whois[:available] == 'unknown'
       whois[:available] ? ['available'] : ['registered']
     end
   end
@@ -37,5 +33,4 @@ class WatchedDomain < ActiveRecord::Base
       whois_prop
     end
   end
-  
 end
