@@ -42,11 +42,13 @@ class Nav
         {
           name:   'Watched Domains',
           url:    '/watched_domains',
-          icon:   'fa fa-fw fa-binoculars'
+          icon:   'fa fa-fw fa-binoculars',
+          klass:  Domains::WatchedDomain
         }, {
           name:   'Maintenance Alerts',
           url:    '/alerts',
-          icon:   'fa fa-fw fa-bullhorn'
+          icon:   'fa fa-fw fa-bullhorn',
+          klass:  :maintenance_alert
         }
       ]
     }, {
@@ -63,47 +65,58 @@ class Nav
         }, {
           name:   'Abuse Reports',
           url:    '/abuse_reports',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  AbuseReport
         }, {
           name:   'Namecheap Users',
           url:    '/nc_users',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  NcUser
         }, {
           name:   'Namecheap Domains',
           url:    '/domains',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  NcService
         }, {
           name:   'Private Emails',
           url:    '/private_emails',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  NcService
         }, {
           name:   'Multi RBL',
           url:    '/rbls',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  Rbl
         }, {
           name:   'DBL/SURBL Check',
           url:    '/dbl_surbl',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }, {
           name:   'Bulk CURL',
           url:    '/bulk_curl',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }, {
           name:   'Resource Abuse',
           url:    '/resource_abuse',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }, {
           name:   'Process Spam',
           url:    '/spam',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }, {
           name:   'Spam Reports',
           url:    '/spam_reports',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }, {
           name:   'HTML PDFier',
           url:    '/html_pdfier',
-          icon:   'fa fa-fw'
+          icon:   'fa fa-fw',
+          klass:  :la_tool
         }
       ]
     }, {
@@ -115,11 +128,13 @@ class Nav
         {
           name:   'Users',
           url:    '#/user_management/users',
-          icon:   'fa fa-fw fa-user'
+          icon:   'fa fa-fw fa-user',
+          klass:  User
         }, {
           name:   'Roles & Permissions',
           url:    '#/user_management/roles',
-          icon:   'fa fa-fw fa-key'
+          icon:   'fa fa-fw fa-key',
+          klass:  Role
         }
       ]
     }
@@ -148,7 +163,7 @@ class Nav
   
   def self.accessible_by ability
     navs = all.each do |nav|
-      nav.child_navs.delete_if { |child_nav| child_nav.klass && ability.cannot?(:read, child_nav.klass) }
+      nav.child_navs.delete_if { |child_nav| child_nav.klass && ability.cannot?(:index, child_nav.klass) }
     end
     
     navs.delete_if { |nav| nav.child_navs.blank? }

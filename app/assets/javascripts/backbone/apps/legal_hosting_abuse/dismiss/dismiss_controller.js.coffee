@@ -8,8 +8,9 @@
       dismissView = @getDismissView report
       
       form = App.request 'form:component', dismissView,
-        proxy:     'modal'
-        model:     report
+        proxy:      'modal'
+        model:      report
+        saveMethod: 'markDismissed'
         onCancel:  => @region.empty()
         onSuccess: => @region.empty()
       

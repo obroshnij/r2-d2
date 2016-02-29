@@ -14,6 +14,6 @@
   
   
   class EditPermissions.Resources extends App.Views.CollectionView
-    template:  false
-    
     childView:          EditPermissions.Resource
+    
+    className: 'permissions-form'

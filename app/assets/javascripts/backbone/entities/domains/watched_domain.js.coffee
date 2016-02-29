@@ -3,6 +3,8 @@
   class Entities.WatchedDomain extends App.Entities.Model
     urlRoot: -> Routes.domains_watched_domains_path()
     
+    resourceName: 'Domains::WatchedDomain'
+    
   
   class Entities.WatchedDomainsCollection extends App.Entities.Collection
     model: Entities.WatchedDomain

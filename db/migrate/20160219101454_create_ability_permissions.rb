@@ -1,11 +1,11 @@
 class CreateAbilityPermissions < ActiveRecord::Migration
   def change
     create_table :ability_permissions do |t|
+      t.integer :resource_id
       t.string  :identifier
-      t.integer :group_id
-      t.string  :action
-      t.string  :conditions, default: ''
-      t.jsonb   :attrs,      default: {}
+      t.string  :actions,    array: true, default: []
+      t.string  :conditions,              default: ''
+      t.jsonb   :attrs,                   default: {}
       
       t.timestamps null: false
     end

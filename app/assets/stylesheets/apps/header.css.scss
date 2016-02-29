@@ -14,7 +14,7 @@
     > a::after                                  { border-color: $white transparent transparent; top: 1.45rem; right: 1rem; }
   }
   
-  .submenu.menu.vertical                        { background-color: #333333; border: none; margin-top: 0.25%; }
+  .submenu.menu.vertical                        { background-color: #333333; border: none; }
   
   li > .btn                                     { margin-top: 0.675rem;
     a[class=button]                             { color: $white; }

@@ -7,6 +7,18 @@
           li.menu-logo
             <%= image_tag "artoo.png" %>
           li.menu-text.site-title R2-D2
+          
+          - if @can('monthly_reports', 'ManagerTool') || @can('welcome_emails', 'ManagerTool')
+            li.divider
+            li.has-submenu
+              a
+                i.fi-crown
+                | Management Tools
+              ul.submenu.menu.vertical data-submenu=''
+                - if @can('monthly_reports', 'ManagerTool')
+                  li: a href='/monthly_reports' Monthly Reports
+                - if @can('welcome_emails', 'ManagerTool')
+                  li: a href='/welcome_emails' Welcome Emails
       
       .top-bar-right
         ul.dropdown.menu data-dropdown-menu=''

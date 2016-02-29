@@ -11,4 +11,19 @@ class RolesController < ApplicationController
     @role = Role.find params[:id]
   end
   
+  def update
+    @role = Role.find params[:id]
+    if @role.update_attributes role_params
+      render :show
+    else
+      respond_with @role
+    end
+  end
+  
+  private
+  
+  def role_params
+    params.require(:role).permit(:id, permission_ids: [])
+  end
+  
 end

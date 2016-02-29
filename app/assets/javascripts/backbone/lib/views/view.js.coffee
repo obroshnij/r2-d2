@@ -66,9 +66,10 @@
         
         result
         
-      dropdown: (label, text) ->
+      dropdown: (label, text, prepend = '') ->
         id = _.uniqueId('drop-')
         "<span>
+          #{prepend}
           <a data-toggle='#{id}'>#{label}</a>
-          <div class='dropdown-pane' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+          <div class='dropdown-pane left' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
         </span>"

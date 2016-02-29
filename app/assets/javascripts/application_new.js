@@ -16,6 +16,7 @@
 //= require foundation_six
 //= require moment
 //= require daterangepicker
+//= require toastr
 //= require underscore
 //= require underscore-string
 //= require backbone

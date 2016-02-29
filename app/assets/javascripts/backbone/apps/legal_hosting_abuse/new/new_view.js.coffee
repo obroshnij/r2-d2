@@ -17,7 +17,7 @@
         fields: [
           name:     'reported_by_id'
           type:     'hidden'
-          value:    App.request('get:current:user').id
+          default:  App.request('get:current:user').id
         ,
           name:     'status'
           type:     'hidden'

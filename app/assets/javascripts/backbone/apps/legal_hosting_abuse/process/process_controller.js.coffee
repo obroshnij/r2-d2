@@ -8,8 +8,9 @@
       processView = @getProcessView report
         
       form = App.request 'form:component', processView,
-        proxy:     'modal'
-        model:     report
+        proxy:      'modal'
+        model:      report
+        saveMethod: 'markProcessed'
         onCancel:  => @region.empty()
         onSuccess: => @region.empty()
       

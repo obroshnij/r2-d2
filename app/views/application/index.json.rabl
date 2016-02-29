@@ -52,17 +52,11 @@ node :entities do
     directory_groups:     DirectoryGroup.order(:name).as_json(only: [:id, :name]),
     ability_resources:    Ability::Resource.all.map do |resource|
       {
-        name:              resource.name,
-        description:       resource.description,
-        permission_groups: resource.permission_groups.map do |group|
+        description:     resource.description,
+        permissions:     resource.permissions.map do |permission|
           {
-            name:        group.name,
-            permissions: group.permissions.map do |permission|
-              {
-                identifier:  permission.identifier,
-                description: permission.description
-              }
-            end
+            identifier:  permission.identifier,
+            description: permission.description
           }
         end
       }

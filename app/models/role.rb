@@ -20,4 +20,8 @@ class Role < ActiveRecord::Base
     super ids.delete_if { |id| id.blank? }
   end
   
+  def users_names
+    users.pluck :name
+  end
+  
 end

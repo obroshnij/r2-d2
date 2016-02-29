@@ -19,6 +19,9 @@
       form = App.request 'form:component', resourcesView,
         model:           role
         focusFirstInput: false
+        deserialize:     true
+        onSuccess:       -> App.vent.trigger 'roles:permissions:updated', role
+        onCancel:        -> App.vent.trigger 'roles:permissions:cancelled'
       
       @show form, region: @layout.formRegion
       

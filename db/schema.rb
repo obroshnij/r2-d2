@@ -16,28 +16,20 @@ ActiveRecord::Schema.define(version: 20160226113605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "ability_permission_groups", force: :cascade do |t|
+  create_table "ability_permissions", force: :cascade do |t|
     t.integer  "resource_id"
-    t.string   "name"
+    t.string   "identifier"
+    t.string   "actions",     default: [],              array: true
+    t.string   "conditions",  default: ""
     t.jsonb    "attrs",       default: {}
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
 
-  create_table "ability_permissions", force: :cascade do |t|
-    t.string   "identifier"
-    t.integer  "group_id"
-    t.string   "action"
-    t.string   "conditions", default: ""
-    t.jsonb    "attrs",      default: {}
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
   add_index "ability_permissions", ["identifier"], name: "index_ability_permissions_on_identifier", unique: true, using: :btree
 
   create_table "ability_resources", force: :cascade do |t|
-    t.string   "name"
+    t.string   "subjects",   default: [],              array: true
     t.jsonb    "attrs",      default: {}
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false

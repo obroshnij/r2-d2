@@ -25,6 +25,7 @@
     .row
       .large-12.columns
         .button-group.tiny.float-right
-          a.button.alert.delete-domain
-            icon.fi-x
-            |  Delete
+          - if @canDestroy
+            a.button.alert.delete-domain
+              icon.fi-x
+              |  Delete

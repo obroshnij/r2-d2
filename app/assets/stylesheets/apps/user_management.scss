@@ -9,3 +9,8 @@
   li:last-child                           { border-bottom: 1px solid $medium-gray; }
   li:hover                                { background-color: #def0fc; }
 }
+
+.permissions-form                         {
+  legend                                  { margin-bottom: 1rem; }
+  .permission-name                        { margin-left: 4rem; font-size: 0.875rem; padding-top: 0.125rem; }
+}

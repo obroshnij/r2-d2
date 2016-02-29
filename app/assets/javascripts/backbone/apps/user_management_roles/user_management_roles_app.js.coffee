@@ -46,6 +46,12 @@
     
   App.vent.on 'edit:permissions:clicked', (role) ->
     API.editPermissions role.id
+    
+  App.vent.on 'roles:permissions:updated', (role) ->
+    API.list()
+    
+  App.vent.on 'roles:permissions:cancelled', ->
+    API.list()
   
   
   UserManagementRolesApp.on 'start', ->

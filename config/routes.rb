@@ -82,7 +82,10 @@ Rails.application.routes.draw do
   end
   
   namespace :legal do
-    resources :hosting_abuse
+    resources :hosting_abuse do
+      put :mark_processed, on: :member
+      put :mark_dismissed, on: :member
+    end
   end
   
   namespace :domains do

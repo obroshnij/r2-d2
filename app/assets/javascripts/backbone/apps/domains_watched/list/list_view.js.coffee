@@ -15,6 +15,9 @@
     
     triggers:
       'click a' : 'new:watched:domain:clicked'
+      
+    serializeData: ->
+      canCreate: App.ability.can 'create', 'Domains::WatchedDomain'
     
   
   class List.SearchSchema extends Marionette.Object
@@ -50,6 +53,11 @@
     
     triggers:
       'click .delete-domain' : 'delete:clicked'
+      
+    serializeData: ->
+      data = super
+      data.canDestroy = App.ability.can 'destroy', @model
+      data
     
   
   class List.DomainsView extends App.Views.CompositeView

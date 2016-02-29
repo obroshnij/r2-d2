@@ -3,7 +3,7 @@
 .row
   .large-12.columns
     
-    - if can? :comment, @nc_service
+    - if can? :update, @nc_service
       = link_to 'Leave comment', '#', :'data-reveal-id' => "new-nc-service-comment-modal", class: "button tiny right"
       = render partial: 'nc_services/new_nc_service_comment', locals: { nc_service: @nc_service }
       

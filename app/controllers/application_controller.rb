@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       end
       
       format.json do
-        render json: { error: 'Access Denied' }, status: 403
+        render json: { error: "You don't have enough permissions to perform this action" }, status: 403
       end
       
     end

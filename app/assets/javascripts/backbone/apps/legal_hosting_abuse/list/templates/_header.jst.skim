@@ -56,15 +56,18 @@
   .row
     .large-12.columns
       .button-group.tiny.float-right
-        a.button.success.process-report
-          icon.fi-check
-          |  Process
-        a.button.alert.dismiss-report
-          icon.fi-x
-          |  Dismiss
-        a.button.edit-report
-          icon.fi-pencil
-          |  Edit
+        - if @canProcess
+          a.button.success.process-report
+            icon.fi-check
+            |  Proces
+        - if @canDismiss
+          a.button.alert.dismiss-report
+            icon.fi-x
+            |  Dismiss
+        - if @canEdit
+          a.button.edit-report
+            icon.fi-pencil
+            |  Edit
   .row
     .large-12.columns.text-right
       a.toggle

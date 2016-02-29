@@ -36,7 +36,8 @@
         th Namecheap user
         th Abuse Reports
         th Status
-        th Actions
+        - if can?(:show, NcService)
+          th Actions
       tbody
         - @services.each do |domain|
           tr
@@ -44,7 +45,8 @@
             td = domain.nc_user.try(:username)
             td = domain.abuse_reports.direct.count
             td = domain.status_icons
-            td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_domain_path(domain.id)
+            - if can?(:show, domain)
+              td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_domain_path(domain.id)
 .row: .large-12.columns
   span.pageInfo = page_entries_info @services
   = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

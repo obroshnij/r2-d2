@@ -1,11 +1,8 @@
 class MaintenanceAlertsController < ApplicationController
-
+  
   def index
-  	begin
-      @alerts = parse_alerts
-    # rescue Exception => ex
-    #   flash.now[:alert] = "Error: #{ex.message}"
-    end
+    authorize! :index, :maintenance_alert
+    @alerts = parse_alerts
   end
 
 end

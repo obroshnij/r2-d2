@@ -3,8 +3,9 @@
   class Entities.HostingAbuse extends App.Entities.Model
     urlRoot: -> Routes.legal_hosting_abuse_index_path()
     
-    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary', 'Other': 'warning' }
+    resourceName: 'Legal::HostingAbuse'
     
+    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary', 'Other': 'warning' }
     typeIconLookups:  { 'Email Abuse / Spam': 'fa fa-envelope-o', 'Resource Abuse': 'fa fa-sliders', 'DDoS': 'fa fa-bolt', 'Other': 'fa fa-fire' }
     
     mutators:
@@ -14,6 +15,14 @@
         
       typeIcon: ->
         @typeIconLookups[@get('type')]  if @get('type')
+        
+    markProcessed: (attributes = {}, options = {}) ->
+      options.url = Routes.mark_processed_legal_hosting_abuse_path(@id)
+      @save attributes, options
+      
+    markDismissed: (attributes = {}, options = {}) ->
+      options.url = Routes.mark_dismissed_legal_hosting_abuse_path(@id)
+      @save attributes, options
       
       
   class Entities.HostingAbuseCollection extends App.Entities.Collection

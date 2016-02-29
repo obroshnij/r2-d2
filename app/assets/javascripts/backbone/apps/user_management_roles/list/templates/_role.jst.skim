@@ -3,6 +3,9 @@
     .row.hash
       .key Name
       .value = @name
+    .row.hash
+      .key Users
+      .value == _.size(@users_names)
       
   .large-4.columns
     .row.hash
