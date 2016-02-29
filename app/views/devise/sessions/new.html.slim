@@ -18,6 +18,7 @@ css:
             = f.label :password, 'Password', class: 'text-right middle'
           .large-9.columns
             = f.password_field :password, autocomplete: 'off'
+            span.form-error.is-visible = flash.alert if flash.alert.present?
 
         - if devise_mapping.rememberable?
           .row

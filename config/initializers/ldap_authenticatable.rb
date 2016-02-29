@@ -27,11 +27,18 @@ module Devise
       end
       
       def ldap
-        ldap = Net::LDAP.new
-        ldap.host = Rails.application.secrets.ldap_host
-        ldap.port = 389
-        ldap.auth Rails.application.secrets.ldap_uid, Rails.application.secrets.ldap_password
-        ldap
+        options = {
+          host:       Rails.application.secrets.ldap_host,
+          base:       Rails.application.secrets.search_base,
+          encryption: :simple_tls,
+          port:       636,
+          auth: {
+            username: Rails.application.secrets.ldap_uid,
+            password: Rails.application.secrets.ldap_password,
+            method:   :simple
+          }
+        }
+        Net::LDAP.new options
       end
 
       def uid
