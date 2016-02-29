@@ -31,6 +31,9 @@ namespace :ldap do
       }
     end
     
+    Role.destroy_all
+    Role.create name: 'Other'
+    
     User.all.each do |r2_user|
       ldap_user = users.find { |u| r2_user.email.gsub('.', '') == u[:email].gsub('.', '') }
       next if ldap_user.nil?
@@ -46,6 +49,24 @@ namespace :ldap do
       r2_user.role = Role.for_user(r2_user)
       r2_user.save!
     end
+    
+    Role.create({
+      name: 'Billing CS',
+      permission_ids: ['rbls_index'],
+      groups: DirectoryGroup.where(name: ['nc-cs-billing'])
+    })
+    
+    Role.create({
+      name: 'Domain SL',
+      permission_ids: [
+        'domains_watched_index',
+        'domains_watched_create',
+        'domains_watched_destroy',
+        'domains_maintenance_alerts_index',
+        'domains_maintenenace_alerts_show'
+      ],
+      groups: DirectoryGroup.where(name: ['nc-cs-shiftleaders', 'nc-cs-domain'])
+    })
   end
   
 end

@@ -16,6 +16,14 @@ ActiveRecord::Schema.define(version: 20160226113605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "ability_permission_groups", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.string   "name"
+    t.jsonb    "attrs",       default: {}
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "ability_permissions", force: :cascade do |t|
     t.integer  "resource_id"
     t.string   "identifier"
@@ -606,6 +614,7 @@ ActiveRecord::Schema.define(version: 20160226113605) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "watched_domains", force: :cascade do |t|
     t.string   "name"

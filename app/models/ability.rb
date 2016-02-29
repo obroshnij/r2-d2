@@ -11,7 +11,7 @@ class Ability
   end
   
   def as_json
-    @rules.map do |rule|
+    (@rules || []).map do |rule|
       {
         subjects:   rule.subjects.map(&:to_s).map(&:classify),
         actions:    rule.actions.map(&:to_s),
