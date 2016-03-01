@@ -3,7 +3,7 @@
 
 .large-9.columns
   
-  .large-5.columns
+  div class="#{@columnClass} columns"
     select name="#{@name}" id="#{@id}"
       
       option value='' Please select
@@ -11,5 +11,6 @@
         option value="#{option.id}" = option.name
     span.form-error
   
-  .large-7.columns
-    label.help-text.middle = @hint
+  - if @hasHint
+    .large-7.columns
+      label.help-text.middle = @hint

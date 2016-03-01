@@ -34,6 +34,9 @@
     usersRegion: (users) ->
       usersView = @getUsersView users
       
+      @listenTo usersView, 'childview:edit:role:clicked', (childView, args) ->
+        App.vent.trigger 'edit:role:clicked', args.model
+      
       @show usersView,
         loading: true
         region:  @layout.usersRegion

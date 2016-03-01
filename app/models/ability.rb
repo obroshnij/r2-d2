@@ -4,9 +4,7 @@ class Ability
   
   def initialize(user)
     
-    user.role.permissions.each do |p|
-      can p.actions, p.subject_classes, eval(p.conditions)
-    end
+    user.role.permissions.each { |p| can p.actions, p.subject_classes, eval(p.conditions) } if user
     
   end
   

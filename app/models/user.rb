@@ -13,6 +13,8 @@
   
   validates :uid, :name, :email, :role_id, presence: true
   
+  before_save :set_role
+  
   def self.from_ldap_entry entry
     user = create_with(email: entry.mail.first).find_or_create_by(uid: entry.uid)
     
@@ -29,6 +31,12 @@
   end
   
   private
+  
+  def set_role
+    if auto_role_change == [false, true]
+      self.role_id = Role.for_user(self).id
+    end
+  end
   
   def self.get_group_ids entry
     names = (entry.try(:memberof) || []).map do |group_dn|

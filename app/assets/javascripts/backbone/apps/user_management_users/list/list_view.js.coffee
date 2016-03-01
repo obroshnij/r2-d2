@@ -47,6 +47,12 @@
     template: 'user_management_users/list/_user'
     
     tagName: 'li'
+    
+    triggers:
+      'click .edit-role' : 'edit:role:clicked'
+      
+    modelEvents:
+      'change' : 'render'
   
   
   class List.UsersView extends App.Views.CompositeView
