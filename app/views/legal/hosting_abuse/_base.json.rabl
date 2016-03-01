@@ -14,6 +14,7 @@ node(:shared_plan,            if: -> (h) { h.shared_plan_id })            { |h| 
 node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })          { |h| h.reseller_plan.name }
 node(:vps_plan,               if: -> (h) { h.vps_plan_id })               { |h| h.vps_plan.name }
 node(:management_type,        if: -> (h) { h.management_type_id })        { |h| h.management_type.name }
+node(:canned_reply)                                                       { |h| h.canned_reply }
 
 child(:ddos) do
   attributes *Legal::HostingAbuse::Ddos.attribute_names

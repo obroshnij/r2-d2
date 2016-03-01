@@ -1,0 +1,28 @@
+input id='status'          name='status'          syphon='always-visible' type='hidden' value='processed'
+input id='processed_by_id' name='processed_by_id' syphon='always-visible' type='hidden' value="#{@currentUser.id}"
+
+fieldset
+  legend Process Hosting Abuse
+  
+  .row
+    .large-3.columns
+      label.text-right.middle for='ticket_id' Ticket ID
+    .large-9.columns
+      .large-12.columns
+        input id='ticket_id' name='ticket_id' type='text' value="#{@ticket_id}"
+        span.form-error
+        
+  .row
+    .large-3.columns
+      label.text-right.middle for='legal_comments' Comments
+    .large-9.columns
+      .large-12.columns
+        textarea id='legal_comments' name='legal_comments' = @legal_comments
+        span.form-error
+
+- if @canned_reply
+  fieldset
+    legend Canned Reply
+    .row
+      .large-12.columns
+        textarea rows='10' = @canned_reply

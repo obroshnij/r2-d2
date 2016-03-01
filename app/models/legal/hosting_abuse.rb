@@ -29,6 +29,10 @@ class Legal::HostingAbuse < ActiveRecord::Base
     User.where id: select(:reported_by_id).distinct.pluck(:reported_by_id)
   end
   
+  def canned_reply
+    Legal::HostingAbuse::CannedReply.new(self).render
+  end
+  
   private
   
   def normalize_attrs
