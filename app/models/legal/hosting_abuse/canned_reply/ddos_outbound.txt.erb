@@ -1,0 +1,5 @@
+<% if suspended? -%>
+IMPORTANT: <%= @abuse.server.name %><%= ddos_target_domains %>suspended due to Outbound DDoS Attack
+<% else -%>
+IMPORTANT: DDoS Attack originating from <%= @abuse.server.name %><%= ddos_target_domains %>
+<% end -%>

@@ -8,7 +8,7 @@
   .row.hash
     .key: span Service
     - if @service_url
-      .value: span == @linkTo @service, @service_url, external: true
+      .value: span == @linkTo @service, @service_url, { external: true }, { class: 'service-link' }
     - else
       .value: span = @service
   .row.hash
@@ -31,26 +31,21 @@
     .value: span = @suggestion
 
 .large-3.columns
-  - if @status is 'processed'
+  .row.hash
+    .key: span class="#{@statusColor} label" = @statusName
+    - unless @statusName is 'New'
+      .value = " by #{@doneBy}"
+  - unless @statusName is 'New'
     .row.hash
-      .key: span Processed by
-      .value: span = @processed_by
+      .key = "#{@statusName} at"
+      .value = @doneAt
+  - if @statusName is 'Processed'
     .row.hash
-      .key: span Processed at
-      .value: span = @processed_at_formatted
-    .row.hash
-      .key: span Ticket ID
-      .value: span = @ticket_id
-  - else if @status is 'dismissed'
-    .row.hash
-      .key: span Dismissed by
-      .value: span = @processed_by
-    .row.hash
-      .key: span Dismissed at
-      .value: span = @processed_at_formatted
-  - else
-    .row
-      .large-4.text-right: span.alert.label Unprocessed
+      .key Ticket ID
+      .value
+        = @ticket_identifier
+        | &nbsp;
+        span class="badge #{@ticketCountBadgeClass}" = @ticket_reports_count
       
 .large-3.columns
   .row
@@ -65,8 +60,16 @@
         a.button.edit-report
           icon.fi-pencil
           |  Edit
+        a.button.alert.unprocess-report
+          icon.fi-x
+          |  Unprocess
   .row
     .large-12.columns.text-right
+      - if @uber_note
+        == @dropdown 'Uber Note', s.lines(@uber_note).join('<br>')
+        | &nbsp;&nbsp;|&nbsp;&nbsp;
+      - unless @statusName is 'New'
+        == @dropdown 'Log', s.lines(@editLog).join('<br>')
+        | &nbsp;&nbsp;|&nbsp;&nbsp;
       a.toggle
         icon.fa.fa-angle-double-down
-- console.log @

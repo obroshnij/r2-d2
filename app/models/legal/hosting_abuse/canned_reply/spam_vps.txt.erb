@@ -1,0 +1,5 @@
+<% if ip_is_blacklisted? -%>
+IMPORTANT: IP Address <%= blaclisted_ip %> is blacklisted due to Email Abuse on <%= @abuse.server.name %><%= spam_domains %>
+<% else -%>
+WARNING: Email Abuse on <%= @abuse.server.name %><%= spam_domains %>
+<% end -%>

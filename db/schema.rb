@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226113605) do
+ActiveRecord::Schema.define(version: 20160302124438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,19 +25,19 @@ ActiveRecord::Schema.define(version: 20160226113605) do
   end
 
   create_table "ability_permissions", force: :cascade do |t|
+    t.integer  "resource_id"
     t.string   "identifier"
-    t.integer  "group_id"
-    t.string   "action"
-    t.string   "conditions", default: ""
-    t.jsonb    "attrs",      default: {}
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "actions",     default: [],              array: true
+    t.string   "conditions",  default: ""
+    t.jsonb    "attrs",       default: {}
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "ability_permissions", ["identifier"], name: "index_ability_permissions_on_identifier", unique: true, using: :btree
 
   create_table "ability_resources", force: :cascade do |t|
-    t.string   "name"
+    t.string   "subjects",   default: [],              array: true
     t.jsonb    "attrs",      default: {}
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
@@ -150,13 +150,14 @@ ActiveRecord::Schema.define(version: 20160226113605) do
 
   create_table "legal_hosting_abuse", force: :cascade do |t|
     t.integer  "reported_by_id"
-    t.integer  "processed_by_id"
     t.integer  "status",             default: 0
-    t.datetime "processed_at"
     t.integer  "service_id"
     t.integer  "type_id"
     t.integer  "server_id"
     t.integer  "efwd_server_id"
+    t.integer  "ticket_id"
+    t.integer  "nc_user_id"
+    t.integer  "uber_service_id"
     t.string   "username"
     t.string   "resold_username"
     t.integer  "management_type_id"
@@ -169,14 +170,11 @@ ActiveRecord::Schema.define(version: 20160226113605) do
     t.text     "suspension_reason"
     t.string   "scan_report_path"
     t.text     "tech_comments"
-    t.text     "legal_comments"
-    t.string   "ticket_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
 
   add_index "legal_hosting_abuse", ["subscription_name"], name: "index_legal_hosting_abuse_on_subscription_name", using: :btree
-  add_index "legal_hosting_abuse", ["ticket_id"], name: "index_legal_hosting_abuse_on_ticket_id", using: :btree
   add_index "legal_hosting_abuse", ["username"], name: "index_legal_hosting_abuse_on_username", using: :btree
 
   create_table "legal_hosting_abuse_ddos", force: :cascade do |t|
@@ -193,6 +191,15 @@ ActiveRecord::Schema.define(version: 20160226113605) do
 
   create_table "legal_hosting_abuse_ddos_block_types", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_logs", force: :cascade do |t|
+    t.integer  "report_id"
+    t.integer  "user_id"
+    t.string   "action"
+    t.text     "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -459,6 +466,22 @@ ActiveRecord::Schema.define(version: 20160226113605) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "legal_kayako_tickets", force: :cascade do |t|
+    t.string   "identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "legal_kayako_tickets", ["identifier"], name: "index_legal_kayako_tickets_on_identifier", using: :btree
+
+  create_table "legal_uber_services", force: :cascade do |t|
+    t.string   "identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "legal_uber_services", ["identifier"], name: "index_legal_uber_services_on_identifier", using: :btree
+
   create_table "nc_service_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -614,6 +637,7 @@ ActiveRecord::Schema.define(version: 20160226113605) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "watched_domains", force: :cascade do |t|
     t.string   "name"

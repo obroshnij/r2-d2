@@ -5,8 +5,6 @@ node(:service)                                                            { |h| 
 node(:service_url,            if: -> (h) { h.service.properties['url'] }) { |h| h.service.properties['url'] }
 node(:type)                                                               { |h| h.type.name }
 node(:created_at_formatted)                                               { |h| h.created_at.strftime '%b/%d/%Y, %H:%M' }
-node(:processed_by,           if: -> (h) { !h.unprocessed? })             { |h| h.processed_by.name }
-node(:processed_at_formatted, if: -> (h) { !h.unprocessed? })             { |h| h.processed_at.strftime '%b/%d/%Y, %H:%M' }
 node(:server_name,            if: -> (h) { h.server_id })                 { |h| h.server.name }
 node(:efwd_server_name,       if: -> (h) { h.efwd_server_id })            { |h| h.efwd_server.name }
 node(:suggestion)                                                         { |h| h.suggestion.name }
@@ -15,6 +13,18 @@ node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })          { |h| 
 node(:vps_plan,               if: -> (h) { h.vps_plan_id })               { |h| h.vps_plan.name }
 node(:management_type,        if: -> (h) { h.management_type_id })        { |h| h.management_type.name }
 node(:canned_reply)                                                       { |h| h.canned_reply }
+node(:uber_note)                                                          { |h| h.uber_note }
+node(:ticket_identifier,      if: -> (h) { h.ticket_id })                 { |h| h.ticket.identifier }
+node(:ticket_reports_count,   if: -> (h) { h.ticket_id })                 { |h| h.ticket.hosting_abuse_count }
+node(:nc_username,            if: -> (h) { h.nc_user_id })                { |h| h.nc_user.username }
+node(:uber_service_identifier, if: -> (h) { h.uber_service_id })          { |h| h.uber_service.identifier }
+
+child(:logs) do
+  attributes :comment, :action
+  
+  node(:done_by)              { |l| l.user.name }
+  node(:created_at_formatted) { |l| l.created_at.strftime '%b/%d/%Y, %H:%M' }
+end
 
 child(:ddos) do
   attributes *Legal::HostingAbuse::Ddos.attribute_names

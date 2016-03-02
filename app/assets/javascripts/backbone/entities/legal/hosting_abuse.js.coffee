@@ -7,13 +7,41 @@
     
     typeIconLookups:  { 'Email Abuse / Spam': 'fa fa-envelope-o', 'Resource Abuse': 'fa fa-sliders', 'DDoS': 'fa fa-bolt', 'Other': 'fa fa-fire' }
     
+    statusColorLookups: { '_new': 'primary', '_processed': 'success', '_dismissed': 'alert', '_unprocessed': 'alert', '_edited': 'warning' }
+    
     mutators:
-            
+      
       typeClass: ->
         @typeClassLookups[@get('type')] if @get('type')
         
       typeIcon: ->
         @typeIconLookups[@get('type')]  if @get('type')
+        
+      statusName: ->
+        s(@get('status')).replaceAll('_', '').capitalize().value()
+        
+      statusColor: ->
+        @statusColorLookups[@get('status')] if @get('status')
+        
+      doneBy: ->
+        _.first(@get('logs')).done_by if @get('logs')
+        
+      doneAt: ->
+        _.first(@get('logs')).created_at_formatted if @get('logs')
+        
+      editLog: ->
+        return unless @get('logs')
+        _.map @get('logs'), (log) ->
+          line = s.capitalize(log.action) + ' by ' + log.done_by + ' at ' + log.created_at_formatted
+          line = line + '\n' + 'Comment: ' + log.comment if log.comment and log.comment.length > 0
+          line
+        .join('\n\n')
+        
+      editCommentRequired: ->
+        not @isNew()
+        
+      ticketCountBadgeClass: ->
+        if @get('ticket_reports_count') > 1 then 'primary' else 'secondary'
       
       
   class Entities.HostingAbuseCollection extends App.Entities.Collection

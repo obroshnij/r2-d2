@@ -1,7 +1,7 @@
 class Legal::HostingAbuse < ActiveRecord::Base
   self.table_name = 'legal_hosting_abuse'
   
-  enum status: [:unprocessed, :processed, :dismissed]
+  enum status: [:_new, :_processed, :_dismissed, :_unprocessed, :_edited]
   
   has_one    :ddos,            class_name: 'Legal::HostingAbuse::Ddos',           foreign_key: 'report_id',         autosave: true
   has_one    :resource,        class_name: 'Legal::HostingAbuse::Resource',       foreign_key: 'report_id',         autosave: true
@@ -18,22 +18,36 @@ class Legal::HostingAbuse < ActiveRecord::Base
   belongs_to :suggestion,      class_name: 'Legal::HostingAbuse::Suggestion',     foreign_key: 'suggestion_id'
   
   belongs_to :reported_by,     class_name: 'User',                                foreign_key: 'reported_by_id'
-  belongs_to :processed_by,    class_name: 'User',                                foreign_key: 'processed_by_id'
   belongs_to :server,          class_name: 'Legal::HostingServer',                foreign_key: 'server_id'
   belongs_to :efwd_server,     class_name: 'Legal::EforwardServer',               foreign_key: 'efwd_server_id'
-    
+  belongs_to :ticket,          class_name: 'Legal::KayakoTicket',                 foreign_key: 'ticket_id'
+  belongs_to :uber_service,    class_name: 'Legal::UberService',                  foreign_key: 'uber_service_id'
+  belongs_to :nc_user
+  
+  has_many   :logs,            class_name: 'Legal::HostingAbuse::Log',            foreign_key: 'report_id'
+  
   before_save :normalize_attrs
-  after_save  :cleanup!
+  after_save  :cleanup!, :log!
+  
+  attr_accessor :comment, :updated_by_id
   
   def self.reported_by
     User.where id: select(:reported_by_id).distinct.pluck(:reported_by_id)
   end
   
   def canned_reply
-    Legal::HostingAbuse::CannedReply.new(self).render
+    canned.canned
+  end
+  
+  def uber_note
+    canned.uber_note
   end
   
   private
+  
+  def canned
+    @canned ||= Legal::HostingAbuse::CannedReply.new(self)
+  end
   
   def normalize_attrs
     self.username          = self.username.try(:strip).try(:downcase)
@@ -43,7 +57,14 @@ class Legal::HostingAbuse < ActiveRecord::Base
     self.suspension_reason = self.suspension_reason.try(:strip)
     self.scan_report_path  = self.scan_report_path.try(:strip)
     self.tech_comments     = self.tech_comments.try(:strip)
-    self.legal_comments    = self.legal_comments.try(:strip)
+    self.comment           = self.comment.try(:strip)
+  end
+  
+  def log!
+    action = status.gsub '_', ''
+    action = 'submitted' if status == '_new'
+    
+    Legal::HostingAbuse::Log.create report_id: id, user_id: (updated_by_id || reported_by_id), action: action, comment: comment
   end
   
   def cleanup!

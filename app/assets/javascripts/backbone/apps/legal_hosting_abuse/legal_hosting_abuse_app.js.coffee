@@ -38,6 +38,11 @@
       new LegalHostingAbuseApp.Dismiss.Controller
         region: App.modalRegion
         report: report
+        
+    unprocess: (report) ->
+      new LegalHostingAbuseApp.Unprocess.Controller
+        region: App.modalRegion
+        report: report
   
   
   App.vent.on 'legal:nav:selected', (nav, options, region) ->
@@ -75,6 +80,9 @@
     
   App.vent.on 'dismiss:hosting:abuse:clicked', (report) ->
     API.dismiss report
+    
+  App.vent.on 'unprocess:hosting:abuse:clicked', (report) ->
+    API.unprocess report
   
   
   LegalHostingAbuseApp.on 'start', ->

@@ -45,6 +45,9 @@
       
       @listenTo reportsView, 'childview:dismiss:hosting:abuse:clicked', (child, args) ->
         App.vent.trigger 'dismiss:hosting:abuse:clicked', args.model
+        
+      @listenTo reportsView, 'childview:unprocess:hosting:abuse:clicked', (child, args) ->
+        App.vent.trigger 'unprocess:hosting:abuse:clicked', args.model
       
       @show reportsView,
         loading: true

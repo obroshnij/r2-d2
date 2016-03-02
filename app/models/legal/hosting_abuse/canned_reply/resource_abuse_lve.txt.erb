@@ -1,4 +1,4 @@
-<% if [4, 5, 7].include? @abuse.suggestion_id -%>
+<% if suspended? -%>
 IMPORTANT: Account '<%= @abuse.username %>' is suspended due to Resource Abuse - <%= @abuse.server.name %>
 <% else -%>
 WARNING: Resource Abuse on Account '<%= @abuse.username %>' - <%= @abuse.server.name %>
@@ -54,24 +54,24 @@ Looking forward to your reply.
 ===============[ Please find the additional information below / attached ]===============
 <% if (@abuse.resource.abuse_type_ids & [1, 2, 3, 4]).present? -%>
 
-===============[ LVE Report ]============================================================
+=====================================[ LVE Report ]======================================
 
 <%= @abuse.resource.lve_report.strip %>
 <% end -%>
 <% if @abuse.resource.abuse_type_ids.include?(5) -%>
 
-===============[ MySQL Queries ]=========================================================
+====================================[ MySQL Queries ]====================================
 
 <%= @abuse.resource.mysql_queries.strip %>
 <% end -%>
 <% if @abuse.resource.abuse_type_ids.include?(6) -%>
 
-===============[ Process Logs ]==========================================================
+=====================================[ Process Log ]=====================================
 
 <%= @abuse.resource.process_logs.strip %>
 <% end -%>
 
-===============[ LVE Notations ]=========================================================
+====================================[ LVE Notations ]====================================
 
 ID : LVE Id or username
 aCPU : Average CPU usage
