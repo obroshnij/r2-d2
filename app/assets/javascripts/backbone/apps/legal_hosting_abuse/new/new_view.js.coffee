@@ -18,13 +18,10 @@
           name:     'reported_by_id'
           type:     'hidden'
           default:  App.request('get:current:user').id
-<<<<<<< HEAD
-=======
         ,
           name:     'edited_by_id'
           type:     'hidden'
           value:    App.request('get:current:user').id
->>>>>>> master
         ,
           name:     'status'
           type:     'hidden'

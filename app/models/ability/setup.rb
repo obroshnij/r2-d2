@@ -65,6 +65,10 @@ class Ability::Setup
           actions:      ['mark_dismissed'],
           description:  'Mark reports as dismissed',
           identifier:   'legal_hosting_abuse_dismiss'
+        }, {
+          actions:      ['mark_unprocessed'],
+          description:  'Mark reports as unprocessed',
+          identifier:   'legal_hosting_abuse_unprocess'
         }
       ]
     }, {

@@ -63,9 +63,10 @@
           a.button.edit-report
             icon.fi-pencil
             |  Edit
-        a.button.alert.unprocess-report
-          icon.fi-x
-          |  Unprocess
+        - if @canUnprocess
+          a.button.alert.unprocess-report
+            icon.fi-x
+            |  Unprocess
   .row
     .large-12.columns.text-right
       - if @uber_note

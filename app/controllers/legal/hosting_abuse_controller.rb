@@ -1,6 +1,6 @@
 class Legal::HostingAbuseController < ApplicationController
   respond_to :json
-  before_action :find_hosting_abuse, only: [:update, :mark_processed, :mark_dismissed]
+  before_action :find_hosting_abuse, only: [:update, :mark_processed, :mark_dismissed, :mark_unprocessed]
   
   def index
     authorize! :index, Legal::HostingAbuse
@@ -36,6 +36,11 @@ class Legal::HostingAbuseController < ApplicationController
   
   def mark_dismissed
     authorize! :mark_dismissed, @hosting_abuse
+    update_model
+  end
+  
+  def mark_unprocessed
+    authorize! :mark_unprocessed, @hosting_abuse
     update_model
   end
   

@@ -89,9 +89,10 @@
       
     serializeData: ->
       data = super
-      data.canProcess = App.ability.can 'mark_processed', @model
-      data.canDismiss = App.ability.can 'mark_dismissed', @model
-      data.canEdit    = App.ability.can 'update',         @model
+      data.canProcess   = App.ability.can 'mark_processed',   @model
+      data.canDismiss   = App.ability.can 'mark_dismissed',   @model
+      data.canUnprocess = App.ability.can 'mark_unprocessed', @model
+      data.canEdit      = App.ability.can 'update',           @model
       data
       
     @include 'HasDropdowns'
