@@ -7,9 +7,7 @@ class Legal::HostingAbuse::Form
   include ActiveModel::Validations
   
   attribute :reported_by_id,          Integer
-  attribute :processed_by_id,         Integer
   attribute :status,                  String
-  attribute :processed_at,            DateTime
   attribute :service_id,              Integer
   attribute :type_id,                 Integer
   attribute :efwd_server_name,        String
@@ -28,8 +26,14 @@ class Legal::HostingAbuse::Form
   attribute :suspension_reason,       String
   attribute :scan_report_path,        String
   attribute :tech_comments,           String
-  attribute :legal_comments,          String
-  attribute :ticket_id,               String
+  attribute :ticket_id,               Integer
+  attribute :ticket_identifier,       String
+  attribute :uber_service_id,         Integer
+  attribute :uber_service_identifier, String
+  attribute :nc_user_id,              Integer
+  attribute :nc_username,             String
+  attribute :updated_by_id,           Integer
+  attribute :comment,                 String
     
   validates :service_id,              presence: true
   validates :type_id,                 presence: true
@@ -80,14 +84,10 @@ class Legal::HostingAbuse::Form
   validates :scan_report_path,        presence: true, if: :scan_report_path_required?
   
   with_options if: :processed? do |f|
-    f.validates :processed_at,        presence: true
     f.validates :ticket_id,           presence: true
   end
   
-  with_options if: :dismissed? do |f|
-    f.validates :processed_at,        presence: true
-    f.validates :legal_comments,      presence: true
-  end
+  validates :comment, presence: true, if: -> { dismissed? || unprocessed? || edited? }
   
   validate :child_form_must_be_valid
   
@@ -123,9 +123,12 @@ class Legal::HostingAbuse::Form
   def scan_report_path_required?
     suggestion_id == 5 && spam? && (shared? || reseller? || vps? || dedicated_server?)
   end
-    
-  def processed?()  status == 'processed'   end
-  def dismissed?()  status == 'dismissed'   end
+  
+  def new?()          status == '_new'           end
+  def processed?()    status == '_processed'     end
+  def dismissed?()    status == '_dismissed'     end
+  def unprocessed?()  status == '_unprocessed'   end
+  def edited?()       status == '_edited'        end
   
   def model
     @hosting_abuse
@@ -143,8 +146,26 @@ class Legal::HostingAbuse::Form
     super name
   end
   
-  def processed_at
-    self.status == 'unprocessed' ? nil : DateTime.now
+  def status= status
+    super status == '_new' && @hosting_abuse.persisted? ? '_edited' : status
+  end
+  
+  def ticket_identifier= identifier
+    identifier = identifier.strip.upcase
+    @ticket_id = Legal::KayakoTicket.find_or_create_by(identifier: identifier).id
+    super identifier
+  end
+  
+  def uber_service_identifier= identifier
+    identifier = identifier.strip
+    @uber_service_id = Legal::UberService.find_or_create_by(identifier: identifier).id
+    super identifier
+  end
+  
+  def nc_username= username
+    username = username.strip.downcase
+    @nc_user_id = NcUser.find_or_create_by(username: username).id
+    super username
   end
   
   def submit params
@@ -182,7 +203,7 @@ class Legal::HostingAbuse::Form
   end
   
   def hosting_abuse_params
-    attr_names = Legal::HostingAbuse.attribute_names.map(&:to_sym)
+    attr_names = Legal::HostingAbuse.attribute_names.map(&:to_sym) + [:updated_by_id, :comment]
     self.attributes.slice(*attr_names).delete_if { |key, val| val.nil? }
   end
   

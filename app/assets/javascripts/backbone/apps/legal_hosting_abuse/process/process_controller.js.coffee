@@ -17,9 +17,5 @@
       @show form
           
     getProcessView: (report) ->
-      schema = new Process.Schema
-      
-      App.request 'form:fields:component',
-        proxy:  'modal'
-        schema: schema,
-        model:  report
+      schema = new Process.Form
+        model: report

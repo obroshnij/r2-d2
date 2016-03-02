@@ -71,5 +71,5 @@
         "<span>
           #{prepend}
           <a data-toggle='#{id}'>#{label}</a>
-          <div class='dropdown-pane left' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+          <div class='dropdown-pane left text-left' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
         </span>"

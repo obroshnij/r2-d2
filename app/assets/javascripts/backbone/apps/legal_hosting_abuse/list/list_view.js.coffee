@@ -66,12 +66,26 @@
     template: 'legal_hosting_abuse/list/_header'
       
     triggers:
-      'click .process-report' : 'process:clicked'
-      'click .dismiss-report' : 'dismiss:clicked'
-      'click .edit-report'    : 'edit:clicked'
+      'click .process-report'   : 'process:clicked'
+      'click .dismiss-report'   : 'dismiss:clicked'
+      'click .edit-report'      : 'edit:clicked'
+      'click .unprocess-report' : 'unprocess:clicked'
+      
+    events:
+      'click .service-link'     : 'followLink'
+      'click .dropdown-pane'    : 'doNothing'
       
     modelEvents:
       'change' : 'render'
+      
+    followLink: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+      window.open event.target.href, target: '_blank'
+      
+    doNothing: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
       
     serializeData: ->
       data = super
@@ -171,6 +185,9 @@
       
     onChildviewEditClicked: (child, options) ->
       @trigger 'edit:hosting:abuse:clicked', options
+      
+    onChildviewUnprocessClicked: (child, options) ->
+      @trigger 'unprocess:hosting:abuse:clicked', options
   
   
   class List.Reports extends App.Views.CompositeView

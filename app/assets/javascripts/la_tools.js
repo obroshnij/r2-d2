@@ -38,7 +38,7 @@ var generate = function() {
   if (warning) {text = "WARNING: Resource Abuse on Account '" + user + "' (" + domain + ") - " + server;}
   if (suspend) {text = "IMPORTANT: Account '" + user + "' (" + domain + ") is suspended due to Resource Abuse - " + server;};
   
-  text = text + "<br><br>";
+  text = text + "<br><br>Hello,<br><br>";
   
   text = text + "It has come to our attention that the '" + user + "' hosting account is overusing limits of shared resources, affecting the server performance and all accounts hosted therein. In order to obtain additional information about the limits please refer to Paragraph 10. “Additional Acceptable Use Policy for Virtual accounts” of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx<br><br>";
   

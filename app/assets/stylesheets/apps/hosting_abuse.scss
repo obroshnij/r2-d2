@@ -38,4 +38,6 @@
   
   li:last-child                           { border-bottom: 1px solid $medium-gray; }
   li:hover                                { background-color: #def0fc; }
+  
+  .badge                                  { vertical-align: top; }
 }

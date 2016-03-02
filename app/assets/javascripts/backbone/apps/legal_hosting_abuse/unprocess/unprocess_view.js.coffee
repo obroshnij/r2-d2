@@ -1,20 +1,20 @@
-@Artoo.module 'LegalHostingAbuseApp.Dismiss', (Dismiss, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'LegalHostingAbuseApp.Unprocess', (Unprocess, App, Backbone, Marionette, $, _) ->
   
-  class Dismiss.Schema extends Marionette.Object
+  class Unprocess.Schema extends Marionette.Object
     
     modal:
       size:  'tiny'
-      title: 'Dismiss Hosting Abuse'
+      title: 'Unprocess Hosting Abuse'
     
     schema: ->
       [
-        legend:   'Dismiss Hosting Abuse'
+        legend:   'Unprocess Hosting Abuse'
         hasHints: false
         
         fields: [
           name:    'status'
           type:    'hidden'
-          value:   '_dismissed'
+          value:   '_unprocessed'
         ,
           name:    'updated_by_id'
           type:    'hidden'

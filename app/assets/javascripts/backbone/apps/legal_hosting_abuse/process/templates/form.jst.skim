@@ -1,0 +1,44 @@
+input id='status'        name='status'        syphon='always-visible' type='hidden' value='_processed'
+input id='updated_by_id' name='updated_by_id' syphon='always-visible' type='hidden' value="#{@currentUser.id}"
+
+fieldset
+  legend Process Hosting Abuse
+  
+  .row
+    .large-3.columns
+      label.text-right.middle for='ticket_identifier' Ticket ID
+    .large-9.columns
+      .large-12.columns
+        input id='ticket_identifier' name='ticket_identifier' type='text' value="#{@ticket_identifier}"
+        span.form-error
+        
+  .row
+    .large-3.columns
+      label.text-right.middle for='nc_username' Namecheap Username
+    .large-9.columns
+      .large-12.columns
+        input id='nc_username' name='nc_username' type='text' value="#{@nc_username}"
+        span.form-error
+        
+  .row
+    .large-3.columns
+      label.text-right.middle for='uber_service_identifier' Service ID
+    .large-9.columns
+      .large-12.columns
+        input id='uber_service_identifier' name='uber_service_identifier' type='text' value="#{@uber_service_identifier}"
+        span.form-error
+        
+  .row
+    .large-3.columns
+      label.text-right.middle for='comment' Comments
+    .large-9.columns
+      .large-12.columns
+        textarea id='comment' name='comment'
+        span.form-error
+
+- if @canned_reply
+  fieldset
+    legend Canned Reply
+    .row
+      .large-12.columns
+        textarea rows='10' = @canned_reply

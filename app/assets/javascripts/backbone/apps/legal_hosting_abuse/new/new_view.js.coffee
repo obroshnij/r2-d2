@@ -18,10 +18,20 @@
           name:     'reported_by_id'
           type:     'hidden'
           default:  App.request('get:current:user').id
+<<<<<<< HEAD
+=======
+        ,
+          name:     'edited_by_id'
+          type:     'hidden'
+          value:    App.request('get:current:user').id
+>>>>>>> master
         ,
           name:     'status'
           type:     'hidden'
-          value:    'unprocessed'
+          value:    '_new'
+        ,
+          name:     'editCommentRequired'
+          type:     'hidden'
         ,
           name:     'service_id'
           label:    'Service'
@@ -712,6 +722,13 @@
           label:    'Comments'
           tagName:  'textarea'
           hint:     'Anything you would like to add on this case. E.g. additional details, non-standard logs, notes, etc.'
+        ,
+          name:     'comment'
+          label:    'Edit Reason'
+          tagName:  'textarea'
+          hint:     'Why is it necessary to edit the report?'
+          dependencies:
+            editCommentRequired: value: 'true'
         ]
       ]
       
