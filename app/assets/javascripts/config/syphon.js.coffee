@@ -17,6 +17,12 @@ Backbone.Syphon.KeyAssignmentValidators.register 'radio', ($el, key, value) ->
 
 Backbone.Syphon.InputReaders.register 'checkbox', (el) ->
   el.val()
+  
+Backbone.Syphon.InputReaders.register 'select', (el) ->
+  if el.is('[multiple]')
+    el.val() or ['']
+  else
+    el.val()
 
 
 Backbone.Syphon.InputWriters.register 'checkbox', (el, value) ->
@@ -29,3 +35,7 @@ Backbone.Syphon.InputWriters.register 'radio', (el, value) ->
 
 Backbone.Syphon.InputWriters.register 'hidden', (el, value) ->
   return
+  
+Backbone.Syphon.InputWriters.register 'select', (el, value) ->
+  el.val value
+  el.select2() if el.is('[multiple]') and el.hasClass('select2-hidden-accessible')

@@ -58,6 +58,11 @@ class Ability::Setup
           description:  'Edit reports submitted by current user',  
           identifier:   'legal_hosting_abuse_update_own'
         }, {
+          actions:      ['show', 'update'],
+          conditions:   '{ status: 2 }',
+          description:  "Edit reports submitted by any user if it's dismissed",
+          identifier:   'legal_hosting_abuse_update_dismissed'
+        }, {
           actions:      ['mark_processed'],
           description:  'Mark reports as processed',
           identifier:   'legal_hosting_abuse_process'

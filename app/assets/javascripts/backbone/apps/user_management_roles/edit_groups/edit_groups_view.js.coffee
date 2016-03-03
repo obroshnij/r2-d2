@@ -14,7 +14,8 @@
         fields: [
           name:    'group_ids'
           label:   'NC Directory Groups'
-          type:    'collection_check_boxes'
+          tagName: 'select'
+          type:    'select2_multi'
           options: App.entities.directory_groups
         ]
       ]

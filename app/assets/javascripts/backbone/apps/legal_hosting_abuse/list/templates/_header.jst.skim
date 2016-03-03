@@ -51,19 +51,19 @@
   .row
     .large-12.columns
       .button-group.tiny.float-right
-        - if @canProcess
+        - if @canBeProcessed and @canProcess
           a.button.success.process-report
             icon.fi-check
             |  Proces
-        - if @canDismiss
+        - if @canBeDismissed and @canDismiss
           a.button.alert.dismiss-report
             icon.fi-x
             |  Dismiss
-        - if @canEdit
+        - if @canBeEdited and @canEdit
           a.button.edit-report
             icon.fi-pencil
             |  Edit
-        - if @canUnprocess
+        - if @canBeUnprocessed and @canUnprocess
           a.button.alert.unprocess-report
             icon.fi-x
             |  Unprocess

@@ -99,6 +99,7 @@ namespace :ldap do
         'legal_hosting_abuse_index',
         'legal_hosting_abuse_process',
         'legal_hosting_abuse_dismiss',
+        'legal_hosting_abuse_update',
         'abuse_reports_index',
         'abuse_reports_create',
         'abuse_reports_update_own',
@@ -120,9 +121,11 @@ namespace :ldap do
         'legal_hosting_abuse_index',
         'legal_hosting_abuse_process',
         'legal_hosting_abuse_dismiss',
+        'legal_hosting_abuse_unprocess',
+        'legal_hosting_abuse_update',
         'abuse_reports_index',
         'abuse_reports_create',
-        'abuse_reports_update_own',
+        'abuse_reports_update',
         'rbls_index',
         'nc_users_index',
         'nc_users_show',
@@ -138,7 +141,10 @@ namespace :ldap do
     Role.create({
       name: 'NC Infrastructure',
       permission_ids: [
-        
+        'legal_hosting_abuse_index',
+        'legal_hosting_abuse_create',
+        'legal_hosting_abuse_update_own',
+        'legal_hosting_abuse_update_dismissed'
       ],
       groups: DirectoryGroup.where(name: [''])
     })
@@ -146,7 +152,10 @@ namespace :ldap do
     Role.create({
       name: 'Tech Support',
       permission_ids: [
-        
+        'legal_hosting_abuse_index',
+        'legal_hosting_abuse_create',
+        'legal_hosting_abuse_update_own',
+        'legal_hosting_abuse_update_dismissed'
       ],
       groups: DirectoryGroup.where(name: [''])
     })
