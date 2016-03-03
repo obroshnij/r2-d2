@@ -29,4 +29,4 @@ p.pagination                { padding-top: 0.25rem;
   .per-page                 { display: inline-block; width: 3rem; font-size: 1rem; padding: 0.5rem; height: 2rem; }
 }
 
-.dropdown-pane              { font-size: 0.875rem; white-space: pre-wrap; max-height: 300px; overflow: scroll; cursor: auto; }
+.dropdown-pane              { font-size: 0.875rem; white-space: pre-wrap; max-height: 300px; max-width: $dropdown-width; overflow: scroll; cursor: auto; }

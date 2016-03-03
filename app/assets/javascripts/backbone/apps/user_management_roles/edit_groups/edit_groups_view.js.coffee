@@ -3,7 +3,7 @@
   class EditGroups.Schema extends Marionette.Object
     
     modal:
-      size:  'tiny'
+      size:  'small'
       title: 'Edit Groups'
     
     schema: ->

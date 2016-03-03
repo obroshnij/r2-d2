@@ -51,8 +51,9 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def uber_note_header
+    service_id = @abuse.uber_service.try(:identifier).try(:strip).present? ? @abuse.uber_service.identifier : 'XXXXXXXX'
     header =  "================= ABUSE =================\n\n"
-    header << "Service ID #{@abuse.uber_service.try(:identifier) || 'XXXXXXXX'}\n\n"
+    header << "Service ID #{service_id}\n\n"
     header << @abuse.created_at.strftime('%b/%d/%Y')
     header << "\n#{@abuse.ticket.identifier} - "
   end
