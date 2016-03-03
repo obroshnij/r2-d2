@@ -11,9 +11,13 @@ It has come to our attention that the '<%= @abuse.username %>' hosting account i
 <% if @abuse.resource.abuse_type_ids == [5] -%>
 The server is abused by MySQL queries.
 <% elsif !@abuse.resource.abuse_type_ids.include?(5) -%>
-The following resource limits are being exceeded: <%= @abuse.resource.abuse_types.map(&:name).join(', ') %>.
+The following resource limits are being exceeded:
+
+<%= @abuse.resource.abuse_types.map(&:name).map { |r| "- #{r}" }.join("\n") %>
 <% else -%>
-The server is abused by MySQL queries and the following resource limits are being exceeded: <%= (@abuse.resource.abuse_types.map(&:name) - ['MySQL Queries']).join(', ') %>.
+The server is abused by MySQL queries and the following resource limits are being exceeded:
+
+<%= (@abuse.resource.abuse_types.map(&:name) - ['MySQL Queries']).map { |r| "- #{r}" }.join("\n") %>
 <% end -%>
 
 Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. Here are the diagnostic steps generally suggested for finding the corresponding solution:

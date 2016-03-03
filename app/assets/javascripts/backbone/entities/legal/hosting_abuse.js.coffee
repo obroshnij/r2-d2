@@ -42,7 +42,9 @@
         not @isNew()
         
       ticketCountBadgeClass: ->
-        if @get('ticket_reports_count') > 1 then 'primary' else 'secondary'
+        return 'secondary' if @get('ticket_reports_count') is 1
+        return 'warning'   if @get('ticket_reports_count') > 1 and @get('ticket_reports_count') < 5
+        'alert'
         
     markProcessed: (attributes = {}, options = {}) ->
       options.url = Routes.mark_processed_legal_hosting_abuse_path(@id)

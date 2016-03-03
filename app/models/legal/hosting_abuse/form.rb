@@ -49,7 +49,6 @@ class Legal::HostingAbuse::Form
     f.validates :server_name,         presence: true, host_name: true
     f.validates :reseller_plan_id,    presence: true
     f.validates :username,            presence: true
-    f.validates :resold_username,     presence: true
   end
   
   with_options if: :vps? do |f|
