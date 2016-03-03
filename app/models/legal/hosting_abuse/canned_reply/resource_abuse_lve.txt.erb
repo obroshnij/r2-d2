@@ -37,7 +37,7 @@ Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous v
 - please refer to the Awstats option in cPanel (in case at least one of your websites is receiving a considerably high amount of hits/incoming traffic volume, an upgrade is the most valid solution)
 - if the SSH access is enabled for the account the “ top -c ” command is of use in order to find the webpages causing the most significant impact (in case an active process takes much time or a critical amount of virtual memory for being completed, it should be disabled)
 <% end -%>
-<% if @abuse.resource.abuse_type_ids.include?(4) -%>
+<% if false && @abuse.resource.abuse_type_ids.include?(4) -%>
 - make sure that the CloudFlare service is enabled. Please refer to the following Namecheap KnowledgeBase articles:
   + to enable the CloudFlare cPanel add-on https://www.namecheap.com/support/knowledgebase/article.aspx/1191/2210/how-to-enable-cloudflare-for-your-domain-name
   + to obtain additional information about CloudFlare https://www.namecheap.com/support/knowledgebase/subcategory.aspx?type=category&contentid=2210&categorytitle=cpanel%20addons

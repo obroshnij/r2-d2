@@ -11,6 +11,7 @@ class Legal::HostingAbuse::CannedReply
   
   def uber_note
     return nil unless canned
+    return "Ticket ID is required to generate a note" unless @abuse.ticket_id.present?
     uber_note_header + canned.lines.first.strip
   end
   
