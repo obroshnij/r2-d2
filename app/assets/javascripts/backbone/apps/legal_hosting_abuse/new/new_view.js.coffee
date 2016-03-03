@@ -87,7 +87,8 @@
           ]
         ,
           name:     'resold_username'
-          label:    'Resold Username',
+          label:    'Resold Username'
+          hint:     'Leave blank if it equals the OWNER'
           dependencies:
             service_id:      value: 2
         ,

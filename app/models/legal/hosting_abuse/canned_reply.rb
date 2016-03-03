@@ -11,7 +11,7 @@ class Legal::HostingAbuse::CannedReply
   
   def uber_note
     return nil unless canned
-    uber_note_header + "\n" + canned.lines.first.strip
+    uber_note_header + canned.lines.first.strip
   end
   
   private
@@ -53,6 +53,7 @@ class Legal::HostingAbuse::CannedReply
     header =  "================= ABUSE =================\n\n"
     header << "Service ID #{@abuse.uber_service.try(:identifier) || 'XXXXXXXX'}\n\n"
     header << @abuse.created_at.strftime('%b/%d/%Y')
+    header << "\n#{@abuse.ticket.identifier} - "
   end
   
   def render
