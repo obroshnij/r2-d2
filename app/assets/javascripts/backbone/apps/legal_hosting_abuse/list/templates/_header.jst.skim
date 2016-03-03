@@ -34,18 +34,18 @@
   .row.hash
     .key: span class="#{@statusColor} label" = @statusName
     - unless @statusName is 'New'
-      .value = " by #{@doneBy}"
+      .value: span = " by #{@doneBy}"
   - unless @statusName is 'New'
     .row.hash
-      .key = "#{@statusName} at"
-      .value = @doneAt
+      .key: span = "#{@statusName} at"
+      .value: span = @doneAt
   - if @statusName is 'Processed'
     .row.hash
-      .key Ticket ID
-      .value
-        = @ticket_identifier
-        | &nbsp;
+      .key: span Ticket ID
+      .value: span
         span class="badge #{@ticketCountBadgeClass}" = @ticket_reports_count
+        | &nbsp;
+        = @ticket_identifier
       
 .large-3.columns
   .row
