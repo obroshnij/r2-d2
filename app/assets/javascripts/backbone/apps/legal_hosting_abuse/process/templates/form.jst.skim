@@ -8,7 +8,7 @@ fieldset
     .large-3.columns
       label.text-right.middle for='ticket_identifier' Ticket ID
     .large-9.columns
-      .large-12.columns
+      .large-8.columns.end
         input id='ticket_identifier' name='ticket_identifier' type='text' value="#{@ticket_identifier}"
         span.form-error
         
@@ -16,7 +16,7 @@ fieldset
     .large-3.columns
       label.text-right.middle for='nc_username' Namecheap Username
     .large-9.columns
-      .large-12.columns
+      .large-8.columns.end
         input id='nc_username' name='nc_username' type='text' value="#{@nc_username}"
         span.form-error
         
@@ -24,7 +24,7 @@ fieldset
     .large-3.columns
       label.text-right.middle for='uber_service_identifier' Service ID
     .large-9.columns
-      .large-12.columns
+      .large-8.columns.end
         input id='uber_service_identifier' name='uber_service_identifier' type='text' value="#{@uber_service_identifier}"
         span.form-error
         
@@ -32,8 +32,8 @@ fieldset
     .large-3.columns
       label.text-right.middle for='comment' Comments
     .large-9.columns
-      .large-12.columns
-        textarea id='comment' name='comment'
+      .large-8.columns.end
+        textarea id='comment' name='comment' rows='4'
         span.form-error
 
 - if @canned_reply

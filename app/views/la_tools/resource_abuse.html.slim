@@ -69,7 +69,7 @@
         = label_tag :whatabuse_mysql, "MySQL Queries"
         br
         br
-        = text_area_tag :mysqlLogs, "MySQL Logs with the command!!", rows: 5, style: "display:none;", placeholder: 'MySQL Logs with the command!!'
+        = text_area_tag :mysqlLogs, nil, rows: 5, style: "display:none;", placeholder: 'MySQL Logs with the command!!'
     
   = button_tag "Generate", class: "tiny", onclick: "generate();"
       

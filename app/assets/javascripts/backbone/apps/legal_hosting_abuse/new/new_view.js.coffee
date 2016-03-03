@@ -19,7 +19,7 @@
           type:     'hidden'
           default:  App.request('get:current:user').id
         ,
-          name:     'edited_by_id'
+          name:     'updated_by_id'
           type:     'hidden'
           value:    App.request('get:current:user').id
         ,
