@@ -51,7 +51,7 @@ var generate = function() {
     if (memory) { limits.push('Memory Usage'); }
     if (ep)     { limits.push('Entry Processes'); }
     if (io)     { limits.push('Input/Output'); }
-    text = text + limits.join(', ') + '.';
+    text = text + '<br><br>' + _.map(limits, function(limit) { return "- " + limit; }).join('<br>');
   } else {
     text = text + "The server is abused by MySQL queries and the following resource limits are being exceeded: ";
     limits = [];
@@ -59,12 +59,12 @@ var generate = function() {
     if (memory) { limits.push('Memory Usage'); }
     if (ep)     { limits.push('Entry Processes'); }
     if (io)     { limits.push('Input/Output'); }
-    text = text + limits.join(', ') + '.';
+    text = text + '<br><br>' + _.map(limits, function(limit) { return "- " + limit; }).join('<br>');
   }
   
   text = text + "<br><br>";
   
-  text = text + "Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. Here are the diagnostic steps generally suggested for finding the corresponding solution:<br><br>";
+  text = text + "Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. ";
   
   advice = [];
   
@@ -94,7 +94,10 @@ var generate = function() {
   //   advice.push("+ to obtain additional information about CloudFlare https://www.namecheap.com/support/knowledgebase/subcategory.aspx?type=category&contentid=2210&categorytitle=cpanel%20addons");
   // }
   
-  text = text + advice.join('<br>');
+  if (advice.length > 0) {
+    text = text + "Here are the diagnostic steps generally suggested for finding the corresponding solution:<br><br>";
+    text = text + advice.join('<br>');
+  }
   
   text = text + "<br><br>The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux<br><br>";
   
