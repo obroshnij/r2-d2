@@ -2,6 +2,12 @@
   
   class Entities.Role extends App.Entities.Model
     urlRoot: -> Routes.roles_path()
+    
+    mutators:
+      
+      canBeDestroyed: ->
+        return true unless @get('users_names')
+        @get('users_names').length is 0
   
   
   class Entities.RolesCollection extends App.Entities.Collection
@@ -22,9 +28,15 @@
       role.fetch()
       role
       
+    newRole: (attrs = {}) ->
+      new App.Entities.Role attrs
+      
   
   App.reqres.setHandler 'role:entities', ->
     API.getRolesCollection()
     
   App.reqres.setHandler 'role:entity', (id) ->
     API.getRole id
+    
+  App.reqres.setHandler 'new:role:entity', (attrs = {}) ->
+    API.newRole attrs

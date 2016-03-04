@@ -26,6 +26,10 @@
         region: App.modalRegion
         role:   role
         
+    newRole: ->
+      new UserManagementRolesApp.New.Controller
+        region: App.modalRegion
+        
         
   App.vent.on 'user:management:nav:selected', (nav, options, region) ->
     return if nav isnt 'Roles & Permissions'
@@ -47,11 +51,11 @@
   App.vent.on 'edit:permissions:clicked', (role) ->
     API.editPermissions role.id
     
-  App.vent.on 'roles:permissions:updated', (role) ->
+  App.vent.on 'roles:permissions:updated roles:permissions:cancelled new:role:created', (role) ->
     API.list()
     
-  App.vent.on 'roles:permissions:cancelled', ->
-    API.list()
+  App.vent.on 'new:role:clicked', ->
+    API.newRole()
   
   
   UserManagementRolesApp.on 'start', ->

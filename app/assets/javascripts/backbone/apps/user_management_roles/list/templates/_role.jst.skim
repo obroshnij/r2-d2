@@ -5,7 +5,10 @@
       .value = @name
     .row.hash
       .key Users
-      .value == _.size(@users_names)
+      - if _.size(@users_names) > 0
+        .value == @dropdown 'show', @users_names.join("\n"), "#{_.size(@users_names)}, ", 'right'
+      - else
+        .value = _.size(@users_names)
       
   .large-4.columns
     .row.hash
@@ -26,3 +29,7 @@
           a.button.edit-permissions
             icon.fi-pencil
             |  Permissions
+          - if @canBeDestroyed
+            a.button.alert.destroy-role
+              icon.fi-x
+              |  Delete

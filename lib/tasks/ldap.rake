@@ -35,10 +35,12 @@ namespace :ldap do
     
     Role.create name: 'Other'
     
+    Role.create name: 'Admin', permission_ids: Ability::Permission.all.map(&:identifier)
+    
     Role.create({
       name: 'Billing CS',
       permission_ids: ['rbls_index'],
-      groups: DirectoryGroup.where(name: ['nc-cs-billing'])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-billing']).map(&:id)
     })
     
     Role.create({
@@ -50,7 +52,7 @@ namespace :ldap do
         'domains_maintenance_alerts_index',
         'domains_maintenenace_alerts_show'
       ],
-      groups: DirectoryGroup.where(name: ['nc-cs-shiftleaders', 'nc-cs-domain'])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-shiftleaders', 'nc-cs-domain']).map(&:id)
     })
     
     Role.create({
@@ -62,7 +64,7 @@ namespace :ldap do
         'domains_maintenance_alerts_index',
         'domains_maintenenace_alerts_show'
       ],
-      groups: DirectoryGroup.where(name: [''])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-sla', 'nc-cs-domain']).map(&:id)
     })
     
     Role.create({
@@ -90,7 +92,7 @@ namespace :ldap do
         'la_tools_manage',
         'management_tools_monthly_reports'
       ],
-      groups: DirectoryGroup.where(name: ['nc-cs-management', 'nc-rm-management'])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-management', 'nc-rm-management']).map(&:id)
     })
     
     Role.create({
@@ -112,7 +114,7 @@ namespace :ldap do
         'nc_services_comment',
         'la_tools_manage'
       ],
-      groups: DirectoryGroup.where(name: [''])
+      group_ids: DirectoryGroup.where(name: ['nc-rm-la']).map(&:id)
     })
     
     Role.create({
@@ -135,7 +137,7 @@ namespace :ldap do
         'nc_services_comment',
         'la_tools_manage'
       ],
-      groups: DirectoryGroup.where(name: [''])
+      group_ids: DirectoryGroup.where(name: ['nc-rm-la-shiftleaders']).map(&:id)
     })
     
     Role.create({
@@ -146,7 +148,7 @@ namespace :ldap do
         'legal_hosting_abuse_update_own',
         'legal_hosting_abuse_update_dismissed'
       ],
-      groups: DirectoryGroup.where(name: [''])
+      group_ids: DirectoryGroup.where(name: ['nc-tech-ops']).map(&:id)
     })
     
     Role.create({
@@ -157,7 +159,7 @@ namespace :ldap do
         'legal_hosting_abuse_update_own',
         'legal_hosting_abuse_update_dismissed'
       ],
-      groups: DirectoryGroup.where(name: [''])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-techsup']).map(&:id)
     })
     
     Role.create({
@@ -165,7 +167,7 @@ namespace :ldap do
       permission_ids: [
         'management_tools_monthly_reports'
       ],
-      groups: DirectoryGroup.where(name: ['nc-cs-management'])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-management']).map(&:id)
     })
     
     Role.create({
@@ -173,12 +175,18 @@ namespace :ldap do
       permission_ids: [
         'management_tools_monthly_reports'
       ],
-      groups: DirectoryGroup.where(name: ['nc-cs-domain', 'nc-cs-teamleads'])
+      group_ids: DirectoryGroup.where(name: ['nc-cs-domain', 'nc-cs-teamleads']).map(&:id)
     })
     
     User.all.each do |r2_user|
       ldap_user = users.find { |u| r2_user.email.gsub('.', '') == u[:email].gsub('.', '') }
-      next if ldap_user.nil?
+      
+      if ldap_user.nil?
+        puts r2_user.name
+        r2_user.role_id = Role.find_by_name('Other').id
+        r2_user.save
+        next
+      end
 
       group_ids = ldap_user[:groups].map do |group_dn|
         name = group_dn.split(',').first.split('=').last

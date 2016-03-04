@@ -43,6 +43,10 @@
       @listenTo rolesView, 'childview:edit:permissions:clicked', (child, args) ->
         App.vent.trigger 'edit:permissions:clicked', args.model
         
+      @listenTo rolesView, 'childview:destroy:role:clicked', (child, args) ->
+        model = args.model
+        if confirm "Are you sure you want to delete #{model.get("name")}?" then model.destroy() else false
+        
       @show rolesView,
         loading: true
         region:  @layout.rolesRegion

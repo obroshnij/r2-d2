@@ -20,6 +20,7 @@
       _.contains rule.get('actions'), action
       
     checkConditions: (rule, subject) ->
+      return true if _.isString subject
       return true if _.size(rule.get('conditions')) is 0
       _.every rule.get('conditions'), (val, key) -> subject.get(key) is val
     

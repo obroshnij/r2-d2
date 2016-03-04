@@ -48,9 +48,12 @@
     triggers:
       'click .edit-groups'      : 'edit:groups:clicked'
       'click .edit-permissions' : 'edit:permissions:clicked'
+      'click .destroy-role'     : 'destroy:role:clicked'
       
     modelEvents:
       'change' : 'render'
+      
+    @include 'HasDropdowns'
     
   
   class List.RolesView extends App.Views.CompositeView

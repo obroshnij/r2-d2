@@ -37,6 +37,11 @@
           name:     'email_cont'
           label:    'Email contains'
         ,
+          name:     'role_id_eq'
+          label:    'Role'
+          tagName:  'select'
+          options:  App.entities.roles
+        ,
           name:     'groups_name_cont'
           label:    'NC Directory Group Name contains'
         ]

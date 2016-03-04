@@ -2,6 +2,12 @@ class Role < ActiveRecord::Base
   
   has_many :users
   
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  
+  before_validation do
+    self.name = name.strip.capitalize
+  end
+  
   def self.for_user user
     return find(user.role_id) unless user.auto_role
     guess_role user
