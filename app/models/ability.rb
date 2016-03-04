@@ -44,7 +44,6 @@ class Ability
     end
     
     can [:edit_password, :update_password], User, id: user.id
-    
   end
   
   def as_json

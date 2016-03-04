@@ -88,11 +88,10 @@ var generate = function() {
     advice.push("- if the SSH access is enabled for the account the “ top -c ” command is of use in order to find the webpages causing the most significant impact (in case an active process takes much time or a critical amount of virtual memory for being completed, it should be disabled)");
   }
   
-  // if (io) {
-  //   advice.push("- make sure that the CloudFlare service is enabled. Please refer to the following Namecheap KnowledgeBase articles:");
-  //   advice.push("+ to enable the CloudFlare cPanel add-on https://www.namecheap.com/support/knowledgebase/article.aspx/1191/2210/how-to-enable-cloudflare-for-your-domain-name");
-  //   advice.push("+ to obtain additional information about CloudFlare https://www.namecheap.com/support/knowledgebase/subcategory.aspx?type=category&contentid=2210&categorytitle=cpanel%20addons");
-  // }
+  if (io) {
+    advice.push("- consider applying ddos protection services");
+    advice.push("- double-check all active scripts as some of them may be unoptimized");
+  }
   
   if (advice.length > 0) {
     text = text + "Here are the diagnostic steps generally suggested for finding the corresponding solution:<br><br>";
