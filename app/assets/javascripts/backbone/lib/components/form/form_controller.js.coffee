@@ -10,6 +10,8 @@
       syncingType:     'opacity'
       search:          false
       proxy:           false
+      deserialize:     false
+      saveMethod:      'save'
       onBeforeSubmit:  ->
       onCancel:        ->
       onSuccess:       ->
@@ -28,7 +30,7 @@
       @createListeners config
       
     createListeners: (config) ->
-      @listenTo @formLayout, 'show', @formContentRegion
+      @listenTo @formLayout, 'show',        => @formContentRegion(config)
       
       @listenTo @formLayout, 'form:submit', => @formSubmit(config)
       @listenTo @formLayout, 'form:cancel', => @formCancel(config)
@@ -42,7 +44,7 @@
       @trigger 'form:submit', data
       
     processModelSave: (data, config) ->
-      @model.save data,
+      @model[config.saveMethod] data,
         callback: config.onSuccess
       
     formCancel: (config) ->
@@ -67,9 +69,9 @@
         @_saveModel = false
       model
       
-    formContentRegion: ->
+    formContentRegion: (config) ->
       @show @contentView, region: @formLayout.formContentRegion
-      # Backbone.Syphon.deserialize @formLayout, @model.toJSON()
+      Backbone.Syphon.deserialize @formLayout, @model.toJSON() if config.deserialize
       
     getFormLayout: (config) ->
       new Form.FormLayout

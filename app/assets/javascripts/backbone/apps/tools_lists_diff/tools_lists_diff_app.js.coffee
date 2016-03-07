@@ -27,4 +27,3 @@
   ToolsListsDiffApp.on 'start', ->
     new ToolsListsDiffApp.Router
       controller: API
-      auth:       false

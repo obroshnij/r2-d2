@@ -12,10 +12,9 @@
   
     destroy: (args...) ->
       if @model?.isDestroyed()
-        
-        wrapper = @$el.toggleWrapper
-          className: 'opacity'
-          backgroundColor: 'red'
+                  
+        wrapper = @addOpacityWrapper true,
+          backgroundColor: "#ec5840"
         
         wrapper.fadeOut 400, ->
           $(@).remove()
@@ -67,9 +66,10 @@
         
         result
         
-      dropdown: (label, text) ->
+      dropdown: (label, text, prepend = '', htmlClass = 'left') ->
         id = _.uniqueId('drop-')
         "<span>
+          #{prepend}
           <a data-toggle='#{id}'>#{label}</a>
-          <div class='dropdown-pane text-left' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
+          <div class='dropdown-pane #{htmlClass} text-left' id='#{id}' data-dropdown data-hover='true' data-hover-pane='true'>#{text}</div>
         </span>"

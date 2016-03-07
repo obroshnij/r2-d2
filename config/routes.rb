@@ -4,14 +4,13 @@ require 'resque/scheduler/server'
 
 Rails.application.routes.draw do
   
-  get '/r2' => 'application#index'
-  root 'domain_box#whois'
+  root 'application#index'
   
   # get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
 
   mount Resque::Server.new, :at => '/resque'
   
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users
   resources :users
   
   resources :roles
@@ -63,13 +62,11 @@ Rails.application.routes.draw do
   end
   
   resources :nc_users
-  resources :nc_services, as: 'domains', path: '/domains', controller: 'domains'
+  resources :nc_services, as: 'nc_domains', path: '/nc_domains', controller: 'nc_domains'
   resources :nc_services, as: 'private_emails', path: '/private_emails', controller: 'private_emails'
   
   resources :rbls
-  
-  resources :watched_domains
-  
+    
   namespace :api do
     resources :whois_records
   end
@@ -85,7 +82,15 @@ Rails.application.routes.draw do
   end
   
   namespace :legal do
-    resources :hosting_abuse
+    resources :hosting_abuse do
+      put :mark_processed,   on: :member
+      put :mark_dismissed,   on: :member
+      put :mark_unprocessed, on: :member
+    end
+  end
+  
+  namespace :domains do
+    resources :watched_domains
   end
   
 end

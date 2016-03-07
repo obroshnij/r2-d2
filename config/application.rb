@@ -27,5 +27,9 @@ module R2d2
     config.time_zone = "Kyiv"
     
     config.middleware.use PDFKit::Middleware
+    
+    config.to_prepare do
+      Devise::SessionsController.layout 'application_new'
+    end
   end
 end

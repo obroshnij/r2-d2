@@ -1,6 +1,6 @@
 .clearfix
   h4.float-left Hosting Abuse
-  - if @can('create', 'Legal::HostingAbuse')
+  - if @canCreate
     a.button.small.float-right
       icon.fi-plus
-      |  Submit a Report
+      |  New Report

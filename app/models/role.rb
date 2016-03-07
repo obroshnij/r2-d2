@@ -1,12 +1,39 @@
 class Role < ActiveRecord::Base
   
-  has_and_belongs_to_many :users
-  has_many :permissions
+  has_many :users
   
-  accepts_nested_attributes_for :permissions
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
   
-  def self.all_without_admin
-    self.all - [self.find_by_name("Admin")]
+  before_validation do
+    self.name = name.strip
+  end
+  
+  def self.for_user user
+    return find(user.role_id) unless user.auto_role
+    guess_role user
+  end
+  
+  def permissions
+    Ability::Permission.where identifier: permission_ids
+  end
+  
+  def group_ids= ids
+    super ids.delete_if { |id| id.blank? }
+  end
+  
+  def permission_ids= ids
+    super ids.delete_if { |id| id.blank? }
+  end
+  
+  def users_names
+    users.pluck :name
+  end
+  
+  private
+  
+  def self.guess_role user
+    roles = where("group_ids <@ ARRAY[?]::integer[] AND array_length(group_ids, 1) > 0", user.group_ids).order("array_length(group_ids, 1) DESC")
+    roles.present? ? roles.first : find_by_name('Other')
   end
   
 end

@@ -1,0 +1,7 @@
+#page-title
+  .row
+    .large-12.columns
+      #title
+        h1 Domains
+      #icon
+        i class='fi-web'

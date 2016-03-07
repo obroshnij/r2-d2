@@ -4,7 +4,7 @@
     
     constructor: (options = {}) ->
       _.defaults options,
-        auth:     false
+        auth:     true
         resource: false
       
       { @auth, @resource } = options
@@ -41,6 +41,6 @@
       @_getActionAlias @appRoutes[route]
     
     _getActionAlias: (action) ->
-      return 'read'   if action is 'list'
+      return 'index'  if action is 'list'
       return 'update' if action is 'edit'
       return 'create' if /^new/.test action

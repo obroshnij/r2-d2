@@ -9,9 +9,7 @@
       
       @listenTo legalNavs, 'select:one', (model, collection, options) ->
         App.vent.trigger 'legal:nav:selected', model.get('name'), @options.options, @layout.articleRegion
-        
-      delete @options.action # action is only needed once, when the app is initiated
-      
+            
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
@@ -20,6 +18,8 @@
         @navsRegion legalNavs, options.nav
       
       @show @layout
+      
+      delete @options.options # action is only needed once, when the app is initiated
       
     titleRegion: ->
       titleView = @getTitleView()

@@ -8,10 +8,11 @@
       unprocessView = @getUnprocessView report
       
       form = App.request 'form:component', unprocessView,
-        proxy:     'modal'
-        model:     report
-        onCancel:  => @region.empty()
-        onSuccess: => @region.empty()
+        proxy:      'modal'
+        model:      report
+        saveMethod: 'markUnprocessed'
+        onCancel:   => @region.empty()
+        onSuccess:  => @region.empty()
       
       @show form
           

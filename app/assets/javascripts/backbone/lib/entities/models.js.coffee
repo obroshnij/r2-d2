@@ -11,7 +11,7 @@
         wait:    true
         success: _.bind(@saveSuccess, @, isNew, options.collection, options.callback)
         error:   _.bind(@saveError, @)
-        
+            
       @unset '_errors'
       super data, options
       
@@ -28,17 +28,31 @@
       callback?()
         
     saveError: (model, xhr, options) =>
-      @set _errors: xhr.responseJSON.errors unless xhr.status is 500 or xhr.status is 404
+      @set _errors: xhr.responseJSON.errors unless _.contains([500, 404, 403], xhr.status)
+      App.execute 'notify:error', xhr.responseJSON.error if xhr.status is 403
       
     destroy: (options = {}) ->
       _.defaults options,
-        wait: true
+        wait:  true
+        error:  _.bind(@destroyError, @)
       
       @set _destroy: true
       super options
       
+    destroyError: (model, xhr, options) =>
+      App.execute 'notify:error', xhr.responseJSON.error if xhr.status is 403
+      
     isDestroyed: ->
       @get '_destroy'
+      
+    fetch: (options = {}) ->
+      _.defaults options,
+        error: _.bind(@fetchError, @)
+        
+      super options
+      
+    fetchError: (model, xhr, options) =>
+      App.execute 'notify:error', xhr.responseJSON.error if xhr.status is 403
   
   
   App.reqres.setHandler 'new:model', (attrs = {}) ->

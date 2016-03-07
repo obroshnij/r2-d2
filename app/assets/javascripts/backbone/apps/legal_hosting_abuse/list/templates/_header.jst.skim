@@ -51,18 +51,22 @@
   .row
     .large-12.columns
       .button-group.tiny.float-right
-        a.button.success.process-report
-          icon.fi-check
-          |  Process
-        a.button.alert.dismiss-report
-          icon.fi-x
-          |  Dismiss
-        a.button.edit-report
-          icon.fi-pencil
-          |  Edit
-        a.button.alert.unprocess-report
-          icon.fi-x
-          |  Unprocess
+        - if @canBeProcessed and @canProcess
+          a.button.success.process-report
+            icon.fi-check
+            |  Proces
+        - if @canBeDismissed and @canDismiss
+          a.button.alert.dismiss-report
+            icon.fi-x
+            |  Dismiss
+        - if @canBeEdited and @canEdit
+          a.button.edit-report
+            icon.fi-pencil
+            |  Edit
+        - if @canBeUnprocessed and @canUnprocess
+          a.button.alert.unprocess-report
+            icon.fi-x
+            |  Unprocess
   .row
     .large-12.columns.text-right
       - if @uber_note

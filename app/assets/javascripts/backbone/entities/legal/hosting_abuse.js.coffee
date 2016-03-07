@@ -3,8 +3,9 @@
   class Entities.HostingAbuse extends App.Entities.Model
     urlRoot: -> Routes.legal_hosting_abuse_index_path()
     
-    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary', 'Other': 'warning' }
+    resourceName: 'Legal::HostingAbuse'
     
+    typeClassLookups: { 'Email Abuse / Spam': '', 'Resource Abuse': 'success', 'DDoS': 'secondary', 'Other': 'warning' }
     typeIconLookups:  { 'Email Abuse / Spam': 'fa fa-envelope-o', 'Resource Abuse': 'fa fa-sliders', 'DDoS': 'fa fa-bolt', 'Other': 'fa fa-fire' }
     
     statusColorLookups: { '_new': 'primary', '_processed': 'success', '_dismissed': 'alert', '_unprocessed': 'alert', '_edited': 'warning' }
@@ -44,7 +45,35 @@
         return 'secondary' if @get('ticket_reports_count') is 1
         return 'warning'   if @get('ticket_reports_count') > 1 and @get('ticket_reports_count') < 5
         'alert'
+        
+      canBeProcessed: ->
+        return false if _.includes ['_processed', '_dismissed'], @get('status')
+        true
       
+      canBeDismissed: ->
+        return false if _.includes ['_processed', '_dismissed'], @get('status')
+        true
+      
+      canBeUnprocessed: ->
+        return true if @get('status') is '_processed'
+        false
+      
+      canBeEdited: ->
+        return false if @get('status') is '_processed'
+        true
+        
+    markProcessed: (attributes = {}, options = {}) ->
+      options.url = Routes.mark_processed_legal_hosting_abuse_path(@id)
+      @save attributes, options
+      
+    markDismissed: (attributes = {}, options = {}) ->
+      options.url = Routes.mark_dismissed_legal_hosting_abuse_path(@id)
+      @save attributes, options
+      
+    markUnprocessed: (attributes = {}, options = {}) ->
+      options.url = Routes.mark_unprocessed_legal_hosting_abuse_path(@id)
+      @save attributes, options
+
       
   class Entities.HostingAbuseCollection extends App.Entities.Collection
     model: Entities.HostingAbuse

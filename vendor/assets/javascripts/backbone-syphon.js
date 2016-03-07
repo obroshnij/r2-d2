@@ -77,7 +77,7 @@
       var validKeyAssignment = config.keyAssignmentValidators.get(type);
       if (validKeyAssignment($el, key, value)) {
         var keychain = config.keySplitter(key);
-        data = assignKeyValue(data, keychain, value);
+        data = assignKeyValue(data, keychain, value, $el);
       }
     });
   
@@ -226,7 +226,7 @@
   // becomes an array, and values are pushed in to the array,
   // allowing multiple fields with the same name to be
   // assigned to the array.
-  var assignKeyValue = function(obj, keychain, value) {
+  var assignKeyValue = function(obj, keychain, value, $el) {
     if (!keychain) { return obj; }
   
     var key = keychain.shift();
@@ -238,7 +238,9 @@
   
     // if it's the last key in the chain, assign the value directly
     if (keychain.length === 0) {
-      if (_.isArray(obj[key])) {
+      if ($el.prop('tagName') === 'SELECT' && $el.is('[multiple]')) {
+        obj[key] = value;
+      } else if (_.isArray(obj[key])) {
         obj[key].push(value);
       } else {
         obj[key] = value;
@@ -247,7 +249,7 @@
   
     // recursive parsing of the array, depth-first
     if (keychain.length > 0) {
-      assignKeyValue(obj[key], keychain, value);
+      assignKeyValue(obj[key], keychain, value, $el);
     }
   
     return obj;

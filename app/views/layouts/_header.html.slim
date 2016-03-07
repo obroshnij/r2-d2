@@ -12,58 +12,59 @@ nav.top-bar data-topbar='' role="navigation"
         a href='#' Domains & General
         ul.dropdown
           li = link_to "Whois", whois_path
-          li = link_to "Maintenance Alerts", alerts_path
-          li = link_to "Extract Domains", parse_domains_path
-          li = link_to "Compare Lists", compare_path
+          li = link_to "Maintenance Alerts", alerts_path if can? :index, :maintenance_alert
+          li = link_to "Extract Domains", '/#tools/data_extractor'
+          li = link_to "Compare Lists", '/#tools/lists_diff'
           li = link_to "Bulk Dig", bulk_dig_path
           li = link_to "Email Verifier", verify_email_path
-          li = link_to "Watched Domains", watched_domains_path if can? :read, WatchedDomain
+          li = link_to "Watched Domains", '/#domains/watched' if can? :index, Domains::WatchedDomain
       li.divider
       
-      - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
+      - if can?(:index, AbuseReport) || can?(:index, NcUser) || can?(:index, NcService) || can?(:index, Rbl) || can?(:manage, :la_tool)
         li.has-dropdown.not-click
-          - if can? :access, :la_tool
+          - if can? :manage, :la_tool
             = link_to "Legal & Abuse", spam_path
           - else
             a href='#' Legal & Abuse
           ul.dropdown
           
-            - if can? :access, :la_tool
+            - if can? :manage, :la_tool
               li.has-dropdown.not-click
                 a href='#' Tools
                 ul.dropdown
-                  li = link_to "DBL/SURBL Check", dbl_surbl_path if can? :access, :la_tool
-                  li = link_to "Bulk CURL", bulk_curl_path if can? :access, :la_tool
-                  li = link_to "Resource Abuse", resource_abuse_path if can? :access, :la_tool
-                  li = link_to "Process Spam", spam_path if can? :access, :la_tool
-                  li = link_to "Spam Reports", spam_reports_path if can? :access, :la_tool
-                  li = link_to "HTML PDFier", html_pdfier_path if can? :access, :la_tool
+                  li = link_to "DBL/SURBL Check", dbl_surbl_path if can? :manage, :la_tool
+                  li = link_to "Bulk CURL", bulk_curl_path if can? :manage, :la_tool
+                  li = link_to "Resource Abuse", resource_abuse_path if can? :manage, :la_tool
+                  li = link_to "Process Spam", spam_path if can? :manage, :la_tool
+                  li = link_to "Spam Reports", spam_reports_path if can? :manage, :la_tool
+                  li = link_to "HTML PDFier", html_pdfier_path if can? :manage, :la_tool
                   
-            - if can?(:read, AbuseReport) || can?(:read, NcUser) || can?(:read, NcService) || can?(:read, Rbl)
+            - if can?(:index, AbuseReport) || can?(:index, NcUser) || can?(:index, NcService) || can?(:index, Rbl)
               li.has-dropdown.not-click
                 a href='#' Lists
                 ul.dropdown
-                  li = link_to "Abuse Reports", abuse_reports_path if can? :read, AbuseReport
-                  li = link_to "Namecheap Users", nc_users_path if can? :read, NcUser
-                  li = link_to "Namecheap Domains", domains_path if can? :read, NcService
-                  li = link_to "Private Emails", private_emails_path if can? :read, NcService
-                  li = link_to "Multi RBL", rbls_path if can? :read, Rbl
+                  li = link_to "Hosting Abuse", '/#legal/hosting_abuse' if can? :index, Legal::HostingAbuse
+                  li = link_to "Abuse Reports", abuse_reports_path if can? :index, AbuseReport
+                  li = link_to "Namecheap Users", nc_users_path if can? :index, NcUser
+                  li = link_to "Namecheap Domains", nc_domains_path if can? :index, NcService
+                  li = link_to "Private Emails", private_emails_path if can? :index, NcService
+                  li = link_to "Multi RBL", rbls_path if can? :index, Rbl
         li.divider
         
-      - if can? :access, :manager_tool
+      - if can?(:monthly_reports, :manager_tool) || can?(:welcome_emails, :manager_tool)
         li.has-dropdown.not-click
           a href='#' Management Tools
           ul.dropdown
-            li = link_to "Monthly Reports", monthly_reports_path if can? :access, :manager_tool
-            li = link_to "Welcome Emails", welcome_emails_path if current_user.admin?
+            li = link_to "Monthly Reports", monthly_reports_path if can? :monthly_reports, :manager_tool
+            li = link_to "Welcome Emails", welcome_emails_path   if can? :welcome_emails,  :manager_tool
         li.divider
       
       - if can?(:read, Role) || can?(:read, User)
         li.has-dropdown.not-click
           a href='#' User Management
           ul.dropdown
-            li = link_to "Roles and Permissions", roles_path if can? :read, Role
-            li = link_to "Users", users_path if can? :read, User
+            li = link_to "Users", "/#user_management/users" if can? :read, User
+            li = link_to "Roles and Permissions", "/#user_management/roles" if can? :read, Role
         li.divider
       
   - if user_signed_in?

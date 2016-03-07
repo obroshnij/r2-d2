@@ -3,7 +3,7 @@
 
 .large-9.columns
   
-  .large-5.columns.checkboxes.collection
+  div class="#{@columnClass} columns checkboxes collection"
     - for option in @options
       div.clearfix
         .inpt: input type='checkbox' name="#{@name}[]" value="#{option.id}" id="#{@name}_#{option.id}"
@@ -11,5 +11,6 @@
     input type='hidden' name="#{@name}[]" value='' syphon='visible'
     .large-12: span.form-error
   
-  .large-7.columns
-    label.help-text.middle = @hint
+  - if @hasHint
+    .large-7.columns
+      label.help-text.middle = @hint

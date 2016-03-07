@@ -1,0 +1,15 @@
+.large-3.columns
+  label.text-right.middle for="#{@id}" = @label
+
+.large-9.columns
+  
+  div class="#{@columnClass} columns"
+    select name="#{@name}[]" id="#{@id}" multiple="multiple"
+      
+      - for option in @options
+        option value="#{option.id}" = option.name
+    span.form-error
+  
+  - if @hasHint
+    .large-7.columns
+      label.help-text.middle = @hint

@@ -1,0 +1,52 @@
+- provide :title, "Namecheap Domains"
+
+.row: .large-12.columns
+
+  = search_form_for @search, url: { controller: :nc_domains } do |f|
+    fieldset
+      legend Filters
+      ul.large-block-grid-4
+        
+        li
+          = f.label :name_cont, "Name contains"
+          = f.text_field :name_cont, placeholder: "Name"
+          
+        li
+          = f.label :nc_user_username_cont, 'Username contains'
+          = f.text_field :nc_user_username_cont, placeholder: 'username'
+          
+        li
+          = f.label :status_ids_arr_cont, "Has status"
+          = f.collection_select :status_ids_arr_cont, ServiceStatus.all, :id, :name, { include_blank: "Any" }
+          
+        li
+          = label_tag :per_page, "Entries per page"
+          = text_field_tag :per_page, @per_page, placeholder: "Per page"
+        
+    = f.submit "Search", class: "button tiny left"
+    
+  - if can? :create, NcService
+    = link_to 'Add new', '#', :'data-reveal-id' => "new-domain-modal", class: "button tiny right"
+    = render partial: 'new_domain'
+
+  - if @services.present?
+    table
+      thead
+        th Domain name
+        th Namecheap user
+        th Abuse Reports
+        th Status
+        - if can?(:show, NcService)
+          th Actions
+      tbody
+        - @services.each do |domain|
+          tr
+            td = domain.name
+            td = domain.nc_user.try(:username)
+            td = domain.abuse_reports.direct.count
+            td = domain.status_icons
+            - if can?(:show, domain)
+              td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_domain_path(domain.id)
+.row: .large-12.columns
+  span.pageInfo = page_entries_info @services
+  = will_paginate @services, renderer: FoundationPagination::Rails, class: "right"

@@ -3014,6 +3014,7 @@ Foundation.Motion = Motion;
    */
   Dropdown.prototype._init = function(){
     var $id = this.$element.attr('id');
+    this.$element.css('display', 'none');
 
     this.$anchor = $('[data-toggle="' + $id + '"]') || $('[data-open="' + $id + '"]');
     this.$anchor.attr({
@@ -3231,11 +3232,18 @@ Foundation.Motion = Motion;
      * Fires to close other open dropdowns
      * @event Dropdown#closeme
      */
+    this.$element.css('display', 'block');
     this.$element.trigger('closeme.zf.dropdown', this.$element.attr('id'));
     this.$anchor.addClass('hover')
         .attr({'aria-expanded': true});
     // this.$element/*.show()*/;
     this._setPosition();
+    
+    if (this.$element.position().left < 5) {
+      this.$element.css('left', (this.$anchor.position().left - this.$element.outerWidth()  - this.options.hOffset) + 'px');
+      this.$element.css('top',  (this.$anchor.position().top  - this.$element.outerHeight() - this.options.vOffset  + this.$anchor.outerHeight()) + 'px');
+    }
+    
     this.$element.addClass('is-open')
         .attr({'aria-hidden': false});
 
@@ -3286,6 +3294,7 @@ Foundation.Motion = Motion;
     }
     this.$element.trigger('hide.zf.dropdown', [this.$element]);
     // Foundation.reflow(this.$element, 'dropdown');
+    this.$element.css('display', 'none');
   };
   /**
    * Toggles the dropdown pane's visibility.

@@ -11,5 +11,5 @@
       resp.pagination
       
     search: (data) ->
-      @ransack = data
+      @ransack = data if data
       @getPage 1

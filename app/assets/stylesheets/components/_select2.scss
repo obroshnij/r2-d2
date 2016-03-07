@@ -1,0 +1,107 @@
+.select2.select2-container        {
+  $height:  ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
+  $padding: ($form-spacing / 2);
+  
+  margin-bottom: $form-spacing;
+  
+  .select2-selection              {
+    height:         $height;
+    border-radius:  $select-radius;
+    border:         $input-border;
+    padding:        $padding;
+
+    .select2-selection__rendered  {
+      font-size:      0.875rem;
+      font-family:    $input-font-family;
+      color:          $input-color;
+      line-height:    ($height - $padding * 2 - rem-calc(2));
+      padding-left:   0;
+      vertical-align: middle;
+    }
+
+    .select2-selection__arrow     {
+      top: ($padding - rem-calc(2.5));
+
+      b {
+        border-top-color:    $black;
+        border-top-width:    6px;
+        border-bottom-width: 0;
+      }
+    }
+  }
+  
+  .select2-selection--multiple    {
+    min-height:  $height;
+    height:      inherit;
+    padding-top: ($padding - rem-calc(5));
+    
+    .select2-selection__rendered  {
+      padding: 0;
+      
+      .select2-search__field {
+        line-height:    1rem;
+        height:         1.5rem;
+        vertical-align: bottom;
+        margin-bottom:  0;
+        margin-top:     5px;
+      }
+      
+      .select2-selection__choice {
+        border: 0;
+        border-radius: 0;
+        background-color: $primary-color;
+        color: white;
+        
+        .select2-selection__choice__remove {
+          color: white;
+        }
+      }
+    }
+  }
+  
+  .select2-selection.is-invalid-input {
+    $background: $input-background-invalid;
+    
+    &:not([aria-expanded='true']):not(:focus) {
+      background-color: rgba($background, 0.1);
+      border-color: $background;
+    }
+  }
+}
+
+.select2.select2-container--open  {
+  .select2-selection              {
+    .select2-selection__arrow     {
+      b {
+        border-bottom-color: $black;
+        border-bottom-width: 6px;
+        border-top-width:    0;
+      }
+    }
+  }
+}
+
+.select2-dropdown                 {
+  border-radius: $select-radius;
+  
+  .select2-search                 {
+    .select2-search__field        {
+      margin-bottom: 0;
+      font-size:     0.875rem;
+    }
+  }
+  
+  .select2-results                {
+    font-size: 0.875rem;
+    
+    .select2-results__options     {
+      [aria-selected=true]        {
+        background-color: $light-gray;
+      }
+      
+      .select2-results__option--highlighted {
+        background-color: $primary-color;
+      }
+    }
+  }
+}

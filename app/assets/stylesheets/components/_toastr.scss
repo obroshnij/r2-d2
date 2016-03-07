@@ -1,0 +1,22 @@
+#toast-container {
+  .toast {
+    background-image: none !important;
+    border-radius: 0;
+    opacity: 1;
+    padding: 15px;
+    
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    
+//    font-size: 0.875rem;
+  }
+  
+  .toast-info {
+    background-color: $primary-color;
+  }
+  
+  .toast-error {
+    background-color: $alert-color;
+  }
+}

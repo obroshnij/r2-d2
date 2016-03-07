@@ -1,53 +1,47 @@
 class RolesController < ApplicationController
-  
-  before_action :authenticate_user!
-  load_and_authorize_resource
+  respond_to :json
+  authorize_resource
   
   def index
-    @roles = Role.accessible_by(current_ability) - [Role.find_by_name("Admin")]
+    @search = Role.ransack params[:q]
+    @roles = @search.result(distinct: true).order(:name).paginate(page: params[:page], per_page: params[:per_page])
   end
   
   def create
     @role = Role.new role_params
     if @role.save
-      flash[:notie] = @role.name + " role has been successfully saved"
+      render :show
     else
-      flash[:alert] = "Unable to save " + @role.name + " role: " + @role.errors.full_messages.join("; ")
+      respond_with @role
     end
-    redirect_to action: :index
   end
   
-  def edit
+  def show
     @role = Role.find params[:id]
-    @permissions = Ability::CLASSES.keys.map do |class_name|
-      Permission.find_or_create_by role_id: params[:id], subject_class: class_name
-    end
   end
   
   def update
     @role = Role.find params[:id]
     if @role.update_attributes role_params
-      flash[:notice] = @role.name + " role has been successfully updated"
+      render :show
     else
-      flash[:alert] = "Unable to update " + @role.name + " role: " + @role.errors.full_messages.join("; ")
+      respond_with @role
     end
-    redirect_to action: :edit
   end
   
   def destroy
     @role = Role.find params[:id]
     if @role.destroy
-      flash[:notice] = @role.name + " role has been successfully deleted"
+      render json: {}
     else
-      flash[:alert] = "Unable to delete " + @role.name + " role: " + @role.errors.full_messages.join("; ")
+      respond_with @role
     end
-    redirect_to action: :index
   end
   
   private
   
   def role_params
-    params.require(:role).permit(:name, permissions_attributes: [:id, actions: [], subject_ids: []])
+    params.require(:role).permit(:id, :name, permission_ids: [], group_ids: [])
   end
   
 end

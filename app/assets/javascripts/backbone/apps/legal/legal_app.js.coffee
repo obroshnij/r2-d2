@@ -22,4 +22,3 @@
   LegalApp.on 'start', ->
     new LegalApp.Router
       controller: API
-      auth:       true

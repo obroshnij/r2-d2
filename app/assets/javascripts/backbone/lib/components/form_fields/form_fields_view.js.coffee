@@ -72,6 +72,25 @@
         if @$("option:selected").prop('disabled')
           @ui.input.val('')
           @updateModelValue()
+          
+  
+  class FormFields.Select2View extends FormFields.SelectView
+    
+    onShow: ->
+      @$('select').select2()
+      
+      @$('select').on 'select2:open', =>
+        
+      
+    onDestroy: ->
+      @$('select').off()
+      @$('select').select2 'destroy'
+      
+  
+  class FormFields.Select2MultiView extends FormFields.Select2View
+    getTemplate: -> 
+      if @model.isCompact() then 'form_fields/select_multi_compact' else 'form_fields/select_multi'
+  
   
   class FormFields.CollectionCheckBoxesView extends FormFields.BaseInputView
     getTemplate: -> 'form_fields/collection_check_boxes'
@@ -191,6 +210,8 @@
       return FormFields.RadioButtonsView           if model.get('tagName') is 'input'  and model.get('type') is 'radio_buttons'
       return FormFields.CollectionRadioButtonsView if model.get('tagName') is 'input'  and model.get('type') is 'collection_radio_buttons'
       return FormFields.HiddenFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'hidden'
+      return FormFields.Select2View                if model.get('tagName') is 'select' and model.get('type') is 'select2'
+      return FormFields.Select2MultiView           if model.get('tagName') is 'select' and model.get('type') is 'select2_multi'
       return FormFields.SelectView                 if model.get('tagName') is 'select'
       return FormFields.TextAreaView               if model.get('tagName') is 'textarea'
       return FormFields.DateRangePickerView        if model.get('tagName') is 'input'  and model.get('type') is 'date_range_picker'

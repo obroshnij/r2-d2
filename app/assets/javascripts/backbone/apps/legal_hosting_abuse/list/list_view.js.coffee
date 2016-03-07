@@ -14,6 +14,9 @@
     
     triggers:
       'click a' : 'submit:report:clicked'
+      
+    serializeData: ->
+      canCreate: App.ability.can 'create', 'Legal::HostingAbuse'
     
   class List.SearchSchema extends Marionette.Object
     
@@ -83,6 +86,14 @@
     doNothing: (event) ->
       event.preventDefault()
       event.stopPropagation()
+      
+    serializeData: ->
+      data = super
+      data.canProcess   = App.ability.can 'mark_processed',   @model
+      data.canDismiss   = App.ability.can 'mark_dismissed',   @model
+      data.canUnprocess = App.ability.can 'mark_unprocessed', @model
+      data.canEdit      = App.ability.can 'update',           @model
+      data
       
     @include 'HasDropdowns'
       

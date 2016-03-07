@@ -1,0 +1,11 @@
+- console.log @
+legend = @description
+input type='hidden' name="permission_ids[]" value='' syphon='visible'
+
+.row.large-up-4
+  - for permission in @permissions
+    .column
+      .switch.tiny.float-left
+        input.switch-input type='checkbox' name="permission_ids[]" value="#{permission.identifier}" id="permission_ids_#{permission.identifier}"
+        label.switch-paddle for="permission_ids_#{permission.identifier}"
+      label.permission-name for="permission_ids_#{permission.identifier}" = permission.description
