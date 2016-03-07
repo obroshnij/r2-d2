@@ -38,15 +38,15 @@ Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous v
 - if the SSH access is enabled for the account the “ top -c ” command is of use in order to find the webpages causing the most significant impact (in case an active process takes much time or a critical amount of virtual memory for being completed, it should be disabled)
 <% end -%>
 <% if @abuse.resource.abuse_type_ids.include?(4) -%>
-- consider applying ddos protection services
-- double-check all active scripts as some of them may be unoptimized
+- please consider applying DDoS protection services. Currently Namecheap does not provide this type of services, therefore it is advised to find a third-party vendor
+- it is advised to double-check all active scripts as some of them might be unoptimized
 <% end -%>
 
 The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux
 
 Additionally, you might consider upgrading your current hosting plan to <%= @abuse.resource.upgrade.name %>. All upgrades are processed on the prorate basis, thus it will be needed to pay only for the difference between the two plans. The prorated refund for your *current plan* will be carried over to your Namecheap funds, that can be used to settle the next generated invoice or pay for any other services with Namecheap.<% if @abuse.service_id == 2 %> If you are using third-party licenses (e.g. cPanel, Softaculous or WHMCS) purchased separately, pleases let us draw your attention that they are non-refundable according to the Acceptable Use Policy.<% end %>
 
-<% if [4, 5, 7].include? @abuse.suggestion_id -%>
+<% if suspended? -%>
 Unfortunately, we have been forced to suspend the reported account in order to prevent the resource abuse and its impact on other accounts located on the server. In order to have the account unsuspended it is required to confirm that all measures necessary for the issue resolving will be taken immediately after the unsuspension.
 <% else -%>
 It is required to look into the issue decreasing the resource usage and providing us with the corresponding results within the next <%= @abuse.suggestion.name.match(/\d+/).to_s %> hours. Otherwise, if the resource overuse persists after the time-frame provided and/or no response is received from your side we might be forced to suspend the account in question. We would like to emphasize that in case the impact on the server increases within the specified time-frame there might no other option but to suspend the account immediately, to our regret.

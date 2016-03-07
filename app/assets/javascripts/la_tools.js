@@ -89,8 +89,8 @@ var generate = function() {
   }
   
   if (io) {
-    advice.push("- consider applying ddos protection services");
-    advice.push("- double-check all active scripts as some of them may be unoptimized");
+    advice.push("- please consider applying DDoS protection services. Currently Namecheap does not provide this type of services, therefore it is advised to find a third-party vendor");
+    advice.push("- it is advised to double-check all active scripts as some of them might be unoptimized");
   }
   
   if (advice.length > 0) {

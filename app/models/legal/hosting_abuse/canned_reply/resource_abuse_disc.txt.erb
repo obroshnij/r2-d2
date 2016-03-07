@@ -3,3 +3,39 @@ IMPORTANT: Account '<%= @abuse.username %>' is suspended due to Disc Space Abuse
 <% else -%>
 WARNING: Disc Space Abuse on Account '<%= @abuse.username %>' - <%= @abuse.server.name %>
 <% end -%>
+
+Hello,
+
+This is to inform you that the '<%= @abuse.username %>' account has reached the disc space limits specified in Paragraph 10.2. Disk Usage Provision of our Acceptable Use Policy at https://www.namecheap.com/legal/hosting/aup.aspx : 
+
+The content on your website must be linked from an HTML or similarly coded web page with all content is freely available to the public. Your website must consist of web pages of a standard design, essentially HTML based text and graphics. Your hosting account should consist mostly of html and php files.
+
+<% if @abuse.service_id == 1 && [1, 4, 5].incude?(@abuse.shared_plan_id) -%>
+The number of inodes employed by one shared hosting account should not exceed 300,000.
+<% elsif @abuse.service_id == 1 && [2, 3].incude?(@abuse.shared_plan_id) -%>
+The number of inodes employed by one Business hosting account should not exceed 600,000.
+<% elsif @abuse.service_id == 2 -%>
+The number of inodes employed by one Reseller hosting account should not exceed 900,000. At the same time, the number of inodes employed by one resold account should not exceed 300,000.
+<% end -%>
+
+Additional information about the inodes is provided in the following Knowledge Base article: https://www.namecheap.com/support/knowledgebase/article.aspx/9331/29/how-to-check-the-number-of-inodes-in-your-hosting-account
+
+Downloadable files, media must comply with the following limitations:
+- NO more than 5 GB of a shared hosting account can be allocated to music, video or other multimedia files including but not limited to .avi, .mp3, .mpeg, .jpg, .gif files;
+- NO more than 5 GB of a shared hosting account can be allocated to any archive files and disk images files containing the complete contents and structure of a data storage medium;
+- NO more than 5 GB of a shared hosting account can be allocated to databases dumps including but not limited to .sql files;
+- NO more than 5 GB of a shared hosting account can be allocated to Executable files and all other files which are the result of compiling a program.
+
+<% if suspended? -%>
+To our regret our Technical team has been forced to suspend the reported account in order to prevent further abuse of the shared disc space resources.
+<% else -%>
+Please look into the issue and make sure that the reported account will not exceed the limits in future. All necessary measures are to be taken within the next <%= @abuse.suggestion.name.match(/\d+/).to_s %> hours. In case the abusive activity persists and/or there is no response from your side we might be forced to suspend the account in order to prevent further abuse of the shared disc space resources.
+<% end -%>
+
+We are looking forward to your reply.
+
+===============[ Please find the additional information below / attached ]===============
+
+===============================[ Disc Space Usage Report ]===============================
+
+<%= @abuse.resource.details %>
