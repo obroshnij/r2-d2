@@ -5,7 +5,7 @@ class Role < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   
   before_validation do
-    self.name = name.strip.capitalize
+    self.name = name.strip
   end
   
   def self.for_user user
