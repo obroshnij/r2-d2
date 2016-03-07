@@ -2,7 +2,7 @@ class WatchDomainsJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    names = WatchedDomain.all
+    names = Domains::WatchedDomain.all
     diff = {}
     if names.present?
       names.each do |name|
