@@ -3,7 +3,7 @@ class Ability
   include CanCan::Ability
   
   def initialize(user)
-    user.role.permissions.each { |p| can p.actions, p.subject_classes, eval(p.conditions) } if user
+    user.role.permissions.each { |p| can p.actions, p.subject_classes, eval(p.conditions) } if user && user.role
   end
   
   def as_json

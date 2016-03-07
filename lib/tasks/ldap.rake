@@ -31,11 +31,21 @@ namespace :ldap do
       }
     end
     
+    Ability::Setup.seed!
+    
     Role.destroy_all
     
     Role.create name: 'Other'
     
     Role.create name: 'Admin', permission_ids: Ability::Permission.all.map(&:identifier)
+    
+    Role.create({
+      name: 'CS Management',
+      permission_ids: [
+        'management_tools_monthly_reports'
+      ],
+      group_ids: DirectoryGroup.where(name: ['nc-cs-management']).map(&:id)
+    })
     
     Role.create({
       name: 'Billing CS',
@@ -160,14 +170,6 @@ namespace :ldap do
         'legal_hosting_abuse_update_dismissed'
       ],
       group_ids: DirectoryGroup.where(name: ['nc-cs-techsup']).map(&:id)
-    })
-    
-    Role.create({
-      name: 'CS Management',
-      permission_ids: [
-        'management_tools_monthly_reports'
-      ],
-      group_ids: DirectoryGroup.where(name: ['nc-cs-management']).map(&:id)
     })
     
     Role.create({
