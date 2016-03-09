@@ -16,7 +16,7 @@
   before_save :set_role
   
   def self.from_ldap_entry entry
-    user = create_with(email: entry.mail.first).find_or_create_by(uid: entry.uid)
+    user = create_with(email: entry.mail.first).find_or_create_by(uid: entry.uid.first)
     
     user.group_ids = get_group_ids entry
     user.name      = "#{entry.givenname.first} #{entry.sn.first}"
