@@ -1,7 +1,7 @@
 class Legal::HostingAbuse < ActiveRecord::Base
   self.table_name = 'legal_hosting_abuse'
   
-  enum status: [:_new, :_processed, :_dismissed, :_unprocessed, :_edited]
+  enum status: [:_new, :_processed, :_dismissed, :_edited]
   
   has_one    :ddos,            class_name: 'Legal::HostingAbuse::Ddos',           foreign_key: 'report_id',         autosave: true
   has_one    :resource,        class_name: 'Legal::HostingAbuse::Resource',       foreign_key: 'report_id',         autosave: true
@@ -29,7 +29,7 @@ class Legal::HostingAbuse < ActiveRecord::Base
   before_save :normalize_attrs
   after_save  :cleanup!, :log!
   
-  attr_accessor :comment, :updated_by_id
+  attr_accessor :comment, :updated_by_id, :log_action
   
   def self.reported_by
     User.where id: select(:reported_by_id).distinct.pluck(:reported_by_id)
@@ -60,11 +60,8 @@ class Legal::HostingAbuse < ActiveRecord::Base
     self.comment           = self.comment.try(:strip)
   end
   
-  def log!
-    action = status.gsub '_', ''
-    action = 'submitted' if status == '_new'
-    
-    Legal::HostingAbuse::Log.create report_id: id, user_id: (updated_by_id || reported_by_id), action: action, comment: comment
+  def log!    
+    Legal::HostingAbuse::Log.create report_id: id, user_id: (updated_by_id || reported_by_id), action: log_action, comment: comment
   end
   
   def cleanup!

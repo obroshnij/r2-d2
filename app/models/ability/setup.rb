@@ -54,12 +54,12 @@ class Ability::Setup
           identifier:   'legal_hosting_abuse_update'
         }, {
           actions:      ['show', 'update'],
-          conditions:   '{ reported_by_id: user.id }',
-          description:  'Edit reports submitted by current user',  
+          conditions:   '{ reported_by_id: user.id, status: ["_new", "_edited"] }',
+          description:  "Edit reports submitted by current user if it's new or edited",
           identifier:   'legal_hosting_abuse_update_own'
         }, {
           actions:      ['show', 'update'],
-          conditions:   '{ status: 2 }',
+          conditions:   '{ status: "_dismissed" }',
           description:  "Edit reports submitted by any user if it's dismissed",
           identifier:   'legal_hosting_abuse_update_dismissed'
         }, {
@@ -70,10 +70,6 @@ class Ability::Setup
           actions:      ['mark_dismissed'],
           description:  'Mark reports as dismissed',
           identifier:   'legal_hosting_abuse_dismiss'
-        }, {
-          actions:      ['mark_unprocessed'],
-          description:  'Mark reports as unprocessed',
-          identifier:   'legal_hosting_abuse_unprocess'
         }
       ]
     }, {

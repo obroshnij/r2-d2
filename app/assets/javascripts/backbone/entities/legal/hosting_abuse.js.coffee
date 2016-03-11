@@ -47,19 +47,14 @@
         'alert'
         
       canBeProcessed: ->
-        return false if _.includes ['_processed', '_dismissed'], @get('status')
+        return false if @get('status') is '_dismissed'
         true
       
       canBeDismissed: ->
         return false if _.includes ['_processed', '_dismissed'], @get('status')
         true
-      
-      canBeUnprocessed: ->
-        return true if @get('status') is '_processed'
-        false
-      
+            
       canBeEdited: ->
-        return false if @get('status') is '_processed'
         true
         
     markProcessed: (attributes = {}, options = {}) ->
@@ -68,10 +63,6 @@
       
     markDismissed: (attributes = {}, options = {}) ->
       options.url = Routes.mark_dismissed_legal_hosting_abuse_path(@id)
-      @save attributes, options
-      
-    markUnprocessed: (attributes = {}, options = {}) ->
-      options.url = Routes.mark_unprocessed_legal_hosting_abuse_path(@id)
       @save attributes, options
 
       

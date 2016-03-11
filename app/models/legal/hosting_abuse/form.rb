@@ -34,6 +34,7 @@ class Legal::HostingAbuse::Form
   attribute :nc_username,             String
   attribute :updated_by_id,           Integer
   attribute :comment,                 String
+  attribute :log_action,              String
     
   validates :service_id,              presence: true
   validates :type_id,                 presence: true
@@ -86,7 +87,7 @@ class Legal::HostingAbuse::Form
     f.validates :ticket_id,           presence: true
   end
   
-  validates :comment, presence: true, if: -> { dismissed? || unprocessed? || edited? }
+  validates :comment, presence: true, if: -> { dismissed? || edited? || (processed? && @hosting_abuse._processed?) }
   
   validate :child_form_must_be_valid
   
@@ -126,7 +127,6 @@ class Legal::HostingAbuse::Form
   def new?()          status == '_new'           end
   def processed?()    status == '_processed'     end
   def dismissed?()    status == '_dismissed'     end
-  def unprocessed?()  status == '_unprocessed'   end
   def edited?()       status == '_edited'        end
   
   def model
@@ -143,10 +143,6 @@ class Legal::HostingAbuse::Form
     name = name.strip.downcase
     @efwd_server_id = Legal::EforwardServer.find_or_create_by(name: name).id
     super name
-  end
-  
-  def status= status
-    super status == '_new' && @hosting_abuse.persisted? ? '_edited' : status
   end
   
   def ticket_identifier= identifier
@@ -167,9 +163,29 @@ class Legal::HostingAbuse::Form
     super username
   end
   
+  def status= status
+    if status == '_new' && @hosting_abuse._processed?
+      super '_processed'
+      @log_action = 'edited'
+      return
+    end
+    if status == '_new' && @hosting_abuse.persisted?
+      super '_edited'
+      @log_action = 'edited'
+      return
+    end
+    if status == '_processed' && @hosting_abuse._processed?
+      super '_processed'
+      @log_action = 'case info edited'
+      return
+    end
+    super status
+    @log_action = status == '_new' ? 'submitted' : status.gsub('_', '')
+  end
+  
   def submit params
     self.attributes = params
-    
+    ap self.attributes
     if child_form
       child_form.attributes     = params[child_form.name]
       child_form.shared_plan_id = shared_plan_id
@@ -202,7 +218,7 @@ class Legal::HostingAbuse::Form
   end
   
   def hosting_abuse_params
-    attr_names = Legal::HostingAbuse.attribute_names.map(&:to_sym) + [:updated_by_id, :comment]
+    attr_names = Legal::HostingAbuse.attribute_names.map(&:to_sym) + [:updated_by_id, :comment, :log_action]
     self.attributes.slice(*attr_names).delete_if { |key, val| val.nil? }
   end
   

@@ -54,7 +54,10 @@
         - if @canBeProcessed and @canProcess
           a.button.success.process-report
             icon.fi-check
-            |  Proces
+            - if @status is '_processed'
+              |  Case Info
+            - else
+              |  Proces
         - if @canBeDismissed and @canDismiss
           a.button.alert.dismiss-report
             icon.fi-x
@@ -63,10 +66,6 @@
           a.button.edit-report
             icon.fi-pencil
             |  Edit
-        - if @canBeUnprocessed and @canUnprocess
-          a.button.alert.unprocess-report
-            icon.fi-x
-            |  Unprocess
   .row
     .large-12.columns.text-right
       - if @uber_note

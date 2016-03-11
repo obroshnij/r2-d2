@@ -62,7 +62,7 @@ end
   Legal::HostingAbuse::VpsPlan.create name: name
 end
 
-['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended', 'Disable Email Forwarding', 'Suspend Permanently'].each do |name|
+['Allow 6 Hours', 'Allow 12 Hours', 'Allow 24 Hours', 'Suspend Immediately', 'Already Suspended', 'Disable Email Forwarding', 'Suspend Permanently', 'Mitigated'].each do |name|
   Legal::HostingAbuse::Suggestion.create name: name
 end
 

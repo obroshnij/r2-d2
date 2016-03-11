@@ -13,16 +13,23 @@
       
     checkSubject: (rule, subject) ->
       return true if _.contains rule.get('subjects'), 'All'
+      
       _.contains(rule.get('subjects'), subject) or _.contains(rule.get('subjects'), subject.resourceName)
       
     checkAction: (rule, action) ->
       return true if _.contains rule.get('actions'), 'manage'
+      
       _.contains rule.get('actions'), action
       
     checkConditions: (rule, subject) ->
       return true if _.isString subject
       return true if _.size(rule.get('conditions')) is 0
-      _.every rule.get('conditions'), (val, key) -> subject.get(key) is val
+      
+      _.every rule.get('conditions'), (val, key) ->
+        if _.isArray(val)
+          _.contains val, subject.get(key)
+        else
+          subject.get(key) is val
     
     cannot: (action, subject) ->
       not @can action, subject

@@ -85,7 +85,6 @@ Rails.application.routes.draw do
     resources :hosting_abuse do
       put :mark_processed,   on: :member
       put :mark_dismissed,   on: :member
-      put :mark_unprocessed, on: :member
     end
   end
   

@@ -75,7 +75,7 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def get_template_name
-    return nil if ["Private Email", "Email Forwarding"].include?(@abuse.type.name)
+    return nil if ["Private Email", "Email Forwarding"].include?(@abuse.service.name)
     
     if @abuse.type.name == 'Email Abuse / Spam'
       return 'spam_shared_reseller.txt.erb' if ["Shared Hosting", "Reseller Hosting"].include?(@abuse.service.name)
