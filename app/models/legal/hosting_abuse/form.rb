@@ -83,11 +83,8 @@ class Legal::HostingAbuse::Form
   validates :suspension_reason,       presence: true, if: :suspension_reason_required?
   validates :scan_report_path,        presence: true, if: :scan_report_path_required?
   
-  with_options if: :processed? do |f|
-    f.validates :ticket_id,           presence: true
-  end
-  
-  validates :comment, presence: true, if: -> { dismissed? || edited? || (processed? && @hosting_abuse._processed?) }
+  validates :ticket_identifier,   presence: true, if: :processed?
+  validates :comment,             presence: true, if: -> { dismissed? || edited? || (processed? && @hosting_abuse._processed?) }
   
   validate :child_form_must_be_valid
   
@@ -185,7 +182,7 @@ class Legal::HostingAbuse::Form
   
   def submit params
     self.attributes = params
-    ap self.attributes
+    
     if child_form
       child_form.attributes     = params[child_form.name]
       child_form.shared_plan_id = shared_plan_id
