@@ -19,6 +19,13 @@ node(:ticket_reports_count,   if: -> (h) { h.ticket_id })                 { |h| 
 node(:nc_username,            if: -> (h) { h.nc_user_id })                { |h| h.nc_user.username }
 node(:uber_service_identifier, if: -> (h) { h.uber_service_id })          { |h| h.uber_service.identifier }
 
+node(:nc_user_signup, if: -> (h) { h.service_id == 5 && h._processed? }) do |h|
+  h.nc_user.signed_up_on.try(:strftime, '%d %B %Y')
+end
+node(:pe_suspended, if: -> (h) { h.service_id == 5 && h._processed? }) do |h|
+  PrivateEmailInfo.where(hosting_abuse_id: h.id).first.try(:suspended)
+end
+
 child(:logs) do
   attributes :comment, :action
   

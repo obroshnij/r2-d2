@@ -24,6 +24,34 @@ fieldset
         input id='nc_username' name='nc_username' type='text' value="#{@nc_username}"
         span.form-error
         
+  - if @service_id is 5
+  
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='nc_user_signup' Sign up Date
+      .large-9.columns
+        .large-8.columns.end
+          input id='nc_user_signup' name='nc_user_signup' type='text' value="#{@nc_user_signup}"
+          span.form-error
+          
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='pe_suspended' Suspended?
+      .large-9.columns
+        .large-8.columns.end.radiobuttons
+        
+          - if @pe_suspended is true
+            input id='pe_suspended_true' name='pe_suspended' type='radio' value='true' checked='checked'
+          - else
+            input id='pe_suspended_true' name='pe_suspended' type='radio' value='true'
+          label for='pe_suspended_true' Yes
+          
+          - if _.isUndefined(@pe_suspended) or _.isNull(@pe_suspended) or @pe_suspended is false
+            input id='pe_suspended_false' name='pe_suspended' type='radio' value='false' checked='checked'
+          - else
+            input id='pe_suspended_false' name='pe_suspended' type='radio' value='false'
+          label for='pe_suspended_false' No
+        
   .row.form-field
     .large-3.columns
       label.text-right.middle for='uber_service_identifier' Service ID

@@ -26,12 +26,6 @@ class Legal::HostingAbuse::Form
   attribute :suspension_reason,       String
   attribute :scan_report_path,        String
   attribute :tech_comments,           String
-  attribute :ticket_id,               Integer
-  attribute :ticket_identifier,       String
-  attribute :uber_service_id,         Integer
-  attribute :uber_service_identifier, String
-  attribute :nc_user_id,              Integer
-  attribute :nc_username,             String
   attribute :updated_by_id,           Integer
   attribute :comment,                 String
   attribute :log_action,              String
@@ -83,8 +77,7 @@ class Legal::HostingAbuse::Form
   validates :suspension_reason,       presence: true, if: :suspension_reason_required?
   validates :scan_report_path,        presence: true, if: :scan_report_path_required?
   
-  validates :ticket_identifier,   presence: true, if: :processed?
-  validates :comment,             presence: true, if: -> { dismissed? || edited? || (processed? && @hosting_abuse._processed?) }
+  validates :comment,                 presence: true, if: -> { dismissed? || edited? }
   
   validate :child_form_must_be_valid
   
@@ -131,33 +124,19 @@ class Legal::HostingAbuse::Form
   end
   
   def server_name= name
-    name = name.strip.downcase
-    @server_id = Legal::HostingServer.find_or_create_by(name: name).id
-    super name
+    if name.present?
+      name = name.strip.downcase
+      @server_id = Legal::HostingServer.find_or_create_by(name: name).id
+      super name
+    end
   end
   
   def efwd_server_name= name
-    name = name.strip.downcase
-    @efwd_server_id = Legal::EforwardServer.find_or_create_by(name: name).id
-    super name
-  end
-  
-  def ticket_identifier= identifier
-    identifier = identifier.strip.upcase
-    @ticket_id = Legal::KayakoTicket.find_or_create_by(identifier: identifier).id
-    super identifier
-  end
-  
-  def uber_service_identifier= identifier
-    identifier = identifier.strip
-    @uber_service_id = Legal::UberService.find_or_create_by(identifier: identifier).id
-    super identifier
-  end
-  
-  def nc_username= username
-    username = username.strip.downcase
-    @nc_user_id = NcUser.find_or_create_by(username: username).id
-    super username
+    if name.present?
+      name = name.strip.downcase
+      @efwd_server_id = Legal::EforwardServer.find_or_create_by(name: name).id
+      super name
+    end
   end
   
   def status= status
@@ -169,11 +148,6 @@ class Legal::HostingAbuse::Form
     if status == '_new' && @hosting_abuse.persisted?
       super '_edited'
       @log_action = 'edited'
-      return
-    end
-    if status == '_processed' && @hosting_abuse._processed?
-      super '_processed'
-      @log_action = 'case info edited'
       return
     end
     super status

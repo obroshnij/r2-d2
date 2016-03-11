@@ -29,14 +29,20 @@ class Legal::HostingAbuseController < ApplicationController
     update_model
   end
   
-  def mark_processed
-    authorize! :mark_processed, @hosting_abuse
-    update_model
-  end
-  
   def mark_dismissed
     authorize! :mark_dismissed, @hosting_abuse
     update_model
+  end
+  
+  def mark_processed
+    authorize! :mark_processed, @hosting_abuse
+    @form = Legal::HostingAbuse::Form::MarkProcessed.new params[:id]
+    if @form.submit params
+      @hosting_abuse = @form.model
+      render :show
+    else
+      respond_with @form
+    end
   end
   
   private

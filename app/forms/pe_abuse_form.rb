@@ -44,6 +44,10 @@ class PeAbuseForm
     @abuse_report.persisted?
   end
   
+  def model
+    @abuse_report
+  end
+  
   def submit(params)
     self.attributes = params[:pe_abuse_form]
     return false unless valid?
