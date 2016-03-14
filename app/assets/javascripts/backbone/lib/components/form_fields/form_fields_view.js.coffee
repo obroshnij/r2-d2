@@ -159,7 +159,7 @@
   
   
   class FormFields.DateRangePickerView extends FormFields.BaseInputView
-    getTemplate: -> 'form_fields/date_range_picker'
+    getTemplate: -> if @model.isCompact() then 'form_fields/date_range_picker_compact' else 'form_fields/date_range_picker'
     
     getOptions: ->
       options = @model.get('dateRangePickerOptions') or {}

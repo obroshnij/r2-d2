@@ -35,6 +35,10 @@ class Legal::HostingAbuse < ActiveRecord::Base
     User.where id: select(:reported_by_id).distinct.pluck(:reported_by_id)
   end
   
+  def self.processed_by
+    User.where id: Legal::HostingAbuse::Log.unscoped.where(action: 'processed').select(:user_id).distinct.pluck(:user_id)
+  end
+  
   def canned_reply
     canned.canned
   end
