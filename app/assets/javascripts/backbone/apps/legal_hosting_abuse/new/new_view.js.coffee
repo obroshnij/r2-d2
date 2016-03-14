@@ -700,13 +700,18 @@
             else
               @trigger('enable:options', [1, 2, 3, 4, 5])
               @trigger('disable:options', 6)
+            
+            if fieldValues.type_id?.toString() is '3' or (fieldValues.type_id?.toString() is '2' and fieldValues['resource[type_id]']?.toString() is '3')
+              @trigger('enable:options', 8)
+            else
+              @trigger('disable:options', 8)
         ,
           name:     'suspension_reason'
           label:    'Reason'
           tagName:  'textarea'
           hint:     'Immediate suspension / time shortening reason'
           dependencies:
-            suggestion_id:   value: ['1', '2', '4']
+            suggestion_id:   value: ['1', '2', '4', '5']
         ,
           name:     'scan_report_path'
           label:    'Scan Report Path'

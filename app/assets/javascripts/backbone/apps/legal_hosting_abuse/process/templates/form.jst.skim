@@ -51,14 +51,16 @@ fieldset
           - else
             input id='pe_suspended_false' name='pe_suspended' type='radio' value='false'
           label for='pe_suspended_false' No
+  
+  - if @serviceIdIsRequired
         
-  .row.form-field
-    .large-3.columns
-      label.text-right.middle for='uber_service_identifier' Service ID
-    .large-9.columns
-      .large-8.columns.end
-        input id='uber_service_identifier' name='uber_service_identifier' type='text' value="#{@uber_service_identifier}"
-        span.form-error
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='uber_service_identifier' Service ID
+      .large-9.columns
+        .large-8.columns.end
+          input id='uber_service_identifier' name='uber_service_identifier' type='text' value="#{@uber_service_identifier}"
+          span.form-error
         
   .row.form-field
     .large-3.columns
