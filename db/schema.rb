@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311121707) do
+ActiveRecord::Schema.define(version: 20160311143755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,10 @@ ActiveRecord::Schema.define(version: 20160311121707) do
     t.string   "info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "job_type"
   end
+
+  add_index "background_jobs", ["job_type"], name: "index_background_jobs_on_job_type", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"

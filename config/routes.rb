@@ -76,9 +76,10 @@ Rails.application.routes.draw do
   ##########################################################
   
   namespace :tools do
-    resources :whois_lookups, only: [:create]
-    resources :data_searches, only: [:create]
-    resources :lists_diffs,   only: [:create]
+    resources :whois_lookups,      only: [:create]
+    resources :bulk_whois_lookups
+    resources :data_searches,      only: [:create]
+    resources :lists_diffs,        only: [:create]
   end
   
   namespace :legal do
