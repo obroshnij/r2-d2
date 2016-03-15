@@ -1,6 +1,6 @@
 .large-12.columns
   fieldset
-    legend = @service
+    legend Client Info
     .row.large-up-4
     
       .column: .row.hash
@@ -11,3 +11,13 @@
         .column: .row.hash
           .key Username
           .value = @username
+          
+      - if @nc_username
+        .column: .row.hash
+          .key NC Username
+          .value = @nc_username
+          
+      - if @uber_service_identifier
+        .column: .row.hash
+          .key Uber Service ID
+          .value = @uber_service_identifier

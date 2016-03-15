@@ -1,0 +1,12 @@
+.large-12.columns
+  fieldset
+    legend Client Info
+    .row.large-up-4
+      
+      .column: .row.hash
+        .key NC Username
+        .value = @nc_username
+        
+      .column: .row.hash
+        .key Signup Date
+        .value = @nc_user_signup

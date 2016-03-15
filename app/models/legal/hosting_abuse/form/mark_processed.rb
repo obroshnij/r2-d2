@@ -22,8 +22,9 @@ class Legal::HostingAbuse::Form::MarkProcessed
   attribute :pe_suspended,            Boolean
   
   
-  validates :ticket_identifier,       presence: true
+  validates :ticket_identifier,       presence: true, format: { with: /\A[a-z]+(?>\-[0-9]+)+\z/i }
   validates :comment,                 presence: true, if: -> { @hosting_abuse._processed? }
+  validates :uber_service_identifier, format: { with: /\A[0-9]+\z/ }, allow_blank: true
   
   with_options if: :private_email? do |f|
     f.validates :nc_username,         presence: true

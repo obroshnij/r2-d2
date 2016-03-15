@@ -124,8 +124,9 @@
       return 'legal_hosting_abuse/list/_client_info_reseller'       if @model.get('service_id') is 2
       return 'legal_hosting_abuse/list/_client_info_vps'            if @model.get('service_id') is 3
       return 'legal_hosting_abuse/list/_client_info_dedicated'      if @model.get('service_id') is 4
-      return false                                                  if @model.get('service_id') is 5
+      return 'legal_hosting_abuse/list/_client_info_pe'             if @model.get('service_id') is 5 and @model.get('status') is '_processed'
       return 'legal_hosting_abuse/list/_client_info_eforwarding'    if @model.get('service_id') is 6
+      false
       
     modelEvents:
       'change' : 'render'
