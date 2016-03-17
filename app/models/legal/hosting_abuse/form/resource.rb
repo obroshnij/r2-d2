@@ -19,6 +19,7 @@ class Legal::HostingAbuse::Form::Resource
   attribute :activity_type_ids,     Array[Integer]
   attribute :measure_ids,           Array[Integer]
   attribute :other_measure,         String
+  attribute :db_governor_logs,      String
   
   validates :type_id,               presence: true
   validates :type_id,               inclusion: { in: [2, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?

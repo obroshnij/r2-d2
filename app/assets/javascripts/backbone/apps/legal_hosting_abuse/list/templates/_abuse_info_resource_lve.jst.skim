@@ -30,6 +30,11 @@
         .key MySQL Queries
         .value = @resource.mysql_queries
         
+    - if @resource.db_governor_logs
+      .row.hash.editable
+        .key DB Governor Logs
+        .value = @resource.db_governor_logs
+        
     - if @resource.process_logs
       .row.hash.editable
         .key Process Logs

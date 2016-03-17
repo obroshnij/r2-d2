@@ -532,7 +532,7 @@
           label:    'LVE Report'
           tagName:  'textarea'
           dependencies:
-            service_id:               value: [1, 2, 3, 4]
+            service_id:                 value: [1, 2, 3, 4]
             'resource[type_id]':        value: '2'
             'resource[abuse_type_ids]': value: ['1', '2', '3', '4']
         ,
@@ -541,8 +541,17 @@
           tagName:  'textarea'
           hint:     'Along with the command'
           dependencies:
-            service_id:               value: [1, 2, 3, 4]
-            'resource[type_id]':       value: '2'
+            service_id:                 value: [1, 2, 3, 4]
+            'resource[type_id]':        value: '2'
+            'resource[abuse_type_ids]': value: '5'
+        ,
+          name:     'resource[db_governor_logs]'
+          label:    'DB Governor Logs'
+          tagName:  'textarea'
+          hint:     'Without the command (since this is an internal tool)'
+          dependencies:
+            service_id:                 value: [1, 2, 3, 4]
+            'resource[type_id]':        value: '2'
             'resource[abuse_type_ids]': value: '5'
         ,
           name:     'resource[process_logs]'
