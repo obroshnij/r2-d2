@@ -17,6 +17,18 @@ class Legal::HostingAbuse::CannedReply
   
   private
   
+  def pe_domain
+    return nil unless @abuse.service.name == 'Private Email'
+    domain = DomainName.parse_multiple(@abuse.subscription_name.to_s).first
+    domain.present? ? domain.name : 'xDOMAINx'
+  end
+  
+  def pe_username
+    return nil unless @abuse.service.name == 'Private Email'
+    username = @abuse.nc_user.try(:username)
+    username.present? ? username : 'xUSERNAMEx'
+  end
+  
   def if_ip_is_blacklisted text
     return nil unless @abuse.type_id == 1
     ip_is_blacklisted? ? "#{text}" : ""
@@ -59,6 +71,7 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def render
+    puts @template.inspect
     @template.try :result, binding
   end
   
@@ -75,15 +88,17 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def get_template_name
-    return nil if ["Private Email", "Email Forwarding"].include?(@abuse.service.name)
+    return nil if @abuse.service.name == 'Email Forwarding'
     
     if @abuse.type.name == 'Email Abuse / Spam'
       return 'spam_shared_reseller.txt.erb' if ["Shared Hosting", "Reseller Hosting"].include?(@abuse.service.name)
+      return 'pe_spam.txt.erb'              if @abuse.service.name == 'Private Email'
       return 'spam_vps_suspended.txt.erb'   if suspended?
       return 'spam_vps.txt.erb'             unless suspended?
     end
     
     if @abuse.type.name == 'Resource Abuse'
+      return nil                            if @abuse.service.name == 'Private Email'
       return 'resource_abuse_lve.txt.erb'   if @abuse.resource.type.name == 'LVE / MySQL'
       return 'resource_abuse_cron.txt.erb'  if @abuse.resource.type.name == 'Cron Jobs'
       return 'resource_abuse_disc.txt.erb'  if @abuse.resource.type.name == 'Disc Space'
@@ -91,8 +106,8 @@ class Legal::HostingAbuse::CannedReply
     
     if @abuse.type.name == 'DDoS'
       return 'ddos_shared_reseller.txt.erb' if ["Shared Hosting", "Reseller Hosting"].include?(@abuse.service.name)
-      return 'ddos_inbound.txt.erb'         if @abuse.ddos.inbound
-      return 'ddos_outbound.txt.erb'        unless @abuse.ddos.inbound
+      return 'ddos_inbound.txt.erb'         if @abuse.ddos.inbound == true || @abuse.ddos.inbound.nil?
+      return 'ddos_outbound.txt.erb'        if @abuse.ddos.inbound == false
     end
   end
   

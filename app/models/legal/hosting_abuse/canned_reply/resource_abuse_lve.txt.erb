@@ -6,7 +6,7 @@ WARNING: Resource Abuse on Account '<%= @abuse.username %>' - <%= @abuse.server.
 
 Hello,
 
-It has come to our attention that the '<%= @abuse.username %>' hosting account is overusing limits of shared resources, affecting the server performance and all accounts hosted therein. In order to obtain additional information about the limits please refer to Paragraph 10. “Additional Acceptable Use Policy for Virtual accounts” of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
+It has come to our attention that the '<%= @abuse.username %>' hosting account is overusing limits of shared resources, affecting the server performance and other accounts hosted thereon. We would like to mention that all the limits set for shared hosting accounts are burstable in order to let every account handle load pikes, however those pikes must not be persistent not to cause impact on all accounts of the shared server. In order to obtain additional information about the limits please refer to Paragraph 10. "Additional Acceptable Use Policy for Virtual accounts" of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
 
 <% if @abuse.resource.abuse_type_ids == [5] -%>
 The server is abused by MySQL queries.
@@ -67,6 +67,12 @@ Looking forward to your reply.
 
 <%= @abuse.resource.mysql_queries.strip %>
 <% end -%>
+<% if @abuse.resource.abuse_type_ids.include?(5) && @abuse.resource.db_governor_logs.present? -%>
+
+================================[ DataBase Load Report ]=================================
+
+<%= @abuse.resource.db_governor_logs.strip %>
+<% end -%>
 <% if @abuse.resource.abuse_type_ids.include?(6) -%>
 
 =====================================[ Process Log ]=====================================
@@ -74,28 +80,53 @@ Looking forward to your reply.
 <%= @abuse.resource.process_logs.strip %>
 <% end -%>
 
-====================================[ LVE Notations ]====================================
+======================================[ Notations ]======================================
 
-ID : LVE Id or username
-aCPU : Average CPU usage
-mCPU : Max CPU usage
+ID — LVE ID or Username
+
+aCPU — Average CPU Usage
+mCPU — Max CPU Usage
+lCPU — CPU Limit
+
+aEP — Average Entry Processes
+mEP — Max Entry Processes
+lEP — Entry Processes Limit
+
+aVMem — Average Virtual Memory Usage
+mVMem — Max Virtual Memory Usage
+lVMem — Virtual Memory Limit
+
+VMemF — Out of Memory Faults
+EPf — Entry Processes Faults
+
+aPMem — Average Physical Memory Usage
+mPMem — Max Physical Memory Usage
+lPMem — Physical Memory Limit
+
+aNproc — Average Number of Processes
+mNproc — Max Number of Processes
+lNproc — Number of Processes Limit
+
+PMemF — Out of Physical Memory Faults
+NprocF — Number of Processes Faults
+
+aIO — Average Input/Output
+mIO — Max Input/Output
+lIO — Input/Output Limit
+
+<% if @abuse.resource.abuse_type_ids.include?(5) && @abuse.resource.db_governor_logs.present? -%>
+-----------------------------------------------------------------------------------------
+
+TS : Timestamp
+USER : Username
+CPU : Average CPU Usage
+READ : Average READ Usage
+WRITE : Average WRITE Usage
+CON : Average Outside Connections
 lCPU : CPU Limit
-aEP : Average Entry Processes
-mEP : Max Entry Processes
-lEP : maxEntryProc limit
-aVMem : Average Virtual Memory Usage
-mVMem : Max Virtual Memory Usage
-lVMem : Virtual Memory Limit
-VMemF : Out Of Memory Faults
-EPf : Entry processes faults
-aPMem : Average Physical Memory Usage
-mPMem : Max Physical Memory Usage
-lPMem : Physical Memory Limit
-aNproc : Average Number of processes
-mNproc : Max Number of processes
-lNproc : Limit of Number of processes
-PMemF : Out Of Physical Memory Faults
-NprocF : Number of processes faults
-aIO : Average I/O
-mIO : Max I/O
-lIO : I/O Limit
+lREAD : READ Limit
+lWRITE : WRITE Limit
+RESTRICT : C - CPU / R - READ / W - WRITE
+
+<% end -%>
+=========================================================================================

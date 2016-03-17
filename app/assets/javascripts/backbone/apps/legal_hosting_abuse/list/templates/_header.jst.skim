@@ -68,7 +68,7 @@
             |  Edit
   .row
     .large-12.columns.text-right
-      - if @uber_note
+      - if @uber_note and @uberNoteIsRequired
         == @dropdown 'Uber Note', s.lines(@uber_note).join('<br>')
         | &nbsp;&nbsp;|&nbsp;&nbsp;
       - unless @statusName is 'New'

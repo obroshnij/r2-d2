@@ -49,6 +49,24 @@
           label:    'Reported by'
           tagName:  'select'
           options:  @getReportedBy()
+        ,
+          name:     'logs_user_id_eq'
+          label:    'Processed by'
+          tagName:  'select'
+          options:  @getProcessedBy()
+        ,
+          name:     'server_name_or_efwd_server_name_cont'
+          label:    'Server Name contains'
+        ,
+          name:     'username_or_resold_username_or_nc_user_username_cont'
+          label:    'Username contains'
+        ,
+          name:     'created_at_datetime_between'
+          label:    'Reported on'
+          type:     'date_range_picker'
+        ,
+          name:     'ticket_identifier_cont'
+          label:    'Ticket ID contains'
         ]
       ]
     
@@ -60,6 +78,7 @@
     getServices:    -> @getOptions 'service'
     getAbuseTypes:  -> @getOptions 'type'
     getReportedBy:  -> App.entities.legal.hosting_abuse.reported_by
+    getProcessedBy: -> App.entities.legal.hosting_abuse.processed_by
   
   
   class List.ReportHeader extends App.Views.ItemView
@@ -105,8 +124,9 @@
       return 'legal_hosting_abuse/list/_client_info_reseller'       if @model.get('service_id') is 2
       return 'legal_hosting_abuse/list/_client_info_vps'            if @model.get('service_id') is 3
       return 'legal_hosting_abuse/list/_client_info_dedicated'      if @model.get('service_id') is 4
-      return false                                                  if @model.get('service_id') is 5
+      return 'legal_hosting_abuse/list/_client_info_pe'             if @model.get('service_id') is 5 and @model.get('status') is '_processed'
       return 'legal_hosting_abuse/list/_client_info_eforwarding'    if @model.get('service_id') is 6
+      false
       
     modelEvents:
       'change' : 'render'

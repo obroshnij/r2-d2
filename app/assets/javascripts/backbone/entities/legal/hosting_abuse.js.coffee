@@ -57,6 +57,12 @@
       canBeEdited: ->
         true
         
+      uberNoteIsRequired: ->
+        _.includes [1, 2, 3, 4], @get('service_id')
+        
+      serviceIdIsRequired: ->
+        _.includes [1, 2, 3, 4], @get('service_id')
+        
     markProcessed: (attributes = {}, options = {}) ->
       options.url = Routes.mark_processed_legal_hosting_abuse_path(@id)
       @save attributes, options

@@ -1,0 +1,10 @@
+<% if suspended? -%>
+IMPORTANT: PrivateEmail Subscription <%= pe_domain %> [ <%= pe_username %> ] is suspended due to Email Abuse
+<% else -%>
+WARNING: Email Abuse on PrivateEmail Subscription <%= pe_domain %> [ <%= pe_username %> ]
+<% end -%>
+<% if pe_username == 'xUSERNAMEx' -%>
+
+
+PLEASE MAKE SURE THAT 'xUSERNAMEx' IS REPLACED WITH CORRESPONDING USERNAME
+<% end -%>

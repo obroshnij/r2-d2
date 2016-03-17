@@ -108,8 +108,8 @@ class Legal::HostingAbuse::Form
   def ddos?()              type_id == 3                     end
   def other_abuse?()       type_id == 4                     end
   
-  def suspension_reason_required?()  [1, 2, 4].include? suggestion_id   end
-  def full_management?()             management_type_id == 3            end
+  def suspension_reason_required?()  [1, 2, 4, 5].include? suggestion_id   end
+  def full_management?()             management_type_id == 3               end
   def scan_report_path_required?
     suggestion_id == 5 && spam? && (shared? || reseller? || vps? || dedicated_server?)
   end

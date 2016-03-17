@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311143755) do
+ActiveRecord::Schema.define(version: 20160317121550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,8 +249,9 @@ ActiveRecord::Schema.define(version: 20160311143755) do
     t.text     "lve_report"
     t.text     "mysql_queries"
     t.text     "process_logs"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "db_governor_logs"
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|

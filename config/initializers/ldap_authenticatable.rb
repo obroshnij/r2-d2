@@ -11,11 +11,12 @@ module Devise
       
       def authenticate!
         if params[:user]
+          
           entries = ldap.bind_as(
             base:     Rails.application.secrets.ldap_search_base,
             filter:   "(uid=#{uid})",
             password: password
-          )
+          ) if uid.present?
           
           if entries
             user = User.from_ldap_entry entries.first
