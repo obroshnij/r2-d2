@@ -8,15 +8,15 @@
   
   API =
     
-    list: (nav, action) ->
+    list: (nav, options) ->
       App.vent.trigger 'nav:select', 'Tools'
       new ToolsApp.List.Controller
-        nav:    nav
-        action: action
+        nav:     nav
+        options: options
   
   
-  App.commands.setHandler 'tools:list', (nav, action) ->
-    API.list nav, action
+  App.commands.setHandler 'tools:list', (nav, options) ->
+    API.list nav, options
   
   
   ToolsApp.on 'start', ->

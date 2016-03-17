@@ -8,15 +8,16 @@
   API =
     
     newDiff: (region) ->
-      return App.execute 'tools:list', 'Lists Compare Tool', 'newDiff' if not region
+      return App.execute 'tools:list', 'Lists Compare Tool', { action: 'newDiff' } if not region
       
       new ToolsListsDiffApp.New.Controller
         region: region
         
         
-  App.vent.on 'tools:nav:selected', (nav, action, region) ->
+  App.vent.on 'tools:nav:selected', (nav, options, region) ->
     return if nav isnt 'Lists Compare Tool'
     
+    action = options?.action
     action ?= 'newDiff'
       
     if action is 'newDiff'

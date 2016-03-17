@@ -12,7 +12,7 @@ class BulkWhoisJob < ActiveJob::Base
       hash['whois_attributes'] = name.whois.properties
     end
     
-    job.status = 'Complete'
+    job.status = 'Completed'
     job.save
   end
   

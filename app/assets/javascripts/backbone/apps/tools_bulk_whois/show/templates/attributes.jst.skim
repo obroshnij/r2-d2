@@ -1,0 +1,21 @@
+form
+  .callout.secondary
+    fieldset
+      legend Whois Attributes
+      
+      .large-3.columns
+        label.text-right.middle for="attributes" Whois Attributes
+      
+      .large-9.columns
+        
+        .large-5.columns.checkboxes.collection
+          - for attribute in @availableAttributes
+            div.clearfix
+              - if _.includes @selectedAttributes, attribute
+                .inpt: input type='checkbox' name="attributes[]" value="#{attribute}" id="attributes_#{attribute}" checked='checked'
+              - else
+                .inpt: input type='checkbox' name="attributes[]" value="#{attribute}" id="attributes_#{attribute}"
+              .lbl:  label.errorless for="attributes_#{attribute}" = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
+              
+        .large-7.columns
+          label.help-text.middle Choose which attributes to show in the table below
