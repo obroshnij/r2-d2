@@ -21,6 +21,11 @@
         region: region
         id:     id
         
+    showRawWhois: (record) ->
+      new ToolsBulkWhoisApp.ShowRaw.Controller
+        region: App.modalRegion
+        record: record
+        
         
   App.vent.on 'tools:nav:selected', (nav, options, region) ->
     return if nav isnt 'Bulk Whois'
@@ -38,6 +43,9 @@
       
   App.vent.on 'show:bulk:whois:lookup:clicked', (lookup) ->
     API.show lookup.id
+    
+  App.vent.on 'show:raw:whois', (record) ->
+    API.showRawWhois record
   
   
   ToolsBulkWhoisApp.on 'start', ->

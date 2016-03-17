@@ -1,1 +1,7 @@
-table         { font-size: 0.875rem; white-space: pre-wrap; }
+table                   { font-size: 0.875rem; white-space: pre-wrap;
+  .header:after         { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
+  .headerSortUp:after   { content: "\f0de"; }
+  .headerSortDown:after { content: "\f0dd"; }
+}
+
+.table-scroll           { overflow-x: scroll; }

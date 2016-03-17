@@ -23,3 +23,12 @@
     
     modelEvents:
       'change' : 'render'
+      
+    onDomRefresh: ->
+      @$('table').tablesorter();
+      
+    events:
+      'click .raw-whois-icon' : 'showRawWhois'
+      
+    showRawWhois: (event) ->
+      @trigger 'show:raw:whois', $(event.target).attr('data-domain')

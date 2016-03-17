@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.spin
+//= require jquery.tablesorter
 //= require foundation_six
 //= require moment
 //= require daterangepicker

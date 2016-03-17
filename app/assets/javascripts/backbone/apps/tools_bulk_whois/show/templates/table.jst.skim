@@ -1,24 +1,29 @@
 - if _.size(@selectedAttributes) > 0
-
-  table
-    thead
-      tr
-        th Domain Name
-        - for attribute in @selectedAttributes
-          th = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
-    tbody
-      - for data in @whois_data
+  
+  .table-scroll
+    table
+      thead
         tr
-          td = data['domain_name']
-        
+          th Domain Name
           - for attribute in @selectedAttributes
-            td
-              - if _.isArray data['whois_attributes'][attribute]
-                = data['whois_attributes'][attribute].join("\n")
-              - else if _.isBoolean data['whois_attributes'][attribute]
-                - if data['whois_attributes'][attribute]
-                  = 'Yes'
-                - else
-                  = 'No'
-              - else
-                = data['whois_attributes'][attribute]
+            th = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
+      tbody
+        - for data in @whois_data
+          - if data['whois_attributes'] && data['whois_record']
+            tr
+              td
+                = data['domain_name']
+                | &nbsp;
+                i.fa.fa-search.raw-whois-icon title='Raw Whois record' data-domain="#{data['domain_name']}"
+        
+              - for attribute in @selectedAttributes
+                td
+                  - if _.isArray data['whois_attributes'][attribute]
+                    = data['whois_attributes'][attribute].join("\n")
+                  - else if _.isBoolean data['whois_attributes'][attribute]
+                    - if data['whois_attributes'][attribute]
+                      = 'Yes'
+                    - else
+                      = 'No'
+                  - else
+                    = data['whois_attributes'][attribute]

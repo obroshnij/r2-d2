@@ -4,7 +4,6 @@
     
     initialize: (options) ->
       lookup = App.request 'bulk:whois:lookup:entity', options.id
-      window.lookup = lookup
       
       @layout = @getLayoutView()
       
@@ -21,6 +20,10 @@
       
     tableRegion: (lookup) ->
       tableView = @getTableView lookup
+      
+      @listenTo tableView, 'show:raw:whois', (domain) ->
+        record = _.find lookup.get('whois_data'), (obj) -> obj['domain_name'] is domain
+        App.vent.trigger 'show:raw:whois', record
       
       App.execute 'when:synced', lookup, =>
         @show tableView, region: @layout.tableRegion
