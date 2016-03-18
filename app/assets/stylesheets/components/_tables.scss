@@ -1,7 +1,7 @@
-table                   { font-size: 0.875rem; white-space: pre-wrap;
-  .header:after         { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
-  .headerSortUp:after   { content: "\f0de"; }
-  .headerSortDown:after { content: "\f0dd"; }
+table                                                       { font-size: 0.875rem; white-space: pre-wrap;
+  .tablesorter-header .tablesorter-header-inner:after       { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
+  .tablesorter-headerAsc .tablesorter-header-inner:after    { content: "\f0de"; }
+  .tablesorter-headerDesc .tablesorter-header-inner:after   { content: "\f0dd"; }
 }
 
-.table-scroll           { overflow-x: scroll; }
+.table-scroll                                               { overflow-x: scroll; }

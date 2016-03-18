@@ -6,7 +6,11 @@
         tr
           th Domain Name
           - for attribute in @selectedAttributes
-            th = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
+            - value = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
+            - if s.contains attribute, '_date'
+              th data-sorter='usLongDate' = value
+            - else
+              th = value
       tbody
         - for data in @whois_data
           - if data['whois_attributes'] && data['whois_record']
@@ -17,13 +21,4 @@
                 i.fa.fa-search.raw-whois-icon title='Raw Whois record' data-domain="#{data['domain_name']}"
         
               - for attribute in @selectedAttributes
-                td
-                  - if _.isArray data['whois_attributes'][attribute]
-                    = data['whois_attributes'][attribute].join("\n")
-                  - else if _.isBoolean data['whois_attributes'][attribute]
-                    - if data['whois_attributes'][attribute]
-                      = 'Yes'
-                    - else
-                      = 'No'
-                  - else
-                    = data['whois_attributes'][attribute]
+                td = data['whois_attributes'][attribute]

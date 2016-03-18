@@ -77,7 +77,9 @@ Rails.application.routes.draw do
   
   namespace :tools do
     resources :whois_lookups,      only: [:create]
-    resources :bulk_whois_lookups
+    resources :bulk_whois_lookups do
+      put :retry, on: :member
+    end
     resources :data_searches,      only: [:create]
     resources :lists_diffs,        only: [:create]
   end

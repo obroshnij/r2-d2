@@ -34,6 +34,9 @@
     lookupsRegion: (lookups) ->
       lookupsView = @getLookupsView lookups
       
+      @listenTo lookupsView, 'childview:retry:clicked', (child, args) ->
+        args.model.retryFailed()
+      
       @listenTo lookupsView, 'childview:show:clicked', (child, args) ->
         App.vent.trigger 'show:bulk:whois:lookup:clicked', args.model
       

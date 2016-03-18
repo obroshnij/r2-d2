@@ -10,8 +10,14 @@ class Tools::BulkWhoisLookupsController < ApplicationController
   end
   
   def create
-    @lookup = Tools::BulkWhoisLookup.enqueue params[:query], current_user
+    @lookup = Tools::BulkWhoisLookup.enqueue params[:query], params[:keep_retrying], current_user
     respond_with @lookup
+  end
+  
+  def retry
+    @lookup = Tools::BulkWhoisLookup.by_id params[:id]
+    @lookup.retry
+    render :show
   end
   
   def destroy

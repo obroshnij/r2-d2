@@ -10,6 +10,10 @@
       
       availableAttributes: ->
         _.chain(@get('whois_data')).map((obj) -> _.keys(obj['whois_attributes'])).flatten().uniq().value()
+        
+    retryFailed: (attributes = {}, options = {}) ->
+      options.url = Routes.retry_tools_bulk_whois_lookup_path(@id)
+      @save attributes, options
     
   
   class Entities.BulkWhoisLookupsCollection extends App.Entities.Collection

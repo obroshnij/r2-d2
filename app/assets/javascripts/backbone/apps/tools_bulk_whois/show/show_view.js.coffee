@@ -25,7 +25,7 @@
       'change' : 'render'
       
     onDomRefresh: ->
-      @$('table').tablesorter();
+      @$('table').tablesorter()
       
     events:
       'click .raw-whois-icon' : 'showRawWhois'
