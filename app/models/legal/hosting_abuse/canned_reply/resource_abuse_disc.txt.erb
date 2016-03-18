@@ -1,12 +1,12 @@
 <% if suspended? -%>
-IMPORTANT: Account '<%= @abuse.username %>' is suspended due to Disc Space Abuse - <%= @abuse.server.name %>
+IMPORTANT: Account '<%= reseller_username %>' is suspended due to Disc Space Abuse - <%= @abuse.server.name %>
 <% else -%>
-WARNING: Disc Space Abuse on Account '<%= @abuse.username %>' - <%= @abuse.server.name %>
+WARNING: Disc Space Abuse on Account '<%= reseller_username %>' - <%= @abuse.server.name %>
 <% end -%>
 
 Hello,
 
-This is to inform you that the '<%= @abuse.username %>' account has reached the disc space limits specified in Paragraph 10.2. Disk Usage Provision of our Acceptable Use Policy at https://www.namecheap.com/legal/hosting/aup.aspx : 
+This is to inform you that the '<%= reseller_username %>' account has reached the disc space limits specified in Paragraph 10.2. Disk Usage Provision of our Acceptable Use Policy at https://www.namecheap.com/legal/hosting/aup.aspx : 
 
 The content on your website must be linked from an HTML or similarly coded web page with all content is freely available to the public. Your website must consist of web pages of a standard design, essentially HTML based text and graphics. Your hosting account should consist mostly of html and php files.
 

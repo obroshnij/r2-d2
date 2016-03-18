@@ -1,5 +1,5 @@
 <% if suspended? -%>
-IMPORTANT: Account '<%= @abuse.username %>'<%= spam_domains %>is suspended due to Email Abuse <%= if_ip_is_blacklisted("and Blacklisted Server IP Address ") %>- <%= @abuse.server.name %>
+IMPORTANT: Account '<%= reseller_username %>'<%= spam_domains %>is suspended due to Email Abuse <%= if_ip_is_blacklisted("and Blacklisted Server IP Address ") %>- <%= @abuse.server.name %>
 <% else -%>
-WARNING: <%= if_ip_is_blacklisted("Server IP Address is blacklisted due to ") %>Email Abuse on Account '<%= @abuse.username %>'<%= spam_domains %>- <%= @abuse.server.name %>
+WARNING: <%= if_ip_is_blacklisted("Server IP Address is blacklisted due to ") %>Email Abuse on Account '<%= reseller_username %>'<%= spam_domains %>- <%= @abuse.server.name %>
 <% end -%>

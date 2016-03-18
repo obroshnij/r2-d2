@@ -17,6 +17,11 @@ class Legal::HostingAbuse::CannedReply
   
   private
   
+  def reseller_username
+    return @abuse.resold_username if @abuse.resold_username.present?
+    @abuse.username
+  end
+  
   def pe_domain
     return nil unless @abuse.service.name == 'Private Email'
     domain = DomainName.parse_multiple(@abuse.subscription_name.to_s).first

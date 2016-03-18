@@ -1,12 +1,12 @@
 <% if suspended? -%>
-IMPORTANT: Account '<%= @abuse.username %>' is suspended due to Resource Abuse - <%= @abuse.server.name %>
+IMPORTANT: Account '<%= reseller_username %>' is suspended due to Resource Abuse - <%= @abuse.server.name %>
 <% else -%>
-WARNING: Resource Abuse on Account '<%= @abuse.username %>' - <%= @abuse.server.name %>
+WARNING: Resource Abuse on Account '<%= reseller_username %>' - <%= @abuse.server.name %>
 <% end -%>
 
 Hello,
 
-It has come to our attention that the '<%= @abuse.username %>' hosting account is overusing limits of shared resources, affecting the server performance and other accounts hosted thereon. We would like to mention that all the limits set for shared hosting accounts are burstable in order to let every account handle load pikes, however those pikes must not be persistent not to cause impact on all accounts of the shared server. In order to obtain additional information about the limits please refer to Paragraph 10. "Additional Acceptable Use Policy for Virtual accounts" of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
+It has come to our attention that the '<%= reseller_username %>' hosting account is overusing limits of shared resources, affecting the server performance and other accounts hosted thereon. We would like to mention that all the limits set for shared hosting accounts are burstable in order to let every account handle load pikes, however those pikes must not be persistent not to cause impact on all accounts of the shared server. In order to obtain additional information about the limits please refer to Paragraph 10. "Additional Acceptable Use Policy for Virtual accounts" of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
 
 <% if @abuse.resource.abuse_type_ids == [5] -%>
 The server is abused by MySQL queries.
