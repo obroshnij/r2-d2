@@ -5,11 +5,11 @@
     initialize: (options) ->
       toolsNavs = App.request 'tools:nav:entities'
       
-      @listenTo toolsNavs, 'select:one', (model, collection, options) ->
-        App.vent.trigger 'tools:nav:selected', model.get('name'), @options.action, @layout.articleRegion
-        
-      delete @options.action # action is only needed once, when the app is initiated
+      return App.vent.trigger 'access:denied' if toolsNavs.length is 0
       
+      @listenTo toolsNavs, 'select:one', (model, collection, options) ->
+        App.vent.trigger 'tools:nav:selected', model.get('name'), @options.options, @layout.articleRegion
+        
       @layout = @getLayoutView()
       
       @listenTo @layout, 'show', =>
@@ -18,6 +18,8 @@
         @navsRegion toolsNavs, options.nav
         
       @show @layout
+      
+      delete @options.options # action is only needed once, when the app is initiated
       
     titleRegion: ->
       titleView = @getTitleView()

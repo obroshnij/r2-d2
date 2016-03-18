@@ -1,0 +1,24 @@
+- if _.size(@selectedAttributes) > 0
+  
+  .table-scroll
+    table
+      thead
+        tr
+          th Domain Name
+          - for attribute in @selectedAttributes
+            - value = _.chain(attribute.split('_')).map((name) -> s.capitalize(name)).value().join(' ')
+            - if s.contains attribute, '_date'
+              th data-sorter='usLongDate' = value
+            - else
+              th = value
+      tbody
+        - for data in @whois_data
+          - if data['whois_attributes'] && data['whois_record']
+            tr
+              td
+                = data['domain_name']
+                | &nbsp;
+                i.fa.fa-search.raw-whois-icon title='Raw Whois record' data-domain="#{data['domain_name']}"
+        
+              - for attribute in @selectedAttributes
+                td = data['whois_attributes'][attribute]

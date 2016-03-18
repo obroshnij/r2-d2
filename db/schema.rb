@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160317121550) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "job_type"
+    t.jsonb    "meta"
   end
 
   add_index "background_jobs", ["job_type"], name: "index_background_jobs_on_job_type", using: :btree

@@ -8,15 +8,16 @@
   API =
   
     newSearch: (region) ->
-      return App.execute 'tools:list', 'Data Extractor', 'newSearch' if not region
+      return App.execute 'tools:list', 'Data Extractor', { action: 'newSearch' } if not region
     
       new ToolsDataExtractorApp.New.Controller
         region: region
   
   
-  App.vent.on 'tools:nav:selected', (nav, action, region) ->
+  App.vent.on 'tools:nav:selected', (nav, options, region) ->
     return if nav isnt 'Data Extractor'
     
+    action = options?.action
     action ?= 'newSearch'
       
     if action is 'newSearch'

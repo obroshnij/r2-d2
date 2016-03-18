@@ -13,7 +13,7 @@ class Nav
           icon:   'fa fa-fw fa-file-o'
         }, {
           name:   'Bulk Whois',
-          url:    '/whois',
+          url:    '#/tools/bulk_whois',
           icon:   'fa fa-fw fa-files-o'
         }, {
           name:   'Data Extractor',

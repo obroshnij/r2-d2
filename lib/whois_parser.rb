@@ -15,7 +15,7 @@ module WhoisParser
   end
   
   def self.get_parser(domain_name)
-    const_get get_tld(domain_name).split('.').last.upcase, false
+    const_get 'WhoisParser::' + get_tld(domain_name).split('.').last.upcase, false
   rescue NameError
     WhoisParser::Base
   end

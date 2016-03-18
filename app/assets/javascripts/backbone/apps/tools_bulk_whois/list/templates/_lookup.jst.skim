@@ -1,0 +1,47 @@
+- console.log @
+.row
+  .large-3.columns
+    .row.hash
+      .key Status
+      .value: span class="#{@statusColor} label" = @status
+    .row.hash
+      .key Domains count
+      .value == @dropdown 'show', @domains.join("\n"), "#{@domains.length}, ", 'right'
+  
+  .large-3.columns
+    .row.hash
+      .key Submitted at
+      .value = @created_at
+    .row.hash
+      .key Last updated
+      .value = @updated_at
+      
+  .large-3.columns
+    .row.hash
+      .key Successful
+      - if @successful.length > 0
+        .value == @dropdown 'show', @successful.join("\n"), "#{@successful.length}, ", 'right'
+      - else
+        .value = @successful.length
+    .row.hash
+      .key Pending / Failed
+      - if @failed.length > 0
+        .value == @dropdown 'show', @failed.join("\n"), "#{@failed.length}, ", 'right'
+      - else
+        .value = @failed.length
+      
+  .large-3.columns
+    .row
+      .large-12.columns
+        .button-group.tiny.float-right
+          - if @status is 'Partially Failed'
+            a.button.retry
+              icon.fi-refresh
+              |  Retry
+          - if _.includes ['Completed', 'Partially Failed'], @status
+            a.button.show-lookup
+              icon.fi-magnifying-glass
+              |  Show
+          a.button.alert.delete-lookup
+            icon.fi-x
+            |  Delete
