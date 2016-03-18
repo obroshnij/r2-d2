@@ -12,15 +12,18 @@ class BulkWhoisJob < ActiveJob::Base
   private
   
   def perform_lookup job
-    job.data.each do |hash|
-      if hash['whois_record'].blank?
-        name = DomainName.new hash['domain_name']
-        name.whois!
-      
-        hash['whois_record']     = name.whois.record
-        hash['whois_attributes'] = name.whois.properties
-      end
+    domains = get_domains_with_blank_whois job
+    Whois.lookup_multiple domains
+    
+    domains.each do |domain|
+      item = job.data.find { |item| item['domain_name'] == domain.name }
+      item['whois_record']     = domain.whois.record
+      item['whois_attributes'] = domain.whois.properties
     end
+  end
+    
+  def get_domains_with_blank_whois job
+    job.data.select { |item| item['whois_record'].blank? }.map! { |item| DomainName.new item['domain_name'] }
   end
   
   def failed? job

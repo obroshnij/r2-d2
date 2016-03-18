@@ -76,7 +76,7 @@ class Tools::BulkWhoisLookup
   end
   
   def self.parse_domains query
-    DomainName.parse_multiple(query).map &:name
+    DomainName.parse_multiple(query, remove_subdomains: true).map &:name
   end
   
 end
