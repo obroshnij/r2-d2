@@ -3,7 +3,7 @@ class Tools::BulkWhoisLookup
   include ActiveModel::Model
   include ActiveModel::Validations
   
-  attr_reader :id, :status, :whois_data, :domains_count, :failed_count, :successful_count, :created_at, :updated_at
+  attr_reader :id, :status, :whois_data, :domains, :failed, :successful, :created_at, :updated_at
   
   def self.enqueue query, keep_retrying, user
     domains = parse_domains query
@@ -20,7 +20,7 @@ class Tools::BulkWhoisLookup
         }
       })
       
-      BulkWhoisJob.perform_later job, 'In progress'
+      BulkWhoisJob.perform_later job, 'In Progress'
       new job
     else
       lookup = new
@@ -44,21 +44,21 @@ class Tools::BulkWhoisLookup
   
   def initialize background_job = nil
     if background_job
-      @job              = background_job
-      @id               = @job.id
-      @created_at       = @job.created_at.strftime '%b/%d/%Y, %H:%M'
-      @updated_at       = @job.updated_at.strftime '%b/%d/%Y, %H:%M'
-      @status           = @job.status
-      @whois_data       = format_whois_data @job.data
-      @domains_count    = @whois_data.count
-      @failed_count     = @whois_data.select { |item| item['whois_record'].blank? }.count
-      @successful_count = @whois_data.select { |item| item['whois_record'].present? }.count
+      @job        = background_job
+      @id         = @job.id
+      @created_at = @job.created_at.strftime '%b/%d/%Y, %H:%M'
+      @updated_at = @job.updated_at.strftime '%b/%d/%Y, %H:%M'
+      @status     = @job.status
+      @whois_data = format_whois_data @job.data
+      @domains    = @whois_data.map    { |item| item['domain_name'] }
+      @failed     = @whois_data.select { |item| item['whois_record'].blank? }.map   { |item| item['domain_name'] }
+      @successful = @whois_data.select { |item| item['whois_record'].present? }.map { |item| item['domain_name'] }
     end
   end
   
   def retry
-    @status = 'Retrying'
-    BulkWhoisJob.perform_later @job, 'Retrying'
+    @status = 'Enqueued'
+    BulkWhoisJob.perform_later @job, 'Enqueued'
   end
   
   private

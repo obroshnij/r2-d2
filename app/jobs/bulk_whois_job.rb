@@ -6,7 +6,7 @@ class BulkWhoisJob < ActiveJob::Base
     perform_lookup job
     job.status = get_status job
     job.save
-    BulkWhoisJob.set(wait: 5.minutes).perform_later(job) if job.status == 'Will Retry'
+    BulkWhoisJob.set(wait: 5.minutes).perform_later(job, 'In Progress') if job.status == 'Pending Retrial'
   end
   
   private
@@ -28,8 +28,8 @@ class BulkWhoisJob < ActiveJob::Base
   end
   
   def get_status job
-    return 'Will Retry' if failed?(job) && job.meta['keep_retrying']
-    return 'Faild'      if failed?(job)
+    return 'Pending Retrial'  if failed?(job) && job.meta['keep_retrying']
+    return 'Partially Failed' if failed?(job)
     'Completed'
   end
   

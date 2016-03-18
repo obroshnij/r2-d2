@@ -1,7 +1,7 @@
 object false
 
 child :@lookups => :items do
-  attributes :id, :status, :domains_count, :successful_count, :failed_count, :created_at, :updated_at
+  attributes :id, :status, :domains, :successful, :failed, :created_at, :updated_at
 end
 
 node :pagination do

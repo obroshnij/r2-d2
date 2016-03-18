@@ -5,11 +5,18 @@
     
     defaults:
       selectedAttributes: ['status', 'nameservers']
+      
+    statusColorLookups: { 'Enqueued': 'secondary', 'In Progress': 'primary', 'Completed': 'success', 'Partially Failed': 'alert', 'Pending Retrial': 'warning' }
     
     mutators:
       
       availableAttributes: ->
-        _.chain(@get('whois_data')).map((obj) -> _.keys(obj['whois_attributes'])).flatten().uniq().value()
+        possible  = ['available', 'status', 'nameservers', 'creation_date', 'expiration_date', 'updated_date', 'registrar', 'registrant_contact', 'admin_contact', 'billing_contact', 'tech_contact']
+        available = _.chain(@get('whois_data')).map((obj) -> _.keys(obj['whois_attributes'])).flatten().uniq().value()
+        _.intersection possible, available
+        
+      statusColor: ->
+        @statusColorLookups[@get('status')] if @get('status')
         
     retryFailed: (attributes = {}, options = {}) ->
       options.url = Routes.retry_tools_bulk_whois_lookup_path(@id)

@@ -24,14 +24,14 @@
             name:    'query'
             label:   'Domain Names'
             tagName: 'textarea'
-            hint:    "Bulk whois lookups are performed one by one in the background due to whois servers' limitations"
+            hint:    'Bulk whois lookups are performed one by one in the background'
           ,
             name:    'keep_retrying'
             label:   'Keep Retrying'
             type:    'radio_buttons'
             options: [{ id: true, name: 'Yes' }, { id: false, name: 'No' }]
             default: true
-            hint:    'Retry in case of Whois lookup failure'
+            hint:    'Retry if whois lookup fails for any of the domains'
           ]
         }
       ]
@@ -49,6 +49,8 @@
       'click .delete-lookup' : 'delete:clicked'
       'click .show-lookup'   : 'show:clicked'
       'click .retry'         : 'retry:clicked'
+      
+    @include 'HasDropdowns'
       
       
   class List.LookupsView extends App.Views.CompositeView
