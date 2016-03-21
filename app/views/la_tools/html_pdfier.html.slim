@@ -47,16 +47,6 @@
           .html-file-field
             = label_tag :'[files][pdf]user_info', 'Admin User Information'
             = file_field_tag :'[files][pdf]user_info'
-        
-          .html-file-field
-            = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
-            = label_tag :'[files][pdf]paypal_info', 'PayPal User Information'
-            = file_field_tag :'[files][pdf]paypal_info'
-          
-          .html-file-field
-            = check_box_tag :active, '', true, onclick: 'toggleHtmlFileField(this);'
-            = label_tag :'[files][pdf]ssl_info', 'SSL Details'
-            = file_field_tag :'[files][pdf]ssl_info'
           
         a onclick='addPdfField();' Add More
         
