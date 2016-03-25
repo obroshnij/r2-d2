@@ -38,7 +38,7 @@
             a.button.retry
               icon.fi-refresh
               |  Retry
-          - if _.includes ['Completed', 'Partially Failed'], @status
+          - if _.includes ['Completed', 'Partially Failed', 'Pending Retrial'], @status
             a.button.show-lookup
               icon.fi-magnifying-glass
               |  Show
