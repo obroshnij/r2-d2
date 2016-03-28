@@ -36,10 +36,12 @@ class Legal::HostingAbuse::CannedReply
   
   def if_ip_is_blacklisted text
     return nil unless @abuse.type_id == 1
+    ap ip_is_blacklisted?
     ip_is_blacklisted? ? "#{text}" : ""
   end
   
   def ip_is_blacklisted?
+    return false if @abuse.spam.ip_is_blacklisted == 'N/A'
     @abuse.spam.ip_is_blacklisted || @abuse.spam.reported_ip_blacklisted
   end
   
