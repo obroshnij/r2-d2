@@ -25,6 +25,13 @@ module DNS
       ["No Response"]
     end
     
+    def dig_with_details host, params = {}
+      params[:record] = :a if params[:record].blank?
+      @resolver.search(host, DNS.record_type(params[:record])).answer.map do |ans|
+        { 'Name' => ans.name, 'TTL' => ans.ttl, 'Class' => ans.cls, 'Type' => ans.type, 'Value' => ans.value }
+      end
+    end
+    
     def self.dig_multiple(domains, params = {})
       pool = Thread.pool 100
       domains.each do |domain|

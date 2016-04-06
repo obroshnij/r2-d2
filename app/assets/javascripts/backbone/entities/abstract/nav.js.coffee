@@ -24,6 +24,9 @@
     getLegalNavs: ->
       new Entities.Navs App.entities.navs.legal_navs
       
+    getLegalRblsNavs: ->
+      new Entities.Navs [{ name: 'Checker' }, { name: 'List' }]
+      
     getToolsNavs: ->
       new Entities.Navs App.entities.navs.tools_navs
       
@@ -39,6 +42,9 @@
     
   App.reqres.setHandler 'legal:nav:entities', ->
     API.getLegalNavs()
+    
+  App.reqres.setHandler 'legal:rbls:nav:entities', ->
+    API.getLegalRblsNavs()
     
   App.reqres.setHandler 'tools:nav:entities', ->
     API.getToolsNavs()

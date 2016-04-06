@@ -3,6 +3,9 @@
     .hash               {
       .key              { display: inline-block; width: 35%; text-align: right; font-style: italic; color: #666; vertical-align: top; }
       .value            { display: inline-block; width: 65%; word-wrap: break-word; padding-left: 0.5rem; padding-right: 0.5rem; }
+      
+      .key.w-20         { width: 20%; }
+      .value.w-80       { width: 80%; }
     }
   }
   

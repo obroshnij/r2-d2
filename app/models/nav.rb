@@ -84,9 +84,9 @@ class Nav
           klass:  NcService
         }, {
           name:   'Multi RBL',
-          url:    '/rbls',
+          url:    '#/legal/rbls',
           icon:   'fa fa-fw',
-          klass:  Rbl
+          klass:  Legal::Rbl
         }, {
           name:   'DBL/SURBL Check',
           url:    '/dbl_surbl',

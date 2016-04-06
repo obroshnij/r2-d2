@@ -101,7 +101,7 @@ class Ability::Setup
         }
       ]
     }, {
-      subjects:         ['Rbl'],
+      subjects:         ['Legal::Rbl'],
       description:      'Legal & Abuse -> Multi RBL',
       
       permissions:      [

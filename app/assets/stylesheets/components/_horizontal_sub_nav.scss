@@ -1,0 +1,10 @@
+#horizontal-sub-nav         { padding: 0.5rem 3rem; margin-bottom: 2rem;
+  ul                        { line-height: 0.875rem;
+    li                      { font-size: 0.875rem; line-height: 0.875rem; display: inline-block; margin-right: 3rem; padding: 0 0.5rem;
+      a                     { padding: 0.25rem; }
+    }
+    li.active               { background-color: $primary-color;
+      a                     { color: $white; }
+    }
+  }
+}

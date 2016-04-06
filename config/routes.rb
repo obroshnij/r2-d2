@@ -70,9 +70,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :whois_records
   end
-  
-  resources :hosting_abuse_reports
-  
+    
   ##########################################################
   
   namespace :tools do
@@ -89,6 +87,7 @@ Rails.application.routes.draw do
       put :mark_processed,   on: :member
       put :mark_dismissed,   on: :member
     end
+    resources :rbls
   end
   
   namespace :domains do
