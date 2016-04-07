@@ -40,8 +40,9 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def ip_is_blacklisted?
-    return false if @abuse.spam.ip_is_blacklisted == 'N/A'
-    @abuse.spam.ip_is_blacklisted || @abuse.spam.reported_ip_blacklisted
+    ip_is_blacklisted = @abuse.spam.ip_is_blacklisted
+    ip_is_blacklisted = nil if ip_is_blacklisted == 'N/A'
+    ip_is_blacklisted || @abuse.spam.reported_ip_blacklisted
   end
   
   def blacklisted_ip
