@@ -1,7 +1,17 @@
 table                                                       { font-size: 0.875rem; white-space: pre-wrap;
-  .tablesorter-header .tablesorter-header-inner:after       { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
-  .tablesorter-headerAsc .tablesorter-header-inner:after    { content: "\f0de"; }
-  .tablesorter-headerDesc .tablesorter-header-inner:after   { content: "\f0dd"; }
+  .tablesorter-header:not(.sorter-false) .tablesorter-header-inner:after       { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
+  .tablesorter-headerAsc:not(.sorter-false) .tablesorter-header-inner:after    { content: "\f0de"; }
+  .tablesorter-headerDesc:not(.sorter-false) .tablesorter-header-inner:after   { content: "\f0dd"; }
+  
+  tr.red                                                    { background-color: #ffe5e5; }
+  tr.green                                                  { background-color: #e5f2e5; }
+  tr.white                                                  { background-color: #ffffff; }
+  tr.grey                                                   { background-color: #f2f2f2; }
+  tr.yellow                                                 { background-color: #ffffe5; }
+}
+
+table.borders                                               {
+  tr                                                        { border: 1px solid smart-scale($table-background, $table-color-scale); }
 }
 
 .table-scroll                                               { overflow-x: scroll; }

@@ -1,0 +1,5 @@
+td style='width: 1%;'
+  span class="label #{@statusColor}" = @status
+td = @name
+td style='width: 1%;' = @result
+td = @formattedDetails

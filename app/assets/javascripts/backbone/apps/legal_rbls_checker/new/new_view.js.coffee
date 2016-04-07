@@ -26,8 +26,26 @@
         {
           legend: 'IP Check'
           fields: [
-            name:  'ip_address'
+            name:  'query'
             label: 'IP Address'
           ]
         }
       ]
+      
+  
+  class New.Result extends App.Views.ItemView
+    template:  'legal_rbls_checker/new/_result'
+    tagName:   'tr'
+    className: -> @model.get('resultColor')
+  
+  
+  class New.Results extends App.Views.CompositeView
+    template: 'legal_rbls_checker/new/results'
+    
+    childView:          New.Result
+    childViewContainer: 'tbody'
+    
+    onDomRefresh: ->
+      @$('table').tablesorter
+        headers:
+          3: sorter: false

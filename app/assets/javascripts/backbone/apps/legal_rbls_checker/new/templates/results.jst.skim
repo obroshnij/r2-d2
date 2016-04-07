@@ -1,0 +1,8 @@
+table.borders
+  thead
+    tr
+      th Status
+      th Name
+      th Result
+      th Details
+  tbody

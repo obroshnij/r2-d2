@@ -88,6 +88,9 @@ Rails.application.routes.draw do
       put :mark_dismissed,   on: :member
     end
     resources :rbls
+    namespace :rbl do
+      resources :checkers,   only: [:create]
+    end
   end
   
   namespace :domains do

@@ -1,2 +1,9 @@
 .clearfix
   h4.float-left IP Reputation Checker
+  
+.alert.callout data-closable=''
+  h5 Do not use yet!
+  p The tool is being developed and may return incorrect results
+  
+  button.close-button aria-label='Dismiss alert' type='button' data-close=''
+    span aria-hidden='true' &times;

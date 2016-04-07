@@ -25,7 +25,7 @@
       new Entities.Navs App.entities.navs.legal_navs
       
     getLegalRblsNavs: ->
-      new Entities.Navs [{ name: 'Checker' }, { name: 'List' }]
+      new Entities.Navs [{ name: 'List' }, { name: 'Checker' }]
       
     getToolsNavs: ->
       new Entities.Navs App.entities.navs.tools_navs

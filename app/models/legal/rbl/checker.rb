@@ -8,7 +8,7 @@ class Legal::Rbl::Checker
   validates :ip_address, presence: true, ip_address: true
   
   def initialize ip_address
-    @ip_address = ip_address.strip
+    @ip_address = ip_address.strip if ip_address
     perform_check if valid?
   end
   
@@ -17,8 +17,10 @@ class Legal::Rbl::Checker
   def perform_check
     @result = []
     split_by_checkers.each do |checker, rbls|
-      @result += checker.new.check(ip_address, rbls)
+      @result += checker.new.check(@ip_address, rbls)
     end
+    @result.delete_if { |hash| hash[:result] == 'Not Listed' }
+    @result.sort_by!  { |hash| hash[:name] }
   end
   
   def split_by_checkers

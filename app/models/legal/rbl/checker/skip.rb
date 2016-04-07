@@ -4,8 +4,9 @@ class Legal::Rbl::Checker::Skip
     rbls.map do |rbl|
       {
         name:   rbl.name,
+        status: rbl.status.name,
         result: 'Skip',
-        data:   { 'Error' => "Don't know how to check this blacklist" }
+        data:   { 'Reason' => "Don't know how to check this blacklist" }
       }
     end
   end
