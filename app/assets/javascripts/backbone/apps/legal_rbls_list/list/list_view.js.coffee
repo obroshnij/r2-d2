@@ -57,6 +57,11 @@
       
     modelEvents:
       'change' : 'render'
+      
+    serializeData: ->
+      data = super
+      data.canEdit = App.ability.can 'update', @model
+      data
     
     
   class List.Rbls extends App.Views.CompositeView

@@ -113,6 +113,10 @@ class Ability::Setup
           actions:      ['create'],
           description:  'Add new entries',
           identifier:   'rbls_create'
+        }, {
+          actions:      ['update'],
+          description:  'Edit existing entries',
+          identifier:   'rbls_update'
         }
       ]
     }, {

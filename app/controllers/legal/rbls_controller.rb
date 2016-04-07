@@ -1,5 +1,6 @@
 class Legal::RblsController < ApplicationController
   respond_to :json
+  authorize_resource
   
   def index
     @search = Legal::Rbl.ransack params[:q]

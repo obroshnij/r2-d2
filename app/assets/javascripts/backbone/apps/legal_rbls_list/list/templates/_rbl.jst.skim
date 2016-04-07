@@ -21,6 +21,7 @@
     .row
       .large-12.columns
         .button-group.tiny.float-right
-          a.button.primary.edit-rbl
-            icon.fi-pencil
-            |  Edit
+          - if @canEdit
+            a.button.primary.edit-rbl
+              icon.fi-pencil
+              |  Edit
