@@ -24,6 +24,8 @@ class Legal::HostingAbuse::CannedAttach
   def get_prefix
     return 'Disk_Abuse'     if get_template_name == 'resource_abuse_disc.txt.erb'
     return 'Resource_Abuse' if get_template_name == 'resource_abuse_lve.txt.erb'
+    return 'DDoS_Log'       if get_template_name == 'ddos_inbound.txt.erb'
+    return 'DDoS_Log'       if get_template_name == 'ddos_shared_reseller.txt.erb'
     'Blank'
   end
   
