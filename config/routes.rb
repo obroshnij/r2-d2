@@ -86,6 +86,7 @@ Rails.application.routes.draw do
     resources :hosting_abuse do
       put :mark_processed,   on: :member
       put :mark_dismissed,   on: :member
+      get :show_attach,      on: :member
     end
     resources :rbls
     namespace :rbl do

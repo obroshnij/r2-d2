@@ -47,6 +47,10 @@ class Legal::HostingAbuse < ActiveRecord::Base
     canned.uber_note
   end
   
+  def canned_attach
+    @canned_attach ||= Legal::HostingAbuse::CannedAttach.new(self)
+  end
+  
   private
   
   def canned

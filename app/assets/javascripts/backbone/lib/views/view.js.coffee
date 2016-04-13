@@ -40,13 +40,24 @@
         
         _.defaults options,
           external: false
+          params:   {}
+          
+        attributes = ''
         
         unless _.isEmpty html_options
           attributes = _.map html_options, (val, key) ->
             "#{key}='#{val}'"
           .join(' ')
+          
+        params = null
         
-        url = '#' + url unless options.external
+        unless _.isEmpty options.params
+          params = '?' + _.map options.params, (val, key) ->
+            "#{key}=#{val}"
+          .join('&')
+        
+        url = '#' + url    unless options.external
+        url = url + params if     params
         
         "<a href='#{url}' #{attributes}>#{@escape(name)}</a>"
         

@@ -1,6 +1,6 @@
 class Legal::HostingAbuseController < ApplicationController
   respond_to :json
-  before_action :find_hosting_abuse, only: [:update, :mark_processed, :mark_dismissed]
+  before_action :find_hosting_abuse, only: [:update, :mark_processed, :mark_dismissed, :show_attach]
   
   def index
     authorize! :index, Legal::HostingAbuse
@@ -42,6 +42,14 @@ class Legal::HostingAbuseController < ApplicationController
       render :show
     else
       respond_with @form
+    end
+  end
+  
+  def show_attach
+    authorize! :mark_processed, @hosting_abuse
+    respond_to do |format|
+      format.text { send_data @hosting_abuse.canned_attach.render(:txt), filename: @hosting_abuse.canned_attach.name, type: 'text/plain' }
+      format.pdf  { send_data @hosting_abuse.canned_attach.render(:pdf), filename: @hosting_abuse.canned_attach.name, type: 'application/pdf' }
     end
   end
   

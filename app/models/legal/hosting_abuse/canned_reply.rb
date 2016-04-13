@@ -78,7 +78,6 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def render
-    puts @template.inspect
     @template.try :result, binding
   end
   

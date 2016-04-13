@@ -76,3 +76,11 @@ fieldset
     .row
       .large-12.columns
         textarea rows='10' = @canned_reply
+    - if @canned_attach_path
+      .row
+        .large-12.columns.attachment-links
+          | Attachment:
+          | &nbsp;
+          == @linkTo 'txt', @canned_attach_path, external: true, params: format: 'txt'
+          | ,&nbsp;
+          == @linkTo 'pdf', @canned_attach_path, external: true, params: format: 'pdf'
