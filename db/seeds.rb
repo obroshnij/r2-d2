@@ -67,7 +67,7 @@ end
 end
 
 
-['HAProxy', 'HABlkctl (Extended HAProxy)', 'IP Tables', 'Other'].each do |name|
+['HAProxy', 'HABlkctl (Extended HAProxy)', 'IP Tables / IPtablock', 'Other'].each do |name|
   Legal::HostingAbuse::Ddos::BlockType.create name: name
 end
 

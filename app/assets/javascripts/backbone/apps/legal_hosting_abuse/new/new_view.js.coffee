@@ -634,7 +634,7 @@
           ]
         ,
           name:     'ddos[rule]'
-          label:    'Rule'
+          label:    'Rule / Command'
           hint:     'What rule was used for the block?'
           dependencies: [
             service_id:              value: [1, 2]

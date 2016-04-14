@@ -24,7 +24,7 @@
           
       - if @ddos.rule
         .column: .row.hash
-          .key Rule
+          .key Rule / Command
           .value = @ddos.rule
           
     - if @ddos.logs
