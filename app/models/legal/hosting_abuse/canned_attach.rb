@@ -59,8 +59,8 @@ class Legal::HostingAbuse::CannedAttach
     end
     
     if @abuse.type.name == 'DDoS'
-      return 'ddos_shared_reseller.txt.erb' if ["Shared Hosting", "Reseller Hosting"].include?(@abuse.service.name) && [1, 2].include?(@abuse.ddos.block_type_id)
-      return 'ddos_inbound.txt.erb'         if (@abuse.ddos.inbound == true || @abuse.ddos.inbound.nil?)            && [1, 2].include?(@abuse.ddos.block_type_id)
+      return 'ddos_shared_reseller.txt.erb' if ["Shared Hosting", "Reseller Hosting"].include?(@abuse.service.name) && [1, 2, 3].include?(@abuse.ddos.block_type_id)
+      return 'ddos_inbound.txt.erb'         if (@abuse.ddos.inbound == true || @abuse.ddos.inbound.nil?)            && [1, 2, 3].include?(@abuse.ddos.block_type_id)
     end
     
     nil

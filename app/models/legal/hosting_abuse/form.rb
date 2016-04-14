@@ -82,9 +82,6 @@ class Legal::HostingAbuse::Form
   validate :child_form_must_be_valid
   
   def child_form_must_be_valid
-    puts '=============================='
-    puts status
-    puts '=============================='
     child_form.errors.each { |key, val| errors.add "#{child_form.name}[#{key}]", val } if child_form && !child_form.valid?
   end
   

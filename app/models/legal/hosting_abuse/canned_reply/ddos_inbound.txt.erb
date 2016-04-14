@@ -1,5 +1,5 @@
 IMPORTANT: DDoS Attack targeted to <%= @abuse.server.name %><%= ddos_target_domains %>
-<% if [1, 2].include? @abuse.ddos.block_type_id -%>
+<% if [1, 2, 3].include? @abuse.ddos.block_type_id -%>
 
 
 PLEASE DOUBLE-CHECK THE FIRST SENTENCE BEFORE SENDING THE CANNED REPLY
@@ -7,7 +7,7 @@ PLEASE DOUBLE-CHECK THE FIRST SENTENCE BEFORE SENDING THE CANNED REPLY
 
 Hello,
 
-We regret to inform you that <%= @abuse.ddos.domain_port %> was blocked by ha-proxy. The mentioned measures were applied in order to cease a DDoS attack that was causing a considerable impact on the server performance.
+<% if @abuse.ddos.block_type_id == 3 -%>We regret to inform you that inbound traffic to <%= @abuse.ddos.domain_port %> was blocked from a certain number of IP addresses.<% else -%>We regret to inform you that <%= @abuse.ddos.domain_port %> was blocked by ha-proxy.<% end -%> The mentioned measures were applied in order to cease a DDoS attack that was causing a considerable impact on the server performance.
 
 FYI: DDoS (distributed denial-of-service) is a network attack against a particular machine (separate server or network) intended to cause service interruptions. The attack is usually performed via a high amount of simultaneous queries to a particular website or IP address.
 
