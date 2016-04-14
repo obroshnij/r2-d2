@@ -11,7 +11,7 @@ nav.top-bar data-topbar='' role="navigation"
       li.has-dropdown.not-click
         a href='#' Domains & General
         ul.dropdown
-          li = link_to "Whois", whois_path
+          li = link_to "Whois", '/#tools/whois'
           li = link_to "Maintenance Alerts", alerts_path if can? :index, :maintenance_alert
           li = link_to "Extract Domains", '/#tools/data_extractor'
           li = link_to "Compare Lists", '/#tools/lists_diff'
@@ -74,7 +74,6 @@ nav.top-bar data-topbar='' role="navigation"
         li.has-dropdown
           a = current_user.name
           ul.dropdown
-            li = link_to "Change password", change_password_path
             li = link_to "Sign out", destroy_user_session_path, method: :delete
   - else
     section.top-bar-section

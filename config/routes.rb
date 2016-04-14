@@ -11,23 +11,11 @@ Rails.application.routes.draw do
   mount Resque::Server.new, :at => '/resque'
   
   devise_for :users
-  resources :users
-  
-  resources :roles
-
-  get 'change_password' => 'users#edit_password'
-  patch 'update_password' => 'users#update_password'
   
   get 'alerts' => 'maintenance_alerts#index'
 
-  get  'whois'         => 'domain_box#whois'
-  post 'whois'         => 'domain_box#whois_lookup'
-  get  'parse_domains' => 'domain_box#parse_domains'
-  post 'parse_domains' => 'domain_box#perform_parsing'
   get  'bulk_dig'      => 'domain_box#bulk_dig'
   post 'bulk_dig'      => 'domain_box#perform_bulk_dig'
-  get  'compare'       => 'domain_box#compare_lists'
-  post 'compare'       => 'domain_box#perform_comparison'
   get  'verify_email'  => 'domain_box#verify_email'
   post 'verify_email'  => 'domain_box#perform_email_verification'
 
@@ -66,10 +54,6 @@ Rails.application.routes.draw do
   resources :nc_services, as: 'private_emails', path: '/private_emails', controller: 'private_emails'
   
   resources :rbls
-    
-  namespace :api do
-    resources :whois_records
-  end
     
   ##########################################################
   

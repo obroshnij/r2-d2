@@ -19,23 +19,12 @@
 #= require rails.validations.actionView
 #= require toastr
 #= require vis.min
-#= require spin
-#= require underscore
-#= require backbone
-#= require whois
-#= require_tree ../templates
-#= require_tree ./models
-#= require_tree ./collections
-#= require_tree ./views
-#= require_tree ./routers
 
 #= require abuse_reports
 #= require domain_box
 #= require la_tools
 #= require manager_tools
 #= require nc_users
-#= require roles
-#= require hosting_abuse_reports
 
 String.prototype.capitalizeFirstLetter = ->
   @charAt(0).toUpperCase() + @slice(1)
