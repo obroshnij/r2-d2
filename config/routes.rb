@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   
   root 'application#index'
   
-  # get '(*path)', to: 'domain_box#unauthorized', constraints: lambda { |request| Rails.env == "production" && !WhitelistedAddress.find_by(value: request.remote_ip) }
-
   mount Resque::Server.new, :at => '/resque'
   
   devise_for :users
@@ -81,5 +79,8 @@ Rails.application.routes.draw do
   namespace :domains do
     resources :watched_domains
   end
+  
+  resources :users
+  resources :roles
   
 end
