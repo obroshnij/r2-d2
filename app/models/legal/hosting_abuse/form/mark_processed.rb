@@ -16,15 +16,25 @@ class Legal::HostingAbuse::Form::MarkProcessed
   attribute :updated_by_id,           Integer
   attribute :comment,                 String
   attribute :log_action,              String
+  attribute :decision_id,             Integer
+  attribute :disregard_reason,        String
   
   attribute :nc_user_signup,          String
   attribute :nc_user_signup_date,     Date
   attribute :pe_suspended,            Boolean
   
+  attribute :ip_is_blacklisted,       Boolean
+  attribute :blacklisted_ip,          String
+  attribute :reported_ip,             String
+  attribute :reported_ip_blacklisted, Boolean
   
   validates :ticket_identifier,       presence: true, format: { with: /\A[a-z]+(?>\-[0-9]+)+\z/i }
   validates :comment,                 presence: true, if: -> { @hosting_abuse._processed? }
   validates :uber_service_identifier, format: { with: /\A[0-9]+\z/ }, allow_blank: true
+  validates :disregard_reason,        presence: true, if: :disregard_reason_required?
+  
+  validates :blacklisted_ip,          presence: true, multiple_ips: true, if: -> { ip_is_blacklisted == true }
+  validates :reported_ip,             presence: true, multiple_ips: true, allow_nil: true
   
   with_options if: :private_email? do |f|
     f.validates :nc_username,         presence: true
@@ -32,12 +42,12 @@ class Legal::HostingAbuse::Form::MarkProcessed
     f.validate  :sign_up_date_must_be_valid
   end
   
+  def disregard_reason_required?
+    decision_id != @hosting_abuse.decision_id
+  end
+  
   def sign_up_date_must_be_valid
-    begin
-      Date.parse nc_user_signup
-    rescue
-      errors.add :nc_user_signup, 'is invalid'
-    end
+    Date.parse(nc_user_signup) rescue errors.add(:nc_user_signup, 'is invalid')
   end
   
   def initialize hosting_abuse_id
@@ -85,7 +95,7 @@ class Legal::HostingAbuse::Form::MarkProcessed
     @log_action = @hosting_abuse._processed? ? 'case info edited' : 'processed'
     super status
   end
-  
+    
   def submit params
     self.attributes = params
     return false unless valid?
@@ -98,7 +108,18 @@ class Legal::HostingAbuse::Form::MarkProcessed
   
   def persist!
     @hosting_abuse.assign_attributes hosting_abuse_params
+    persist_email_abuse
     @hosting_abuse.save!
+  end
+  
+  def persist_email_abuse
+    if !ip_is_blacklisted.nil? && !blacklisted_ip.nil? && (@hosting_abuse.spam || @hosting_abuse.pe_spam)
+      (@hosting_abuse.spam || @hosting_abuse.pe_spam).assign_attributes ip_is_blacklisted: ip_is_blacklisted, blacklisted_ip: blacklisted_ip
+    end
+    
+    if !reported_ip.nil? && !reported_ip_blacklisted.nil? && (@hosting_abuse.spam || @hosting_abuse.pe_spam)
+      (@hosting_abuse.spam || @hosting_abuse.pe_spam).assign_attributes reported_ip: reported_ip, reported_ip_blacklisted: reported_ip_blacklisted
+    end
   end
   
   def hosting_abuse_params
@@ -125,5 +146,5 @@ class Legal::HostingAbuse::Form::MarkProcessed
     }
     form.submit pe_abuse_form: attrs
     form.model.private_email_info.update_attributes hosting_abuse_id: @hosting_abuse.id
-  end  
+  end
 end

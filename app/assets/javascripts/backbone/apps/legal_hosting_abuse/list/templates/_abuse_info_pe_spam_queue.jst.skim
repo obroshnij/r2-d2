@@ -17,13 +17,13 @@
         
       .column: .row.hash
         - if @pe_spam.ip_is_blacklisted is true
-          .key Blacklisted IP
+          .key Blacklisted IPs
           .value = @pe_spam.blacklisted_ip
         - else if @pe_spam.ip_is_blacklisted is false
-          .key IP is blacklisted
+          .key IPs are blacklisted
           .value No
         - else
-          .key IP is blacklisted
+          .key IPs are blacklisted
           .value N/A
           
       .column: .row.hash

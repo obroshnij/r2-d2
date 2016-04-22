@@ -77,7 +77,7 @@ class Legal::HostingAbuse::Form
   validates :suspension_reason,       presence: true, if: :suspension_reason_required?
   validates :scan_report_path,        presence: true, if: :scan_report_path_required?
   
-  validates :comment,                 presence: true, if: -> { dismissed? || edited? }
+  validates :comment,                 presence: true, if: -> { log_action == 'edited' }
   
   validate :child_form_must_be_valid
   

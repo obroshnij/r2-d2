@@ -16,6 +16,7 @@ class Legal::HostingAbuse < ActiveRecord::Base
   belongs_to :shared_plan,     class_name: 'Legal::HostingAbuse::SharedPlan',     foreign_key: 'shared_plan_id'
   belongs_to :vps_plan,        class_name: 'Legal::HostingAbuse::VpsPlan',        foreign_key: 'vps_plan_id'
   belongs_to :suggestion,      class_name: 'Legal::HostingAbuse::Suggestion',     foreign_key: 'suggestion_id'
+  belongs_to :decision,        class_name: 'Legal::HostingAbuse::Suggestion',     foreign_key: 'decision_id'
   
   belongs_to :reported_by,     class_name: 'User',                                foreign_key: 'reported_by_id'
   belongs_to :server,          class_name: 'Legal::HostingServer',                foreign_key: 'server_id'
@@ -49,6 +50,16 @@ class Legal::HostingAbuse < ActiveRecord::Base
   
   def canned_attach
     @canned_attach ||= Legal::HostingAbuse::CannedAttach.new(self)
+  end
+  
+  alias_method :original_decision, :decision
+  
+  def decision
+    original_decision || suggestion
+  end
+  
+  def decision_id
+    super || suggestion_id
   end
   
   private

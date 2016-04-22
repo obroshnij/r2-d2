@@ -12,17 +12,21 @@ fieldset
     .large-3.columns
       label.text-right.middle for='ticket_identifier' Ticket ID
     .large-9.columns
-      .large-8.columns.end
+      .large-8.columns
         input id='ticket_identifier' name='ticket_identifier' type='text' value="#{@ticket_identifier}"
         span.form-error
+      .large-4.columns
+        label.help-text.middle Case Ticket
         
   .row.form-field
     .large-3.columns
       label.text-right.middle for='nc_username' Namecheap Username
     .large-9.columns
-      .large-8.columns.end
+      .large-8.columns
         input id='nc_username' name='nc_username' type='text' value="#{@nc_username}"
         span.form-error
+      .large-4.columns
+        label.help-text.middle Admin Panel Username
         
   - if @service_id is 5
   
@@ -53,22 +57,127 @@ fieldset
           label for='pe_suspended_false' No
   
   - if @serviceIdIsRequired
-        
+  
     .row.form-field
       .large-3.columns
         label.text-right.middle for='uber_service_identifier' Service ID
       .large-9.columns
-        .large-8.columns.end
+        .large-8.columns
           input id='uber_service_identifier' name='uber_service_identifier' type='text' value="#{@uber_service_identifier}"
           span.form-error
-        
+        .large-4.columns
+          label.help-text.middle Ubersmith Service
+  
   .row.form-field
     .large-3.columns
       label.text-right.middle for='comment' Comments
     .large-9.columns
-      .large-8.columns.end
-        textarea id='comment' name='comment' rows='4'
+      .large-8.columns
+        textarea id='comment' name='comment' rows='2'
         span.form-error
+      .large-4.columns
+        label.help-text.middle Anything you would like to add / Edit reason
+  
+  .row.form-field
+    .large-3.columns
+      label.text-right.middle for='decision_id' Final Decision
+    .large-9.columns
+      .large-8.columns
+        select id='decision_id' name='decision_id'
+          - for option in @decisions
+            - if option.id is @decision_id
+              option value="#{option.id}" selected='selected' = option.name
+            - else
+              option value="#{option.id}" = option.name
+        span.form-error
+      .large-4.columns
+        label.help-text.middle Leave as is if you agree with the suggestion
+  
+  .row.form-field
+    .large-3.columns
+      label.text-right.middle for='disregard_reason' Reason
+    .large-9.columns
+      .large-8.columns
+        textarea id='disregard_reason' name='disregard_reason' rows='2'
+          = @disregard_reason
+        span.form-error
+      .large-4.columns
+        label.help-text.middle Reason why the suggestion was disregarded
+  
+- if @type_id is 1 and (@spam?.detection_method_id is 1 or @pe_spam?.detection_method_id is 1)
+  
+  fieldset
+    legend Email Abuse
+    
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='ip_is_blacklisted' IPs are blacklisted
+      .large-9.columns
+        .large-8.columns.end.radiobuttons
+        
+          - if @spam?.ip_is_blacklisted is true or @pe_spam?.ip_is_blacklisted is true
+            input id='ip_is_blacklisted_true' name='ip_is_blacklisted' type='radio' value='true' checked='checked'
+          - else
+            input id='ip_is_blacklisted_true' name='ip_is_blacklisted' type='radio' value='true'
+          label for='ip_is_blacklisted_true' Yes
+          
+          - if @spam?.ip_is_blacklisted is false or @pe_spam?.ip_is_blacklisted is false
+            input id='ip_is_blacklisted_false' name='ip_is_blacklisted' type='radio' value='false' checked='checked'
+          - else
+            input id='ip_is_blacklisted_false' name='ip_is_blacklisted' type='radio' value='false'
+          label for='ip_is_blacklisted_false' No
+          
+          - if @spam?.ip_is_blacklisted is 'N/A' or @pe_spam?.ip_is_blacklisted is 'N/A'
+            input id='ip_is_blacklisted_N/A' name='ip_is_blacklisted' type='radio' value='N/A' checked='checked'
+          - else
+            input id='ip_is_blacklisted_N/A' name='ip_is_blacklisted' type='radio' value='N/A'
+          label for='ip_is_blacklisted_N/A' N/A
+    
+    - display = if @spam?.ip_is_blacklisted is true or @pe_spam?.ip_is_blacklisted is true then 'block' else 'none'
+    .row.form-field#blacklisted-ips style="display:#{display}"
+      .large-3.columns
+        label.text-right.middle for='blacklisted_ip' Blacklisted IPs
+      .large-9.columns
+        .large-8.columns
+          textarea id='blacklisted_ip' name='blacklisted_ip' rows='2'
+            = @spam?.blacklisted_ip or @pe_spam?.blacklisted_ip
+          span.form-error
+        .large-4.columns
+          label.help-text.middle One IP address per line
+          
+- if @type_id is 1 and (@spam?.detection_method_id is 2 or @pe_spam?.detection_method_id is 2)
+  
+  fieldset
+    legend Email Abuse
+  
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='reported_ip' Reported IPs
+      .large-9.columns
+        .large-8.columns
+          textarea id='reported_ip' name='reported_ip' rows='2'
+            = @spam?.reported_ip or @pe_spam?.reported_ip
+          span.form-error
+        .large-4.columns
+          label.help-text.middle One IP address per line
+          
+    .row.form-field
+      .large-3.columns
+        label.text-right.middle for='reported_ip_blacklisted' IPs are blacklisted
+      .large-9.columns
+        .large-8.columns.end.radiobuttons
+        
+          - if @spam?.reported_ip_blacklisted is true or @pe_spam?.reported_ip_blacklisted is true
+            input id='reported_ip_blacklisted_true' name='reported_ip_blacklisted' type='radio' value='true' checked='checked'
+          - else
+            input id='reported_ip_blacklisted_true' name='reported_ip_blacklisted' type='radio' value='true'
+          label for='reported_ip_blacklisted_true' Yes
+          
+          - if @spam?.reported_ip_blacklisted is false or @pe_spam?.reported_ip_blacklisted is false
+            input id='reported_ip_blacklisted_false' name='reported_ip_blacklisted' type='radio' value='false' checked='checked'
+          - else
+            input id='reported_ip_blacklisted_false' name='reported_ip_blacklisted' type='radio' value='false'
+          label for='ip_is_blacklisted_false' No
 
 - if @canned_reply
   fieldset

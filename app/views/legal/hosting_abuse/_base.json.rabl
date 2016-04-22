@@ -8,6 +8,7 @@ node(:created_at_formatted)                                               { |h| 
 node(:server_name,            if: -> (h) { h.server_id })                 { |h| h.server.name }
 node(:efwd_server_name,       if: -> (h) { h.efwd_server_id })            { |h| h.efwd_server.name }
 node(:suggestion)                                                         { |h| h.suggestion.name }
+node(:decision)                                                           { |h| h.decision.name }
 node(:shared_plan,            if: -> (h) { h.shared_plan_id })            { |h| h.shared_plan.name }
 node(:reseller_plan,          if: -> (h) { h.reseller_plan_id })          { |h| h.reseller_plan.name }
 node(:vps_plan,               if: -> (h) { h.vps_plan_id })               { |h| h.vps_plan.name }

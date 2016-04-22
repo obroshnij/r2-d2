@@ -19,6 +19,11 @@ do ($) ->
     $width  = @outerWidth(false)
     $height = @outerHeight(false)
     
+    # adjust top offset and height if the element is in a scrollable div
+    if @position().top < 0
+      $offset.top -= @position().top
+      $height     += @position().top
+    
     obj.zIndex = +@closest('#modal-region').css('zIndex') + 1 if @closest('#modal-region').length > 0
     
     if init

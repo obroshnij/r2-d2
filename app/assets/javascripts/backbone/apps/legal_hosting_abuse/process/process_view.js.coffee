@@ -26,3 +26,22 @@
         
         @$('#nc_user_signup').off()
         @$('#nc_user_signup').data('daterangepicker').remove()
+        
+    serializeData: ->
+      data = super
+      data.decisions = App.entities.legal.hosting_abuse.suggestion
+      data
+      
+    ui:
+      ipIsBlacklistedRadio: 'input[name=ip_is_blacklisted]'
+      blacklistedIpsField:  '.row.form-field#blacklisted-ips'
+      
+    events:
+      'change @ui.ipIsBlacklistedRadio' : 'toggleBlacklistedIpsField'
+      
+    toggleBlacklistedIpsField: (event) ->
+      val = @ui.ipIsBlacklistedRadio.filter(':checked').val()
+      if val is 'true'
+        @ui.blacklistedIpsField.show 200
+      else
+        @ui.blacklistedIpsField.hide 200

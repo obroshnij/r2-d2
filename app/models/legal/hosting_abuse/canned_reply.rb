@@ -46,7 +46,7 @@ class Legal::HostingAbuse::CannedReply
   end
   
   def blacklisted_ip
-    @abuse.spam.blacklisted_ip || @abuse.spam.reported_ip
+    @abuse.spam.blacklisted_ip.try(:split).try(:join, ' | ') || @abuse.spam.reported_ip.try(:split).try(:join, ' | ')
   end
   
   def ddos_target_domains

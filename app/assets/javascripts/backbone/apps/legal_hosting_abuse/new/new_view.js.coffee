@@ -245,7 +245,7 @@
             'spam[detection_method_id]': value: ['1', '2']
         ,
           name:     'spam[ip_is_blacklisted]'
-          label:    'IP is Blacklisted'
+          label:    'IPs are Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: 'N/A' }]
           default:  false
@@ -253,7 +253,9 @@
             'spam[detection_method_id]': value: ['1', '3']
         ,
           name:     'spam[blacklisted_ip]'
-          label:    'Blacklisted IP'
+          label:    'Blacklisted IPs'
+          tagName:  'textarea'
+          hint:     'One IP address per line'
           dependencies:
             'spam[detection_method_id]': value: ['1', '3']
             'spam[ip_is_blacklisted]':   value: 'true'
@@ -326,12 +328,14 @@
             'spam[sent_by_cpanel]':           value: 'false'
         ,
           name:     'spam[reported_ip]'
-          label:    'Reported IP'
+          label:    'Reported IPs'
+          tagName:  'textarea'
+          hint:     'One IP address per line'
           dependencies:
             'spam[detection_method_id]': value: '2'
         ,
           name:     'spam[reported_ip_blacklisted]'
-          label:    'IP is Blacklisted'
+          label:    'IPs are Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
           default:  true
@@ -410,12 +414,14 @@
             'pe_spam[detection_method_id]':  value: '2'
         ,
           name:     'pe_spam[reported_ip]'
-          label:    'Reported IP'
+          label:    'Reported IPs'
+          tagName:  'textarea'
+          hint:     'One IP address per line'
           dependencies:
             'pe_spam[detection_method_id]': value: '2'
         ,
           name:     'pe_spam[reported_ip_blacklisted]'
-          label:    'IP is Blacklisted'
+          label:    'IPs are Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }]
           default:  true
@@ -451,7 +457,7 @@
             'pe_spam[pe_queue_type_ids]':    value: 4
         ,
           name:     'pe_spam[ip_is_blacklisted]'
-          label:    'IP is Blacklisted'
+          label:    'IPs are Blacklisted'
           type:     'radio_buttons'
           options:  [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "N/A", id: 'N/A' }]
           default:  false
@@ -459,7 +465,9 @@
             'pe_spam[detection_method_id]': value: [1, 3]
         ,
           name:     'pe_spam[blacklisted_ip]'
-          label:    'Blacklisted IP'
+          label:    'Blacklisted IPs'
+          tagName:  'textarea'
+          hint:     'One IP address per line'
           dependencies:
             'pe_spam[detection_method_id]': value: [1, 3]
             'pe_spam[ip_is_blacklisted]':   value: 'true'

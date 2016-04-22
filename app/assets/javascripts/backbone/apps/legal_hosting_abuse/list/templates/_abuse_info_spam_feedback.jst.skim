@@ -12,11 +12,11 @@
         .value == @truncate @spam.reporting_parties.join(',\n'), 40, true
         
       .column: .row.hash
-        .key Reported IP
+        .key Reported IPs
         .value = @spam.reported_ip
         
       .column: .row.hash
-        .key IP is blacklisted
+        .key IPs are blacklisted
         - blacklisted = if @spam.reported_ip_blacklisted then 'Yes' else 'No'
         .value = blacklisted
     br

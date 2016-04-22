@@ -54,12 +54,12 @@ class Legal::HostingAbuse::Form::PeSpam
   with_options if: :feedback_loop? do |f|
     f.validates :example_complaint,           presence: true
     f.validates :reporting_party_ids,         presence: { message: 'at least one must be checked' }
-    f.validates :reported_ip,                 presence: true, ip_address: true
+    f.validates :reported_ip,                 presence: true, multiple_ips: true
   end
   
   validates :other_detection_method,          presence: true,                     if: :other_detection_method?
   
-  validates :blacklisted_ip,                  presence: true, ip_address: true,   if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
+  validates :blacklisted_ip,                  presence: true, multiple_ips: true, if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
   
   def name
     'pe_spam'
@@ -110,6 +110,14 @@ class Legal::HostingAbuse::Form::PeSpam
   def ip_is_blacklisted= blacklisted
     @ip_is_blacklisted = 'N/A' and return if blacklisted == ""
     super
+  end
+  
+  def reported_ip= ips
+    super ips.split.map(&:strip).join("\n")
+  end
+  
+  def blacklisted_ip= ips
+    super ips.split.map(&:strip).join("\n")
   end
   
   def persist hosting_abuse
