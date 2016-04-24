@@ -5,6 +5,10 @@
     
     modal:
       title: 'Process Hosting Abuse'
+      
+    initialize: (options) ->
+      @decisionId = @model.get('decision_id')
+      @serviceId  = @model.get('service_id')
               
     onAttach: ->
       if @$('#nc_user_signup').size() > 0
@@ -35,13 +39,22 @@
     ui:
       ipIsBlacklistedRadio: 'input[name=ip_is_blacklisted]'
       blacklistedIpsField:  '.row.form-field#blacklisted-ips'
+      decisionIdSelect:     '#decision_id'
+      disregardReasonField: '#disregard-reason'
       
     events:
       'change @ui.ipIsBlacklistedRadio' : 'toggleBlacklistedIpsField'
+      'change @ui.decisionIdSelect'     : 'toggleDisregardReasonField'
       
     toggleBlacklistedIpsField: (event) ->
       val = @ui.ipIsBlacklistedRadio.filter(':checked').val()
-      if val is 'true'
+      if val is 'true' or _.includes([3, 4], @serviceId)
         @ui.blacklistedIpsField.show 200
       else
         @ui.blacklistedIpsField.hide 200
+        
+    toggleDisregardReasonField: (event) ->
+      if @decisionId.toString() isnt @ui.decisionIdSelect.val()
+        @ui.disregardReasonField.show 200
+      else
+        @ui.disregardReasonField.hide 200

@@ -256,9 +256,13 @@
           label:    'Blacklisted IPs'
           tagName:  'textarea'
           hint:     'One IP address per line'
-          dependencies:
+          dependencies: [
             'spam[detection_method_id]': value: ['1', '3']
             'spam[ip_is_blacklisted]':   value: 'true'
+          ,
+            'spam[detection_method_id]': value: ['1', '3']
+            'service_id':                value: ['3', '4']
+          ]
         ,
           name:     'spam[sent_by_cpanel]'
           label:    'Sent by'

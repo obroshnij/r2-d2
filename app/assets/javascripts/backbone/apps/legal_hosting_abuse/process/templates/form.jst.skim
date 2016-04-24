@@ -70,16 +70,6 @@ fieldset
   
   .row.form-field
     .large-3.columns
-      label.text-right.middle for='comment' Comments
-    .large-9.columns
-      .large-8.columns
-        textarea id='comment' name='comment' rows='2'
-        span.form-error
-      .large-4.columns
-        label.help-text.middle Anything you would like to add / Edit reason
-  
-  .row.form-field
-    .large-3.columns
       label.text-right.middle for='decision_id' Final Decision
     .large-9.columns
       .large-8.columns
@@ -93,7 +83,7 @@ fieldset
       .large-4.columns
         label.help-text.middle Leave as is if you agree with the suggestion
   
-  .row.form-field
+  .row.form-field#disregard-reason style='display:none;'
     .large-3.columns
       label.text-right.middle for='disregard_reason' Reason
     .large-9.columns
@@ -103,6 +93,16 @@ fieldset
         span.form-error
       .large-4.columns
         label.help-text.middle Reason why the suggestion was disregarded
+        
+  .row.form-field
+    .large-3.columns
+      label.text-right.middle for='comment' Comments
+    .large-9.columns
+      .large-8.columns
+        textarea id='comment' name='comment' rows='2'
+        span.form-error
+      .large-4.columns
+        label.help-text.middle Anything you would like to add / Edit reason
   
 - if @type_id is 1 and (@spam?.detection_method_id is 1 or @pe_spam?.detection_method_id is 1)
   

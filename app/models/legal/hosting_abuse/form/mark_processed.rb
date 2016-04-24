@@ -33,7 +33,7 @@ class Legal::HostingAbuse::Form::MarkProcessed
   validates :uber_service_identifier, format: { with: /\A[0-9]+\z/ }, allow_blank: true
   validates :disregard_reason,        presence: true, if: :disregard_reason_required?
   
-  validates :blacklisted_ip,          presence: true, multiple_ips: true, if: -> { ip_is_blacklisted == true }
+  validates :blacklisted_ip,          presence: true, multiple_ips: true, if: :blacklisted_ip_required?
   validates :reported_ip,             presence: true, multiple_ips: true, allow_nil: true
   
   with_options if: :private_email? do |f|
@@ -56,6 +56,11 @@ class Legal::HostingAbuse::Form::MarkProcessed
   
   def private_email?
     @hosting_abuse.service_id == 5
+  end
+  
+  def blacklisted_ip_required?
+    return true if [3, 4].include?(@hosting_abuse.service_id)
+    ip_is_blacklisted == true
   end
   
   def model
@@ -98,6 +103,7 @@ class Legal::HostingAbuse::Form::MarkProcessed
     
   def submit params
     self.attributes = params
+    ap self.attributes
     return false unless valid?
     persist!
     persist_pe_incident! if private_email?

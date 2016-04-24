@@ -67,7 +67,7 @@ class Legal::HostingAbuse::Form::Spam
 
   validates :other_detection_method,              presence: true,                     if: :other_detection_method?
   
-  validates :blacklisted_ip,                      presence: true, multiple_ips: true, if: -> { ip_is_blacklisted == true && (queue? || other_detection_method?) }
+  validates :blacklisted_ip,                      presence: true, multiple_ips: true, if: :blacklisted_ip_required?
   
   def name
     'spam'
@@ -103,6 +103,11 @@ class Legal::HostingAbuse::Form::Spam
   
   def low_mailboxes_count?
     [1, 2, 3, 4].include? involved_mailboxes_count
+  end
+  
+  def blacklisted_ip_required?
+    return true if [3, 4].include?(service_id)
+    ip_is_blacklisted == true && (queue? || other_detection_method?)
   end
   
   def queue_type_ids= ids
