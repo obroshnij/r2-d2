@@ -25,8 +25,8 @@ class Nav
           icon:   'fa fa-fw fa-list'
         }, {
           name:   'Bulk Dig',
-          url:    '/bulk_dig',
-          icon:   'fa fa-fw'
+          url:    '#/tools/bulk_dig',
+          icon:   'fa fa-fw fa-terminal'
         }, {
           name:   'Email Verifier',
           url:    '/verify_email',

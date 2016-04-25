@@ -11,9 +11,7 @@ Rails.application.routes.draw do
   devise_for :users
   
   get 'alerts' => 'maintenance_alerts#index'
-
-  get  'bulk_dig'      => 'domain_box#bulk_dig'
-  post 'bulk_dig'      => 'domain_box#perform_bulk_dig'
+  
   get  'verify_email'  => 'domain_box#verify_email'
   post 'verify_email'  => 'domain_box#perform_email_verification'
 
@@ -56,12 +54,13 @@ Rails.application.routes.draw do
   ##########################################################
   
   namespace :tools do
-    resources :whois_lookups,      only: [:create]
+    resources :whois_lookups, only: [:create]
     resources :bulk_whois_lookups do
       put :retry, on: :member
     end
-    resources :data_searches,      only: [:create]
-    resources :lists_diffs,        only: [:create]
+    resources :data_searches, only: [:create]
+    resources :lists_diffs,   only: [:create]
+    resources :bulk_digs,     only: [:create]
   end
   
   namespace :legal do

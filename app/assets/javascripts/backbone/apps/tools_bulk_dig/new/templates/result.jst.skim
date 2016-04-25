@@ -1,0 +1,15 @@
+- if @records
+  
+  .table-scroll
+    table
+      thead
+        tr
+          th Host Name
+          - for recordType in @record_types
+            th = recordType.toUpperCase()
+      tbody
+        - for item in @records
+          tr
+            td = item.host_name
+            - for recordType in @record_types
+              td = item.records[recordType].join("\n")
