@@ -103,7 +103,6 @@ class Legal::HostingAbuse::Form::MarkProcessed
     
   def submit params
     self.attributes = params
-    ap self.attributes
     return false unless valid?
     persist!
     persist_pe_incident! if private_email?
