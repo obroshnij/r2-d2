@@ -29,7 +29,7 @@ class Nav
           icon:   'fa fa-fw fa-terminal'
         }, {
           name:   'Email Verifier',
-          url:    '/verify_email',
+          url:    '#/tools/email_verifier',
           icon:   'fa fa-fw fa-envelope-o'
         }
       ]

@@ -54,13 +54,14 @@ Rails.application.routes.draw do
   ##########################################################
   
   namespace :tools do
-    resources :whois_lookups, only: [:create]
+    resources :whois_lookups,   only: [:create]
     resources :bulk_whois_lookups do
       put :retry, on: :member
     end
-    resources :data_searches, only: [:create]
-    resources :lists_diffs,   only: [:create]
-    resources :bulk_digs,     only: [:create]
+    resources :data_searches,   only: [:create]
+    resources :lists_diffs,     only: [:create]
+    resources :bulk_digs,       only: [:create]
+    resources :email_verifiers, only: [:create]
   end
   
   namespace :legal do

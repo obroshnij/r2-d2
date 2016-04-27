@@ -24,6 +24,7 @@ module EmailVerifier
       nil
     end
     
+    ## delete
     def host_td_color
       return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       host_error.present? ? "red" : "green"
@@ -34,6 +35,7 @@ module EmailVerifier
       nil
     end
     
+    ## delete
     def mailbox_td_color
       return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       if host_error.nil?
@@ -51,6 +53,7 @@ module EmailVerifier
       mailbox_error || host_error || nil
     end
     
+    ## delete
     def status_td_color
       return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
       error.present? ? "red" : "green"
