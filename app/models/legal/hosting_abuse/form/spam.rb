@@ -130,11 +130,11 @@ class Legal::HostingAbuse::Form::Spam
   end
   
   def reported_ip= ips
-    super ips.split.map(&:strip).join("\n")
+    super ips.split.map(&:strip).join("\n") if ips.present?
   end
   
   def blacklisted_ip= ips
-    super ips.split.map(&:strip).join("\n")
+    super ips.split.map(&:strip).join("\n") if ips.present?
   end
   
   def persist hosting_abuse
