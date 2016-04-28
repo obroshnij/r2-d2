@@ -1,7 +1,7 @@
 class MultipleIpsValidator < ActiveModel::EachValidator
   
   def validate_each record, attribute, value
-    valid = value.split.map(&:strip).map do |val|
+    valid = value.to_s.split.map(&:strip).map do |val|
       val =~ /\A\d+\.\d+\.\d+\.\d+\z/ && IPAddress.valid?(val)
     end.all? { |el| el }
     

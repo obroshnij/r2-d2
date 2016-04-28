@@ -103,8 +103,8 @@ fieldset
         span.form-error
       .large-4.columns
         label.help-text.middle Anything you would like to add / Edit reason
-  
-- if @type_id is 1 and (@spam?.detection_method_id is 1 or @pe_spam?.detection_method_id is 1)
+
+- if @type_id is 1 and (_.includes([1, 3], @spam?.detection_method_id) or _.includes([1, 3], @pe_spam?.detection_method_id))
   
   fieldset
     legend Email Abuse
