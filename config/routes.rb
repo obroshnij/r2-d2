@@ -12,9 +12,6 @@ Rails.application.routes.draw do
   
   get 'alerts' => 'maintenance_alerts#index'
   
-  get  'verify_email'  => 'domain_box#verify_email'
-  post 'verify_email'  => 'domain_box#perform_email_verification'
-
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
@@ -54,13 +51,14 @@ Rails.application.routes.draw do
   ##########################################################
   
   namespace :tools do
-    resources :whois_lookups, only: [:create]
+    resources :whois_lookups,   only: [:create]
     resources :bulk_whois_lookups do
       put :retry, on: :member
     end
-    resources :data_searches, only: [:create]
-    resources :lists_diffs,   only: [:create]
-    resources :bulk_digs,     only: [:create]
+    resources :data_searches,   only: [:create]
+    resources :lists_diffs,     only: [:create]
+    resources :bulk_digs,       only: [:create]
+    resources :email_verifiers, only: [:create]
   end
   
   namespace :legal do

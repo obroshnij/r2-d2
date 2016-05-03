@@ -23,25 +23,11 @@ module EmailVerifier
       return 'Uncommon error, see session logs' if rcpt_to_line.nil?
       nil
     end
-    
-    def host_td_color
-      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
-      host_error.present? ? "red" : "green"
-    end
-    
+        
     def mailbox_error
       return rcpt_to_error unless rcpt_to_250?
       nil
     end
-    
-    def mailbox_td_color
-      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
-      if host_error.nil?
-        mailbox_error.present? ? "red" : "green"
-      else
-        "grey"
-      end
-    end  
     
     def status
       error.present? ? "FAILED: #{error}" : 'OK'
@@ -49,11 +35,6 @@ module EmailVerifier
     
     def error
       mailbox_error || host_error || nil
-    end
-    
-    def status_td_color
-      return 'orange' if rcpt_to_line.nil? && host_error == "Uncommon error, see session logs"
-      error.present? ? "red" : "green"
     end
     
     private

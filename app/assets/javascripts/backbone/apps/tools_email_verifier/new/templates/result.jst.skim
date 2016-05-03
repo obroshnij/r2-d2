@@ -1,0 +1,5 @@
+td class='#{@mailboxColor}' = @mailbox
+td class='#{@hostColor}' = @host_name
+td class='#{@statusColor}' = @status
+td.white
+  a.show-session href='' Show

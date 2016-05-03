@@ -1,0 +1,8 @@
+.smtp-session
+  - for log in @logs
+    .smpt-line
+      .request
+        i.fa.fa-terminal
+        code = _.first log
+      .response
+        = _.last log
