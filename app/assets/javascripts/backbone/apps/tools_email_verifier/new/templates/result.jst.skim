@@ -1,17 +1,5 @@
-- if @records
-  
-  table
-    thead
-      tr
-        th Username
-        th Host
-        th Status
-        th SMTP Session
-    tbody
-      - for record in @records
-        tr
-          td class='#{@mailboxColor}' = record.mailbox
-          td class='#{@hostColor}' = record.host_name
-          td class='#{@statusColor}' = record.status
-          td
-            a href='' data-email='#{record.email}' Show
+td class='#{@mailboxColor}' = @mailbox
+td class='#{@hostColor}' = @host_name
+td class='#{@statusColor}' = @status
+td.white
+  a.show-session href='' Show

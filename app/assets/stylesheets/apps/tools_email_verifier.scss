@@ -1,0 +1,8 @@
+.smtp-session       { white-space: pre-wrap;
+  .smpt-line        { margin-top: 1rem;
+    .request        {
+      code          { display: inline-block; margin-left: 1rem; }
+    }
+    .response       { display: inline-block; margin-left: 2rem; }
+  }
+}

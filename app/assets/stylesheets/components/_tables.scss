@@ -1,7 +1,7 @@
-table                                                       { font-size: 0.875rem; white-space: pre-wrap;
-  .tablesorter-header:not(.sorter-false) .tablesorter-header-inner:after       { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
-  .tablesorter-headerAsc:not(.sorter-false) .tablesorter-header-inner:after    { content: "\f0de"; }
-  .tablesorter-headerDesc:not(.sorter-false) .tablesorter-header-inner:after   { content: "\f0dd"; }
+table                                                                         { font-size: 0.875rem; white-space: pre-wrap;
+  .tablesorter-header:not(.sorter-false) .tablesorter-header-inner:after      { content: "\f0dc"; font-family: FontAwesome; padding-left: 0.5rem; }
+  .tablesorter-headerAsc:not(.sorter-false) .tablesorter-header-inner:after   { content: "\f0de"; }
+  .tablesorter-headerDesc:not(.sorter-false) .tablesorter-header-inner:after  { content: "\f0dd"; }
   
   tr.red, td.red                                            { background-color: #ffe5e5; }
   tr.green, td.green                                        { background-color: #e5f2e5; }

@@ -1,8 +1,7 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
   
-  class Entities.EmailVerifier extends App.Entities.Model
-    urlRoot: -> Routes.tools_email_verifiers_path()
-    
+  class Entities.EmailVerificationRecord extends App.Entities.Model
+        
     mutators:
       
       _isYellow: ->
@@ -20,9 +19,20 @@
         
       statusColor: ->
         return 'yellow' if @get('_isYellow')
-        console.log @
         if @get('host_error') or @get('mailbox_error') then 'red' else 'green'
         
+  
+  class Entities.EmailVerificationRecords extends App.Entities.Collection
+    model: Entities.EmailVerificationRecord
+  
+  
+  class Entities.EmailVerifier extends App.Entities.Model
+    urlRoot: -> Routes.tools_email_verifiers_path()
+    
+    initialize: ->
+      @records = new Entities.EmailVerificationRecords
+      @listenTo @, 'change:records', -> @records.reset @get('records')
+    
       
   API =
     

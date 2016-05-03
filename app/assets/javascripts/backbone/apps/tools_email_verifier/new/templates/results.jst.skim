@@ -1,0 +1,8 @@
+table.borders
+  thead
+    tr
+      th Username
+      th Host
+      th Status
+      th SMTP Session
+  tbody

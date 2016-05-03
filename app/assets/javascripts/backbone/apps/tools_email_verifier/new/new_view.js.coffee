@@ -31,10 +31,19 @@
     
   class New.Result extends App.Views.ItemView
     template: 'tools_email_verifier/new/result'
+    tagName:  'tr'
     
-    events:
-      'click a[data-email]' : 'showSmtpSession'
+    triggers:
+      'click a.show-session' : 'show:session:clicked'
       
-    showSmtpSession: (event) ->
-      event.preventDefault()
-      @trigger 'show:smtp:session', $(event.target).attr('data-email')
+  
+  class New.Results extends App.Views.CompositeView
+    template: 'tools_email_verifier/new/results'
+    
+    childView:          New.Result
+    childViewContainer: 'tbody'
+    
+    onDomRefresh: ->
+      @$('table').tablesorter
+        headers:
+          3: sorter: false

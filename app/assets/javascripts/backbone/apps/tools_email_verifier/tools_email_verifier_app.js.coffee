@@ -13,11 +13,10 @@
       new ToolsEmailVerifierApp.New.Controller
         region: region
         
-    showSmtpSession: (email, session) ->
+    showSmtpSession: (record) ->
       new ToolsEmailVerifierApp.ShowSmtp.Controller
         region:  App.modalRegion
-        email:   email
-        session: session
+        record:  record
   
   
   App.vent.on 'tools:nav:selected', (nav, options, region) ->
@@ -30,8 +29,8 @@
       App.navigate '/tools/email_verifier'
       API.newCheck region
       
-  App.vent.on 'show:smtp:session', (email, session) ->
-    API.showSmtpSession email, session
+  App.vent.on 'show:smtp:session', (record) ->
+    API.showSmtpSession record
   
   
   ToolsEmailVerifierApp.on 'start', ->

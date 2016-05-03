@@ -25,22 +25,22 @@
       @show formView, region: @layout.formRegion
       
     resultRegion: (verifier) ->
-      resultView = @getResultView verifier
+      resultView = @getResultView verifier.records
       
-      @listenTo resultView, 'show:smtp:session', (email) ->
-        session = _.find(verifier.get('records'), (obj) -> obj['email'] is email).session
-        App.vent.trigger 'show:smtp:session', email, session
+      @listenTo resultView, 'childview:show:session:clicked', (childView, args) ->
+        App.vent.trigger 'show:smtp:session', args.model
       
       loadingType = if @layout.resultRegion.currentView then 'opacity' else 'spinner'
     
       @show resultView,
         loading:
           loadingType: loadingType
+          entities:    verifier
         region:  @layout.resultRegion
     
-    getResultView: (verifier) ->
-      new New.Result
-        model: verifier
+    getResultView: (records) ->
+      new New.Results
+        collection: records
       
     getNewView: ->
       schema = new New.FormSchema

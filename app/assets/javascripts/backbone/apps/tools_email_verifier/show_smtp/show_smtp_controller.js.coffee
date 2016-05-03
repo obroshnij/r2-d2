@@ -3,5 +3,12 @@
   class ShowSmtp.Controller extends App.Controllers.Application
   
     initialize: (options) ->
-      { email, session } = options
-      console.log session
+      { record } = options
+      
+      sessionView = @getSessionView record
+      
+      @show sessionView
+      
+    getSessionView: (record) ->
+      new ShowSmtp.SmtpSession
+        model: record

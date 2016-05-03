@@ -12,9 +12,6 @@ Rails.application.routes.draw do
   
   get 'alerts' => 'maintenance_alerts#index'
   
-  get  'verify_email'  => 'domain_box#verify_email'
-  post 'verify_email'  => 'domain_box#perform_email_verification'
-
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
