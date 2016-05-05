@@ -133,7 +133,7 @@ fieldset
             input id='ip_is_blacklisted_N/A' name='ip_is_blacklisted' type='radio' value='N/A'
           label for='ip_is_blacklisted_N/A' N/A
     
-    - display = if @spam?.ip_is_blacklisted is true or @pe_spam?.ip_is_blacklisted is true then 'block' else 'none'
+    - display = if @spam?.ip_is_blacklisted is true or @pe_spam?.ip_is_blacklisted is true or _.includes([3, 4], @service_id) then 'block' else 'none'
     .row.form-field#blacklisted-ips style="display:#{display}"
       .large-3.columns
         label.text-right.middle for='blacklisted_ip' Blacklisted IPs
