@@ -59,7 +59,7 @@ class Legal::HostingAbuse::Form::MarkProcessed
   end
   
   def blacklisted_ip_required?
-    return true if [3, 4].include?(@hosting_abuse.service_id)
+    return true if @hosting_abuse.type_id == 1 && [3, 4].include?(@hosting_abuse.service_id)
     ip_is_blacklisted == true
   end
   
