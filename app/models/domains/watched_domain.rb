@@ -1,8 +1,9 @@
 class Domains::WatchedDomain < ActiveRecord::Base
   self.table_name = 'watched_domains'
   
-  validates :name, presence: true, host_name: true
-  validates :name, uniqueness: { case_sensitive: false, message: 'has already been added' }
+  validates :name,  presence: true, host_name: true
+  validates :name,  uniqueness: { case_sensitive: false, message: 'has already been added' }
+  validates :email, presence: true
   
   before_validation do
     self.name = self.name.strip.downcase

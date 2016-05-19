@@ -1,4 +1,4 @@
-attributes :id, :name, :status, :comment, :created_at, :updated_at
+attributes :id, :name, :status, :comment, :created_at, :updated_at, :email
 
 node(:created_at_formatted) do |d|
   d.created_at.strftime '%b/%d/%Y, %H:%M'

@@ -9,6 +9,9 @@
   
   .large-3.columns
     .row.hash
+      .key Email
+      .value = @email
+    .row.hash
       .key Comments
       .value = @comment
         

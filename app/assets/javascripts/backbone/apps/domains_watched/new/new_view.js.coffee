@@ -15,6 +15,10 @@
           name:    'name'
           label:   'Name'
         ,
+          name:    'email'
+          label:   'Email'
+          default: 'nclead@namecheap.com'
+        ,
           name:    'comment'
           label:   'Comments'
           tagName: 'textarea'

@@ -8,14 +8,17 @@ class WatchDomainsJob < ActiveJob::Base
       names.each do |name|
         begin
           unless name.status.sort == name.new_status.sort
-            diff[name.name] = { status: [name.status.join(', '), name.new_status.join(', ')], comment: name.comment }
+            diff[name.email] ||= {}
+            diff[name.email][name.name] = { status: [name.status.join(', '), name.new_status.join(', ')], comment: name.comment }
             name.save
           end
         rescue Timeout::Error
           next
         end
       end
-      DomainWatcherMailer.status_update(diff).deliver_later if diff.present?
+      diff.each do |email, diff_val|
+        DomainWatcherMailer.status_update(email, diff_val).deliver_later if diff.present?
+      end
     end
     WatchDomainsJob.set(wait: 20.minutes).perform_later
   end
