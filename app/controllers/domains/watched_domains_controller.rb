@@ -29,6 +29,6 @@ class Domains::WatchedDomainsController < ApplicationController
   private
   
   def watched_domain_params
-    params.require(:watched_domain).permit(:name, :comment)
+    params.require(:watched_domain).permit(:name, :comment, :email)
   end
 end
