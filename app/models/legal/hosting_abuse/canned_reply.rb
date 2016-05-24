@@ -107,7 +107,7 @@ class Legal::HostingAbuse::CannedReply
       return nil                            if @abuse.service.name == 'Private Email'
       return 'resource_abuse_lve.txt.erb'   if @abuse.resource.type.name == 'LVE / MySQL'
       return 'resource_abuse_cron.txt.erb'  if @abuse.resource.type.name == 'Cron Jobs'
-      return 'resource_abuse_disc.txt.erb'  if @abuse.resource.type.name == 'Disc Space'
+      return 'resource_abuse_disc.txt.erb'  if @abuse.resource.type.name == 'Disk Space'
     end
     
     if @abuse.type.name == 'DDoS'

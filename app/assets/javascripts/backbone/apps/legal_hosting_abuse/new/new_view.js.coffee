@@ -58,7 +58,7 @@
           label:    'Package'
           tagName:  'select'
           options:  @getSharedPlans()
-          hint:     "Email Only (e.g. mailserver3.web-hosting.com) can only be abused by Email Abuse / Spam\nBusiness Expert can't abuse Disc-Space (150 GB allowed)"
+          hint:     "Email Only (e.g. mailserver3.web-hosting.com) can only be abused by Email Abuse / Spam\nBusiness Expert can't abuse Disk-Space (150 GB allowed)"
           dependencies:
             service_id:      value: 1
         ,

@@ -16,7 +16,13 @@ class Legal::HostingAbuse::CannedAttach
   end
   
   def name
-    "#{get_prefix}_#{@abuse.username}_#{Time.zone.now.strftime('%b-%d-%Y')}"
+    user = if @abuse.service_id == 2 # Reseller Hosting
+      @abuse.resold_username || @abuse.username
+    else
+      @abuse.username
+    end
+    
+    "#{get_prefix}_#{user}_#{Time.zone.now.strftime('%b-%d-%Y')}"
   end
   
   private
@@ -55,7 +61,7 @@ class Legal::HostingAbuse::CannedAttach
       return nil                            if @abuse.service.name == 'Private Email'
       
       return 'resource_abuse_lve.txt.erb'   if @abuse.resource.type.name == 'LVE / MySQL'
-      return 'resource_abuse_disc.txt.erb'  if @abuse.resource.type.name == 'Disc Space'
+      return 'resource_abuse_disc.txt.erb'  if @abuse.resource.type.name == 'Disk Space'
     end
     
     if @abuse.type.name == 'DDoS'
