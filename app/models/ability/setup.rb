@@ -1,10 +1,10 @@
 class Ability::Setup
-  
+
   RESOURCES = [
     {
       subjects:         ['Domains::WatchedDomain'],
       description:      'Domains -> Watched Domains',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -23,7 +23,7 @@ class Ability::Setup
     }, {
       subjects:         ['maintenance_alert'],
       description:      'Domains -> Maintenance Alerts',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -38,7 +38,7 @@ class Ability::Setup
     }, {
       subjects:         ['Legal::HostingAbuse'],
       description:      'Legal & Abuse -> Hosting Abuse',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -75,12 +75,12 @@ class Ability::Setup
     }, {
       subjects:         ['AbuseReport'],
       description:      'Legal & Abuse -> Abuse Reports',
-      
+
       permissions:      [
         {
           actions:      ['index'],
           description:  'Access reports list',
-          identifier:   'abuse_reports_index'  
+          identifier:   'abuse_reports_index'
         }, {
           actions:      ['create', 'update_abuse_report_form'],
           description:  'Submit new reports',
@@ -103,7 +103,7 @@ class Ability::Setup
     }, {
       subjects:         ['Legal::Rbl'],
       description:      'Legal & Abuse -> Multi RBL',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -122,7 +122,7 @@ class Ability::Setup
     }, {
       subjects:         ['NcUser'],
       description:      'Legal & Abuse -> Namecheap Users',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -145,7 +145,7 @@ class Ability::Setup
     }, {
       subjects:         ['NcService'],
       description:      'Legal & Abuse -> Namecheap Domains / Private Emails',
-      
+
       permissions:      [
         {
           actions:      ['index'],
@@ -168,7 +168,7 @@ class Ability::Setup
     }, {
       subjects:         ['la_tool'],
       description:      'Legal & Abuse -> Tools (Everything else)',
-      
+
       permissions:      [
         {
           actions:     ['manage'],
@@ -179,7 +179,7 @@ class Ability::Setup
     }, {
       subjects:         ['manager_tool'],
       description:      'Management Tools',
-      
+
       permissions:      [
         {
           actions:     ['monthly_reports', 'generate_monthly_reports'],
@@ -194,7 +194,7 @@ class Ability::Setup
     }, {
       subjects:         ['User', 'Role'],
       description:      'User Management',
-      
+
       permissions:      [
         {
           actions:      ['manage'],
@@ -204,27 +204,27 @@ class Ability::Setup
       ]
     }
   ]
-  
+
   def self.seed!
     cleanup!
     create_resources!
   end
-  
+
   private
-  
+
   def self.create_resources!
     RESOURCES.each do |hash|
       resource = Ability::Resource.create subjects: hash[:subjects], description: hash[:description]
-      
+
       hash[:permissions].each do |hash|
         Ability::Permission.create hash.merge({ resource_id: resource.id })
       end
     end
   end
-  
+
   def self.cleanup!
     Ability::Resource.destroy_all
     Ability::Permission.destroy_all
   end
-  
+
 end
