@@ -4,20 +4,20 @@ require 'devise/strategies/authenticatable'
 module Devise
   module Strategies
     class LdapAuthenticatable < Authenticatable
-      
+
       def valid?
         true
       end
-      
+
       def authenticate!
         if params[:user]
-          
+
           entries = ldap.bind_as(
             base:     Rails.application.secrets.ldap_search_base,
-            filter:   "(uid=#{uid})",
+            filter:   "(samaccountname=#{uid})",
             password: password
           ) if uid.present?
-          
+
           if entries
             user = User.from_ldap_entry entries.first
             success! user
@@ -26,7 +26,7 @@ module Devise
           end
         end
       end
-      
+
       def ldap
         options = {
           host:       Rails.application.secrets.ldap_host,
