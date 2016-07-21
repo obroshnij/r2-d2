@@ -30,7 +30,7 @@ module Devise
       def ldap
         options = {
           host:       Rails.application.secrets.ldap_host,
-          base:       Rails.application.secrets.search_base,
+          base:       Rails.application.secrets.ldap_search_base,
           encryption: :simple_tls,
           port:       636,
           auth: {
