@@ -2,6 +2,29 @@ class Ability::Setup
 
   RESOURCES = [
     {
+      subjects:         ['Tools::InternalDomain'],
+      description:      'Tools -> Internal Domains',
+
+      permissions:      [
+        {
+          actions:      ['index'],
+          description:  'Access domains list',
+          identifier:   'tools_internal_domains_index'
+        }, {
+          actions:      ['create'],
+          description:  'Add new domains',
+          identifier:   'tools_internal_domains_create'
+        }, {
+          actions:      ['update'],
+          description:  'Edit existing domains',
+          identifier:   'tools_internal_domains_update'
+        }, {
+          actions:      ['destroy'],
+          description:  'Delete domains',
+          identifier:   'tools_internal_domains_destroy'
+        }
+      ]
+    }, {
       subjects:         ['Domains::WatchedDomain'],
       description:      'Domains -> Watched Domains',
 

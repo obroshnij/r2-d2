@@ -1,9 +1,16 @@
-form
-  .callout.secondary
-    .fields.row
-      .large-12.columns
-        label
-          = @objectTypeName
-          textarea rows='5'
-            = @items?.join("\n")
-          .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
+- if @internal_items.length
+  .alert.callout
+    h5 = @message
+    - for item in @internal_items
+      div = item
+
+- if @items and @items.length
+  form
+    .callout.secondary
+      .fields.row
+        .large-12.columns
+          label
+            = @objectTypeName
+            textarea rows='5'
+              = @items?.join("\n")
+            .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
