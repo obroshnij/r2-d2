@@ -1,8 +1,8 @@
 class Tools::DataSearch
 
-  TLD_REGEX    = /(?:\.[a-z]+)+/i
+  TLD_REGEX    = /(?:\.[a-z]+)+(?:--[a-z0-9]+)?/i
   IP_REGEX     = /\d+\.\d+\.\d+\.\d+/
-  EMAIL_REGEX  = /[a-z0-9\.!#$%&'*+-\/=?_|{}~`^]+@(?:(?>[a-z0-9]+[a-z0-9\-]*[a-z0-9]+|[a-z0-9]*)\.)+[a-z]+/i
+  EMAIL_REGEX  = /[a-z0-9\.!#$%&'*+-\/=?_|{}~`^]+@(?:(?>[a-z0-9]+[a-z0-9\-]*[a-z0-9]+|[a-z0-9]*)\.)+[a-z]+(?:--[a-z0-9]+)?/i
   TICKET_REGEX = /[a-z]{3}\-[0-9]{3}\-[0-9]{5}/i
 
   include ActiveModel::Model
@@ -89,12 +89,12 @@ class Tools::DataSearch
 
   def wildcard_host? item, wildcards
     item_domain = DomainName.new item
-    wildcard_domain? "#{item_domain.sld}.#{item_domain.sld}", wildcards
+    wildcard_domain? "#{item_domain.sld}.#{item_domain.tld}", wildcards
   end
 
   def wildcard_email? item, wildcards
     item_domain = DomainName.new item.split('@').last
-    wildcard_domain? "#{item_domain.sld}.#{item_domain.sld}", wildcards
+    wildcard_domain? "#{item_domain.sld}.#{item_domain.tld}", wildcards
   end
 
   def update_internal_items type, item
@@ -114,7 +114,11 @@ class Tools::DataSearch
   end
 
   def parse_tld query
-    query.scan(TLD_REGEX).select { |tld| PublicSuffix.valid? tld }.map { |tld| '.' + PublicSuffix.parse(tld).tld }.uniq
+    query.scan(TLD_REGEX).select do |tld|
+      PublicSuffix.valid? SimpleIDN.to_unicode(tld)
+    end.map do |tld|
+      '.' + SimpleIDN.to_ascii(PublicSuffix.parse(SimpleIDN.to_unicode(tld)).tld)
+    end.uniq
   end
 
   def parse_ip_v4 query
@@ -122,7 +126,9 @@ class Tools::DataSearch
   end
 
   def parse_email query
-    query.scan(EMAIL_REGEX).map(&:downcase).uniq
+    query.scan(EMAIL_REGEX).map(&:downcase).uniq.map do |email|
+      PublicSuffix.valid?(SimpleIDN.to_unicode(email.split('@').last)) ? email : nil
+    end.compact
   end
 
   def parse_kayako_ticket query
