@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: https://github.com/stas-tanko/publicsuffix-ruby.git
-  revision: cdaca7f8a9f48b31e49f4f6d97708be2dc92ece0
+  revision: 524c781848751f3a405fdebc8df3e91cb799f9ef
   branch: master
   specs:
     public_suffix (1.5.1)
