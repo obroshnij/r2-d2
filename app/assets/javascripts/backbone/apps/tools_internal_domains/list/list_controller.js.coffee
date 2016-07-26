@@ -38,11 +38,11 @@
       domainsView = @getDomainsView domains
 
       @listenTo domainsView, 'childview:delete:clicked', (child, args) ->
-        # model = args.model
-        # if confirm "Are you sure you want to delete #{model.get("name")}?" then model.destroy() else false
+        model = args.model
+        if confirm "Are you sure you want to delete #{model.get("name")}?" then model.destroy() else false
 
       @listenTo domainsView, 'childview:edit:clicked', (child, args) ->
-        App.vent.trigger 'edit:internal:domain:clicked', args.model
+        App.vent.trigger 'edit:internal:domain:clicked', args.model, domains
 
       @show domainsView,
         loading: true

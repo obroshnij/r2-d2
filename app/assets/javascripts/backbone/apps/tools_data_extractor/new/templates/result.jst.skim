@@ -1,8 +1,15 @@
-- if @internal_items.length
+- if @matchedMessage or @wildcardMessage
   .alert.callout
-    h5 = @message
-    - for item in @internal_items
-      div = item
+  
+    - if @internal_items.matched.length
+      h5 = @matchedMessage
+      - for item in @internal_items.matched
+        div = item
+        
+    - if @internal_items.wildcard.length
+      h5 = @wildcardMessage
+      - for item in @internal_items.wildcard
+        div = item
 
 - if @items and @items.length
   form

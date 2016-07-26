@@ -19,6 +19,12 @@
       domains.fetch()
       domains
 
+    getNewInternalDomain: ->
+      new Entities.InternalDomain
+
 
   App.reqres.setHandler 'internal:domain:entities', ->
     API.getInternalDomainsCollection()
+
+  App.reqres.setHandler 'new:internal:domain:entity', ->
+    API.getNewInternalDomain()

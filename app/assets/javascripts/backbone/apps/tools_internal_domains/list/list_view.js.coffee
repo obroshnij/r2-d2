@@ -61,6 +61,9 @@
       data.canDestroy = App.ability.can 'destroy', @model
       data
 
+    modelEvents: ->
+      'change' : 'render'
+
 
   class List.DomainsView extends App.Views.CompositeView
     template: 'tools_internal_domains/list/domains'

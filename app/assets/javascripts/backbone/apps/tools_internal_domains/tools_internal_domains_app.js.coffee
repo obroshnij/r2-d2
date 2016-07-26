@@ -13,6 +13,17 @@
       new ToolsInternalDomainsApp.List.Controller
         region: region
 
+    newDomain: (domains) ->
+      new ToolsInternalDomainsApp.New.Controller
+        region:  App.modalRegion
+        domains: domains
+
+    edit: (domain, domains) ->
+      new ToolsInternalDomainsApp.New.Controller
+        region:  App.modalRegion
+        domains: domains
+        domain:  domain
+
 
   App.vent.on 'tools:nav:selected', (nav, options, region) ->
     return if nav isnt 'Internal Domains'
@@ -23,6 +34,12 @@
     if action is 'list'
       App.navigate '/tools/internal'
       API.list region
+
+  App.vent.on 'new:internal:domain:clicked', (domains) ->
+    API.newDomain domains
+
+  App.vent.on 'edit:internal:domain:clicked', (domain, domains) ->
+    API.edit domain, domains
 
 
   ToolsInternalDomainsApp.on 'start', ->

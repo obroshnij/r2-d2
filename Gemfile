@@ -46,6 +46,7 @@ gem 'cancancan', '~> 1.10'
 gem 'ransack'
 
 gem 'public_suffix', git: 'https://github.com/stas-tanko/publicsuffix-ruby.git', branch: 'master'
+gem 'simpleidn'
 gem 'ipaddress'
 gem 'net-dns', git: 'https://github.com/bonsaiviking/net-dns.git', branch: 'txt'
 gem 'curb'

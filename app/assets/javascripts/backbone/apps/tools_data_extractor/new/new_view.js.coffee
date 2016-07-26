@@ -53,10 +53,11 @@
 
     serializeData: ->
       data = super
-      data.message = @getMessage() if @model.get('internal_items').length
+      data.matchedMessage  = @getMatchedMessage()  if @model.get('internal_items').matched.length
+      data.wildcardMessage = @getWildcardMessage() if @model.get('internal_items').wildcard.length
       data
 
-    getMessage: ->
+    getMatchedMessage: ->
       message = 'Internal domains '
 
       if @model.get('internal') is 'remove'
@@ -64,4 +65,14 @@
       else
         message += 'found in'
 
-      message += ' the list!'
+      message += ' the list:'
+
+    getWildcardMessage: ->
+      message = 'Items matching internal wildcard domains '
+
+      if @model.get('internal') is 'remove'
+        message += 'removed from'
+      else
+        message += 'found in'
+
+      message += ' the list:'

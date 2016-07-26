@@ -14,7 +14,7 @@ class Tools::DataSearch
   validates :object_type, inclusion: { in: ['domain', 'host', 'tld', 'ip_v4', 'email', 'kayako_ticket'] }
 
   def initialize query, object_type = 'domain', internal = 'remove'
-    @query, @object_type, @internal, @internal_items = query, object_type, internal, []
+    @query, @object_type, @internal, @internal_items = query, object_type, internal, { matched: [], wildcard: [] }
     @items = parse_items(@query) if valid?
     search_internal_domains!     if valid? && ['domain', 'host', 'email'].include?(@object_type)
   end
@@ -22,16 +22,41 @@ class Tools::DataSearch
   private
 
   def search_internal_domains!
-    domains = Tools::InternalDomain.all.map { |d| DomainName.new d.name }
+    domains, wildcards = get_domains_and_wildcards
 
     @items = @items.map do |item|
       if internal?(item, domains)
-        update_internal_items(item)
+        update_internal_items(:matched, item)
         @internal == 'remove' ? nil : item.upcase
+
+      elsif wildcard?(item, wildcards)
+        update_internal_items(:wildcard, item)
+        @internal == 'remove' ? nil : item.upcase
+
       else
         item
       end
     end.compact
+  end
+
+  def get_domains_and_wildcards
+    domains, wildcards = [], []
+
+    Tools::InternalDomain.all.each do |domain|
+      name = domain.name
+      begin
+        dn = DomainName.new(name)
+        domains << dn
+      rescue ArgumentError
+        wildcards << regexp_from_name(name)
+      end
+    end
+
+    [domains, wildcards]
+  end
+
+  def regexp_from_name name
+    Regexp.new name.gsub('.', '\.').gsub('%', '.*')
   end
 
   def internal? item, domains
@@ -54,8 +79,26 @@ class Tools::DataSearch
     internal_domain? item.split('@').last, domains
   end
 
-  def update_internal_items item
-    @internal_items << item
+  def wildcard? item, wildcards
+    send "wildcard_#{@object_type}?", item, wildcards
+  end
+
+  def wildcard_domain? item, wildcards
+    wildcards.find { |wildcard| wildcard =~ item }.present?
+  end
+
+  def wildcard_host? item, wildcards
+    item_domain = DomainName.new item
+    wildcard_domain? "#{item_domain.sld}.#{item_domain.sld}", wildcards
+  end
+
+  def wildcard_email? item, wildcards
+    item_domain = DomainName.new item.split('@').last
+    wildcard_domain? "#{item_domain.sld}.#{item_domain.sld}", wildcards
+  end
+
+  def update_internal_items type, item
+    @internal_items[type] << item
   end
 
   def parse_items query
