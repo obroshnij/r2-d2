@@ -11,7 +11,7 @@
       - for key, val of @duplicates
         tr
           td = key
-          td = val
+          td width='20%' = val
 
 - if _.keys(@tlds).length
   
@@ -26,4 +26,4 @@
       - for key, val of @tlds
         tr
           td = key
-          td = val
+          td width='20%' = val
