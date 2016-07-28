@@ -1,0 +1,29 @@
+- if _.keys(@duplicates).length
+  
+  h6 Duplicate Items
+  
+  table
+    thead
+      tr
+        th Name
+        th Count
+    tbody
+      - for key, val of @duplicates
+        tr
+          td = key
+          td = val
+
+- if _.keys(@tlds).length
+  
+  h6 TLDs Count
+
+  table
+    thead
+      tr
+        th Name
+        th Count
+    tbody
+      - for key, val of @tlds
+        tr
+          td = key
+          td = val

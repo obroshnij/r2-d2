@@ -8,18 +8,32 @@ class Tools::DataSearch
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :query, :object_type, :items, :internal_items
+  attr_reader :query, :object_type, :items, :internal_items, :duplicates, :tlds
 
   validates :query, presence: true
   validates :object_type, inclusion: { in: ['domain', 'host', 'tld', 'ip_v4', 'email', 'kayako_ticket'] }
 
   def initialize query, object_type = 'domain', internal = 'remove'
-    @query, @object_type, @internal, @internal_items = query, object_type, internal, { matched: [], wildcard: [] }
+    @query, @object_type, @internal, @internal_items, @duplicates, @tlds = query, object_type, internal, { matched: [], wildcard: [] }, {}, {}
     @items = parse_items(@query) if valid?
     search_internal_domains!     if valid? && ['domain', 'host', 'email'].include?(@object_type)
+    clear_duplicates!            if valid? && ['domain', 'host'].include?(@object_type)
+    count_tlds!                  if valid? && ['domain', 'host'].include?(@object_type)
   end
 
   private
+
+  def count_tlds!
+    @items.map { |i| DomainName.new(i) }.each do |d|
+      @tlds[d.tld] ||= 0
+      @tlds[d.tld]  += 1
+    end
+  end
+
+  def clear_duplicates!
+    items = @items.map &:downcase
+    @duplicates.keep_if { |k, v| items.include? k }
+  end
 
   def search_internal_domains!
     domains, wildcards = get_domains_and_wildcards
@@ -106,11 +120,15 @@ class Tools::DataSearch
   end
 
   def parse_domain query
-    DomainName.parse_multiple(query, remove_subdomains: true).map(&:name)
+    domains = DomainName.parse_multiple(query, remove_subdomains: true)
+    domains.each { |d| @duplicates[d.name] = d.extra_attr[:occurrences_count] if d.extra_attr[:occurrences_count] > 1 }
+    domains.map(&:name)
   end
 
   def parse_host query
-    DomainName.parse_multiple(query, remove_subdomains: false).map(&:name)
+    domains = DomainName.parse_multiple(query, remove_subdomains: false)
+    domains.each { |d| @duplicates[d.name] = d.extra_attr[:occurrences_count] if d.extra_attr[:occurrences_count] > 1 }
+    domains.map(&:name)
   end
 
   def parse_tld query

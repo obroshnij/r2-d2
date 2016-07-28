@@ -76,3 +76,6 @@
         message += 'found in'
 
       message += ' the list:'
+
+    triggers:
+      'click #more-info' : 'more:info:clicked'

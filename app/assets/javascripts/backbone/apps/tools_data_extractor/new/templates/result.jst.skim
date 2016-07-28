@@ -20,4 +20,9 @@
             = @objectTypeName
             textarea rows='5'
               = @items?.join("\n")
-            .stats = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
+            .stats
+              .pull-left
+                = "#{@items?.length} #{if @items?.length is 1 then 'item' else 'items' }"
+              .pull-right
+                - if _.keys(@duplicates).length or _.keys(@tlds).length
+                  a#more-info href='' More Info
