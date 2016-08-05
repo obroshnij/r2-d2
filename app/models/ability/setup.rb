@@ -189,6 +189,17 @@ class Ability::Setup
         }
       ]
     }, {
+      subjects:         ['Legal::PdfReport'],
+      description:      'Legal & Abuse -> PDFier',
+
+      permissions: [
+        {
+          actions:     ['manage'],
+          description: 'Access PDFier tool',
+          identifier:  'legal_pdfier_manage'
+        }
+      ]
+    }, {
       subjects:         ['la_tool'],
       description:      'Legal & Abuse -> Tools (Everything else)',
 

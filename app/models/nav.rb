@@ -122,6 +122,11 @@ class Nav
           url:    '/html_pdfier',
           icon:   'fa fa-fw',
           klass:  :la_tool
+        }, {
+          name:   'PDFier',
+          url:    '#/legal/pdfier',
+          icon:   'fa fa-fw',
+          klass:  Legal::PdfReport
         }
       ]
     }, {

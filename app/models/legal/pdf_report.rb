@@ -1,0 +1,2 @@
+class Legal::PdfReport
+end
