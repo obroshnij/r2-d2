@@ -1,0 +1,24 @@
+.clearfix
+  h4.float-left = @title
+  .button-group.tiny.float-right
+  
+    - if @canMerge
+      a.button.primary.merge
+        icon.fi-arrows-compress
+        |  Merge
+  
+    a.button.success href="#{Routes.download_legal_pdf_report_path(@id, ids: @checked)}"
+      icon.fi-page-export-pdf
+      |  PDF
+      
+    a.button.primary.toggle-edit-report
+      icon.fi-pencil
+      - if @edited_by
+        |  Stop Editing
+      - else
+        |  Edit Mode
+
+.row
+  .large-12.columns
+    = "Expires on #{@expires_on_formatted}"
+    

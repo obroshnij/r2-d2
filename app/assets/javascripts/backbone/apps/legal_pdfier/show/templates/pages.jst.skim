@@ -1,0 +1,7 @@
+br
+.clearfix
+  .float-left
+    h5 Imported Pages
+  .float-right
+    a href='#' class="#{s.dasherize(@checkText)}" = s.titleize(@checkText)
+ul.no-bullet.entities-list

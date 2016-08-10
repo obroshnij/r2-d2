@@ -14,8 +14,14 @@ class Legal::Pdf
     add_logo
   end
 
-  def render
-    render_file "/Users/Stas/Desktop/123.pdf"
+  def add_report_page page
+    send "add_#{page['page']}", page['data'], page['exported_at']
+  end
+
+  private
+
+  def add_export_date time = nil
+    text "\nExported on #{Time.parse(time).strftime('%b/%d/%Y')}", align: :right, size: 7 if time
   end
 
   def add_logo

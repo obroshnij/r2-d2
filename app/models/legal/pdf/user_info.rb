@@ -1,13 +1,13 @@
-class Legal::Pdf::UserList < Legal::Pdf::Admin
+class Legal::Pdf::UserInfo < Legal::Pdf::Admin
 
-  def title() 'User List'; end
+  def title() 'User Info'; end
 
   private
 
   def header
     [
-      ['Username', 'User ID', 'Email'],
-      ['First Name', 'Last Name'],
+      ['Username', 'User ID', 'Account Locked'],
+      ['First Name', 'Last Name', 'Email'],
       ['Support Pin', 'Pin Expiry'],
       ['Signup Date', 'Signup IP', ],
       ['Account Balance', 'Available Balance', 'Earned Amount'],
@@ -20,8 +20,8 @@ class Legal::Pdf::UserList < Legal::Pdf::Admin
   def body
     @data.map do |row|
       [
-        [row['Username'], row['User ID'], row['Email']],
-        [row['First Name'], row['Last Name']],
+        [row['Username'], row['User ID'], row['Account Locked']],
+        [row['First Name'], row['Last Name'], row['Email']],
         [row['Support Pin'], row['Pin Expiry']],
         [row['Signup Date'], row['Signup IP'], ],
         [row['Account Balance'], row['Available Balance'], row['Earned Amount']],

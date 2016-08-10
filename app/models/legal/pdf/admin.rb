@@ -1,7 +1,7 @@
 class Legal::Pdf::Admin < Legal::Pdf
 
-  def initialize pdf, data
-    @pdf, @data = pdf, data
+  def initialize pdf, data, exported_at = nil
+    @pdf, @data, @exported_at = pdf, data, exported_at
     render!
   end
 
@@ -11,6 +11,7 @@ class Legal::Pdf::Admin < Legal::Pdf
     page_break!
     add_page_title title
     add_table [header] + body
+    add_export_date @exported_at
   end
 
   def header

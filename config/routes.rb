@@ -72,6 +72,12 @@ Rails.application.routes.draw do
     namespace :rbl do
       resources :checkers,   only: [:create]
     end
+    resources :pdf_reports do
+      post :import,      on: :collection
+      put  :toggle_edit, on: :member
+      get  :download,    on: :member
+      put  :merge,       on: :member
+    end
   end
 
   namespace :domains do

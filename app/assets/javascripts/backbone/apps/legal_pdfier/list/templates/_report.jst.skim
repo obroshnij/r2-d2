@@ -1,0 +1,24 @@
+.row
+  .large-3.columns
+    .row.hash
+      .key Username
+      .value = @username
+    .row.hash
+      .key Pages
+      .value = @pages_count
+  .large-3.columns
+    .row.hash
+      .key Created at
+      .value = @created_at_formatted
+    .row.hash
+      .key Last Updated at
+      .value = @updated_at_formatted
+  .large-3.columns
+    .row.hash
+      .key Created by
+      .value = @created_by
+  .large-3.columns
+    .button-group.tiny.float-right
+      a.button.primary.show-report
+        icon.fi-magnifying-glass
+        |  Show
