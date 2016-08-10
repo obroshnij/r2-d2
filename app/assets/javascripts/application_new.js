@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/sortable
 //= require jquery.spin
 //= require jquery.tablesorter
 //= require foundation_six

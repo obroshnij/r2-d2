@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160725113055) do
+ActiveRecord::Schema.define(version: 20160807134529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -447,6 +447,20 @@ ActiveRecord::Schema.define(version: 20160725113055) do
   end
 
   add_index "legal_kayako_tickets", ["identifier"], name: "index_legal_kayako_tickets_on_identifier", using: :btree
+
+  create_table "legal_pdf_reports", force: :cascade do |t|
+    t.integer  "created_by_id"
+    t.integer  "edited_by_id"
+    t.string   "username"
+    t.date     "expires_on"
+    t.jsonb    "content",       default: {"order"=>[], "pages"=>{}}
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "legal_pdf_reports", ["created_by_id"], name: "index_legal_pdf_reports_on_created_by_id", using: :btree
+  add_index "legal_pdf_reports", ["edited_by_id"], name: "index_legal_pdf_reports_on_edited_by_id", using: :btree
+  add_index "legal_pdf_reports", ["username"], name: "index_legal_pdf_reports_on_username", using: :btree
 
   create_table "legal_uber_services", force: :cascade do |t|
     t.string   "identifier"

@@ -1,0 +1,6 @@
+.clearfix
+  h4.float-left HTML PDFier 2.0
+  - if @canCreate
+    a.button.small.float-right
+      icon.fi-plus
+      |  New Report

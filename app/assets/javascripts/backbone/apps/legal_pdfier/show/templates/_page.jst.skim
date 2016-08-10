@@ -1,0 +1,23 @@
+.row
+  .large-1.columns
+    .row.checkbox
+      - if @checked
+        input type='checkbox' checked='checked'
+      - else
+        input type='checkbox'        
+  .large-3.columns
+    .row.hash
+      .key.w-30 Title
+      .value.w-70 = @title
+  .large-3.columns
+    .row.hash
+      .key Source
+      .value = @type
+  .large-2.columns
+    .row.hash
+      .key Items
+      .value = @items
+  .large-3.columns
+    .row.hash
+      .key Exported at
+      .value = @exported_at
