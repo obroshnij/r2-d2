@@ -45,7 +45,6 @@ class Legal::PdfReportsController < ApplicationController
 
   def update
     @report = Legal::PdfReport.find params[:id]
-    ap report_params
     if @report.update_attributes report_params
       render :show
     else
