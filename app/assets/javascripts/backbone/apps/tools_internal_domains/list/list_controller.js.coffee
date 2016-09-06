@@ -52,7 +52,7 @@
       pagination = App.request 'pagination:component', domains
 
       App.execute 'when:synced', domains, =>
-        @show pagination, region: @layout.paginationRegion
+        @show pagination, region: @layout.paginationRegion if @layout.paginationRegion
 
     getPanelView: ->
       new List.Panel

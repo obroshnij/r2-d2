@@ -43,7 +43,7 @@
       pagination = App.request 'pagination:component', rbls
         
       App.execute 'when:synced', rbls, =>
-        @show pagination, region: @layout.paginationRegion
+        @show pagination, region: @layout.paginationRegion if @layout.paginationRegion
       
     getLayoutView: ->
       new List.Layout

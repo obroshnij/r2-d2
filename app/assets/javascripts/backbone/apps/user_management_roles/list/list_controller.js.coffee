@@ -55,7 +55,7 @@
       pagination = App.request 'pagination:component', roles
         
       App.execute 'when:synced', roles, =>
-        @show pagination, region: @layout.paginationRegion
+        @show pagination, region: @layout.paginationRegion if @layout.paginationRegion
         
     getRolesView: (roles) ->
       new List.RolesView

@@ -45,7 +45,7 @@
       pagination = App.request 'pagination:component', users
         
       App.execute 'when:synced', users, =>
-        @show pagination, region: @layout.paginationRegion
+        @show pagination, region: @layout.paginationRegion if @layout.paginationRegion
       
     getUsersView: (users) ->
       new List.UsersView

@@ -48,7 +48,7 @@
       pagination = App.request 'pagination:component', reports
 
       App.execute 'when:synced', reports, =>
-        @show pagination, region: @layout.paginationRegion
+        @show pagination, region: @layout.paginationRegion if @layout.paginationRegion
 
     getReportsView: (reports) ->
       new List.Reports
