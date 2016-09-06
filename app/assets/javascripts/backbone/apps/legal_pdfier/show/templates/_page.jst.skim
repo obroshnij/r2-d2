@@ -13,7 +13,7 @@
     .row.hash
       .key Source
       .value = @type
-  .large-2.columns
+  .large-1.columns
     .row.hash
       .key Items
       .value = @items
@@ -21,3 +21,10 @@
     .row.hash
       .key Exported at
       .value = @exported_at
+  .large-1.columns
+    .row
+      .large-12.columns
+        .button-group.tiny.float-right
+          a.button.alert.delete-page
+            icon.fi-x
+            |  Delete

@@ -32,4 +32,9 @@ class Legal::PdfReport < ActiveRecord::Base
     save
   end
 
+  def delete_page id
+    self.pages = pages.except id
+    save
+  end
+
 end

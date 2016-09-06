@@ -50,6 +50,10 @@
       @set 'to_merge', @checked
       @save attributes, options
 
+    deletePage: (pageId) ->
+      @set 'to_delete', pageId
+      @save {}, url: Routes.delete_page_legal_pdf_report_path(@id)
+
 
   class Entities.PdfReportsCollection extends App.Entities.Collection
     model: Entities.PdfReport

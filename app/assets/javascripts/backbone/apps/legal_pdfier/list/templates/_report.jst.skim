@@ -17,6 +17,10 @@
     .row.hash
       .key Created by
       .value = @created_by
+    - if @edited_by
+      .row.hash
+        .key: span class="label alert" Currently Edited
+        .value = 'by ' + @edited_by
   .large-3.columns
     .button-group.tiny.float-right
       a.button.primary.show-report

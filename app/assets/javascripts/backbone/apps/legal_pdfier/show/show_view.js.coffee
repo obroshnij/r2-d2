@@ -19,9 +19,12 @@
       'click .merge'              : 'merge:clicked'
 
     serializeData: ->
-      data = super
+      data        = super
+      currentUser = App.request 'get:current:user'
+
       data.checked  = @model.checked
       data.canMerge = @model.canMerge
+      data.canEdit  = not @model.get('edited_by') or @model.get('edited_by_id') is currentUser.id
       data
 
 
@@ -38,6 +41,7 @@
 
     triggers:
       'click input[type=checkbox]' : 'checkbox:clicked'
+      'click .delete-page'         : 'delete:clicked'
 
 
   class Show.Pages extends App.Views.CompositeView

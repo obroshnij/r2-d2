@@ -1,4 +1,4 @@
-attributes :id, :username
+attributes :id, :username, :edited_by_id
 
 node(:created_by) do |r|
   r.created_by.try(:name)

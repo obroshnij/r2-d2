@@ -66,6 +66,15 @@ class Legal::PdfReportsController < ApplicationController
     end
   end
 
+  def delete_page
+    @report = Legal::PdfReport.find params[:id]
+    if @report.delete_page params[:to_delete]
+      render :show
+    else
+      respond_with @report
+    end
+  end
+
   private
 
   def report_params

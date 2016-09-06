@@ -10,13 +10,14 @@
     a.button.success href="#{Routes.download_legal_pdf_report_path(@id, ids: @checked)}"
       icon.fi-page-export-pdf
       |  PDF
-      
-    a.button.primary.toggle-edit-report
-      icon.fi-pencil
-      - if @edited_by
-        |  Stop Editing
-      - else
-        |  Edit Mode
+    
+    - if @canEdit
+      a.button.primary.toggle-edit-report
+        icon.fi-pencil
+        - if @edited_by
+          |  Stop Editing
+        - else
+          |  Edit Mode
 
 .row
   .large-12.columns

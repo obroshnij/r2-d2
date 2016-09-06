@@ -39,6 +39,10 @@
       @listenTo pagesView, 'childview:checkbox:clicked', (childView, args) ->
         args.model.set 'checked', !args.model.get('checked')
 
+      @listenTo pagesView, 'childview:delete:clicked', (childView, args) ->
+        if confirm "Are you sure you want to delete '#{args.model.get('title')}' page?"
+          report.deletePage args.model.id
+
       @listenTo pagesView, 'check:all', (args) ->
         args.model.pages.each (page) -> page.set('checked', true)
 

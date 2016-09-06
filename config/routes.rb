@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       put  :toggle_edit, on: :member
       get  :download,    on: :member
       put  :merge,       on: :member
+      put  :delete_page, on: :member
     end
   end
 
