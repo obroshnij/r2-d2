@@ -13,7 +13,7 @@
 
         fields: [
           name:    'username'
-          label:   'Namecheap Username'
+          label:   'Username / Service'
         ,
           name:     'created_by_id'
           type:     'hidden'

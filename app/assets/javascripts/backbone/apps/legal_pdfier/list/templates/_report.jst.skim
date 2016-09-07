@@ -1,7 +1,7 @@
 .row
-  .large-3.columns
+  .large-4.columns
     .row.hash
-      .key Username
+      .key Username / Service
       .value = @username
     .row.hash
       .key Pages
@@ -21,7 +21,7 @@
       .row.hash
         .key: span class="label alert" Currently Edited
         .value = 'by ' + @edited_by
-  .large-3.columns
+  .large-2.columns
     .button-group.tiny.float-right
       a.button.primary.show-report
         icon.fi-magnifying-glass
