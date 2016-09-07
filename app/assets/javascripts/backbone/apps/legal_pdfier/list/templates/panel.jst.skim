@@ -1,6 +1,10 @@
 .clearfix
-  h4.float-left HTML PDFier 2.0
+  .float-left
+    h4 HTML PDFier 2.0
+    == @linkTo 'Get Google Chrome extension', 'https://github.com/stas-tanko/r2-la-helper', { external: true }, { target: '_blank' }
+    br
+    br
   - if @canCreate
-    a.button.small.float-right
+    a.button.small.float-right.new-report
       icon.fi-plus
       |  New Report

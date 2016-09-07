@@ -14,7 +14,7 @@
     template: 'legal_pdfier/list/panel'
 
     triggers:
-      'click a' : 'new:pdf:report:clicked'
+      'click a.new-report' : 'new:pdf:report:clicked'
 
     serializeData: ->
       canCreate: App.ability.can 'create', 'Legal::PdfReport'
