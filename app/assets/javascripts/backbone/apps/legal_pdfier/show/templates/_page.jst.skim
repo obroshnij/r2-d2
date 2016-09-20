@@ -9,14 +9,18 @@
     .row.hash
       .key.w-30 Title
       .value.w-70 = @title
-  .large-3.columns
+  .large-2.columns
     .row.hash
       .key Source
       .value = @type
-  .large-1.columns
+  .large-2.columns
     .row.hash
       .key Items
       .value = @items
+    - if @order_list_items
+      .row.hash
+        .key Total Items
+        .value = @order_list_items
   .large-3.columns
     .row.hash
       .key Exported at
