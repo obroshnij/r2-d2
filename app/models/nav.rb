@@ -39,14 +39,19 @@ class Nav
         }
       ]
     }, {
-      name:       'Domains',
-      url:        '#/domains',
+      name:       'Domains & General',
+      url:        '#/domains-general',
       icon:       'fi-web',
       navs_name:  'domains_navs',
       child_navs: [
         {
+          name:   'Compensation System',
+          url:    '#/domains-general/compensation',
+          icon:   'fa fa-fw fa-usd',
+          klass:  Domains::Compensation
+        }, {
           name:   'Watched Domains',
-          url:    '/watched_domains',
+          url:    '#/domains-general/watched',
           icon:   'fa fa-fw fa-binoculars',
           klass:  Domains::WatchedDomain
         }, {

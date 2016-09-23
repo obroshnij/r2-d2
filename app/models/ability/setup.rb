@@ -25,8 +25,19 @@ class Ability::Setup
         }
       ]
     }, {
+      subjects:         ['Domains::Compensation'],
+      description:      'Domains & General -> Compensation System',
+
+      permissions:      [
+        {
+          actions:      ['index'],
+          description:  'Access the list of form submissions',
+          identifier:   'domains_compensation_index'
+        }
+      ]
+    }, {
       subjects:         ['Domains::WatchedDomain'],
-      description:      'Domains -> Watched Domains',
+      description:      'Domains & General -> Watched Domains',
 
       permissions:      [
         {
@@ -45,7 +56,7 @@ class Ability::Setup
       ]
     }, {
       subjects:         ['maintenance_alert'],
-      description:      'Domains -> Maintenance Alerts',
+      description:      'Domains & General -> Maintenance Alerts',
 
       permissions:      [
         {

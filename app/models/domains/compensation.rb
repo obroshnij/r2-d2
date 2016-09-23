@@ -1,0 +1,2 @@
+class Domains::Compensation
+end

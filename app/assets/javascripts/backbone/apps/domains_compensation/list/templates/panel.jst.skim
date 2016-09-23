@@ -1,0 +1,6 @@
+.clearfix
+  h4.float-left Compensation System Usage Tracking
+  / - if @canCreate
+  a.button.small.float-right
+    icon.fi-plus
+    |  New Compensation

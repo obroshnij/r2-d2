@@ -2,6 +2,6 @@
   .row
     .large-12.columns
       #title
-        h1 Domains
+        h1 Domains & General
       #icon
         i class='fi-web'
