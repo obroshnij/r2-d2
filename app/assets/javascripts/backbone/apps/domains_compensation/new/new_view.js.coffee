@@ -107,39 +107,43 @@
           type:    'collection_radio_buttons'
           options: [
             id:   '1'
-            name: '1 - \'subjective\' issues (customer overlooked a notification; no fault from our side; not satisfied with the product features; 3rd-party issues; adding funds as a gift)'
+            name: '1 - \'Subjective\' issues'
           ,
             id:   '2'
-            name: '2 - system bugs (site, admin); upstream issues; outages/maintenances'
+            name: '2 - System bugs'
           ,
             id:   '3'
-            name: '3 - human factor errors (staff-related, e.g. service canceled by mistake); service not working as expected (repetitive outages during a short period of time)'
+            name: '3 - Human factor errors / Service not working as expected'
           ]
           default: '1'
+          hint:    "- 'Subjective' issues - customer overlooked a notification, no fault from our side, not satisfied with the product features, 3rd-party issues, adding funds as a gift\n- System bugs - site, admin, upstream issues, outages/maintenances\n- Human factor errors - staff-related, e.g. service canceled by mistake\n- Service not working as expected - repetitive outages during a short period of time"
         ,
           name:    'compensation_type'
           label:   'Compensation Type'
           type:    'collection_radio_buttons'
           options: [
             id:   '1'
-            name: 'Discount (a discount for new purchase/existing service was provided)'
+            name: 'Discount'
           ,
             id:   '2'
-            name: 'Free item (a free service was provided for the client)'
+            name: 'Free item'
           ,
             id:   '3'
-            name: 'Service prolongation (upcoming renewal date was shifted and service prolonged)'
+            name: 'Service prolongation'
           ,
             id:   '4'
-            name: 'Refund (a refund was issued although the client is not eligible for a refund according to our official refund policy)'
+            name: 'Refund'
           ,
             id:   '5'
-            name: 'Fee concession (a fee was waived or decreased)'
+            name: 'Fee concession'
           ,
             id:   '6'
-            name: 'Credit (added funds to account balance)'
+            name: 'Credit'
+          ,
+            id:   '7'
+            name: 'Tier pricing assginment'
           ]
-          hint:    'What compensation type is this? How does the case qualify?'
+          hint:    '- Discount - a discount for new purchase/existing service was provided\n- Free item - a free service was provided for the client\n- Service prolongation - upcoming renewal date was shifted and service prolonged\n- Refund - a refund was issued although the client is not eligible for a refund according to our official refund policy\n- Fee concession - a fee was waived or decreased\n- Credit - added funds to account balance'
           default: '1'
         ,
           name:    'is_discount_recurring'
@@ -148,11 +152,23 @@
           options: [{ name: "Yes", id: true }, { name: "No", id: false }]
           default: 'true'
           dependencies:
-            'compensation_type':  value: '1'
+            'compensation_type':  value: ['1', '7']
+          callback: (fieldValues) ->
+            if fieldValues.compensation_type is '7'
+              @trigger('disable:options', 'false')
+            else
+              @trigger('enable:options', 'false')
         ,
           name:    'compensation_usd'
           label:   'Compensation Provided in USD'
           hint:    "If it's a discount indicate the difference between the regular and the discount prices for the service. If the item was given for free enter the full price of the item. If billing date shifted, calculate the prorated amount. In case of a tier assignment leave blank"
+          dependencies:
+            'compensation_type': value: ['1', '2', '3', '4', '5', '6']
+        ,
+          name:    'tier_name'
+          label:   'Tier Pricing Name'
+          dependencies:
+            'compensation_type': value: '7'
         ]
       ,
         legend: 'Conclusion'
