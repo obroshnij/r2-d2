@@ -3,7 +3,7 @@ namespace :get_domains do
   task get_namecheap_domains: :environment do
     page = Nokogiri::HTML(RestClient.get('https://www.namecheap.com/domains.aspx#domain_tab_pricing'))
     domain_elements = page.css('div.domain')
-    tlds = domain_elements.map{ |page_element| page_element.children.children.first.to_s.tr('.*','') }
+    tlds = domain_elements.map{ |page_element| page_element.children.children.first.to_s.tr('.*','') }.uniq
   end
 
 end

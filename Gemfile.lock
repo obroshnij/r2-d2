@@ -405,7 +405,6 @@ DEPENDENCIES
   postgres_ext
   prawn
   prawn-table
-  pry
   pry-rails
   public_suffix!
   rabl-rails
