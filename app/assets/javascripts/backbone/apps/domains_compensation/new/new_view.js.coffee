@@ -65,42 +65,44 @@
           label:   'Product Compensated'
           type:    'collection_radio_buttons'
           options: [
-            id:   'domains'
+            id:   '1'
             name: 'Domains'
           ,
-            id:   'hosting'
+            id:   '2'
             name: 'Hosting'
           ,
-            id:   'ncpe'
+            id:   '3'
             name: 'NCPE'
           ,
-            id:   'ssl_namecheap_com'
+            id:   '4'
             name: 'SSL (Namecheap.com)'
           ,
-            id:   'ssl_ssls_com'
+            id:   '5'
             name: 'SSL (SSLs.com)'
           ,
-            id:   'ssl_sslcertificate_com'
+            id:   '6'
             name: 'SSL (SSLcertificate.com)'
           ,
-            id:   'whoisguard'
+            id:   '7'
             name: 'WhoisGuard'
           ,
-            id:   'premium_dns'
+            id:   '8'
             name: 'PremiumDNS'
           ,
-            id:   'apps'
+            id:   '9'
             name: 'Apps'
           ,
-            id:   'credit'
+            id:   '10'
             name: 'Credit (funds added to account balance)'
           ]
           hint:    'The product you gave discount for / refunded beyond the refundable period / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
-          default: 'domains'
+          default: '1'
         ,
           name:    'service_compensated'
           label:   'Service Compensated'
           hint:    'E.g.: redemption fee/value 4g/positive ssl/business office/.club'
+          dependencies:
+            'product_compensated': value: ['1', '2', '3', '4', '5', '6', '9']
         ,
           name:    'issue_level'
           label:   'Issue Level'
@@ -166,7 +168,25 @@
             'compensation_type': value: ['1', '2', '3', '4', '5', '6']
         ,
           name:    'tier_name'
+          tagName: 'select'
           label:   'Tier Pricing Name'
+          options: [
+            id:   '1'
+            name: '50 Active Domains'
+          ,
+            id:   '2'
+            name: '100 Active Domains'
+          ,
+            id:   '3'
+            name: '300 Active Domains'
+          ,
+            id:   '4'
+            name: '500 Active Domains'
+          ,
+            id:   '5'
+            name: '800 Active Domains'
+          ,
+          ]
           dependencies:
             'compensation_type': value: '7'
         ]
