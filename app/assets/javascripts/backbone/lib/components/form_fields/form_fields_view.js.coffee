@@ -87,6 +87,23 @@
       @$('select').select2 'destroy'
 
 
+  class FormFields.Select2AjaxView extends FormFields.SelectView
+
+    onShow: ->
+      @$('select').select2
+        ajax:
+          url:      @model.get('url')
+          dataType: 'json'
+          data:     @model.get('data')
+          processResults: (data) ->
+            results: _.map data, (item) ->
+              id: item.id, text: item.name
+
+    onDestroy: ->
+      @$('select').off()
+      @$('select').select2 'destroy'
+
+
   class FormFields.Select2MultiView extends FormFields.Select2View
     getTemplate: ->
       if @model.isCompact() then 'form_fields/select_multi_compact' else 'form_fields/select_multi'
@@ -234,6 +251,7 @@
       return FormFields.CollectionRadioButtonsView if model.get('tagName') is 'input'  and model.get('type') is 'collection_radio_buttons'
       return FormFields.HiddenFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'hidden'
       return FormFields.Select2View                if model.get('tagName') is 'select' and model.get('type') is 'select2'
+      return FormFields.Select2AjaxView            if model.get('tagName') is 'select' and model.get('type') is 'select2_ajax'
       return FormFields.Select2MultiView           if model.get('tagName') is 'select' and model.get('type') is 'select2_multi'
       return FormFields.SelectView                 if model.get('tagName') is 'select'
       return FormFields.TextAreaView               if model.get('tagName') is 'textarea'

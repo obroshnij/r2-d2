@@ -31,76 +31,41 @@
           name:    'product'
           label:   'Product the Cleint had Issues With'
           type:    'collection_radio_buttons'
-          options: [
-            id:   'domains'
-            name: 'Domains'
-          ,
-            id:   'hosting'
-            name: 'Hosting'
-          ,
-            id:   'ncpe'
-            name: 'NCPE'
-          ,
-            id:   'ssl_namecheap_com'
-            name: 'SSL (Namecheap.com)'
-          ,
-            id:   'ssl_ssls_com'
-            name: 'SSL (SSLs.com)'
-          ,
-            id:   'ssl_sslcertificate_com'
-            name: 'SSL (SSLcertificate.com)'
-          ,
-            id:   'whoisguard'
-            name: 'WhoisGuard'
-          ,
-            id:   'premium_dns'
-            name: 'PremiumDNS'
-          ,
-            id:   'apps'
-            name: 'Apps'
-          ]
-          default: 'domains'
+          options: App.request('domains:compensation:product:entities').toJSON()[0..-2]
+          default: '1'
         ,
           name:    'product_compensated'
           label:   'Product Compensated'
           type:    'collection_radio_buttons'
-          options: [
-            id:   '1'
-            name: 'Domains'
-          ,
-            id:   '2'
-            name: 'Hosting'
-          ,
-            id:   '3'
-            name: 'NCPE'
-          ,
-            id:   '4'
-            name: 'SSL (Namecheap.com)'
-          ,
-            id:   '5'
-            name: 'SSL (SSLs.com)'
-          ,
-            id:   '6'
-            name: 'SSL (SSLcertificate.com)'
-          ,
-            id:   '7'
-            name: 'WhoisGuard'
-          ,
-            id:   '8'
-            name: 'PremiumDNS'
-          ,
-            id:   '9'
-            name: 'Apps'
-          ,
-            id:   '10'
-            name: 'Credit (funds added to account balance)'
-          ]
-          hint:    'The product you gave discount for / refunded beyond the refundable period / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
+          options: App.request('domains:compensation:product:entities').toJSON()
           default: '1'
+          hint:    'The product you gave discount for / refunded beyond the refundable period / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
+          onChange: () ->
+            $('#service_compensated').val('').trigger('change')
+        ,
+          name:    'hosting_type'
+          label:   'Hosting Type'
+          type:    'collection_radio_buttons'
+          options: App.request('domains:compensation:hosting:type:entities').toJSON()
+          default: '1'
+          onChange: () ->
+            $('#service_compensated').val('').trigger('change')
+          dependencies:
+            'product_compensated': value: '2'
         ,
           name:    'service_compensated'
           label:   'Service Compensated'
-          hint:    'E.g.: redemption fee/value 4g/positive ssl/business office/.club'
+          tagName: 'select'
+          type:    'select2_ajax'
+          options: []
+          url:     '/domains/namecheap_services'
+          data:    (data) ->
+            search =
+              name_cont:     data.term
+              product_id_eq: $("[name='product_compensated']:checked").val()
+            if $('#hosting_type_input').is(':visible')
+              search.hosting_type_id_eq = $("[name='hosting_type']:checked").val()
+            q: search
           dependencies:
             'product_compensated': value: ['1', '2', '3', '4', '5', '6', '9']
         ,
@@ -169,6 +134,7 @@
         ,
           name:    'tier_name'
           tagName: 'select'
+          type:    'select2'
           label:   'Tier Pricing Name'
           options: [
             id:   '1'
@@ -185,7 +151,6 @@
           ,
             id:   '5'
             name: '800 Active Domains'
-          ,
           ]
           dependencies:
             'compensation_type': value: '7'
