@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807134529) do
+ActiveRecord::Schema.define(version: 20161003104822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,27 @@ ActiveRecord::Schema.define(version: 20160807134529) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_nc_hosting_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_nc_products", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_nc_services", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "domains_namecheap_product_id"
+    t.integer  "domains_namecheap_hosting_type_id"
+    t.boolean  "hidden",                            default: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   create_table "legal_eforward_servers", force: :cascade do |t|

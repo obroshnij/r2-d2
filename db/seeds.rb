@@ -141,3 +141,181 @@ end
 ].each do |name|
   Legal::HostingAbuse::Other::AbuseType.create name: name
 end
+
+hosting = Domains::NamecheapProduct.create(name: "HOSTING")
+ncpe = Domains::NamecheapProduct.create(name: "NCPE")
+ssl_ssls_com = Domains::NamecheapProduct.create(name: "SSL (SSLs.com)")
+ssl_namecheap = Domains::NamecheapProduct.create(name: "SSL (Namecheap.com)")
+ssl_sslsertificate_com = Domains::NamecheapProduct.create(name: "SSLcertificate.com")
+apps = Domains::NamecheapProduct.create(name: "Apps")
+Domains::NamecheapProduct.create(name: "Domains")
+Domains::NamecheapProduct.create(name: "WhoisGuard")
+Domains::NamecheapProduct.create(name: "PremiumDNS")
+
+
+shared_plans = Domains::NamecheapHostingType.create(name: "Shared Plans")
+dedicated_servers = Domains::NamecheapHostingType.create(name: "Dedicated servers")
+vps_plans = Domains::NamecheapHostingType.create(name: "VPS Plans")
+addons = Domains::NamecheapHostingType.create(name: "Addons")
+
+
+["Value Plan", "Value 4 G", "Professional Plan", "Professional 4 G", "Ultimate Plan", "Ultimate 4G", "Business SSD",
+ "Business Plan", "Level 1 Reseller", "Level 2 Reseller", "Level 3 Reseller", "Level 4 Reseller"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: hosting.id, domains_namecheap_hosting_type_id: shared_plans.id)
+end
+
+
+["Xeon E3-1220 8 500GB SATA",
+ "Xeon E3-1220 8 300GB SSD",
+ "Xeon E3-1240 8 SATA",
+ "Xeon E3-1240 16 2xSATA",
+ "Xeon E3-1240 8 SSD",
+ "Xeon E3-1240 16 2xSSD",
+ "Xeon E3-1270 8 SATA",
+ "Xeon E3-1270 16 2xSATA",
+ "Xeon E3-1270 8 SSD",
+ "Xeon E3-1270 16 2xSSD",
+ "Xeon E5-2609 16 SATA",
+ "Xeon E5-2609 32 2xSATA",
+ "Xeon E5-2609 16 SSD",
+ "Xeon E5-2609 32 2xSSD",
+ "Xeon E5-2620 32 2xSATA",
+ "Xeon E5-2620 64 4xSATA",
+ "Xeon E5-2620 32 2xSSD",
+ "Xeon E5-2620 64 4xSSD",
+ "Oudated dedicated servers"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: hosting.id, domains_namecheap_hosting_type_id: dedicated_servers.id)
+end
+
+
+["VPS Lite - Xen", "VPS 1 - Xen", "VPS 2 - Xen", "VPS 3 - Xen"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: hosting.id, domains_namecheap_hosting_type_id: vps_plans.id)
+end
+
+
+["dedicated IP",
+ "backup fee",
+ "WHMCS",
+ "additional disk space",
+ "cPanel",
+ "Softaculous",
+ "CloudLinux OS",
+ "Managed plan",
+ "Fully Managed plan",
+ "RAM",
+ "Disk Space",
+ "Bandwidth",
+ "Uplink port",
+ "Branding removal for WHMCS",
+ "CXS license",
+ "Emergency Assistance"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: hosting.id, domains_namecheap_hosting_type_id: addons.id)
+end
+
+
+["Private", "Business", "Business Office", "Additional mailbox", "Outdated NCPE"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: ncpe.id)
+end
+
+
+["PositiveSSL",
+ "PositiveSSL Wildcard",
+ "PositiveSSL Multi-Domain",
+ "EssentialSSL",
+ "EssentialSSL Wildcard",
+ "RapidSSL",
+ "RapidSSL Wildcard",
+ "QuickSSL Premium",
+ "Thawte SSL 123",
+ "InstantSSL",
+ "InstantSSL Pro",
+ "PremiumSSL",
+ "PremiumSSL Wildcard",
+ "Multi-Domain SSL",
+ "Unified Communications",
+ "True BusinessID",
+ "True BusinessID Wildcard",
+ "True BusinessID Multi-Domain",
+ "Secure Site",
+ "Secure Site Pro",
+ "SSL Web Server",
+ "EV SSL",
+ "EV Multi-Domain SSL",
+ "True BusinessID with EV",
+ "True BusinessID with EV Multi-Domain",
+ "Secure Site with EV",
+ "Secure Site Pro with EV",
+ "SSL Web Server EV"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: ssl_namecheap.id)
+end
+
+
+["PositiveSSL",
+ "EssentialSSL",
+ "PositiveSSL Wildcard",
+ "EssentialSSL Wildcard",
+ "PositiveSSL Multi-Domain",
+ "InstantSSL",
+ "InstantSSL Pro",
+ "PremiumSSL",
+ "PremiumSSL Wildcard",
+ "Unified Communications",
+ "Multi-Domain SSL",
+ "EV SSL",
+ "EV Multi-Domain SSL",
+ "RapidSSL",
+ "RapidSSL Wildcard",
+ "QuickSSL Premium",
+ "True BusinessID",
+ "True BusinessID with EV",
+ "True BusinessID Wildcard",
+ "Secure Site",
+ "Secure Site Pro",
+ "Secure Site Pro with EV",
+ "Secure Site with EV",
+ "SSL123",
+ "SSL Web Server",
+ "SSL Web Server EV"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: ssl_ssls_com.id)
+end
+
+
+["PositiveSSL",
+ "EssentialSSL",
+ "PositiveSSL Wildcard",
+ "EssentialSSL Wildcard",
+ "InstantSSL",
+ "InstantSSL Pro",
+ "PremiumSSL",
+ "PremiumSSL Wildcard",
+ "EV SSL",
+ "RapidSSL",
+ "RapidSSL Wildcard",
+ "QuickSSL Premium",
+ "True BusinessID",
+ "True BusinessID Wildcard",
+ "True BusinessID with EV",
+ "Secure Site",
+ "Secure Site Pro",
+ "Secure Site Pro with EV",
+ "Secure Site with EV",
+ "SSL123",
+ "SSL Web Server",
+ "SSL Web Server EV"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: ssl_sslsertificate_com.id)
+end
+
+
+["Strikingly",
+ "Weebly",
+ "Namecheap Uptime Monitoring",
+ "Namecheap Legal",
+ "Canvas",
+ "Bablic",
+ "nimbusec",
+ "MarketGoo",
+ "SiteBooster",
+ "Google Apps For Work",
+ "Vigil"].each do |name|
+  Domains::NamecheapService.create(name: name, domains_namecheap_product_id: apps.id)
+end
