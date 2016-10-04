@@ -73,7 +73,6 @@ gem 'net-ldap'
 
 gem 'rollbar', '~> 2.8.1'
 gem 'oj', '~> 2.12.14'
-gem 'rest-client'
 
 gem 'prawn'
 gem 'prawn-table'

@@ -2,7 +2,7 @@ namespace :domains do
 
   desc "Pull all available TLDs from Namecheap webiste"
   task update_domain_names: :environment do
-    page = Nokogiri::HTML RestClient.get('https://www.namecheap.com/domains.aspx#domain_tab_pricing')
+    page = Nokogiri::HTML open('https://www.namecheap.com/domains.aspx#domain_tab_pricing')
     domain_elements = page.css('div.domain')
     domain_names_from_nc = domain_elements.map { |page_element| page_element.children.children.first.to_s.tr('*','') }.uniq.sort
 
