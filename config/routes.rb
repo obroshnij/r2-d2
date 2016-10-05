@@ -79,6 +79,8 @@ Rails.application.routes.draw do
       put  :merge,       on: :member
       put  :delete_page, on: :member
     end
+
+    resources :dbl_subles, only: [:create]
   end
 
   namespace :domains do

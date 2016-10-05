@@ -45,14 +45,7 @@ class LaToolsController < ApplicationController
   # Legal & Abuse > DBL/SURBL Check
   def dbl_surbl
   end
-  
-  # Legal & Abuse > DBL/SURBL Check, submit the form
-  def dbl_surbl_check
-    @domains = DomainName.parse_multiple params[:query].downcase
-    DNS::SpamBase.check_multiple @domains
-    render action: :dbl_surbl
-  end
-  
+
   def bulk_curl
   end
   
