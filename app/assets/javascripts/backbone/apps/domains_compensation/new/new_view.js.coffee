@@ -104,7 +104,7 @@
           label:   'Period Compensated'
           type:    'date_range_picker'
           dependencies:
-            'compensation_type_id': value: ['1', '2', '3', '4', '5', '6']
+            'compensation_type_id': value: '3'
         ,
           name:    'compensation_amount'
           label:   'Compensation Provided in USD'
