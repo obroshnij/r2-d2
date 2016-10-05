@@ -16,7 +16,6 @@ class Domains::Compensation::Form
   attribute :issue_level_id,         Integer
   attribute :compensation_type_id,   Integer
   attribute :discount_reccuring,     Boolean
-  attribute :period_compensated,     String
   attribute :compensation_amount,    Float
   attribute :tier_pricing_id,        Integer
   attribute :client_satisfied,       Boolean

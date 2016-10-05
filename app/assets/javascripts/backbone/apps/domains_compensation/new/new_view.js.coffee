@@ -100,12 +100,6 @@
             else
               @trigger('enable:options', 'false')
         ,
-          name:    'period_compensated'
-          label:   'Period Compensated'
-          type:    'date_range_picker'
-          dependencies:
-            'compensation_type_id': value: '3'
-        ,
           name:    'compensation_amount'
           label:   'Compensation Provided in USD'
           hint:    "If it's a discount indicate the difference between the regular and the discount prices for the service. If the item was given for free enter the full price of the item. If billing date shifted, calculate the prorated amount. In case of a tier assignment leave blank"
