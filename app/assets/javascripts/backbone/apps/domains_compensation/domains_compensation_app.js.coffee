@@ -42,3 +42,4 @@
   DomainsCompensationApp.on 'start', ->
     new DomainsCompensationApp.Router
       controller: API
+      resource:   'Domains::Compensation'

@@ -94,6 +94,8 @@
         ajax:
           url:      @model.get('url')
           dataType: 'json'
+          type:     'GET'
+          delay:    250
           data:     @model.get('data')
           processResults: (data) ->
             results: _.map data, (item) ->

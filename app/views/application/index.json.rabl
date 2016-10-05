@@ -53,8 +53,11 @@ node :entities do
     },
     domains: {
       compensation: {
-        product:      Domains::NamecheapProduct.all.as_json(only: [:id, :name]),
-        hosting_type: Domains::NamecheapHostingType.all.as_json(only: [:id, :name])
+        product:           Domains::Compensation::NamecheapProduct.all.as_json(only: [:id, :name]),
+        hosting_type:      Domains::Compensation::NamecheapHostingType.all.as_json(only: [:id, :name]),
+        issue_level:       Domains::Compensation::IssueLevel.all.as_json(only: [:id, :name]),
+        compensation_type: Domains::Compensation::CompensationType.all.as_json(only: [:id, :name]),
+        tier_pricing:      Domains::Compensation::TierPricing.all.as_json(only: [:id, :name])
       }
     },
     navs:                 Nav.accessible_by_as_json(current_ability),

@@ -161,18 +161,15 @@ dedicated_servers = Domains::NamecheapHostingType.create(name: "Dedicated server
 addons = Domains::NamecheapHostingType.create(name: "Addons")
 
 [
-  "Value Plan",
   "Value 4G",
-  "Professional Plan",
   "Professional 4G",
-  "Ultimate Plan",
   "Ultimate 4G",
   "Business SSD",
-  "Business Plan",
   "Level 1 Reseller",
   "Level 2 Reseller",
   "Level 3 Reseller",
-  "Level 4 Reseller"
+  "Level 4 Reseller",
+  "Older Shared Plans"
 ].each do |name|
   Domains::NamecheapService.create(name: name, product_id: hosting.id, hosting_type_id: shared_plans.id)
 end
@@ -196,7 +193,7 @@ end
   "Xeon E5-2620 64 4xSATA",
   "Xeon E5-2620 32 2xSSD",
   "Xeon E5-2620 64 4xSSD",
-  "Oudated Dedicated Servers"
+  "Older Dedicated Servers"
 ].each do |name|
   Domains::NamecheapService.create(name: name, product_id: hosting.id, hosting_type_id: dedicated_servers.id)
 end
@@ -236,7 +233,7 @@ end
   "Business",
   "Business Office",
   "Additional Mailbox",
-  "Outdated NCPE"
+  "Older NCPE"
 ].each do |name|
   Domains::NamecheapService.create(name: name, product_id: ncpe.id)
 end
@@ -346,4 +343,34 @@ end
   "Vigil"
 ].each do |name|
   Domains::NamecheapService.create(name: name, product_id: apps.id)
+end
+
+[
+  "1 - 'Subjective' issues",
+  "2 - System bugs",
+  "3 - Human factor errors / Service not working as expected"
+].each do |name|
+  Domains::Compensation::IssueLevel.create name: name
+end
+
+[
+  "Discount",
+  "Free item",
+  "Service prolongation",
+  "Refund",
+  "Fee concession",
+  "Credit",
+  "Tier pricing assginment"
+].each do |name|
+  Domains::Compensation::CompensationType.create name: name
+end
+
+[
+  "50 Active Domains",
+  "100 Active Domains",
+  "300 Active Domains",
+  "500 Active Domains",
+  "800 Active Domains"
+].each do |name|
+  Domains::Compensation::TierPricing.create name: name
 end
