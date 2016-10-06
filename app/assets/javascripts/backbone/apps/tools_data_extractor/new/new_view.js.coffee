@@ -32,6 +32,17 @@
             options: _.map App.Entities.DataSearch.prototype.objectTypes, (val, key) -> { id: key, name: val }
             default: 'domain'
           ,
+            name:    'sort'
+            label:   'Sort'
+            type:    'radio_buttons'
+            options: [{ id: 'none', name: 'None' }, { id: 'alphabetically', name: 'Alphabetically' }, { id: 'tld', name: 'By TLD' }]
+            default: 'none'
+            callback: (fieldValues) ->
+              if _.contains(['tld', 'ip_v4', 'kayako_ticket'], fieldValues.object_type)
+                @trigger('disable:options', 'tld')
+              else
+                @trigger('enable:options', 'tld')
+          ,
             name:    'internal'
             label:   'Internal domains'
             hint:    'Keep or remove internal domains from the parsed list'
@@ -55,6 +66,7 @@
       data = super
       data.matchedMessage  = @getMatchedMessage()  if @model.get('internal_items').matched.length
       data.wildcardMessage = @getWildcardMessage() if @model.get('internal_items').wildcard.length
+      data.internalCount   = @model.get('internal_items').matched.length + @model.get('internal_items').wildcard.length
       data
 
     getMatchedMessage: ->

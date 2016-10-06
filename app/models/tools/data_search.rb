@@ -13,15 +13,23 @@ class Tools::DataSearch
   validates :query, presence: true
   validates :object_type, inclusion: { in: ['domain', 'host', 'tld', 'ip_v4', 'email', 'kayako_ticket'] }
 
-  def initialize query, object_type = 'domain', internal = 'remove'
-    @query, @object_type, @internal, @internal_items, @duplicates, @tlds = query, object_type, internal, { matched: [], wildcard: [] }, {}, {}
+  def initialize query, object_type = 'domain', internal = 'remove', sort = 'none'
+    @query, @object_type, @internal, @sort = query, object_type, internal, sort
+    @internal_items, @duplicates, @tlds = { matched: [], wildcard: [] }, {}, {}
+
     @items = parse_items(@query) if valid?
+    sort_items!                  if valid?
     search_internal_domains!     if valid? && ['domain', 'host', 'email'].include?(@object_type)
     clear_duplicates!            if valid? && ['domain', 'host'].include?(@object_type)
     count_tlds!                  if valid? && ['domain', 'host'].include?(@object_type)
   end
 
   private
+
+  def sort_items!
+    @items.sort_by! { |i| DomainName.new(i).tld } if @sort == 'tld'
+    @items.sort!                                  if @sort == 'alphabetically'
+  end
 
   def count_tlds!
     @items.map { |i| DomainName.new(i) }.each do |d|
