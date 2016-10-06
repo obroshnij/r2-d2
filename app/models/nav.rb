@@ -99,7 +99,7 @@ class Nav
           klass:  Legal::Rbl
         }, {
           name:   'DBL/SURBL Check',
-          url:    '/dbl_surbl',
+          url:    '#/legal/dbl_surbl',
           icon:   'fa fa-fw',
           klass:  :la_tool
         }, {
