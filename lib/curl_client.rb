@@ -8,7 +8,7 @@ class CurlClient
         result << { "URL"                => easy.url,
                     "Last Effective URL" => easy.last_effective_url,
                     "Response Code"      => easy.response_code,
-                    "Title"              => easy.body_str.match(/<title>.+<\/title>/).to_s[7..-9] }
+                    "Title"              => easy.body_str.match(/<title>.+<\/title>/).to_s[7..-9].force_encoding('utf-8') }
       end
     end
     result

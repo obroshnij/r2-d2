@@ -104,7 +104,7 @@ class Nav
           klass:  :la_tool
         }, {
           name:   'Bulk CURL',
-          url:    '/bulk_curl',
+          url:    '#/legal/bulk_curl',
           icon:   'fa fa-fw',
           klass:  :la_tool
         }, {
