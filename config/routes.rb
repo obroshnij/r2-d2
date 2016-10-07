@@ -84,6 +84,8 @@ Rails.application.routes.draw do
 
   namespace :domains do
     resources :watched_domains
+    resources :compensations
+    resources :namecheap_services, only: [:index]
   end
 
   resources :users

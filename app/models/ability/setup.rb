@@ -33,6 +33,10 @@ class Ability::Setup
           actions:      ['index'],
           description:  'Access the list of form submissions',
           identifier:   'domains_compensation_index'
+        }, {
+          actions:      ['create'],
+          description:  'Submit the compensation tracking form',
+          identifier:   'domains_compensation_create'
         }
       ]
     }, {

@@ -73,10 +73,10 @@ gem 'net-ldap'
 
 gem 'rollbar', '~> 2.8.1'
 gem 'oj', '~> 2.12.14'
-gem 'rest-client'
 
 gem 'prawn'
 gem 'prawn-table'
+gem 'whenever', :require => false
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

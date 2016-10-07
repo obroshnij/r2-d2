@@ -45,11 +45,20 @@ node :entities do
         shared_plan:     Legal::HostingAbuse::SharedPlan.all.as_json(only: [:id, :name]),
         vps_plan:        Legal::HostingAbuse::VpsPlan.all.as_json(only: [:id, :name]),
         suggestion:      Legal::HostingAbuse::Suggestion.all.as_json(only: [:id, :name]),
-        
+
         reported_by:     Legal::HostingAbuse.reported_by.as_json(only: [:id, :name]),
         processed_by:    Legal::HostingAbuse.processed_by.as_json(only: [:id, :name])
       },
       rbl_status: Legal::RblStatus.all.as_json(only: [:id, :name])
+    },
+    domains: {
+      compensation: {
+        product:           Domains::Compensation::NamecheapProduct.all.as_json(only: [:id, :name]),
+        hosting_type:      Domains::Compensation::NamecheapHostingType.all.as_json(only: [:id, :name]),
+        issue_level:       Domains::Compensation::IssueLevel.all.as_json(only: [:id, :name]),
+        compensation_type: Domains::Compensation::CompensationType.all.as_json(only: [:id, :name]),
+        tier_pricing:      Domains::Compensation::TierPricing.all.as_json(only: [:id, :name])
+      }
     },
     navs:                 Nav.accessible_by_as_json(current_ability),
     directory_groups:     DirectoryGroup.order(:name).as_json(only: [:id, :name]),

@@ -15,3 +15,6 @@
 
     triggers:
       'click a' : 'new:compensation:clicked'
+
+    serializeData: ->
+      canCreate: App.ability.can 'create', 'Domains::Compensation'
