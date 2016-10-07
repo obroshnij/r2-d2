@@ -1,11 +1,11 @@
 class LaToolsController < ApplicationController
 
   authorize_resource class: false
-  
+
   # Legal & Abuse > Spam
   def new
   end
-  
+
   # Legal & Abuse > Spam, submit the form
   def parse
     @domains = DomainName.parse_multiple params[:text].downcase, remove_subdomains: true
@@ -23,15 +23,15 @@ class LaToolsController < ApplicationController
     flash[:notice] = "Your request has been enqueued"
     redirect_to action: :spam_jobs
   end
-  
+
   def spam_jobs
     @jobs = current_user.background_jobs.order(created_at: :desc)
   end
-  
+
   def show_spam_job
     @job = BackgroundJob.find params[:id]
   end
-  
+
   def delete_spam_job
     @job = BackgroundJob.find params[:id]
     if @job.delete
@@ -41,32 +41,21 @@ class LaToolsController < ApplicationController
     end
     redirect_to action: :spam_jobs
   end
-  
-  # Legal & Abuse > DBL/SURBL Check
-  def dbl_surbl
-  end
-
-  # Legal & Abuse > DBL/SURBL Check, submit the form
-  def dbl_surbl_check
-    @domains = DomainName.parse_multiple params[:query].downcase
-    DNS::SpamBase.check_multiple @domains
-    render action: :dbl_surbl
-  end
 
   def bulk_curl
   end
-  
+
   def perform_bulk_curl
     @result = CurlClient.process_multiple params[:urls].strip.split
     render action: :bulk_curl
   end
-  
+
   def resource_abuse
   end
-  
+
   def html_pdfier
   end
-  
+
   def pdfy_html
     folder_name = Time.now.to_i.to_s
     Dir.mkdir File.join(Rails.root, 'public', 'tmp', folder_name)

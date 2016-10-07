@@ -1,8 +1,9 @@
 class Legal::DblSurblCheck
+
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :query, :domains, :records
+  attr_reader :query, :records
 
   validates :query, presence: true
 
@@ -15,9 +16,10 @@ class Legal::DblSurblCheck
 
   def check_domains
     domains = DomainName.parse_multiple @query
-    errors.add(:query, 'No valid host names found') and return if domains.blank?
+    errors.add(:query, 'No valid domains found') and return if domains.blank?
 
     DNS::SpamBase.check_multiple domains
+    
     domains.map do |domain|
       {
         host_name: domain.name,

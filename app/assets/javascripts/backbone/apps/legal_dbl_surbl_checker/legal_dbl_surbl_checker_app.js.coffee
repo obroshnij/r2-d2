@@ -8,7 +8,7 @@
   API =
 
     newDblSurblCheck: (region) ->
-      return App.execute 'legal:list', 'DBL/SURBL Check', { action: 'new' } if not region
+      return App.execute 'legal:list', 'DBL/SURBL Check', { action: 'newDblSurblCheck' } if not region
 
       new LegalDblSurblCheckerApp.New.Controller
         region: region
@@ -18,12 +18,14 @@
     return if nav isnt 'DBL/SURBL Check'
 
     action = options?.action
-    action ?= 'new'
+    action ?= 'newDblSurblCheck'
 
-    if action is 'new'
+    if action is 'newDblSurblCheck'
       App.navigate '/legal/dbl_surbl'
       API.newDblSurblCheck region
+
 
   LegalDblSurblCheckerApp.on 'start', ->
     new LegalDblSurblCheckerApp.Router
       controller: API
+      resource:   'LaTool'

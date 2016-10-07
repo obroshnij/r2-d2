@@ -1,3 +1,3 @@
-td = @host_name
-td = @dblText
-td = @surblText
+td class='#{@hostColor}' = @host_name
+td class='#{@dblColor}' = @dblText
+td class='#{@surblColor}' = @surblText

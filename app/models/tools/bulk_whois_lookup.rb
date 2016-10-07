@@ -1,15 +1,15 @@
 class Tools::BulkWhoisLookup
-  
+
   include ActiveModel::Model
   include ActiveModel::Validations
-  
+
   attr_reader :id, :status, :whois_data, :domains, :failed, :successful, :created_at, :updated_at
-  
+
   def self.enqueue query, keep_retrying, user
     domains = parse_domains query
     if domains.present?
       data    = domains.map { |name| { 'domain_name' => name } }
-    
+
       job = BackgroundJob.create({
         job_type: 'bulk_whois',
         user_id:  user.id,
@@ -19,29 +19,29 @@ class Tools::BulkWhoisLookup
           keep_retrying: (keep_retrying == 'true' || keep_retrying == true)
         }
       })
-      
+
       BulkWhoisJob.perform_later job, 'In Progress'
       new job
     else
       lookup = new
-      lookup.errors.add :query, 'no domains found'
+      lookup.errors.add :query, 'No valid domains found'
       lookup
     end
   end
-  
+
   def self.by_user user, page = nil, per_page = nil
     jobs      = BackgroundJob.where(job_type: 'bulk_whois', user_id: user.id).order(created_at: :desc)
     paginated = jobs.paginate(page: page, per_page: per_page) if page && per_page
     lookups   = (paginated || jobs).map { |job| new(job) }
-    
+
     lookups.define_singleton_method :total_entries, -> { jobs.count }
     lookups
   end
-  
+
   def self.by_id id
     new BackgroundJob.find(id)
   end
-  
+
   def initialize background_job = nil
     if background_job
       @job        = background_job
@@ -55,14 +55,14 @@ class Tools::BulkWhoisLookup
       @successful = @whois_data.select { |item| item['whois_record'].present? }.map { |item| item['domain_name'] }
     end
   end
-  
+
   def retry
     @status = 'Enqueued'
     BulkWhoisJob.perform_later @job, 'Enqueued'
   end
-  
+
   private
-  
+
   def format_whois_data data
     data.each do |record|
       record['whois_attributes'].each do |key, val|
@@ -74,9 +74,9 @@ class Tools::BulkWhoisLookup
     end
     data
   end
-  
+
   def self.parse_domains query
     DomainName.parse_multiple(query, remove_subdomains: true).map &:name
   end
-  
+
 end

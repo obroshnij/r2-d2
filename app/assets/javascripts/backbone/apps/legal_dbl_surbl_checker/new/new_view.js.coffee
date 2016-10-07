@@ -31,12 +31,12 @@
     template: 'legal_dbl_surbl_checker/new/result'
     tagName:  'tr'
 
-    triggers:
-      'click a.show-session' : 'show:session:clicked'
-
 
   class New.Results extends App.Views.CompositeView
     template: 'legal_dbl_surbl_checker/new/results'
 
     childView:          New.Result
     childViewContainer: 'tbody'
+
+    onAttach: ->
+      @destroy() unless @collection.models.length

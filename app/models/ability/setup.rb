@@ -226,21 +226,6 @@ class Ability::Setup
         }
       ]
     }, {
-      subjects:         ['manager_tool'],
-      description:      'Management Tools',
-
-      permissions:      [
-        {
-          actions:     ['monthly_reports', 'generate_monthly_reports'],
-          description: 'Monthly reports',
-          identifier:  'management_tools_monthly_reports'
-        }, {
-          actions:     ['welcome_emails', 'generate_welcome_emails'],
-          description: 'Welcome Emails',
-          identifier:  'management_tools_welcome_emails'
-        }
-      ]
-    }, {
       subjects:         ['User', 'Role'],
       description:      'User Management',
 

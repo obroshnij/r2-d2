@@ -16,7 +16,8 @@
       newView = @getNewView()
 
       formView = App.request 'form:component', newView,
-        model: dbl_surbl
+        model:          dbl_surbl
+        onBeforeSubmit: -> dbl_surbl.records.reset(null, silent: true)
 
       @listenTo formView, 'form:submit', =>
         @resultRegion dbl_surbl
@@ -25,8 +26,6 @@
 
     resultRegion: (dbl_surbl) ->
       resultView = @getResultView dbl_surbl.records
-
-      @listenTo @, 'change:records', -> @records.reset @get('records')
 
       loadingType = if @layout.resultRegion.currentView then 'opacity' else 'spinner'
 
@@ -49,6 +48,3 @@
 
     getLayoutView: () ->
       new New.Layout
-
-
-
