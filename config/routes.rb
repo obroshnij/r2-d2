@@ -80,7 +80,7 @@ Rails.application.routes.draw do
       put  :delete_page, on: :member
     end
 
-    resources :dbl_subles, only: [:create]
+    resources :dbl_surbl_checks, only: [:create]
   end
 
   namespace :domains do

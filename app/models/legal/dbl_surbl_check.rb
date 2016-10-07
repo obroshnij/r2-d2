@@ -8,15 +8,17 @@ class Legal::DblSurblCheck
 
   def initialize query
     @query   = query.downcase.strip
-    @domains = DomainName.parse_multiple @query
     @records = check_domains if valid?
   end
 
   private
 
   def check_domains
-    DNS::SpamBase.check_multiple @domains
-    @domains.map do |domain|
+    domains = DomainName.parse_multiple @query
+    errors.add(:query, 'No valid host names found') and return if domains.blank?
+
+    DNS::SpamBase.check_multiple domains
+    domains.map do |domain|
       {
         host_name: domain.name,
         dbl:       domain.extra_attr[:dbl],
