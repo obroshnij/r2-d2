@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="large-6 large-offset-3 columns">
-    <%= form_tag(controller: "la_tools", action: "dbl_surbl_check") do %>
+    <%= form_tag(legal_dbl_subles_path) do %>
       <fieldset>
         <legend>Input</legend>
         <%= label_tag :query, 'Domains' %>
@@ -12,26 +12,3 @@
     <% end %>
   </div>
 </div>
-
-<% if @domains.present? %>
-  <div class="row">
-    <div class="large-12 columns">
-      <table width="100%">
-        <thead>
-          <th>Domain Name</th>
-          <th>DBL</th>
-          <th>SURBL</th>
-        </thead>
-        <tbody>
-          <% @domains.each do |domain| %>
-            <tr>
-              <td><%= domain.name %></td>
-              <td><%= domain.extra_attr[:dbl] ? "YES" : "NO" %></td>
-              <td><%= domain.extra_attr[:surbl] ? "YES" : "NO" %></td>
-            <% end %>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-<% end %>

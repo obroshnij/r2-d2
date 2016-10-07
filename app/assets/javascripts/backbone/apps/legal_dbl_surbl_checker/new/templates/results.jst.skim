@@ -1,0 +1,7 @@
+table.borders
+  thead
+    tr
+      th Domain Name
+      th DBL
+      th SURBL
+  tbody

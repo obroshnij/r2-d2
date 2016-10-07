@@ -1,0 +1,37 @@
+<% provide(:title, "DBL/SURBL Check") %>
+
+<div class="row">
+  <div class="large-6 large-offset-3 columns">
+    <%= form_tag(legal_dbl_subles_path) do %>
+        <fieldset>
+          <legend>Input</legend>
+          <%= label_tag :query, 'Domains' %>
+          <%= text_area_tag(:query, domain_list(@domains), size: "20x20") %>
+        </fieldset>
+        <%= submit_tag "Submit", class: "button tiny" %>
+    <% end %>
+  </div>
+</div>
+
+<% if @records.present? %>
+    <div class="row">
+      <div class="large-12 columns">
+        <table width="100%">
+          <thead>
+          <th>Domain Name</th>
+          <th>DBL</th>
+          <th>SURBL</th>
+          </thead>
+          <tbody>
+          <% @records.each do |domain| %>
+              <tr>
+                <td><%= domain[:host_name] %></td>
+                <td><%= domain[:dbl] %></td>
+                <td><%= domain[:surbl] %></td>
+          <% end %>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<% end %>

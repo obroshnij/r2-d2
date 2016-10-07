@@ -1,0 +1,3 @@
+td = @host_name
+td = @dblText
+td = @surblText

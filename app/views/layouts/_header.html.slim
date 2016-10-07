@@ -32,7 +32,7 @@ nav.top-bar data-topbar='' role="navigation"
               li.has-dropdown.not-click
                 a href='#' Tools
                 ul.dropdown
-                  li = link_to "DBL/SURBL Check", dbl_surbl_path if can? :manage, :la_tool
+                  li = link_to "DBL/SURBL Check", '/#legal/dbl_surbl' if can? :manage, :la_tool
                   li = link_to "Bulk CURL", bulk_curl_path if can? :manage, :la_tool
                   li = link_to "Resource Abuse", resource_abuse_path if can? :manage, :la_tool
                   li = link_to "Process Spam", spam_path if can? :manage, :la_tool
