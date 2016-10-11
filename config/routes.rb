@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     namespace :rbl do
       resources :checkers,   only: [:create]
     end
+    resources :bulk_curl_requests, only: [:index, :show, :create]
     resources :pdf_reports do
       post :import,      on: :collection
       put  :toggle_edit, on: :member
