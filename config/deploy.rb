@@ -46,11 +46,13 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       sudo "service unicorn_r2d2 stop"
-      sudo "service resque_worker_r2d2 stop"
       sudo "service resque_scheduler_r2d2 stop"
+      sudo "service resque_worker_whois_r2d2 stop"
+      sudo "service resque_worker_bulk_curl_r2d2 stop"
+      sudo "service resque_worker_mailers_r2d2 stop"
     end
   end
-  
+
   desc 'Setup'
   task :setup do
     on roles(:all) do
@@ -66,17 +68,21 @@ namespace :deploy do
       upload!('shared/nginx_server_block', "#{shared_path}/nginx_server_block")
       upload!('shared/unicorn_init.sh', "#{shared_path}/unicorn_init.sh")
       upload!('shared/resque_scheduler_init.sh', "#{shared_path}/resque_scheduler_init.sh")
-      upload!('shared/resque_worker_init.sh', "#{shared_path}/resque_worker_init.sh")
-      
+      upload!('shared/resque_worker_whois_init.sh', "#{shared_path}/resque_worker_whois_init.sh")
+      upload!('shared/resque_worker_bulk_curl_init.sh', "#{shared_path}/resque_worker_bulk_curl_init.sh")
+      upload!('shared/resque_worker_mailers_init.sh', "#{shared_path}/resque_worker_mailers_init.sh")
+
       sudo "service nginx stop"
       sudo "rm -f /etc/nginx/nginx.conf"
       sudo "ln -s #{shared_path}/nginx.conf /etc/nginx/nginx.conf"
       sudo "ln -s #{shared_path}/nginx_server_block /etc/nginx/sites-enabled/r2-d2.nmchp.com"
       sudo "service nginx start"
-      
+
       sudo "ln -s #{shared_path}/unicorn_init.sh /etc/init.d/unicorn_r2d2"
       sudo "ln -s #{shared_path}/resque_scheduler_init.sh /etc/init.d/resque_scheduler_r2d2"
-      sudo "ln -s #{shared_path}/resque_worker_init.sh /etc/init.d/resque_worker_r2d2"
+      sudo "ln -s #{shared_path}/resque_worker_whois_init.sh /etc/init.d/resque_worker_whois_r2d2"
+      sudo "ln -s #{shared_path}/resque_worker_bulk_curl_init.sh /etc/init.d/resque_worker_bulk_curl_r2d2"
+      sudo "ln -s #{shared_path}/resque_worker_mailers_init.sh /etc/init.d/resque_worker_mailers_r2d2"
 
       within release_path do
         with rails_env: fetch(:rails_env) do
@@ -85,7 +91,7 @@ namespace :deploy do
       end
     end
   end
-  
+
   desc 'Create symlink'
   task :symlink do
     on roles(:all) do
@@ -94,7 +100,7 @@ namespace :deploy do
       execute "ln -s #{shared_path}/system #{release_path}/public/system"
     end
   end
-  
+
   desc 'Update secrets.yml'
   task :secrets do
     on roles(:all) do
@@ -104,18 +110,18 @@ namespace :deploy do
       execute "ln -s /var/www/apps/r2-d2/shared/config/secrets.yml /var/www/apps/r2-d2/current/config/secrets.yml"
     end
   end
-  
+
   after :finishing, 'deploy:cleanup'
   after :finishing, 'deploy:restart'
 
   after :updating, 'deploy:symlink'
-  
+
   after :setup, 'deploy'
 
   before :setup, 'deploy:starting'
   before :setup, 'deploy:updating'
   before :setup, 'bundler:install'
-  
+
   after :secrets, 'deploy:restart'
 
 end
