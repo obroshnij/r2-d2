@@ -1,7 +1,7 @@
 @Artoo.module 'LegalBulkCurlApp.List', (List, App, Backbone, Marionette, $, _) ->
-  
+
   class List.Controller extends App.Controllers.Application
-    
+
     initialize: (options) ->
       newRequest = App.request 'list:bulk:curl:entity'
       requests   = App.request 'list:bulk:curl:entities'
@@ -11,21 +11,24 @@
       @layout = @getLayoutView()
 
       @listenTo @layout, 'show', =>
-        @newRequestRegion newRequest
+        @newRequestRegion requests, newRequest
         @requestsRegion requests
 
       @show @layout
-      
+
     onDestroy: ->
       clearTimeout @timer
-      
-    newRequestRegion: (newRequest) ->
+
+    newRequestRegion: (requests, newRequest) ->
       newRequestView = @getNewRequestView()
-      
+
       formView = App.request 'form:component', newRequestView,
         model:          newRequest
         onBeforeSubmit: -> newRequest.unset('id')
-      
+
+      @listenTo formView, 'form:submit', (data) ->
+        requests.search()
+
       @show formView, region: @layout.newRequestRegion
 
     requestsRegion: (requests) ->
@@ -48,6 +51,6 @@
       App.request 'form:fields:component',
         schema: schema
         model:  false
-    
+
     getLayoutView: ->
       new List.Layout

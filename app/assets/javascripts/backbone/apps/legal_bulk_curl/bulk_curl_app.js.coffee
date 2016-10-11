@@ -1,11 +1,11 @@
 @Artoo.module 'LegalBulkCurlApp', (LegalBulkCurlApp, App, Backbone, Marionette, $, _) ->
-  
+
   class LegalBulkCurlApp.Router extends App.Routers.Base
-    
+
     appRoutes:
       'legal/bulk_curl'      : 'list'
       'legal/bulk_curl/:id'  : 'show'
-      
+
   API =
 
     list: (region) ->
@@ -20,12 +20,12 @@
       new LegalBulkCurlApp.Show.Controller
         region: region
         id:     id
-        
+
   App.vent.on 'legal:nav:selected', (nav, options, region) ->
     return if nav isnt 'Bulk CURL'
     action = options?.action
     action ?= 'list'
-    
+
     if action is 'list'
       App.navigate '/legal/bulk_curl'
       API.list region
@@ -41,3 +41,4 @@
   LegalBulkCurlApp.on 'start', ->
     new LegalBulkCurlApp.Router
       controller: API
+      resource:   'LaTool'

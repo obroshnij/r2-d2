@@ -1,7 +1,7 @@
 class BulkCurlJob < ActiveJob::Base
-  queue_as :default
+  queue_as :bulk_curl
 
-  def perform(job, status)
+  def perform job, status
     job.update_attribute :status, status
     job.data = process_urls_for(job)
     job.status = 'Processed'
@@ -10,7 +10,7 @@ class BulkCurlJob < ActiveJob::Base
 
   private
 
-  def process_urls_for(job)
+  def process_urls_for job
     urls = job.meta
     urls.length > 0 ? CurlClient.process_multiple(urls) : []
   end

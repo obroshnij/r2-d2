@@ -8,10 +8,16 @@ class Legal::BulkCurlRequestsController < ApplicationController
   def show
     @request = Legal::BulkCurlRequest.by_id params[:id]
   end
-  
+
   def create
     @requests = Legal::BulkCurlRequest.enqueue params[:urls], current_user
     respond_with @requests
   end
-  
+
+  def destroy
+    job = BackgroundJob.find params[:id]
+    job.destroy
+    render json: {}
+  end
+
 end

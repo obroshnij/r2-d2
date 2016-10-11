@@ -15,8 +15,6 @@ Rails.application.routes.draw do
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
-  get 'bulk_curl' => 'la_tools#bulk_curl'
-  post 'bulk_curl' => 'la_tools#perform_bulk_curl'
   get 'resource_abuse' => 'la_tools#resource_abuse'
   get 'html_pdfier' => 'la_tools#html_pdfier'
   post 'pdfy_html' => 'la_tools#pdfy_html'

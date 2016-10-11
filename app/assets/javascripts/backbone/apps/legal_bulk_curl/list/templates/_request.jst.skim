@@ -4,9 +4,8 @@
       .key Status
       .value: span class="#{@statusColor} label" = @status
     .row.hash
-      .key Requests count
+      .key URLs count
       .value == @dropdown 'show', @urls.join("\n"), "#{@urls.length}, ", 'right'
-
 
   .large-3.columns
     .row.hash

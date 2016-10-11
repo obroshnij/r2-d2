@@ -42,14 +42,6 @@ class LaToolsController < ApplicationController
     redirect_to action: :spam_jobs
   end
 
-  def bulk_curl
-  end
-
-  def perform_bulk_curl
-    @result = CurlClient.process_multiple params[:urls].strip.split
-    render action: :bulk_curl
-  end
-
   def resource_abuse
   end
 
