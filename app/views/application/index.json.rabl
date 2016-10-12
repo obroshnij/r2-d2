@@ -57,7 +57,8 @@ node :entities do
         hosting_type:      Domains::Compensation::NamecheapHostingType.all.as_json(only: [:id, :name]),
         issue_level:       Domains::Compensation::IssueLevel.all.as_json(only: [:id, :name]),
         compensation_type: Domains::Compensation::CompensationType.all.as_json(only: [:id, :name]),
-        tier_pricing:      Domains::Compensation::TierPricing.all.as_json(only: [:id, :name])
+        tier_pricing:      Domains::Compensation::TierPricing.all.as_json(only: [:id, :name]),
+        submitted_by:      Domains::Compensation.submitted_by.as_json(only: [:id, :name])
       }
     },
     navs:                 Nav.accessible_by_as_json(current_ability),

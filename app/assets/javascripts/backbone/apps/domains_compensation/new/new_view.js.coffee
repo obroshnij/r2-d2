@@ -62,6 +62,9 @@
           tagName: 'select'
           type:    'select2_ajax'
           options: []
+          initVal:
+            idAttr:   'service_compensated_id'
+            textAttr: 'service_compensated'
           url:     '/domains/namecheap_services'
           data:    (data) ->
             search =
@@ -122,7 +125,7 @@
           name:    'client_satisfied'
           label:   'The Client Left Satisfied with the Provided Compensation?'
           type:    'radio_buttons'
-          options: [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "I don't know/not sure", id: null }]
+          options: [{ name: "Yes", id: true }, { name: "No", id: false }, { name: "I don't know/not sure", id: "n/a" }]
           default: 'true'
         ,
           name:    'comments'

@@ -3,8 +3,7 @@
   class New.Controller extends App.Controllers.Application
 
     initialize: (options) ->
-      console.log options
-      compensation = App.request('new:compensation:entity')
+      compensation = if options.id then App.request('compensation:entity', options.id) else App.request('new:compensation:entity')
 
       @layout = @getLayoutView()
 
@@ -17,12 +16,15 @@
       newView = @getNewView compensation
 
       form = App.request 'form:component', newView,
-        model: compensation
+        model:     compensation
+        onSuccess: -> App.vent.trigger 'domains:compensation:created', compensation
+        onCancel:  -> App.vent.trigger 'new:domains:compensation:cancelled'
 
       @show form, region: @layout.formRegion, loading: true
 
     getNewView: (compensation) ->
       schema = new New.FormSchema
+        model: compensation
       App.request 'form:fields:component',
         schema: schema
         model:  compensation

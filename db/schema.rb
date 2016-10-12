@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004125908) do
+ActiveRecord::Schema.define(version: 20161011095214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,25 @@ ActiveRecord::Schema.define(version: 20161004125908) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_compensations", force: :cascade do |t|
+    t.integer  "submitted_by_id"
+    t.string   "reference_id"
+    t.string   "reference_item"
+    t.integer  "product_id"
+    t.integer  "product_compensated_id"
+    t.integer  "service_compensated_id"
+    t.integer  "hosting_type_id"
+    t.integer  "issue_level_id"
+    t.integer  "compensation_type_id"
+    t.boolean  "discount_recurring"
+    t.float    "compensation_amount"
+    t.integer  "tier_pricing_id"
+    t.boolean  "client_satisfied"
+    t.text     "comments"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "domains_nc_hosting_types", force: :cascade do |t|

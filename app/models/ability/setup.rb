@@ -37,6 +37,10 @@ class Ability::Setup
           actions:      ['create'],
           description:  'Submit the compensation tracking form',
           identifier:   'domains_compensation_create'
+        }, {
+          actions:      ['show', 'update'],
+          description:  'Update form submissions',
+          identifier:   'domains_compensation_update'
         }
       ]
     }, {

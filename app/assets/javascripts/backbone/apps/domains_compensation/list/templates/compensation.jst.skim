@@ -1,0 +1,43 @@
+.row
+  
+  .large-4.columns
+    .row.hash
+      .key Affected Service
+      .value = @product
+    .row.hash
+      .key Service Compensated
+      .value = @productAndService
+    .row.hash
+      .key Compensation
+      .value = @compensation
+      
+  .large-3.columns
+    .row.hash
+      .key Reference
+      .value = @reference
+    .row.hash
+      .key Issue Level
+      .value = @issue_level
+    .row.hash
+      .key Client Satisfied
+      .value = @satisfied
+    .row.hash
+      .key Comments
+      .value == @truncate @comments, 20, true
+      
+  .large-3.columns
+    .row.hash
+      .key Submitted by
+      .value = @submitted_by
+    .row.hash
+      .key Submitted at
+      .value = @created_at_formatted
+      
+  .large-2.columns
+    .row
+      .large-12.columns
+        .button-group.tiny.float-right
+          - if @canEdit
+            a.button.edit-compensation
+              icon.fi-pencil
+              |  Edit
