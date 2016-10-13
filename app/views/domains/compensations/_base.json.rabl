@@ -9,3 +9,4 @@ node(:issue_level)                                                  { |c| c.issu
 node(:compensation_type)                                            { |c| c.compensation_type.name }
 node(:tier_pricing,        if: -> (c) { c.tier_pricing_id })        { |c| c.tier_pricing.name }
 node(:created_at_formatted)                                         { |c| c.created_at.strftime '%b/%d/%Y, %H:%M' }
+node(:checked_by,          if: -> (c) { c.checked_by_id })          { |c| c.checked_by.name }

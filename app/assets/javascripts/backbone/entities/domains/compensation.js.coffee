@@ -28,6 +28,10 @@
         return "Yes"                   if @get('client_satisfied')
         "No"
 
+    qaCheck: (attributes = {}, options = {}) ->
+      options.url = Routes.qa_check_domains_compensation_path(@id)
+      @save attributes, options
+
 
   class Entities.CompensationsCollection extends App.Entities.Collection
     model: Entities.Compensation

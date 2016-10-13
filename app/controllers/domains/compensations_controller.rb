@@ -35,4 +35,16 @@ class Domains::CompensationsController < ApplicationController
     end
   end
 
+  def qa_check
+    @compensation = Domains::Compensation.find params[:id]
+    authorize! :qa_check, @compensation
+    @form = Domains::Compensation::Form.new params[:id]
+    if @form.submit params
+      @compensation = @form.model
+      render :show
+    else
+      respond_with @form
+    end
+  end
+
 end

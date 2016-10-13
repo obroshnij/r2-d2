@@ -28,6 +28,11 @@
         region: region
         id:     id
 
+    check: (compensation) ->
+      new DomainsCompensationApp.Check.Controller
+        region:       App.modalRegion
+        compensation: compensation
+
 
   App.vent.on 'domains:nav:selected', (nav, options, region) ->
     return if nav isnt 'Compensation System'
@@ -59,6 +64,9 @@
 
   App.vent.on 'edit:compensation:clicked', (compensation) ->
     API.edit compensation.id
+
+  App.vent.on 'check:compensation:clicked', (compensation) ->
+    API.check compensation
 
 
   DomainsCompensationApp.on 'start', ->

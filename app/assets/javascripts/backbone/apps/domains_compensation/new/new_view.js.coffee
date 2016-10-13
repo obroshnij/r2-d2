@@ -14,6 +14,10 @@
         id:     'general'
 
         fields: [
+          name:     'status'
+          type:     'hidden'
+          value:    '_new'
+        ,
           name:     'submitted_by_id'
           type:     'hidden'
           default:  App.request('get:current:user').id

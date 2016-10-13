@@ -53,7 +53,8 @@
     tagName:  'li'
 
     triggers:
-      'click .edit-compensation' : 'edit:compensation:clicked'
+      'click .edit-compensation'  : 'edit:compensation:clicked'
+      'click .check-compensation' : 'check:compensation:clicked'
 
     serializeData: ->
       data = super

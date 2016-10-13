@@ -41,6 +41,10 @@ class Ability::Setup
           actions:      ['show', 'update'],
           description:  'Update form submissions',
           identifier:   'domains_compensation_update'
+        }, {
+          actions:      ['qa_check'],
+          description:  'Check form submissions on behalf of QA',
+          identifier:   'domains_compensation_qa_check'
         }
       ]
     }, {

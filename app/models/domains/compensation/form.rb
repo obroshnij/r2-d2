@@ -7,6 +7,8 @@ class Domains::Compensation::Form
   include ActiveModel::Validations
 
   attribute :submitted_by_id,        Integer
+  attribute :checked_by_id,          Integer
+  attribute :status,                 String
   attribute :reference_id,           String
   attribute :reference_item,         String
   attribute :product_id,             Integer
@@ -20,6 +22,9 @@ class Domains::Compensation::Form
   attribute :tier_pricing_id,        Integer
   attribute :client_satisfied,       Boolean
   attribute :comments,               String
+  attribute :qa_comments,            String
+  attribute :used_correctly,         Boolean
+  attribute :delivered,              Boolean
 
   validates :reference_id,           presence: true
   validates :service_compensated_id, presence: true,     if: :service_compensated_required?

@@ -1,7 +1,10 @@
 class Domains::Compensation < ActiveRecord::Base
   self.table_name = 'domains_compensations'
 
+  enum status: [:_new, :_checked]
+
   belongs_to :submitted_by,        class_name: 'User',                               foreign_key: 'submitted_by_id'
+  belongs_to :checked_by,          class_name: 'User',                               foreign_key: 'checked_by_id'
   belongs_to :product,             class_name: 'Compensation::NamecheapProduct',     foreign_key: 'product_id'
   belongs_to :product_compensated, class_name: 'Compensation::NamecheapProduct',     foreign_key: 'product_compensated_id'
   belongs_to :service_compensated, class_name: 'Compensation::NamecheapService',     foreign_key: 'service_compensated_id'

@@ -32,11 +32,18 @@
     .row.hash
       .key Submitted at
       .value = @created_at_formatted
+    - if @checked_by
+      .row.hash
+        .key Checked by
+        .value = @checked_by
       
   .large-2.columns
     .row
       .large-12.columns
         .button-group.tiny.float-right
+          a.button.success.check-compensation
+            icon.fi-check
+            |  QA Check
           - if @canEdit
             a.button.edit-compensation
               icon.fi-pencil

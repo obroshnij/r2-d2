@@ -71,7 +71,9 @@ Rails.application.routes.draw do
 
   namespace :domains do
     resources :watched_domains
-    resources :compensations
+    resources :compensations do
+      put :qa_check, on: :member
+    end
     resources :namecheap_services, only: [:index]
   end
 

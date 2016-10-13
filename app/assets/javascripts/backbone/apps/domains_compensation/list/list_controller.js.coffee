@@ -40,6 +40,9 @@
       @listenTo compensationsView, 'childview:edit:compensation:clicked', (child, args) ->
         App.vent.trigger 'edit:compensation:clicked', args.model
 
+      @listenTo compensationsView, 'childview:check:compensation:clicked', (child, args) ->
+        App.vent.trigger 'check:compensation:clicked', args.model
+
       @show compensationsView,
         loading: true,
         region:  @layout.compensationsRegion
