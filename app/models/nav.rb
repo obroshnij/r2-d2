@@ -83,6 +83,11 @@ class Nav
           icon:   'fa fa-fw',
           klass:  NcUser
         }, {
+          name:   'Namecheap Users New',
+          url:    '#/legal/nc_users',
+          icon:   'fa fa-fw',
+          klass:  NcUser
+        }, {
           name:   'Namecheap Domains',
           url:    '/nc_domains',
           icon:   'fa fa-fw',

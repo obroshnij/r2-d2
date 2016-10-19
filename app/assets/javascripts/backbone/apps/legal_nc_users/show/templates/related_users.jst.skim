@@ -1,0 +1,9 @@
+- if @user_relations.nodes.length > 0 || @user_relations.edges.length > 0
+  .clearfix
+    h4.float-left
+     | Related Users
+
+  .row
+    .large-12.columns
+      #user-relations.panel.callout
+

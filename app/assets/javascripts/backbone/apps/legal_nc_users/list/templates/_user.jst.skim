@@ -1,0 +1,28 @@
+.row
+  .large-3.columns
+    .row.hash
+      .key Username
+      .value: span = @username
+    .row.hash
+      .key Status
+      .value
+        - for key of @statusIconsClasses
+          i class="#{@statusIconsClasses[key]}" title="#{key}"
+
+  .large-4.columns
+    .row
+      .row.hash
+        .key Direct/Related abuse reports
+        .value: span #{{@abuse_reports_direct.length}} / #{{@abuse_reports_indirect.length}}
+
+  .large-3.columns
+    .row
+      .row.hash
+        .key Signup date
+        .value: span == @signed_up_on
+
+  .large-2.columns
+    .row
+      a.button.show-nc-user
+        icon.fi-eye
+          |  Show
