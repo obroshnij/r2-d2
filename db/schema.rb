@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012162704) do
+ActiveRecord::Schema.define(version: 20161025123229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20161012162704) do
     t.boolean  "used_correctly"
     t.boolean  "delivered"
     t.text     "qa_comments"
+    t.string   "department"
   end
 
   create_table "domains_nc_hosting_types", force: :cascade do |t|

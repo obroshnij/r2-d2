@@ -36,15 +36,46 @@
         isCompact: true
 
         fields: [
+          name:     'product_id_eq'
+          label:    'Affected Service'
+          tagName:  'select'
+          options:  @getProducts()
+        ,
+          name:     'product_compensated_id_eq'
+          label:    'Service Compensated'
+          tagName:  'select'
+          options:  @getProductsCompensated()
+        ,
           name:     'submitted_by_id_eq'
           label:    'Submitted by'
           tagName:  'select'
           options:  @getSubmittedBy()
+        ,
+          name:     'department_eq'
+          label:    'Department'
+          tagName:  'select'
+          options:  @getDepartments()
+        ,
+          name:     'reference_id_cont'
+          label:    'Reference ID'
+        ,
+          name:     'created_at_datetime_between'
+          label:    'Submitted on'
+          type:     'date_range_picker'
         ]
       ]
 
     getSubmittedBy: ->
       App.entities.domains.compensation.submitted_by
+
+    getDepartments: ->
+      App.entities.domains.compensation.departments
+
+    getProducts: ->
+      App.entities.domains.compensation.product[0..-2]
+
+    getProductsCompensated: ->
+      App.entities.domains.compensation.product
 
 
   class List.CompensationHeader extends App.Views.ItemView

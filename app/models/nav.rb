@@ -50,6 +50,10 @@ class Nav
           icon:   'fa fa-fw fa-usd',
           klass:  Domains::Compensation
         }, {
+          name:   'Compensation Stats',
+          url:    '#/domains-general/compensation/stats',
+          icon:   'fa fa-fw fa-bar-chart'
+        }, {
           name:   'Watched Domains',
           url:    '#/domains-general/watched',
           icon:   'fa fa-fw fa-binoculars',

@@ -22,6 +22,10 @@ class Domains::Compensation < ActiveRecord::Base
     User.where id: select(:submitted_by_id).distinct.pluck(:submitted_by_id)
   end
 
+  def self.departments
+    select(:department).distinct.pluck(:department)
+  end
+
   def client_satisfied= satisfied
     satisfied = satisfied == "n/a" ? nil : satisfied
     super satisfied

@@ -68,6 +68,7 @@ class Domains::Compensation::Form
 
   def persist!
     @compensation.assign_attributes attributes
+    @compensation.department = get_department
     @compensation.save!
   end
 
@@ -79,6 +80,16 @@ class Domains::Compensation::Form
     if compensation_amount.present? && compensation_amount.is_a?(String)
       self.compensation_amount = compensation_amount.gsub(',', '.')
     end
+  end
+
+  def get_department
+    groups = User.find(submitted_by_id).groups.pluck(:name)
+    return "Hosting"    if groups.any? { |g| g =~ /cs-hosting/ }
+    return "Billing"    if groups.any? { |g| g =~ /cs-billing/ }
+    return "SSL"        if groups.any? { |g| g =~ /cs-ssl/ }
+    return "Concierge"  if groups.any? { |g| g =~ /cs-concierge/ }
+    return "Domains"    if groups.any? { |g| g =~ /cs-domain/ }
+    "Other"
   end
 
 end

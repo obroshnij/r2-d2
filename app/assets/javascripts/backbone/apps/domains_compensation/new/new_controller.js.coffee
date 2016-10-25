@@ -8,7 +8,7 @@
       @layout = @getLayoutView()
 
       @listenTo @layout, 'show', ->
-        @formRegion(compensation)
+        @formRegion compensation
 
       @show @layout
 
@@ -24,7 +24,6 @@
 
     getNewView: (compensation) ->
       schema = new New.FormSchema
-        model: compensation
       App.request 'form:fields:component',
         schema: schema
         model:  compensation
