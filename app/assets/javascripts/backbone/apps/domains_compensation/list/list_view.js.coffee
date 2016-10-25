@@ -56,8 +56,8 @@
 
     serializeData: ->
       data = super
-      data.canEdit  = App.ability.can 'update',   @model
-      data.canCheck = App.ability.can 'qa_check', @model
+      data.canEdit  = App.ability.can('update',   @model) and @model.get('status') is '_new'
+      data.canCheck = App.ability.can('qa_check', @model)
       data
 
     modelEvents:
