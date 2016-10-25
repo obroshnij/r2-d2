@@ -1,0 +1,30 @@
+- if @checked_by_id
+  .large-12.columns
+    fieldset
+      legend QA Info
+      .row.large-up-3
+        
+        .columns: .row.hash
+          .key Checked by
+          .value = @checked_by
+          
+        .columns: .row.hash
+          .key Used Correctly
+          - if @used_correctly
+            .value Yes
+          - else
+            .value No
+          
+        - unless @used_correctly
+          .columns: .row.hash
+            .key Delivered to CS
+            - if @delivered
+              .value Yes
+            - else
+              .value No
+      
+      - if @qa_comments
+        br
+        .row.hash.editable
+          .key QA Comments
+          .value = @qa_comments

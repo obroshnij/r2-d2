@@ -3,7 +3,7 @@ class Domains::CompensationsController < ApplicationController
 
   def index
     authorize! :index, Domains::Compensation
-    @search = Domains::Compensation.with_data.ransack params[:q]
+    @search = Domains::Compensation.with_data.accessible_by(current_ability).ransack params[:q]
     @compensations = @search.result(distinct: true).order(created_at: :desc).paginate(page: params[:page], per_page: params[:per_page])
   end
 

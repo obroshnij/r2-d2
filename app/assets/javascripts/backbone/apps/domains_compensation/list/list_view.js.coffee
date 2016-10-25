@@ -47,21 +47,76 @@
       App.entities.domains.compensation.submitted_by
 
 
-  class List.Compensation extends App.Views.ItemView
+  class List.CompensationHeader extends App.Views.ItemView
+    template: 'domains_compensation/list/_header'
+
+    triggers:
+      'click .edit-compensation'  : 'edit:clicked'
+      'click .check-compensation' : 'check:clicked'
+
+    serializeData: ->
+      data = super
+      data.canEdit  = App.ability.can 'update',   @model
+      data.canCheck = App.ability.can 'qa_check', @model
+      data
+
+    modelEvents:
+      change: 'render'
+
+
+  class List.AdditionalInfo extends App.Views.ItemView
+    template: 'domains_compensation/list/_additional_info'
+
+    modelEvents:
+      change: 'render'
+
+    @include 'HasEditableFields'
+
+
+  class List.QaInfo extends App.Views.ItemView
+    template: 'domains_compensation/list/_qa_info'
+
+    modelEvents:
+      change: 'render'
+
+    @include 'HasEditableFields'
+
+
+  class List.Compensation extends App.Views.LayoutView
     template: 'domains_compensation/list/compensation'
 
     tagName:  'li'
 
+    regions:
+      headerRegion:         '.header'
+      additionalInfoRegion: '.additional-info'
+      qaInfoRegion:         '.qa-info'
+
     triggers:
-      'click .edit-compensation'  : 'edit:compensation:clicked'
-      'click .check-compensation' : 'check:compensation:clicked'
+      'click .header' : 'toggle:clicked'
 
-    serializeData: ->
-      data = super
-      data.canEdit = App.ability.can 'update', @model
-      data
+    onShow: ->
+      headerView = new List.CompensationHeader model: @model
+      @headerRegion.show headerView
 
-    @include 'HasDropdowns'
+      additionalInfoView = new List.AdditionalInfo model: @model
+      @additionalInfoRegion.show additionalInfoView
+
+      qaInfoView = new List.QaInfo model: @model
+      @qaInfoRegion.show qaInfoView
+
+    onToggleClicked: ->
+      @$el.toggleClass 'expanded'
+      @$('.expand').toggle 200
+
+      @$('.header a.toggle').toggleClass      'expanded'
+      @$('.header a.toggle icon').toggleClass 'fa-rotate-180'
+
+    onChildviewEditClicked: (child, options) ->
+      @trigger 'edit:compensation:clicked', options
+
+    onChildviewCheckClicked: (child, options) ->
+      @trigger 'check:compensation:clicked', options
 
 
   class List.Compensations extends App.Views.CompositeView

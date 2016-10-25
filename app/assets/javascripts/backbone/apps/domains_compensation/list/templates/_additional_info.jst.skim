@@ -1,0 +1,22 @@
+.large-12.columns
+  fieldset
+    legend Additional Info
+    .row.large-up-3
+      
+      .column: .row.hash
+        .key Issue Level
+        .value = @issue_level
+        
+      .columns: .row.hash
+        .key Compensation
+        .value = @compensation
+      
+      .column: .row.hash
+        .key Client Satisfied
+        .value = @satisfied
+    
+    - if @comments
+      br
+      .row.hash.editable
+        .key Comments
+        .value = @comments

@@ -5,6 +5,8 @@
 
     resourceName: 'Domains::Compensation'
 
+    statusColorLookups: { '_new': 'primary', '_checked': 'success' }
+
     mutators:
 
       reference: ->
@@ -27,6 +29,12 @@
         return "Don't know / not sure" if @get('client_satisfied') is 'n/a'
         return "Yes"                   if @get('client_satisfied')
         "No"
+
+      statusName: ->
+        s(@get('status')).replaceAll('_', '').capitalize().value()
+
+      statusColor: ->
+        @statusColorLookups[@get('status')] if @get('status')
 
     qaCheck: (attributes = {}, options = {}) ->
       options.url = Routes.qa_check_domains_compensation_path(@id)

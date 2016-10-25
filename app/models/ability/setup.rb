@@ -31,14 +31,20 @@ class Ability::Setup
       permissions:      [
         {
           actions:      ['index'],
-          description:  'Access the list of form submissions',
+          description:  'Access the list of all form submissions',
           identifier:   'domains_compensation_index'
+        }, {
+          actions:      ['index'],
+          conditions:   '{ submitted_by_id: user.id }',
+          description:  'Access the list of form submissions created by current user',
+          identifier:   'domains_compensation_index_own'
         }, {
           actions:      ['create'],
           description:  'Submit the compensation tracking form',
           identifier:   'domains_compensation_create'
         }, {
           actions:      ['show', 'update'],
+          conditions:   '{ submitted_by_id: user.id }',
           description:  'Update form submissions',
           identifier:   'domains_compensation_update'
         }, {

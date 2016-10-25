@@ -37,10 +37,11 @@
 
         fields: [
           name:    'product_id'
-          label:   'Product the Cleint had Issues With'
+          label:   'Affected Service'
           type:    'collection_radio_buttons'
           options: App.request('domains:compensation:product:entities').toJSON()[0..-2]
           default: '1'
+          hint:    'Product the client had issues with'
         ,
           name:    'product_compensated_id'
           label:   'Product Compensated'
