@@ -29,7 +29,7 @@ class Domains::Compensation::Stats::CountByTiersEnabled
   end
 
   def count_total_cases(compensations)
-    { product: 'Total', total: compensations.where('tier_pricing_id IS NOT NULL').count }
+    { tier: 'Total', total: compensations.where('tier_pricing_id IS NOT NULL').count }
   end
 
 end

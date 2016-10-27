@@ -31,7 +31,7 @@ class Domains::Compensation::Stats::CreditsAmountByDept
   end
 
   def count_total_cases(compensations)
-    { product: 'Total', total: compensations.sum(:compensation_amount) }
+    { department: 'Total', total: compensations.sum(:compensation_amount) }
   end
 
 end

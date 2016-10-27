@@ -1,4 +1,4 @@
-class Domains::Compensation::Stats::CountByFreeItem
+class Domains::Compensation::Stats::FreeItemsCountByProduct
 
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date
