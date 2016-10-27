@@ -10,6 +10,7 @@
       @listenTo @layout, 'show', ->
         @panelRegion()
         @searchRegion stats
+        @statsRegion stats
 
       @show @layout
 
@@ -29,11 +30,22 @@
 
       @show formView, region: @layout.searchRegion
 
+    statsRegion: (stats) ->
+      statsView = @getStatsView stats
+
+      @show statsView,
+        loading: true
+        region:  @layout.statsRegion
+
     getSearchView: (stats) ->
       schema = new List.SearchSchema
       App.request 'form:fields:component',
         schema:  schema
         model:   stats
+
+    getStatsView: (stats) ->
+      new List.StatsView
+        collection: stats
 
     getPanelView: ->
       new List.Panel
