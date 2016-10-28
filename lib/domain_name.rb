@@ -61,9 +61,10 @@ class DomainName
   def self.extract_valid_host_names(text, remove_subdomains)
     text.downcase.scan(DOMAIN_REGEX).map do |host|
       begin
+        binding.pry
         name = PublicSuffix.parse SimpleIDN.to_unicode(host)
         remove_subdomains == true ? name.domain : name.subdomain || name.domain
-      rescue PublicSuffix::DomainInvalid
+      rescue PublicSuffix::DomainInvalid, SimpleIDN::ConversionError
         next
       end
     end
