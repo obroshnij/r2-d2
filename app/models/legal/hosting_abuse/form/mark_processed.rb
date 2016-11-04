@@ -60,7 +60,7 @@ class Legal::HostingAbuse::Form::MarkProcessed
 
   def blacklisted_ip_required?
     return false unless @hosting_abuse.type_id == 1
-    return false unless [1, 3].include?(@hosting_abuse.spam.detection_method_id)
+    return false unless [1, 3].include?((@hosting_abuse.spam || @hosting_abuse.pe_spam).detection_method_id)
     return true  if     [3, 4].include?(@hosting_abuse.service_id)
     ip_is_blacklisted == true
   end
