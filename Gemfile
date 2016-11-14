@@ -83,13 +83,14 @@ gem 'whenever', :require => false
 
 # Use Capistrano for deployment
 group :development do
-  gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
+  gem 'rack-mini-profiler', require: false
 end
 
 # Use debugger

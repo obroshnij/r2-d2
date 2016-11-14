@@ -5,7 +5,8 @@ class Domains::Compensation::Stats::CountByDept
   end
 
   def data
-    departments.map { |dept| count_cases(dept) } + [count_total_cases]
+    items = compensations
+    departments.map { |dept| count_cases(dept, items) } + [count_total_cases(items)]
   end
 
   private
@@ -18,7 +19,7 @@ class Domains::Compensation::Stats::CountByDept
     Domains::Compensation.where(created_at: @start_date..@end_date)
   end
 
-  def count_cases dept
+  def count_cases dept, compensations
     by_dept = compensations.where(department: dept)
     {
       department: dept,
@@ -29,7 +30,7 @@ class Domains::Compensation::Stats::CountByDept
     }
   end
 
-  def count_total_cases
+  def count_total_cases(compensations)
     {
       department: "Total",
       total:      compensations.count,
