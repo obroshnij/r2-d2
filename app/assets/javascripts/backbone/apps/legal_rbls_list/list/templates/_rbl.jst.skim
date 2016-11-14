@@ -1,5 +1,5 @@
 .row
-  .large-4.columns
+  .large-3.columns
     .row.hash
       .key.w-20 Name
       .value.w-80 = @name
@@ -7,17 +7,28 @@
       .key.w-20 Status
       .value.w-80: span class="#{@statusColor} label" = @status_name
       
-  .large-5.columns
-    - if @url
-      .row.hash
+  .large-4.columns
+    .row.hash
+      - if @url
         .key.w-20 URL
         .value.w-80 == @linkTo @url, @url, { external: true }, { target: '_blank' }
-    - if @comment
-      .row.hash
+      - else
+        .key
+        .value
+    .row.hash
+      - if @comment
         .key.w-20 Comment
         .value.w-80 = @comment
-      
+        
   .large-3.columns
+    .row.hash
+      .key Added at
+      .value = @created_at_formatted
+    .row.hash
+      .key Updated at
+      .value = @updated_at_formatted
+      
+  .large-2.columns
     .row
       .large-12.columns
         .button-group.tiny.float-right
