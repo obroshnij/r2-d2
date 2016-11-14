@@ -11,5 +11,6 @@
         tr
           td = data["URL"]
           td = data["Title"]
-          td = data["Last Effective URL"]
+          td
+            a target='_blank' href = data["Last Effective URL"] = data["Last Effective URL"]
           td = data["Response Code"]
