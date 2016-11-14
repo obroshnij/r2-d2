@@ -54,6 +54,17 @@ class Ability::Setup
         }
       ]
     }, {
+      subjects:         ['Domains::Compensation::Statistic'],
+      description:      'Domains & General -> Compensation Stats',
+
+      permissions: [
+        {
+          actions:      ['index', 'show'],
+          description:  'Access compensation system statistics',
+          identifier:   'domains_compensation_stats_show'
+        }
+      ]
+    }, {
       subjects:         ['Domains::WatchedDomain'],
       description:      'Domains & General -> Watched Domains',
 

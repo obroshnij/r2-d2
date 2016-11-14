@@ -1,6 +1,6 @@
-@Artoo.module 'DomainsCompensationStatsApp.List', (List, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'DomainsCompensationStatsApp.Show', (Show, App, Backbone, Marionette, $, _) ->
 
-  class List.Controller extends App.Controllers.Application
+  class Show.Controller extends App.Controllers.Application
 
     initialize: (options) ->
       stats = App.request 'domains:compensation:stats:entity'
@@ -38,17 +38,18 @@
         region:  @layout.statsRegion
 
     getSearchView: (stats) ->
-      schema = new List.SearchSchema
+      schema = new Show.SearchSchema
+
       App.request 'form:fields:component',
         schema:  schema
         model:   stats
 
     getStatsView: (stats) ->
-      new List.StatsView
-        collection: stats
+      new Show.StatsView
+        model: stats
 
     getPanelView: ->
-      new List.Panel
+      new Show.Panel
 
     getLayoutView: ->
-      new List.Layout
+      new Show.Layout

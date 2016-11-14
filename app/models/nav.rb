@@ -49,10 +49,11 @@ class Nav
           url:    '#/domains-general/compensation',
           icon:   'fa fa-fw fa-usd',
           klass:  Domains::Compensation
-        # }, {
-        #   name:   'Compensation Stats',
-        #   url:    '#/domains-general/compensation/stats',
-        #   icon:   'fa fa-fw fa-bar-chart'
+        }, {
+          name:   'Compensation Stats',
+          url:    '#/domains-general/compensation/stats',
+          icon:   'fa fa-fw fa-bar-chart',
+          klass:  Domains::Compensation::Statistic
         }, {
           name:   'Watched Domains',
           url:    '#/domains-general/watched',
@@ -163,7 +164,7 @@ class Nav
 
   def self.accessible_by_as_json ability
     navs = accessible_by ability
-
+    
     result = navs.each_with_object({}) do |nav, hash|
       hash[nav.navs_name] = nav.child_navs.map(&:json)
     end

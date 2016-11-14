@@ -1,4 +1,4 @@
-class Domains::Compensation::Stats::AmountByProduct
+class Domains::Compensation::Statistic::AmountByProduct
 
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date
@@ -12,7 +12,7 @@ class Domains::Compensation::Stats::AmountByProduct
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.all
+    Domains::Compensation::NamecheapProduct.where.not(id: 10)
   end
 
   def compensations

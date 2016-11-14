@@ -1,4 +1,4 @@
-class Domains::Compensation::Stats::CountByDept
+class Domains::Compensation::Statistic::CountByDept
 
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date

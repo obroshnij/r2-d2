@@ -3,14 +3,14 @@
   class DomainsCompensationStatsApp.Router extends App.Routers.Base
 
     appRoutes:
-      'domains-general/compensation/stats' : 'list'
+      'domains-general/compensation/stats' : 'show'
 
   API =
 
-    list: (region) ->
-      return App.execute 'domains:list', 'Compensation Stats', { action: 'list' } if not region
+    show: (region) ->
+      return App.execute 'domains:list', 'Compensation Stats', { action: 'show' } if not region
 
-      new DomainsCompensationStatsApp.List.Controller
+      new DomainsCompensationStatsApp.Show.Controller
         region: region
 
 
@@ -18,13 +18,14 @@
     return if nav isnt 'Compensation Stats'
 
     action = options?.action
-    action ?= 'list'
+    action ?= 'show'
 
-    if action is 'list'
+    if action is 'show'
       App.navigate '/domains-general/compensation/stats'
-      API.list region
+      API.show region
 
 
   DomainsCompensationStatsApp.on 'start', ->
     new DomainsCompensationStatsApp.Router
       controller: API
+      resource:   'Domains::Compensation::Statistic'

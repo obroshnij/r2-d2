@@ -1,4 +1,4 @@
-class Domains::Compensation::Stats::CountByTiersEnabled
+class Domains::Compensation::Statistic::CountByTiersEnabled
 
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date

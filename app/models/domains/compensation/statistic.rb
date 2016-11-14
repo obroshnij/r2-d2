@@ -1,4 +1,4 @@
-class Domains::Compensation::Stats
+class Domains::Compensation::Statistic
 
   def initialize date_range = nil
     @start_date, @end_date = parse_date_range(date_range)
@@ -9,7 +9,7 @@ class Domains::Compensation::Stats
   end
 
   def method_missing name, *args, &block
-    klass = "Domains::Compensation::Stats::#{name.to_s.classify}".constantize
+    klass = "Domains::Compensation::Statistic::#{name.to_s.classify}".constantize
     klass.new(@start_date, @end_date).data
   rescue NameError
     super
