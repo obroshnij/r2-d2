@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
 
+  serialization_scope :view_context
+
   include MaintenanceAlertsHelper
   include LaToolsHelper
   include DomainBoxHelper
@@ -26,6 +28,12 @@ class ApplicationController < ActionController::Base
   def index
     gon.rabl
     render layout: 'application_new'
+  end
+
+  def pagination_dict(object)
+    {
+        totalRecords: object.total_entries
+    }
   end
 
 end

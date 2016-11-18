@@ -12,6 +12,7 @@ class Domains::Compensation::Form
   attribute :reference_id,           String
   attribute :reference_item,         String
   attribute :product_id,             Integer
+  attribute :affected_product_id,    Integer
   attribute :product_compensated_id, Integer
   attribute :service_compensated_id, Integer
   attribute :hosting_type_id,        Integer

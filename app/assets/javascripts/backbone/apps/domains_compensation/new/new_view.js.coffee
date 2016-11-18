@@ -36,10 +36,10 @@
         id:     'service-compensation'
 
         fields: [
-          name:    'product_id'
+          name:    'affected_product_id'
           label:   'Affected Service'
           type:    'collection_radio_buttons'
-          options: App.request('domains:compensation:product:entities').toJSON()[0..-2]
+          options: App.request('domains:compensation:affected:product:entities').toJSON()
           default: '1'
           hint:    'Product the client had issues with'
         ,
@@ -79,7 +79,7 @@
               search.hosting_type_id_eq = $("[name='hosting_type_id']:checked").val()
             q: search
           dependencies:
-            'product_compensated_id': value: ['1', '2', '3', '4', '5', '6', '9']
+            'product_compensated_id': value: ['1', '2', '3', '9', '11']
         ,
           name:    'issue_level_id'
           label:   'Issue Level'

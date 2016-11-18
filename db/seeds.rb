@@ -147,9 +147,7 @@ end
 Domains::NamecheapProduct.create(name: "Domains")
 hosting = Domains::NamecheapProduct.create(name: "Hosting")
 ncpe = Domains::NamecheapProduct.create(name: "NCPE")
-ssl_namecheap = Domains::NamecheapProduct.create(name: "SSL (Namecheap.com)")
-ssl_ssls_com = Domains::NamecheapProduct.create(name: "SSL (SSLs.com)")
-ssl_sslsertificate_com = Domains::NamecheapProduct.create(name: "SSLcertificate.com")
+Rake::Task['products:create_ssl_with_services'].invoke
 Domains::NamecheapProduct.create(name: "WhoisGuard")
 Domains::NamecheapProduct.create(name: "PremiumDNS")
 apps = Domains::NamecheapProduct.create(name: "Apps")
@@ -239,97 +237,6 @@ end
 end
 
 [
-  "PositiveSSL",
-  "PositiveSSL Wildcard",
-  "PositiveSSL Multi-Domain",
-  "EssentialSSL",
-  "EssentialSSL Wildcard",
-  "RapidSSL",
-  "RapidSSL Wildcard",
-  "QuickSSL Premium",
-  "Thawte SSL 123",
-  "InstantSSL",
-  "InstantSSL Pro",
-  "PremiumSSL",
-  "PremiumSSL Wildcard",
-  "Multi-Domain SSL",
-  "Unified Communications",
-  "True BusinessID",
-  "True BusinessID Wildcard",
-  "True BusinessID Multi-Domain",
-  "Secure Site",
-  "Secure Site Pro",
-  "SSL Web Server",
-  "EV SSL",
-  "EV Multi-Domain SSL",
-  "True BusinessID with EV",
-  "True BusinessID with EV Multi-Domain",
-  "Secure Site with EV",
-  "Secure Site Pro with EV",
-  "SSL Web Server EV"
-].each do |name|
-  Domains::NamecheapService.create(name: name, product_id: ssl_namecheap.id)
-end
-
-[
-  "PositiveSSL",
-  "EssentialSSL",
-  "PositiveSSL Wildcard",
-  "EssentialSSL Wildcard",
-  "PositiveSSL Multi-Domain",
-  "InstantSSL",
-  "InstantSSL Pro",
-  "PremiumSSL",
-  "PremiumSSL Wildcard",
-  "Unified Communications",
-  "Multi-Domain SSL",
-  "EV SSL",
-  "EV Multi-Domain SSL",
-  "RapidSSL",
-  "RapidSSL Wildcard",
-  "QuickSSL Premium",
-  "True BusinessID",
-  "True BusinessID with EV",
-  "True BusinessID Wildcard",
-  "Secure Site",
-  "Secure Site Pro",
-  "Secure Site Pro with EV",
-  "Secure Site with EV",
-  "SSL123",
-  "SSL Web Server",
-  "SSL Web Server EV"
-].each do |name|
-  Domains::NamecheapService.create(name: name, product_id: ssl_ssls_com.id)
-end
-
-[
-  "PositiveSSL",
-  "EssentialSSL",
-  "PositiveSSL Wildcard",
-  "EssentialSSL Wildcard",
-  "InstantSSL",
-  "InstantSSL Pro",
-  "PremiumSSL",
-  "PremiumSSL Wildcard",
-  "EV SSL",
-  "RapidSSL",
-  "RapidSSL Wildcard",
-  "QuickSSL Premium",
-  "True BusinessID",
-  "True BusinessID Wildcard",
-  "True BusinessID with EV",
-  "Secure Site",
-  "Secure Site Pro",
-  "Secure Site Pro with EV",
-  "Secure Site with EV",
-  "SSL123",
-  "SSL Web Server",
-  "SSL Web Server EV"
-].each do |name|
-  Domains::NamecheapService.create(name: name, product_id: ssl_sslsertificate_com.id)
-end
-
-[
   "Strikingly",
   "Weebly",
   "Namecheap Uptime Monitoring",
@@ -374,3 +281,5 @@ end
 ].each do |name|
   Domains::Compensation::TierPricing.create name: name
 end
+
+Rake::Task['products:create_affected_products'].invoke

@@ -77,6 +77,7 @@ gem 'oj', '~> 2.12.14'
 gem 'prawn'
 gem 'prawn-table'
 gem 'whenever', :require => false
+gem 'active_model_serializers'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
