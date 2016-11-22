@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161025123229) do
+ActiveRecord::Schema.define(version: 20161116144440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,10 @@ ActiveRecord::Schema.define(version: 20161025123229) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "domains_compensation_affected_products", force: :cascade do |t|
+    t.string "name"
+  end
+
   create_table "domains_compensation_issue_levels", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -154,6 +158,7 @@ ActiveRecord::Schema.define(version: 20161025123229) do
     t.boolean  "delivered"
     t.text     "qa_comments"
     t.string   "department"
+    t.integer  "affected_product_id"
   end
 
   create_table "domains_nc_hosting_types", force: :cascade do |t|

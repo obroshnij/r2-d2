@@ -36,10 +36,10 @@
         isCompact: true
 
         fields: [
-          name:     'product_id_eq'
+          name:     'affected_product_id_eq'
           label:    'Affected Service'
           tagName:  'select'
-          options:  @getProducts()
+          options:  @getAffectedProducts()
         ,
           name:     'product_compensated_id_eq'
           label:    'Service Compensated'
@@ -71,8 +71,8 @@
     getDepartments: ->
       App.entities.domains.compensation.departments
 
-    getProducts: ->
-      App.entities.domains.compensation.product[0..-2]
+    getAffectedProducts: ->
+      App.entities.domains.compensation.affected_product
 
     getProductsCompensated: ->
       App.entities.domains.compensation.product

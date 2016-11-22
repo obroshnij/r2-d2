@@ -1,7 +1,7 @@
 .large-4.columns
   .row.hash
     .key: span Affected Service
-    .value: span = @product
+    .value: span = @affected_product
   .row.hash
     .key: span Service Compensated
     .value: span = @productAndService

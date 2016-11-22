@@ -12,7 +12,21 @@ class Domains::Compensation::Statistic::FreeItemsCountByProduct
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.where.not(id: 10)
+    Domains::Compensation::AffectedProduct.where.not(id: 10)
+  end
+
+  def services(compensations)
+    values = []
+
+    departments.each { |d| services_count(compensations, d).each_pair { |k, v| values << {name: k, depts: [{name: d, count: v}]} } }
+    services_count(compensations).each_pair { |k, v| values << {name: k, depts: [{name: 'Total', count: v}]} }
+    values.group_by { |h| h[:name] }.map { |_, hs| hs.reduce {|accum, value| accum.merge(value) {|key, old, new| old.is_a?(Array) && new.is_a?(Array) ? old + new : new }}}
+  end
+
+  def services_count(compensations, department=nil)
+    with_services = compensations.eager_load(:service_compensated)
+    with_services = with_services.where(department: department)  if department
+    with_services.group('domains_nc_services.name').count.delete_if { |k, v| k.nil?}
   end
 
   def compensations
@@ -25,29 +39,28 @@ class Domains::Compensation::Statistic::FreeItemsCountByProduct
   end
 
   def count_cases product, compensations
-    items = { depts: [] }
+    items = {depts: []}
+    by_product = compensations.where(affected_product_id: product.id)
 
     departments.each do |dept|
-      items[:depts] << { name: dept, count: compensations.where(product_id: product.id, department: dept).count }
+      dept_product_compensations = by_product.where(department: dept)
+      items[:depts] << {name: dept, count: dept_product_compensations.count}
     end
 
-    items[:depts] << { name: 'Total', count: compensations.where(product_id: product.id).count }
-
-    by_product = compensations.where(product_id: product.id)
-
-    { product: product.name, total: by_product.count }.merge items
+    items[:depts] << {name: 'Total', count: by_product.count}
+    {product: product.name, total: by_product.count, services: services(by_product)}.merge items
   end
 
   def count_total_cases(compensations)
-    items = { depts: [] }
+    items = {depts: []}
 
     departments.each do |dept|
-      items[:depts] << { name: dept, count: compensations.where(department: dept).count }
+      items[:depts] << {name: dept, count: compensations.where(department: dept).count}
     end
 
-    items[:depts] << { name: 'Total', count: compensations.count }
+    items[:depts] << {name: 'Total', count: compensations.count}
 
-    { product: 'Total', total: compensations.count }.merge items
+    {product: 'Total', total: compensations.count, services: services(compensations)}.merge items
   end
 
 end

@@ -92,13 +92,33 @@
             th
             - for dept in @free_items_count_by_product[0].depts
               th = dept.name
-        tbody
+            th
+        tbody.free-items
           - for line in @free_items_count_by_product
-            tr
-              td = line.product
+            tr class="product-element #{'detailed-empty' if line.services.length == 0}"
+              td width='30%' = line.product
               - for dept in line.depts
-                td = dept.count
-                
+                td width="15%" = dept.count
+              td width="15%"
+                a.toggle.float-right
+                  icon.fa.fa-angle-double-down
+            tr.item-detailed
+              td class='detailed-table-container' colspan='4'
+                table
+                  thead
+                    tr
+                      th Service
+                      - for dept in @free_items_count_by_product[0].depts
+                        th = dept.name
+                      th
+                  tbody
+                    - for service in line.services
+                      tr
+                        td width='30%' = service.name
+                        - for dept in service.depts
+                          td width="15%" = dept.count
+                        td width = '15%'
+
     #count-by-tiers-enabled.tabs-panel
       table
         thead

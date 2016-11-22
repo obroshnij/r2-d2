@@ -10,8 +10,11 @@ class Domains::Compensation < ActiveRecord::Base
   belongs_to :service_compensated, class_name: 'Compensation::NamecheapService',     foreign_key: 'service_compensated_id'
   belongs_to :hosting_type,        class_name: 'Compensation::NamecheapHostingType', foreign_key: 'hosting_type_id'
   belongs_to :issue_level,         class_name: 'Compensation::IssueLevel',           foreign_key: 'issue_level_id'
+  belongs_to :affected_product,    class_name: 'Compensation::AffectedProduct',      foreign_key: 'affected_product_id'
   belongs_to :compensation_type,   class_name: 'Compensation::CompensationType',     foreign_key: 'compensation_type_id'
   belongs_to :tier_pricing,        class_name: 'Compensation::TierPricing',          foreign_key: 'tier_pricing_id'
+
+  validates_presence_of :department
 
   scope :with_data, -> { includes(
     :submitted_by, :product, :product_compensated, :service_compensated,

@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::IssueTypesByProduct
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.where.not(id: 10)
+    Domains::Compensation::AffectedProduct.where.not(id: 10)
   end
 
   def compensations
@@ -29,7 +29,7 @@ class Domains::Compensation::Statistic::IssueTypesByProduct
   end
 
   def count_cases product, compensations
-    by_product = compensations.where(product_id: product.id)
+    by_product = compensations.where(affected_product_id: product.id)
 
     items = { types: [] }
 
