@@ -12,12 +12,24 @@
   class Show.Panel extends App.Views.ItemView
     template: 'domains_compensation_stats/show/panel'
 
-
-  class Show.StatsView extends App.Views.ItemView
+  class Show.StatsView extends App.Views.CompositeView
     template: 'domains_compensation_stats/show/stats'
+
+    events: {
+      'click .product-element' : 'toggleClicked'
+    }
 
     modelEvents:
       'change' : 'render'
+
+    toggleClicked: (e)->
+      $element = $(e.currentTarget)
+
+      unless $element.hasClass('detailed-empty')
+        $detailed = $element.next('.item-detailed')
+        $detailed.toggleClass                      'expanded'
+        $element.find('a.toggle').toggleClass      'expanded'
+        $element.find('a.toggle icon').toggleClass 'fa-rotate-180'
 
     onDomRefresh: ->
       new Foundation.Tabs @$('#compensation-reports')

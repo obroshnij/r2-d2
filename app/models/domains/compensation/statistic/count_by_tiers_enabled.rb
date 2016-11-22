@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::CountByTiersEnabled
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.all
+    Domains::Compensation::AffectedProduct.all
   end
 
   def compensations

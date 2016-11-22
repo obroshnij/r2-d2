@@ -1,10 +1,7 @@
 class Domains::CompensationSerializer < ApplicationSerializer
-
-  attributes  :id, :reference_id, :reference_item, :discount_recurring, :compensation_amount,
-              :client_satisfied, :comments, :status, :department, :created_at_formatted, :product_compensated_id,
-              :service_compensated, :hosting_type, :issue_level, :tier_pricing, :qa_comments,
-              :delivered, :used_correctly, :service_compensated_id, :submitted_by_id, :product, :product_compensated,
-              :affected_product, :compensation_type, :submitted_by
+  attrs = Domains::Compensation.attribute_names - ['checked_by_id', 'used_correctly', 'delivered', 'qa_comments']
+  attributes *attrs + [:created_at_formatted, :service_compensated, :product_compensated, :product, :hosting_type,
+      :issue_level, :tier_pricing, :affected_product, :compensation_type, :submitted_by]
 
   attribute :checked_by_id,   if: :can_check?
   attribute :checked_by,      if: :show_checked_by?
