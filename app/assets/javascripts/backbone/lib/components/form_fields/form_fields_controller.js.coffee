@@ -39,6 +39,9 @@
               val = field.get('value') or @getValueFromModel(field.get('name')) or field.get('default')
               field.set 'value', val
 
+              if field.get('type') is 'select2'
+                _.defer -> $("##{field.get('id')}").trigger('change')
+
 
         fields.trigger 'field:value:changed'
 
