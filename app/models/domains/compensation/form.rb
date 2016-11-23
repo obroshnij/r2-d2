@@ -11,7 +11,6 @@ class Domains::Compensation::Form
   attribute :status,                 String
   attribute :reference_id,           String
   attribute :reference_item,         String
-  attribute :product_id,             Integer
   attribute :affected_product_id,    Integer
   attribute :product_compensated_id, Integer
   attribute :service_compensated_id, Integer
@@ -90,6 +89,10 @@ class Domains::Compensation::Form
     return "SSL"        if groups.any? { |g| g =~ /cs-ssl/ }
     return "Concierge"  if groups.any? { |g| g =~ /cs-concierge/ }
     return "Domains"    if groups.any? { |g| g =~ /cs-domain/ }
+    return "Operations" if groups.any? { |g| g =~ /cs-operations/ }
+    return "RM CFC"     if groups.any? { |g| g =~ /rm-cfc/ }
+    return "RM L&A"     if groups.any? { |g| g =~ /rm-la/ }
+    return "RM NBI"     if groups.any? { |g| g =~ /rm-nbi/ }
     "Other"
   end
 

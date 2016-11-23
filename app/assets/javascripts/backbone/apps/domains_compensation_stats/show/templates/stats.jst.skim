@@ -96,28 +96,23 @@
         tbody.free-items
           - for line in @free_items_count_by_product
             tr class="product-element #{'detailed-empty' if line.services.length == 0}"
-              td width='30%' = line.product
+              td width='20%' = line.product
               - for dept in line.depts
-                td width="15%" = dept.count
-              td width="15%"
+                td width="#{(70 / line.depts.length).toFixed(2)}%" = dept.count
+              td width='10%'
                 a.toggle.float-right
                   icon.fa.fa-angle-double-down
+            tr style="display:none"
             tr.item-detailed
               td class='detailed-table-container' colspan='4'
                 table
-                  thead
-                    tr
-                      th Service
-                      - for dept in @free_items_count_by_product[0].depts
-                        th = dept.name
-                      th
                   tbody
                     - for service in line.services
                       tr
-                        td width='30%' = service.name
+                        td width='20%' = service.name
                         - for dept in service.depts
-                          td width="15%" = dept.count
-                        td width = '15%'
+                          td width="#{(70 / service.depts.length).toFixed(2)}%" = dept.count
+                        td width='10%'
 
     #count-by-tiers-enabled.tabs-panel
       table

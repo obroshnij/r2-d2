@@ -32,8 +32,16 @@ class ApplicationController < ActionController::Base
 
   def pagination_dict(object)
     {
-        totalRecords: object.total_entries
+      totalRecords: object.total_entries
     }
+  end
+
+  def render_json_single object
+    render json: object, adapter: :attributes
+  end
+
+  def render_json_collection collection
+    render json: collection, meta: pagination_dict(collection), meta_key: :pagination
   end
 
 end

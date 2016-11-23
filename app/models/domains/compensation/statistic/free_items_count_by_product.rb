@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::FreeItemsCountByProduct
   private
 
   def products
-    Domains::Compensation::AffectedProduct.where.not(id: 10)
+    Domains::Compensation::NamecheapProduct.where.not(id: 8)
   end
 
   def services(compensations)
@@ -40,7 +40,7 @@ class Domains::Compensation::Statistic::FreeItemsCountByProduct
 
   def count_cases product, compensations
     items = {depts: []}
-    by_product = compensations.where(affected_product_id: product.id)
+    by_product = compensations.where(product_compensated_id: product.id)
 
     departments.each do |dept|
       dept_product_compensations = by_product.where(department: dept)

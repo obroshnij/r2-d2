@@ -29,16 +29,33 @@
   li:last-child                           { border-bottom: 1px solid $medium-gray; }
   li:hover                                { background-color: #def0fc; }
 
+  li.tabs-title                           { border-bottom: none; }
+
   .free-items {
     .item-detailed {
       display: none;
       &.expanded {
         display: table-row;
       }
-      .detailed-table-container { padding: 2px }
-      table { margin-bottom: 0 }
+      .detailed-table-container {
+        padding: 2px;
+
+        table {
+          margin-bottom: 0;
+          border:        0;
+
+          tr, tbody {
+            border:           0;
+            background-color: inherit;
+            font-size:        0.8rem;
+          }
+
+          tr td:first-child {
+            padding-left: 2rem;
+          }
+        }
+      }
     }
 
   }
 }
-

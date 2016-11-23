@@ -1,7 +1,8 @@
 class Domains::CompensationSerializer < ApplicationSerializer
   attrs = Domains::Compensation.attribute_names - ['checked_by_id', 'used_correctly', 'delivered', 'qa_comments']
-  attributes *attrs + [:created_at_formatted, :service_compensated, :product_compensated, :product, :hosting_type,
-      :issue_level, :tier_pricing, :affected_product, :compensation_type, :submitted_by]
+
+  attributes *attrs + [:created_at_formatted, :service_compensated, :product_compensated, :hosting_type,
+                       :issue_level, :tier_pricing, :affected_product, :compensation_type, :submitted_by]
 
   attribute :checked_by_id,   if: :can_check?
   attribute :checked_by,      if: :show_checked_by?
@@ -13,7 +14,17 @@ class Domains::CompensationSerializer < ApplicationSerializer
     object.created_at.strftime '%b/%d/%Y, %H:%M'
   end
 
-  %w{ product product_compensated service_compensated hosting_type issue_level affected_product compensation_type tier_pricing checked_by submitted_by }.each { |method_name|
+  %w{
+    product_compensated
+    service_compensated
+    hosting_type
+    issue_level
+    affected_product
+    compensation_type
+    tier_pricing
+    checked_by
+    submitted_by
+  }.each { |method_name|
     define_method(method_name) { object.send(method_name).try(:name) }
   }
 

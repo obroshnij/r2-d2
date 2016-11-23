@@ -12,11 +12,11 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
   private
 
   def products
-    Domains::Compensation::AffectedProduct.where.not(id: 10)
+    Domains::Compensation::NamecheapProduct.where.not(id: 8)
   end
 
   def compensations
-    Domains::Compensation.where(created_at: @start_date..@end_date)
+    Domains::Compensation.where(created_at: @start_date..@end_date, compensation_type_id: 6)
   end
 
   def departments

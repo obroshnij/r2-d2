@@ -9,6 +9,7 @@ class CreateDomainsCompensationAffectedProducts < ActiveRecord::Migration
 
     Rake::Task['products:create_affected_products'].invoke
     Rake::Task['products:remap'].invoke
+    Rake::Task['products:fix_records'].invoke
 
   end
 end

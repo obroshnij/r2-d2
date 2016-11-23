@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::IssueTypesByProduct
   private
 
   def products
-    Domains::Compensation::AffectedProduct.where.not(id: 10)
+    Domains::Compensation::AffectedProduct.all
   end
 
   def compensations

@@ -26,7 +26,7 @@
       $element = $(e.currentTarget)
 
       unless $element.hasClass('detailed-empty')
-        $detailed = $element.next('.item-detailed')
+        $detailed = $element.next().next()
         $detailed.toggleClass                      'expanded'
         $element.find('a.toggle').toggleClass      'expanded'
         $element.find('a.toggle icon').toggleClass 'fa-rotate-180'

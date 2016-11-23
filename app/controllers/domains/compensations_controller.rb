@@ -5,13 +5,13 @@ class Domains::CompensationsController < ApplicationController
     authorize! :index, Domains::Compensation
     @search = Domains::Compensation.with_data.accessible_by(current_ability).ransack params[:q]
     @compensations = @search.result(distinct: true).order(created_at: :desc).paginate(page: params[:page], per_page: params[:per_page])
-    render json: @compensations, meta: pagination_dict(@compensations), meta_key: :pagination
+    render_json_collection @compensations
   end
 
   def show
     @compensation = Domains::Compensation.find params[:id]
     authorize! :show, @compensation
-    render json: @compensation
+    render_json_single @compensation
   end
 
   def create
@@ -19,7 +19,7 @@ class Domains::CompensationsController < ApplicationController
     @form = Domains::Compensation::Form.new
     if @form.submit params
       @compensation = @form.model
-      render json: @compensation
+      render_json_single @compensation
     else
       respond_with @form
     end
@@ -31,7 +31,7 @@ class Domains::CompensationsController < ApplicationController
     @form = Domains::Compensation::Form.new params[:id]
     if @form.submit params
       @compensation = @form.model
-      render json: @compensation
+      render_json_single @compensation
     else
       respond_with @form
     end
@@ -43,7 +43,7 @@ class Domains::CompensationsController < ApplicationController
     @form = Domains::Compensation::Form.new params[:id]
     if @form.submit params
       @compensation = @form.model
-      render json: @compensation
+      render_json_single @compensation
     else
       respond_with @form
     end

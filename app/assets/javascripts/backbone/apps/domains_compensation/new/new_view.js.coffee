@@ -79,7 +79,7 @@
               search.hosting_type_id_eq = $("[name='hosting_type_id']:checked").val()
             q: search
           dependencies:
-            'product_compensated_id': value: ['1', '2', '3', '9', '11']
+            'product_compensated_id': value: ['1', '2', '3', '4', '7']
         ,
           name:    'issue_level_id'
           label:   'Issue Level'
