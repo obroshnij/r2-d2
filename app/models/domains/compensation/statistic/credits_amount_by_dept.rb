@@ -29,7 +29,7 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
     products.each do |product|
       items[:products] << {
         product: product.name,
-        amount:  compensations.where(affected_product_id: product.id, department: dept).sum(:compensation_amount)
+        amount:  compensations.where(product_compensated_id: product.id, department: dept).sum(:compensation_amount)
       }
     end
 
@@ -46,7 +46,7 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
     products.each do |product|
       items[:products] << {
         product: product.name,
-        amount:  compensations.where(affected_product_id: product.id).sum(:compensation_amount)
+        amount:  compensations.where(product_compensated_id: product.id).sum(:compensation_amount)
       }
     end
 
