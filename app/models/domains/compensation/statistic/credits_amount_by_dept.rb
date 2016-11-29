@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.where.not(id: 8)
+    Domains::Compensation::NamecheapProduct.all
   end
 
   def compensations
