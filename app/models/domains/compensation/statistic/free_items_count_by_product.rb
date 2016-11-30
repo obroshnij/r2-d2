@@ -12,7 +12,7 @@ class Domains::Compensation::Statistic::FreeItemsCountByProduct
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.all
+    Domains::Compensation::NamecheapProduct.where.not(id: 8)
   end
 
   def services(compensations)
