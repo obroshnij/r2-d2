@@ -1,7 +1,9 @@
 class Domains::Compensation::Statistic
 
   def initialize date_range = nil
-    @start_date, @end_date = parse_date_range(date_range)
+    start_date, end_date = parse_date_range(date_range)
+    @start_date = start_date.beginning_of_day
+    @end_date   = end_date.end_of_day
   end
 
   def date_range
