@@ -79,6 +79,8 @@ gem 'prawn-table'
 gem 'whenever', :require => false
 gem 'active_model_serializers'
 
+gem 'google_drive'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
