@@ -26,6 +26,7 @@ gem 'spring',        group: :development
 
 gem 'responders'
 gem 'virtus'
+gem 'letter_opener'
 
 gem "slim-rails"
 gem 'rails-html-sanitizer'
