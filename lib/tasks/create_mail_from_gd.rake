@@ -1,6 +1,6 @@
-namespace :create_email do
+namespace :nc_performance do
   desc "Parse google drive and send letter"
-  task parse_and_send: :environment do
+  task notify: :environment do
     session = GoogleDrive.saved_session File.join(Rails.root, 'config', 'google_drive.json')
     doc = session.spreadsheet_by_key('1uyxGGP6YKc0uOIPRxGwPQLwcM4JUg-9SpeC8HN0JwSY')
     rows = doc.worksheets[0].rows

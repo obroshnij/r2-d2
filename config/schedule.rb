@@ -23,6 +23,6 @@ every 1.day, at: '1:30 am' do
   rake "domains:update_domain_names"
 end
 
-every 1.day, at: '12:00 am' do
-  rake "create_email:parse_and_send"
+every 1.day, at: '7:15 pm' do
+  rake "nc_performance:notify"
 end
