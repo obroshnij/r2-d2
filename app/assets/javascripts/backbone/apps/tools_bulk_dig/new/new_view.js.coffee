@@ -1,21 +1,21 @@
 @Artoo.module 'ToolsBulkDigApp.New', (New, App, Backbone, Marionette, $, _) ->
-  
+
   class New.Layout extends App.Views.LayoutView
     template: 'tools_bulk_dig/new/layout'
-    
+
     regions:
       formRegion:   '#form-region'
       resultRegion: '#result-region'
-      
-      
+
+
   class New.FormSchema extends Marionette.Object
-    
+
     form:
       buttons:
         primary: 'Submit'
         cancel:  false
       syncingType: 'buttons'
-    
+
     schema:
       [
         {
@@ -42,6 +42,7 @@
             ,
               id: 'ptr',  name: 'PTR'
             ]
+            default: ['a', 'aaaa', 'mx', 'txt', 'ns', 'ptr']
           ,
             name:     'nameservers'
             label:    'Nameservers'
@@ -57,13 +58,13 @@
           ]
         }
       ]
-      
-      
+
+
   class New.Result extends App.Views.ItemView
     template: 'tools_bulk_dig/new/result'
-    
+
     modelEvents:
       'sync:stop' : 'render'
-      
+
     onAttach: ->
       @destroy() unless @model.get('records')

@@ -1,5 +1,5 @@
 class SpamJob < ActiveJob::Base
-  queue_as :default
+  queue_as :whois
 
   def perform(job)
     job.update_attributes status: "Pending", info: "Background job is being processed"
@@ -9,5 +9,5 @@ class SpamJob < ActiveJob::Base
       job.update_attributes status: "Failed, will retry on #{(DateTime.now + 5.minutes).strftime('%d %b %Y at %H:%M')}"
     end
   end
-  
+
 end

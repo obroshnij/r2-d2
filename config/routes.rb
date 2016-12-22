@@ -15,18 +15,9 @@ Rails.application.routes.draw do
   get 'spam' => 'la_tools#new'
   post 'spam' => 'la_tools#parse'
   post 'append_csv' => 'la_tools#append_csv'
-  get 'dbl_surbl' => 'la_tools#dbl_surbl'
-  post 'dbl_surbl' => 'la_tools#dbl_surbl_check'
-  get 'bulk_curl' => 'la_tools#bulk_curl'
-  post 'bulk_curl' => 'la_tools#perform_bulk_curl'
   get 'resource_abuse' => 'la_tools#resource_abuse'
   get 'html_pdfier' => 'la_tools#html_pdfier'
   post 'pdfy_html' => 'la_tools#pdfy_html'
-
-  get 'monthly_reports' => 'manager_tools#monthly_reports'
-  post 'monthly_reports' => 'manager_tools#generate_monthly_reports'
-  get 'welcome_emails' => 'manager_tools#welcome_emails'
-  post 'generate_welcome_emails' => 'manager_tools#generate_welcome_emails'
 
   get 'spam_reports'        => 'la_tools#spam_jobs', as: 'spam_reports'
   get 'spam_reports/:id'    => 'la_tools#show_spam_job', as: 'show_spam_report'
@@ -35,12 +26,6 @@ Rails.application.routes.draw do
   resources :abuse_reports
   get 'update_abuse_report_form' => 'abuse_reports#update_abuse_report_form'
   patch 'approve_abuse_report/:id' => 'abuse_reports#approve', as: 'approve_abuse_report'
-
-  resources :hosting_abuse_reports do
-    collection do
-      get :update_form
-    end
-  end
 
   resources :nc_users
   resources :nc_services, as: 'nc_domains', path: '/nc_domains', controller: 'nc_domains'
@@ -72,6 +57,7 @@ Rails.application.routes.draw do
     namespace :rbl do
       resources :checkers,   only: [:create]
     end
+    resources :bulk_curl_requests, only: [:index, :show, :create]
     resources :pdf_reports do
       post :import,      on: :collection
       put  :toggle_edit, on: :member
@@ -79,10 +65,17 @@ Rails.application.routes.draw do
       put  :merge,       on: :member
       put  :delete_page, on: :member
     end
+
+    resources :dbl_surbl_checks, only: [:create]
   end
 
   namespace :domains do
     resources :watched_domains
+    resources :compensations do
+      put :qa_check, on: :member
+    end
+    resource  :compensation_stats, only: [:show]
+    resources :namecheap_services, only: [:index]
   end
 
   resources :users

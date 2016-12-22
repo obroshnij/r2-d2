@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807134529) do
+ActiveRecord::Schema.define(version: 20161122162157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,74 @@ ActiveRecord::Schema.define(version: 20160807134529) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_compensation_affected_products", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "domains_compensation_issue_levels", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_compensation_tier_pricings", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_compensation_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_compensations", force: :cascade do |t|
+    t.integer  "submitted_by_id"
+    t.string   "reference_id"
+    t.string   "reference_item"
+    t.integer  "product_compensated_id"
+    t.integer  "service_compensated_id"
+    t.integer  "hosting_type_id"
+    t.integer  "issue_level_id"
+    t.integer  "compensation_type_id"
+    t.boolean  "discount_recurring"
+    t.float    "compensation_amount"
+    t.integer  "tier_pricing_id"
+    t.boolean  "client_satisfied"
+    t.text     "comments"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status"
+    t.integer  "checked_by_id"
+    t.boolean  "used_correctly"
+    t.boolean  "delivered"
+    t.text     "qa_comments"
+    t.string   "department"
+    t.integer  "affected_product_id"
+  end
+
+  create_table "domains_nc_hosting_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_nc_products", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domains_nc_services", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "product_id"
+    t.integer  "hosting_type_id"
+    t.boolean  "hidden",          default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "legal_eforward_servers", force: :cascade do |t|

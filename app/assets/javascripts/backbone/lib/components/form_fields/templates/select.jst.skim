@@ -4,7 +4,7 @@
 .large-9.columns
   
   div class="#{@columnClass} columns"
-    select name="#{@name}" id="#{@id}"
+    select name="#{@name}" id="#{@id}" style="width:100%;"
       
       option value='' Please select
       - for option in @options

@@ -1,0 +1,145 @@
+#compensation-stats-tabs
+  ul.tabs#compensation-reports data-tabs=''
+    li.tabs-title.is-active
+      a href='#count-by-dept' Compensation Cases by Departments
+    li.tabs-title
+      a href='#amount-by-product' Compensation Provided by Products in USD
+    li.tabs-title
+      a href='#credits-amount-by-dept' Amount of Credits Added by Departments in USD
+    li.tabs-title
+      a href='#client-satisfaction-by-dept' Client Satisfaction by Department
+    li.tabs-title
+      a href='#free-items-count-by-product' Amount of Free Items Provided by Products
+    li.tabs-title
+      a href='#count-by-tiers-enabled' Amount of Domain Tiers Enabled
+    li.tabs-title
+      a href='#issue-types-by-product' Types of Issues by Products
+        
+  .tabs-content data-tabs-content="compensation-reports"
+  
+    #count-by-dept.tabs-panel.is-active
+      table
+        thead
+          tr
+            th Department
+            th Total Amount
+            th Correct
+            th Incorrect
+            th Pending
+        tbody
+          - for line in @count_by_dept
+            tr
+              td = line.department
+              td = line.total
+              td = line.correct
+              td = line.incorrect
+              td = line.pending
+  
+    #amount-by-product.tabs-panel
+      table
+        thead
+          tr
+            th Product
+            th Amount
+        tbody
+          - for line in @amount_by_product
+            tr
+              td = line.product
+              td = line.total
+            
+    #credits-amount-by-dept.tabs-panel
+      table
+        thead
+          tr
+            th 
+            - for line in @credits_amount_by_dept
+              th = line.department
+        tbody
+          - for product in @credits_amount_by_dept[0].products
+            tr
+              td = product.product
+              - for line in @credits_amount_by_dept
+                td = _.find(line.products, product: product.product).amount
+              
+    #client-satisfaction-by-dept.tabs-panel
+      table
+        thead
+          tr
+            th 
+            - for line in @client_satisfaction_by_dept
+              th = line.department
+        tbody
+          tr
+            td Yes
+            - for line in @client_satisfaction_by_dept
+              - count = if line.percent.satisfied then "#{line.count.satisfied} (#{line.percent.satisfied} %)" else line.count.satisfied
+              td = count
+          tr
+            td No
+            - for line in @client_satisfaction_by_dept
+              - count = if line.percent.not_satisfied then "#{line.count.not_satisfied} (#{line.percent.not_satisfied} %)" else line.count.not_satisfied
+              td = count
+          tr
+            td Not Sure
+            - for line in @client_satisfaction_by_dept
+              - count = if line.percent.not_sure then "#{line.count.not_sure} (#{line.percent.not_sure} %)" else line.count.not_sure
+              td = count
+      
+    #free-items-count-by-product.tabs-panel
+      - depts = @free_items_count_by_product[0].depts
+      table
+        thead
+          tr
+            th
+            - for dept in depts
+              th = dept.name
+            th
+        tbody.free-items
+          - for line in @free_items_count_by_product
+            tr class="product-element #{'detailed-empty' if line.services.length == 0}"
+              td width='20%' = line.product
+              - for dept in line.depts
+                td width="#{(70 / line.depts.length).toFixed(2)}%" = dept.count
+              td width='10%'
+                a.toggle.float-right
+                  icon.fa.fa-angle-double-down
+            tr style="display:none"
+            tr.item-detailed
+              td class='detailed-table-container' colspan="#{2 + depts.length}"
+                table
+                  tbody
+                    - for service in line.services
+                      tr
+                        td width='20%' = service.name
+                        - for dept in depts
+                          td width="#{(70 / depts.length).toFixed(2)}%" = _.find(service.depts, { name: dept.name })?.count || 0
+                        td width='10%'
+
+    #count-by-tiers-enabled.tabs-panel
+      table
+        thead
+          tr
+            th Name
+            th Amount
+        tbody
+          - for line in @count_by_tiers_enabled
+            tr
+              td = line.tier
+              td = line.total
+              
+    #issue-types-by-product.tabs-panel
+      table
+        thead
+          tr
+            th
+            - for type in @issue_types_by_product[0].types
+              th = type.name
+        tbody
+          - for line in @issue_types_by_product
+            tr
+              td = line.product
+              - for type in line.types
+                - count = if type.percent then "#{type.count} (#{type.percent} %)" else type.count
+                td = count
+            
+  

@@ -26,6 +26,7 @@ gem 'spring',        group: :development
 
 gem 'responders'
 gem 'virtus'
+gem 'letter_opener'
 
 gem "slim-rails"
 gem 'rails-html-sanitizer'
@@ -76,6 +77,10 @@ gem 'oj', '~> 2.12.14'
 
 gem 'prawn'
 gem 'prawn-table'
+gem 'whenever', :require => false
+gem 'active_model_serializers'
+
+gem 'google_drive'
 
 gem 'pry'
 gem 'nokogiri'
@@ -86,13 +91,14 @@ gem 'rest-client'
 
 # Use Capistrano for deployment
 group :development do
-  gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'awesome_print'
   gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
+  gem 'rack-mini-profiler', require: false
 end
 
 # Use debugger

@@ -31,8 +31,37 @@ class Ability::Setup
       permissions:      [
         {
           actions:      ['index'],
-          description:  'Access the list of form submissions',
+          description:  'Access the list of all form submissions',
           identifier:   'domains_compensation_index'
+        }, {
+          actions:      ['index'],
+          conditions:   '{ submitted_by_id: user.id }',
+          description:  'Access the list of form submissions created by current user',
+          identifier:   'domains_compensation_index_own'
+        }, {
+          actions:      ['create'],
+          description:  'Submit the compensation tracking form',
+          identifier:   'domains_compensation_create'
+        }, {
+          actions:      ['show', 'update'],
+          conditions:   '{ submitted_by_id: user.id }',
+          description:  'Update form submissions',
+          identifier:   'domains_compensation_update'
+        }, {
+          actions:      ['qa_check'],
+          description:  'Check form submissions on behalf of QA',
+          identifier:   'domains_compensation_qa_check'
+        }
+      ]
+    }, {
+      subjects:         ['Domains::Compensation::Statistic'],
+      description:      'Domains & General -> Compensation Stats',
+
+      permissions: [
+        {
+          actions:      ['index', 'show'],
+          description:  'Access compensation system statistics',
+          identifier:   'domains_compensation_stats_show'
         }
       ]
     }, {
@@ -219,21 +248,6 @@ class Ability::Setup
           actions:     ['manage'],
           description: 'Access L&A tools',
           identifier:  'la_tools_manage'
-        }
-      ]
-    }, {
-      subjects:         ['manager_tool'],
-      description:      'Management Tools',
-
-      permissions:      [
-        {
-          actions:     ['monthly_reports', 'generate_monthly_reports'],
-          description: 'Monthly reports',
-          identifier:  'management_tools_monthly_reports'
-        }, {
-          actions:     ['welcome_emails', 'generate_welcome_emails'],
-          description: 'Welcome Emails',
-          identifier:  'management_tools_welcome_emails'
         }
       ]
     }, {

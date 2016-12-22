@@ -1,0 +1,16 @@
+.table-scroll
+  table
+    thead
+      tr
+        th Request
+        th Title
+        th Last Effective URL
+        th Response Code
+    tbody
+      - for data in @results
+        tr
+          td = data["URL"]
+          td = data["Title"]
+          td
+            a target='_blank' href = data["Last Effective URL"] = data["Last Effective URL"]
+          td = data["Response Code"]

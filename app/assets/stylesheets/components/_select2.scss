@@ -1,9 +1,9 @@
 .select2.select2-container        {
   $height:  ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
   $padding: ($form-spacing / 2);
-  
+
   margin-bottom: $form-spacing;
-  
+
   .select2-selection              {
     height:         $height;
     border-radius:  $select-radius;
@@ -29,15 +29,15 @@
       }
     }
   }
-  
+
   .select2-selection--multiple    {
     min-height:  $height;
     height:      inherit;
     padding-top: ($padding - rem-calc(5));
-    
+
     .select2-selection__rendered  {
       padding: 0;
-      
+
       .select2-search__field {
         line-height:    1rem;
         height:         1.5rem;
@@ -45,23 +45,23 @@
         margin-bottom:  0;
         margin-top:     5px;
       }
-      
+
       .select2-selection__choice {
         border: 0;
         border-radius: 0;
         background-color: $primary-color;
         color: white;
-        
+
         .select2-selection__choice__remove {
           color: white;
         }
       }
     }
   }
-  
+
   .select2-selection.is-invalid-input {
     $background: $input-background-invalid;
-    
+
     &:not([aria-expanded='true']):not(:focus) {
       background-color: rgba($background, 0.1);
       border-color: $background;
@@ -83,22 +83,23 @@
 
 .select2-dropdown                 {
   border-radius: $select-radius;
-  
+
   .select2-search                 {
     .select2-search__field        {
       margin-bottom: 0;
       font-size:     0.875rem;
+      height:        2rem;
     }
   }
-  
+
   .select2-results                {
     font-size: 0.875rem;
-    
+
     .select2-results__options     {
       [aria-selected=true]        {
         background-color: $light-gray;
       }
-      
+
       .select2-results__option--highlighted {
         background-color: $primary-color;
       }

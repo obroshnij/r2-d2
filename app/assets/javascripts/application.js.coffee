@@ -21,23 +21,21 @@
 #= require vis.min
 
 #= require abuse_reports
-#= require domain_box
 #= require la_tools
-#= require manager_tools
 #= require nc_users
 
 String.prototype.capitalizeFirstLetter = ->
   @charAt(0).toUpperCase() + @slice(1)
-  
+
 String.prototype.humanize = ->
   $.map(@split('_'), (el, i) -> el.capitalizeFirstLetter() ).join(' ')
 
 $ ->
   $(document).foundation()
-  
+
   $('.date-picker').fdatepicker().on 'changeDate', (ev) ->
     $(ev.target).change().focusout()
-    
+
   $(document).on 'opened.fndtn.reveal', '[data-reveal]', ->
     $(this).find('form').validate()
 
@@ -49,9 +47,8 @@ $ ->
   else
     $row.css('display', 'none')
     $(link).find('i').removeClass('fa-angle-up').addClass('fa-angle-down')
-    
+
 @spinner = (target) ->
   $(target).append('<br>')
   target = $(target)[0]
   spinner = new Spinner().spin(target)
-  

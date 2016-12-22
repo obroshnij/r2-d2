@@ -63,7 +63,7 @@ class DomainName
       begin
         name = PublicSuffix.parse SimpleIDN.to_unicode(host)
         remove_subdomains == true ? name.domain : name.subdomain || name.domain
-      rescue PublicSuffix::DomainInvalid
+      rescue PublicSuffix::DomainInvalid, SimpleIDN::ConversionError
         next
       end
     end

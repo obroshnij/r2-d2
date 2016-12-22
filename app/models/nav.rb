@@ -50,6 +50,11 @@ class Nav
           icon:   'fa fa-fw fa-usd',
           klass:  Domains::Compensation
         }, {
+          name:   'Compensation Stats',
+          url:    '#/domains-general/compensation/stats',
+          icon:   'fa fa-fw fa-bar-chart',
+          klass:  Domains::Compensation::Statistic
+        }, {
           name:   'Watched Domains',
           url:    '#/domains-general/watched',
           icon:   'fa fa-fw fa-binoculars',
@@ -99,12 +104,12 @@ class Nav
           klass:  Legal::Rbl
         }, {
           name:   'DBL/SURBL Check',
-          url:    '/dbl_surbl',
+          url:    '#/legal/dbl_surbl',
           icon:   'fa fa-fw',
           klass:  :la_tool
         }, {
           name:   'Bulk CURL',
-          url:    '/bulk_curl',
+          url:    '#/legal/bulk_curl',
           icon:   'fa fa-fw',
           klass:  :la_tool
         }, {
@@ -159,7 +164,7 @@ class Nav
 
   def self.accessible_by_as_json ability
     navs = accessible_by ability
-
+    
     result = navs.each_with_object({}) do |nav, hash|
       hash[nav.navs_name] = nav.child_navs.map(&:json)
     end

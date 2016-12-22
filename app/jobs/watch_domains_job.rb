@@ -1,5 +1,5 @@
 class WatchDomainsJob < ActiveJob::Base
-  queue_as :default
+  queue_as :whois
 
   def perform
     names = Domains::WatchedDomain.all
@@ -22,5 +22,5 @@ class WatchDomainsJob < ActiveJob::Base
     end
     WatchDomainsJob.set(wait: 20.minutes).perform_later
   end
-  
+
 end

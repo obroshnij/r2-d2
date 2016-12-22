@@ -1,2 +1,6 @@
 .clearfix
   h4.float-left Multi RBL
+  - if @canCreate
+    a.button.small.float-right
+      icon.fi-plus
+      |  New RBL

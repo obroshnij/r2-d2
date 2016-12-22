@@ -1,0 +1,61 @@
+#compensation-stats-tabs {
+
+  .tabs-content {
+    border: 0;
+  }
+
+  .tabs-panel {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .toggle                               { color: $primary-color; cursor: pointer; }
+  .toggle::before                       { content: 'Expand '; }
+  .toggle.expanded::before              { content: 'Collapse '; }
+
+  fieldset                              { border-top: 1px dashed $medium-gray; margin-top: 0.75rem; padding-top: 0.75rem;
+    legend                              { color: $dark-gray; margin-left: 5rem; font-style: italic; margin-bottom: 0; }
+  }
+
+  .product-element {
+    cursor: pointer;
+
+    &.detailed-empty {
+      cursor: default;
+      .toggle { color: $light-gray; cursor: default; }
+    }
+  }
+
+  li:last-child                           { border-bottom: 1px solid $medium-gray; }
+  li:hover                                { background-color: #def0fc; }
+
+  li.tabs-title                           { border-bottom: none; }
+
+  .free-items {
+    .item-detailed {
+      display: none;
+      &.expanded {
+        display: table-row;
+      }
+      .detailed-table-container {
+        padding: 2px;
+
+        table {
+          margin-bottom: 0;
+          border:        0;
+
+          tr, tbody {
+            border:           0;
+            background-color: inherit;
+            font-size:        0.8rem;
+          }
+
+          tr td:first-child {
+            padding-left: 2rem;
+          }
+        }
+      }
+    }
+
+  }
+}

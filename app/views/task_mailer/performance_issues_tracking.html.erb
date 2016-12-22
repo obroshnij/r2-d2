@@ -1,0 +1,29 @@
+Hello,
+
+<p>
+This is checkout and website performance issues tracking report for <%= Date.today.strftime('%B %d') %>:
+</p>
+
+<% @rows.each do |row| %>
+    <b><%= row[0] %></b></br>
+    <% if row[3].include? 'outage' %>
+        <%= row[3] %></br>
+    <% end %>
+
+
+    <%= row[4] %></br>
+    <%= row[5] %></br>
+    <%= row[6] %>
+
+    <p><%= row[7] %></p>
+
+    <p>
+      ********************
+    </p>
+<% end %>
+
+You can view full report here: <a href="<%= Rails.application.secrets.nc_performance_tracking_link %>" target="_blank"><%= Rails.application.secrets.nc_performance_tracking_link %></a>
+<br>
+<p>
+Thank you.
+</p>

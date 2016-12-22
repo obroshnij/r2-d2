@@ -32,8 +32,8 @@ nav.top-bar data-topbar='' role="navigation"
               li.has-dropdown.not-click
                 a href='#' Tools
                 ul.dropdown
-                  li = link_to "DBL/SURBL Check", dbl_surbl_path if can? :manage, :la_tool
-                  li = link_to "Bulk CURL", bulk_curl_path if can? :manage, :la_tool
+                  li = link_to "DBL/SURBL Check", '/#legal/dbl_surbl' if can? :manage, :la_tool
+                  li = link_to "Bulk CURL", '/#legal/bulk_curl' if can? :manage, :la_tool
                   li = link_to "Resource Abuse", resource_abuse_path if can? :manage, :la_tool
                   li = link_to "Process Spam", spam_path if can? :manage, :la_tool
                   li = link_to "Spam Reports", spam_reports_path if can? :manage, :la_tool
@@ -49,14 +49,6 @@ nav.top-bar data-topbar='' role="navigation"
                   li = link_to "Namecheap Domains", nc_domains_path if can? :index, NcService
                   li = link_to "Private Emails", private_emails_path if can? :index, NcService
                   li = link_to "Multi RBL", rbls_path if can? :index, Rbl
-        li.divider
-        
-      - if can?(:monthly_reports, :manager_tool) || can?(:welcome_emails, :manager_tool)
-        li.has-dropdown.not-click
-          a href='#' Management Tools
-          ul.dropdown
-            li = link_to "Monthly Reports", monthly_reports_path if can? :monthly_reports, :manager_tool
-            li = link_to "Welcome Emails", welcome_emails_path   if can? :welcome_emails,  :manager_tool
         li.divider
       
       - if can?(:read, Role) || can?(:read, User)
