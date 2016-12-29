@@ -137,7 +137,12 @@ class Nav
           url:    '#/legal/pdfier',
           icon:   'fa fa-fw',
           klass:  Legal::PdfReport
-        }
+        }, {
+          name:   'Link Disabler',
+          url:    '#/legal/link_disabler',
+          icon:   'fa fa-fw fa-link',
+          klass:  :la_tool
+      }
       ]
     }, {
       name:       'User Management',

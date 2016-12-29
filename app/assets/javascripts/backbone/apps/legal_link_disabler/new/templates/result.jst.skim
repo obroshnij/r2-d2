@@ -1,0 +1,3 @@
+.callout.secondary.whois-record-container
+  = @links?.join("\n")
+
