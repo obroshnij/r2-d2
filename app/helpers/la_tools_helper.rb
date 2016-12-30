@@ -123,7 +123,7 @@ module LaToolsHelper
       reply[:body] << " in our system until it is confirmed that Registry Hold is no longer applicable for " + "#{data[:suspended_by_registry].count > 1 ? "them" : "it"}" + ".\n\n"
     end
     if data[:spammer]
-      reply[:body] << "Kindly let us know if there is any question."
+      reply[:body] << "Please let us know if there is any question."
     end
     unless data[:spammer]
       reply[:body] << "Please let us once again emphasise that the reputation of your " + "domain".pluralize(count)

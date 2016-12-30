@@ -17,9 +17,12 @@ class Legal::LinkDisabler
 
   def change_links
     array_links = @links.split("\n")
+
     @links = encode_links(URI.extract(@links)) if @mode == 'encode'
     @links = decode_links(array_links) if @mode == 'decode'
     @links = invert_links(array_links) if @mode == 'auto'
+
+    errors.add(:links, 'no valid links found') if @links.empty?
   end
 
   def encode_links(arrays)

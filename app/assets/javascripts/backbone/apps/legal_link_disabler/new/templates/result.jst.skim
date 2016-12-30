@@ -1,3 +1,8 @@
-.callout.secondary.whois-record-container
-  = @links?.join("\n")
-
+form
+  .callout.secondary
+    .fields.row
+      .large-12.columns
+        label
+          | Links
+          textarea rows='5'
+            = @links?.join("\n")

@@ -97,7 +97,7 @@
           label:   'Compensation Type'
           type:    'collection_radio_buttons'
           options: App.request('domains:compensation:type:entities').toJSON()
-          hint:    '- Discount - a discount for new purchase/existing service was provided\n- Free item - a free service was provided for the client\n- Service prolongation - upcoming renewal date was shifted and service prolonged, free domain renewal\n- Refund - a refund was issued although the client is not eligible for a refund according to our official refund policy\n- Fee concession - a fee was waived or decreased\n- Credit - added funds to account balance'
+          hint:    '- Discount - a discount for new purchase/existing service was provided\n- Free item - a new service was provided for the client for free\n- Service prolongation - upcoming renewal date of the existing service was shifted and service prolonged\n- Refund - a refund was issued although the client is not eligible for a refund according to our official refund policy\n- Fee concession - a fee was waived or decreased\n- Credit - added funds to account balance'
           default: '1'
           callback: (fieldValues) ->
             if fieldValues.product_compensated_id is '8'

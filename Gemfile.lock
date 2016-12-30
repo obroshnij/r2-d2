@@ -487,6 +487,3 @@ DEPENDENCIES
   whenever
   will_paginate-foundation
   wkhtmltopdf-binary
-
-BUNDLED WITH
-   1.13.6
