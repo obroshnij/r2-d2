@@ -28,7 +28,7 @@
             name:    'mode'
             label:   'Mode'
             type:    'collection_radio_buttons'
-            options:  [{ id: 'auto', name: 'Auto Detect' }, { id: 'encode', name: 'Encode' }, { id: 'decode', name: 'Decode' }]
+            options:  [{ id: 'auto', name: 'Auto Detect' }, { id: 'encode', name: 'Disable' }, { id: 'decode', name: 'Enable' }]
             default: 'auto'
           ]
         }
