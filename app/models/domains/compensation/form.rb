@@ -25,6 +25,7 @@ class Domains::Compensation::Form
   attribute :qa_comments,            String
   attribute :used_correctly,         Boolean
   attribute :delivered,              Boolean
+  attribute :created_at,             DateTime
 
   validates :reference_id,           presence: true
   validates :service_compensated_id, presence: true,     if: :service_compensated_required?
@@ -74,12 +75,17 @@ class Domains::Compensation::Form
 
   def format_attributes
     format_compensation_amount
+    format_created_at
   end
 
   def format_compensation_amount
     if compensation_amount.present? && compensation_amount.is_a?(String)
       self.compensation_amount = compensation_amount.gsub(',', '.')
     end
+  end
+
+  def format_created_at
+    self.created_at ||= Time.zone.now
   end
 
   def get_department

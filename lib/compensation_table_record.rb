@@ -1,50 +1,81 @@
 class CompensationTableRecord
 
   def self.parse
-    xlsx = Roo::Spreadsheet.open('path to table')
+    session = GoogleDrive.saved_session File.join(Rails.root, 'config', 'google_drive.json')
+    sheet   = session.spreadsheet_by_key('1z66dS2U7-sbcRy8lNbVXm-NJKhdLaGJ5i6DrcIiExsY').worksheets.first
 
-    start_row = 2103
-    end_row = xlsx.sheet('Responses').last_row
-
-    (start_row..end_row).map do |line|
-
-      compensation = CompensationTableRecord.new xlsx.sheet('Responses').row(line), line
-
-      if compensation.yellow_cell? || compensation.service_compensated_include_old? || compensation.created_at.nil?
-        my_logger.warn("Can not create compensation from #{line}")
-        next
-      end
-
-      domain_compensation = Domains::Compensation.new(
-                                                      created_at:             compensation.created_at,
-                                                      product_compensated_id: compensation.product_compensated_id,
-                                                      service_compensated_id: compensation.service_compensated_id,
-                                                      compensation_amount:    compensation.compensation_amount,
-                                                      discount_recurring:     compensation.discount_recurring,
-                                                      compensation_type_id:   compensation.compensation_type_id,
-                                                      issue_level_id:         compensation.issue_level_id,
-                                                      comments:               compensation.comments,
-                                                      client_satisfied:       compensation.client_satisfied,
-                                                      department:             compensation.department,
-                                                      reference_item:         compensation.reference_item,
-                                                      reference_id:           compensation.reference_id,
-                                                      status:                 0,
-                                                      hosting_type_id:        compensation.hosting_type_id,
-                                                      submitted_by_id:        compensation.submitted_by_id,
-     )
-     my_logger.info("Creating compensation from line #{line}") if domain_compensation.save
-
+    compensations = sheet.rows[1..-1].each_with_index.map do |row, index|
+      CompensationTableRecord.new row, index + 2, sheet
     end
+
+    compensations.map &:create
+    sheet.synchronize
+    compensations.map &:id
   end
 
-  def initialize(row, line_num)
-    @row = row
+  attr_reader :errors
+
+  def post message
+    @sheet[@line_num, 1] = message
+  end
+
+  def create
+    if yellow_cell? || created_at.nil?
+      post 'skip'
+      return false
+    end
+
+    params = {
+      created_at:             created_at,
+      affected_product_id:    affected_product_id,
+      product_compensated_id: product_compensated_id,
+      service_compensated_id: service_compensated_id,
+      compensation_amount:    compensation_amount,
+      discount_recurring:     discount_recurring,
+      compensation_type_id:   compensation_type_id,
+      issue_level_id:         issue_level_id,
+      comments:               comments,
+      client_satisfied:       client_satisfied,
+      reference_item:         reference_item,
+      reference_id:           reference_id,
+      status:                 '_new',
+      hosting_type_id:        hosting_type_id,
+      submitted_by_id:        submitted_by_id,
+      tier_pricing_id:        tier_pricing_id
+    }
+
+    form = Domains::Compensation::Form.new
+
+    if form.submit(params)
+      @model = form.model
+      post 'success'
+      true
+    else
+      @errors = form.errors.messages
+      message = errors.map { |k, v| "#{k.to_s.humanize} #{v.join(', ')}" }.join("; ")
+      post "error: #{message}"
+      false
+    end
+
+  rescue Exception => ex
+    @errors = ex.inspect
+    post "error: #{ex.message}"
+    false
+  end
+
+  def id
+    @model.try(:id)
+  end
+
+  def initialize(row, line_num, sheet)
+    @row = row[1..-1]
     @line_num = line_num
+    @sheet = sheet
   end
 
   def created_at
     return nil unless @row[0].present?
-    @row[0]
+    Time.zone.parse @row[0]
   end
 
   def product_compensated_id
@@ -56,11 +87,39 @@ class CompensationTableRecord
 
   def yellow_cell?
     return nil unless @row[3].present?
-    @row[3]&.include?('fee')
+    return false if @row[3].include?('.feedback')
+    @row[3].try(:include?, 'fee')
   end
 
   def service_compensated_include_old?
-    return true if @row[3] == 'RapidSSL Wildcard' || (@row[3].present? && @row[3].include?('Comodo')) || @row[3] == 'Basic Hosting' || @row[3] == 'OX business' || @row[3] == 'Onepager' || @row[3] == 'Thawte SSL123' || @row[3] == 'True BusinessID with EV Multi Domain' || @row[3] == 'RapidSSL' || @row[3] == 'Quickssl' || @row[3] == '50 tier pricing' || @row[3] == '"GeoTrust True BusinessID' || @row[3] == 'TrueBusiness ID with EV Multi-Domain' || @row[3] == 'Emergency Assitance' || @row[3] == '50 active domains' || @row[3] == 'Basic Hosting' || @row[3] == 'Onepager' || @row[3] == 'Credit' || @row[3] == 'GeoTrust QuickSSL Premium' || @row[3] == 'special tierr for the account' || @row[3] == 'QuickSSL Premium' || @row[3] == 'GeoTrust True BusinessID'
+    return true if @row[3] == 'RapidSSL Wildcard' ||
+      (@row[3].present? && @row[3].include?('Comodo')) ||
+      @row[3] == 'Basic Hosting' ||
+      @row[3] == 'OX business' ||
+      @row[3] == 'Onepager' ||
+      @row[3] == 'Thawte SSL123' ||
+      @row[3] == 'True BusinessID with EV Multi Domain' ||
+      @row[3] == 'RapidSSL' ||
+      @row[3] == 'Quickssl' ||
+      @row[3] == '50 tier pricing' ||
+      @row[3] == '"GeoTrust True BusinessID' ||
+      @row[3] == 'TrueBusiness ID with EV Multi-Domain' ||
+      @row[3] == 'Emergency Assitance' ||
+      @row[3] == '50 active domains' ||
+      @row[3] == 'Basic Hosting' ||
+      @row[3] == 'Onepager' ||
+      @row[3] == 'Credit' ||
+      @row[3] == 'GeoTrust QuickSSL Premium' ||
+      @row[3] == 'special tierr for the account' ||
+      @row[3] == 'QuickSSL Premium' ||
+      @row[3] == 'GeoTrust True BusinessID'
+  end
+
+  def affected_product_id
+    name = @row[1]
+    return nil if name.blank?
+    name = 'SSLcertificate.com' if name.include?('SSLcertificate.com')
+    Domains::Compensation::AffectedProduct.find_by_name(name).id
   end
 
   def service_compensated_id
@@ -90,6 +149,7 @@ class CompensationTableRecord
   end
 
   def compensation_amount
+    return nil if compensation_type_id == 7
     @row[5]
   end
 
@@ -116,10 +176,6 @@ class CompensationTableRecord
   def client_satisfied
     return nil unless @row[10].present?
     @row[10] == 'No' ? false : true
-  end
-
-  def department
-    @row[12]
   end
 
   def reference_item
@@ -184,7 +240,11 @@ class CompensationTableRecord
     @user_id = r2d2_user.id
   end
 
-  def self.my_logger
-    @@my_logger ||= Logger.new("#{Rails.root}/log/parse_table.log")
+  def tier_pricing_id
+    return nil unless compensation_type_id == 7
+    return 1 if @row[5].include?('50')
+    return 3 if @row[5].include?('300')
+    return 6 if @row[5].include?('Custom')
   end
+
 end

@@ -7,8 +7,8 @@ namespace :compensation do
     User.find_or_create_by(email: 'alexandra.k@namecheap.com') do |user|
       user.name      = 'Alexandra Kramarenko'
       user.email     = 'alexandra.k@namecheap.com'
-      user.password  = 'oldusersavepassword'
-      user.uid       = 'alex_kram'
+      user.password  = ''
+      user.uid       = 'alexandrakramarenko'
       user.role_id   = Role.find_by_name('Billing CS').id
       user.auto_role = true
     end

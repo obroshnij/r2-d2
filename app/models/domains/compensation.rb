@@ -22,7 +22,7 @@ class Domains::Compensation < ActiveRecord::Base
 
   def self.submitted_by ability = nil
     compensations = ability ? accessible_by(ability) : all
-    User.where id: compensations.select(:submitted_by_id).distinct.pluck(:submitted_by_id)
+    User.order(:name).where id: compensations.select(:submitted_by_id).distinct.pluck(:submitted_by_id)
   end
 
   def self.departments ability = nil
