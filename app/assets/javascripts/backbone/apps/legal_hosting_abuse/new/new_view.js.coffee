@@ -1,19 +1,19 @@
 @Artoo.module 'LegalHostingAbuseApp.New', (New, App, Backbone, Marionette, $, _) ->
-  
+
   class New.Layout extends App.Views.LayoutView
     template: 'legal_hosting_abuse/new/layout'
-    
+
     regions:
       formRegion: '#form-region'
-  
-  
+
+
   class New.FormSchema extends Marionette.Object
-    
+
     schema: ->
       [
         legend:     'Client Details'
         id:         'client-details'
-        
+
         fields: [
           name:     'reported_by_id'
           type:     'hidden'
@@ -117,7 +117,7 @@
         dependencies:
           type_id:     value: 1
           service_id:  value: [1, 2, 3, 4, 6]
-        
+
         fields: [
           name:     'spam[detection_method_id]'
           label:    'Detected by'
@@ -352,7 +352,7 @@
         dependencies:
           type_id:    value: 1
           service_id: value: 5
-          
+
         fields: [
           name:     'pe_spam[detection_method_id]'
           label:    'Detected by'
@@ -619,7 +619,7 @@
         id:         'ddos'
         dependencies:
           type_id:   value: '3'
-        
+
         fields: [
           name:     'ddos[domain_port]'
           label:    'Domain / Port'
@@ -676,13 +676,13 @@
       ,
         legend:     'Other'
         id:         'other'
-        hint:       'This option should only be selected if we have some activity that highly influences a shared server and it is 
-                     not possible to obtain standard evidences of Resource / Email Abuse.\nAccording to Namecheap internal policies, 
-                     generally, such activities *must not* be reported internally without an urgent reason. Legal & Abuse Shift Leader 
+        hint:       'This option should only be selected if we have some activity that highly influences a shared server and it is
+                     not possible to obtain standard evidences of Resource / Email Abuse.\nAccording to Namecheap internal policies,
+                     generally, such activities *must not* be reported internally without an urgent reason. Legal & Abuse Shift Leader
                      might refuse taking actions if the reason/evidence provided is not enough for him/her to initiate a case.'
         dependencies:
           type_id:    value: 4
-          
+
         fields: [
           name:     'other[abuse_type_ids]'
           label:    'Abuse Type'
@@ -706,7 +706,7 @@
         id:         'conclusion'
         dependencies:
           type_id:     value: [1, 2, 3, 4]
-        
+
         fields: [
           name:     'suggestion_id'
           label:    'Suggested Action'
@@ -721,7 +721,7 @@
             else
               @trigger('enable:options', [1, 2, 3, 4, 5])
               @trigger('disable:options', 6)
-            
+
             if fieldValues.type_id?.toString() is '3' or (fieldValues.type_id?.toString() is '2' and fieldValues['resource[type_id]']?.toString() is '3')
               @trigger('enable:options', 8)
             else
@@ -755,12 +755,12 @@
             editCommentRequired: value: 'true'
         ]
       ]
-      
+
     getOptions: (name) ->
       collection = App.request("legal:hosting:abuse:#{name}:entities")
       collection.map (item) ->
         item.attributes
-    
+
     getServices:              -> @getOptions 'service'
     getAbuseTypes:            -> @getOptions 'type'
     getSharedPlans:           -> @getOptions 'shared:plan'
@@ -768,25 +768,25 @@
     getVpsPlans:              -> @getOptions 'vps:plan'
     getManagementTypes:       -> @getOptions 'management:type'
     getSuggestions:           -> @getOptions 'suggestion'
-    
+
     getDdosBlockTypes:        -> @getOptions 'ddos:block:type'
-    
+
     getResourceAbuseTypes:    -> @getOptions 'resource:abuse:type'
     getResourceTypes:         -> @getOptions 'resource:type'
     getResourceUpgrades:      -> @getOptions 'resource:upgrade'
     getResourceImpacts:       -> @getOptions 'resource:impact'
     getResourceActivityTypes: -> @getOptions 'resource:activity:type'
     getResourceMeasures:      -> @getOptions 'resource:measure'
-    
+
     getSpamReportingParties:  -> @getOptions 'spam:reporting:party'
     getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'
     getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
     getSpamPeQueueTypes:      -> @getOptions 'spam:pe:queue:type'
     getSpamContentTypes:      -> @getOptions 'spam:content:type'
     getSpamPeContentTypes:    -> @getOptions 'spam:pe:content:type'
-    
+
     getOtherAbuseTypes:       -> @getOptions 'other:abuse:type'
-    
+
     onShow: (view) ->
       _.defer ->
         view.$('#service_id').change()
