@@ -38,6 +38,21 @@
 
   class FormFields.TextFieldView extends FormFields.BaseInputView
 
+    ui: ->
+      input: "#{@getTagName()}"
+
+    modelEvents:
+      'enable:input'  : 'enableInput'
+      'disable:input' : 'disableInput'
+
+    enableInput: (val) ->
+      @ui.input.attr('disabled', false)
+      @ui.input.val(val) if val
+
+    disableInput: (val) ->
+      @ui.input.attr('disabled', true)
+      @ui.input.val(val) if val
+
 
   class FormFields.NumberFieldView extends FormFields.BaseInputView
 

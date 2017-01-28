@@ -103,9 +103,19 @@
             if fieldValues.product_compensated_id is '8'
               @trigger('disable:options', ['1', '2', '3', '4', '5', '7'])
               @trigger('enable:options', '6')
+
+            else if fieldValues.product_compensated_id is '1' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEDOM'
+              @trigger('enable:options', ['2'])
+              @trigger('disable:options', ['1', '3', '4', '5', '6', '7'])
+
+            else if fieldValues.product_compensated_id is '2' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEHOST'
+              @trigger('enable:options', ['2'])
+              @trigger('disable:options', ['1', '3', '4', '5', '6', '7'])
+
             else
               @trigger('enable:options', ['1', '2', '3', '4', '5', '7'])
               @trigger('disable:options', '6')
+
         ,
           name:    'discount_recurring'
           label:   'Discount is Recurring?'
@@ -123,6 +133,14 @@
           name:    'compensation_amount'
           label:   'Compensation Provided in USD'
           hint:    "If it's a discount indicate the difference between the regular and the discount prices for the service. If the item was given for free enter the full price of the item. If billing date shifted, calculate the prorated amount. In case of a tier assignment leave blank"
+          callback: (fieldValues) ->
+            if fieldValues.product_compensated_id is '1' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEDOM'
+              @trigger('disable:input', '20')
+            else if fieldValues.product_compensated_id is '2' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEHOST'
+              @trigger('disable:input', '29.88')
+            else
+              @trigger('enable:input')
+
           dependencies:
             'compensation_type_id': value: ['1', '2', '3', '4', '5', '6']
         ,
