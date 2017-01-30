@@ -11,6 +11,23 @@
     <%= favicon_link_tag       'favicon.ico' %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" src="https://track.namecheap.net/s/42feaa3d37b412bfc0ecc44d8499fcc7-T/en_US-1029ha/64026/28/1.4.27/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=086613e9"></script>
+    <script type="text/javascript" src="https://track.namecheap.net/s/42feaa3d37b412bfc0ecc44d8499fcc7-T/en_US-1029ha/64026/28/1.4.27/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=539cb636"></script>
+    <script>
+      window.ATL_JQ_PAGE_PROPS = $.extend(window.ATL_JQ_PAGE_PROPS, {
+        // Bugs Collector
+        "086613e9": {
+          triggerFunction(showCollectorDialog) {
+            $(document).on("click", "#jira-bug-trigger", showCollectorDialog);
+          }
+        },
+        // Feedback Collector
+        "539cb636": {
+          triggerFunction(showCollectorDialog) {
+            $(document).on("click", "#jira-feedback-trigger", showCollectorDialog);
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <%= yield %>
