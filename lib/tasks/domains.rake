@@ -12,6 +12,8 @@ namespace :domains do
     domain_names = domains.collect(&:name)
 
     deleted_domain_names = domain_names - domain_names_from_nc
+    deleted_domain_names = deleted_domains.delete_if { |name| name =~ /coupon code/ }
+
     new_domain_names     = domain_names_from_nc - domain_names
 
     new_domain_names.each { |ndn| Domains::Compensation::NamecheapService.create(name: ndn, product_id: domains_product.id) }
