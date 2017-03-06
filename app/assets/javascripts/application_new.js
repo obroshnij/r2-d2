@@ -20,6 +20,7 @@
 //= require daterangepicker
 //= require toastr
 //= require select2
+//= require vis.min
 //= require underscore
 //= require underscore-string
 //= require backbone

@@ -4,6 +4,7 @@ class AbuseReport < ActiveRecord::Base
   
   has_many :report_assignments
   has_many :nc_users, through: :report_assignments, source: :reportable, source_type: 'NcUser'
+  has_many :legal_nc_users, through: :report_assignments, source: :reportable
   has_many :nc_services, through: :report_assignments, source: :reportable, source_type: 'NcService'
   
   has_one :spammer_info

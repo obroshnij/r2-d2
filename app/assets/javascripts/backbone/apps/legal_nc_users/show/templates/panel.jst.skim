@@ -1,0 +1,13 @@
+.clearfix
+  h4.float-left = @username
+
+.row
+  .large-12.columns
+    = "Signup date: #{@signed_up_on}"
+
+.row
+  .large-12.columns
+    | Status:
+    - for key of @statusIconsClasses
+      span: i class="#{@statusIconsClasses[key]} inline" title="#{key}"
+    

@@ -1,0 +1,6 @@
+.clearfix
+  h4.float-left Namecheap Users
+  - if @canCreate
+    a.button.small.float-right
+      icon.fi-plus
+      |  Add New

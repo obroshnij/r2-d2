@@ -213,12 +213,19 @@
           format:      'DD MMMM YYYY'
           firstDay:    1
 
+    getResultsHandler: ->
+      @model.get('dateRangePickerHandler') or () ->
+
     onAttach: ->
-      @$('input').daterangepicker @getOptions()
+      @$('input').daterangepicker(@getOptions(), @getResultsHandler())
 
       @$('input').on 'apply.daterangepicker',  (event, picker) ->
-        range = picker.startDate.format('DD MMMM YYYY') + ' - ' + picker.endDate.format('DD MMMM YYYY')
-        $(@).val(range).change()
+        if picker.singleDatePicker
+          date = picker.startDate.format('DD MMMM YYYY')
+          $(@).val(date).change()
+        else
+          range = picker.startDate.format('DD MMMM YYYY') + ' - ' + picker.endDate.format('DD MMMM YYYY')
+          $(@).val(range).change()
 
       @$('input').on 'cancel.daterangepicker', (event, picker) ->
         $(@).val('').change()

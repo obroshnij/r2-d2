@@ -1,0 +1,30 @@
+.row
+  .large-1.columns
+    .row.hash
+      .key Type
+      .value: = @type
+
+  .large-3.columns
+    .row.hash
+      .key Username / Domain
+      .value = @reportable_name
+
+  .large-2.columns
+    .row.hash
+      .key Reported by
+      .value = @reporter_name
+
+  .large-2.columns
+    .row.hash
+      .key Reported on
+      .value = @created_at
+
+  .large-2.columns
+    .row.hash
+      .key Processed?
+      .value = @is_processed
+
+  .large-2.columns
+    .row.text-center
+      a.show-detailed-nc-user
+        i.fa.fa-angle-down.action

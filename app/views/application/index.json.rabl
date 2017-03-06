@@ -66,6 +66,7 @@ node :entities do
     navs:                 Nav.accessible_by_as_json(current_ability),
     directory_groups:     DirectoryGroup.order(:name).as_json(only: [:id, :name]),
     roles:                Role.order(:name).as_json(only: [:id, :name]),
+    nc_users_statuses:    Status.order(:name).as_json(only: [:id, :name]),
     ability_resources:    Ability::Resource.all.map do |resource|
       {
         description:     resource.description,
