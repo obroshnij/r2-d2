@@ -1,5 +1,7 @@
 class Domains::Compensation::Statistic::AmountByProduct
 
+  include ActionView::Helpers::NumberHelper
+
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date
   end
@@ -21,11 +23,18 @@ class Domains::Compensation::Statistic::AmountByProduct
 
   def count_cases product, compensations
     by_product = compensations.where(affected_product_id: product.id)
-    { product_id: product.id, product: product.name, total: by_product.sum(:compensation_amount) }
+    {
+      product_id: product.id,
+      product: product.name,
+      total: number_to_currency(by_product.sum(:compensation_amount))
+    }
   end
 
   def count_total_cases(compensations)
-    { product: 'Total', total: compensations.sum(:compensation_amount) }
+    {
+      product: 'Total',
+      total: number_to_currency(compensations.sum(:compensation_amount))
+    }
   end
 
 end

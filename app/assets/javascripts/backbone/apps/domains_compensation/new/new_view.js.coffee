@@ -8,6 +8,11 @@
 
   class New.FormSchema extends Marionette.Object
 
+    onShow: ->
+      _.defer ->
+        $('#compensation_type_id_1').trigger('change')
+        $('#product_compensated_id_1').trigger('change')
+
     schema: ->
       [
         legend: 'Reference Info'
@@ -48,7 +53,7 @@
           type:    'collection_radio_buttons'
           options: App.request('domains:compensation:product:entities').toJSON()
           default: '1'
-          hint:    'The product you gave discount for / refunded beyond the refundable period / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
+          hint:    'The product you gave discount for / refunded beyond the refundable period or against our refund policy / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
           onChange: () ->
             $('#service_compensated_id').val('').trigger('change')
         ,
@@ -92,8 +97,25 @@
           label:   'Compensation Type'
           type:    'collection_radio_buttons'
           options: App.request('domains:compensation:type:entities').toJSON()
-          hint:    '- Discount - a discount for new purchase/existing service was provided\n- Free item - a free service was provided for the client\n- Service prolongation - upcoming renewal date was shifted and service prolonged, free domain renewal\n- Refund - a refund was issued although the client is not eligible for a refund according to our official refund policy\n- Fee concession - a fee was waived or decreased\n- Credit - added funds to account balance'
+          hint:    '- Discount - a discount for new purchase/existing service was provided\n- Free item - a new service was provided for the client for free\n- Service prolongation - upcoming renewal date of the existing service was shifted and service prolonged\n- Refund - a refund was issued although the client is not eligible for a refund according to our official refund policy\n- Fee concession - a fee was waived or decreased\n- Credit - added funds to account balance'
           default: '1'
+          callback: (fieldValues) ->
+            if fieldValues.product_compensated_id is '8'
+              @trigger('disable:options', ['1', '2', '3', '4', '5', '7'])
+              @trigger('enable:options', '6')
+
+            else if fieldValues.product_compensated_id is '1' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEDOM'
+              @trigger('enable:options', ['2'])
+              @trigger('disable:options', ['1', '3', '4', '5', '6', '7'])
+
+            else if fieldValues.product_compensated_id is '2' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEHOST'
+              @trigger('enable:options', ['2'])
+              @trigger('disable:options', ['1', '3', '4', '5', '6', '7'])
+
+            else
+              @trigger('enable:options', ['1', '2', '3', '4', '5', '7'])
+              @trigger('disable:options', '6')
+
         ,
           name:    'discount_recurring'
           label:   'Discount is Recurring?'
@@ -111,6 +133,14 @@
           name:    'compensation_amount'
           label:   'Compensation Provided in USD'
           hint:    "If it's a discount indicate the difference between the regular and the discount prices for the service. If the item was given for free enter the full price of the item. If billing date shifted, calculate the prorated amount. In case of a tier assignment leave blank"
+          callback: (fieldValues) ->
+            if fieldValues.product_compensated_id is '1' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEDOM'
+              @trigger('disable:input', '20.06')
+            else if fieldValues.product_compensated_id is '2' and $('#service_compensated_id').select2('data')?[0]?.text is 'coupon code NCFREEHOST'
+              @trigger('disable:input', '29.88')
+            else
+              @trigger('enable:input')
+
           dependencies:
             'compensation_type_id': value: ['1', '2', '3', '4', '5', '6']
         ,

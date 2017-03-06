@@ -1,5 +1,7 @@
 class Domains::Compensation::Statistic::CreditsAmountByDept
 
+  include ActionView::Helpers::NumberHelper
+
   def initialize start_date, end_date
     @start_date, @end_date = start_date, end_date
   end
@@ -12,7 +14,7 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
   private
 
   def products
-    Domains::Compensation::NamecheapProduct.where.not(id: 8)
+    Domains::Compensation::AffectedProduct.all
   end
 
   def compensations
@@ -29,15 +31,21 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
     products.each do |product|
       items[:products] << {
         product: product.name,
-        amount:  compensations.where(affected_product_id: product.id, department: dept).sum(:compensation_amount)
+        amount:  number_to_currency(compensations.where(affected_product_id: product.id, department: dept).sum(:compensation_amount))
       }
     end
 
-    items[:products] << { product: 'Total', amount: compensations.where(department: dept).sum(:compensation_amount) }
+    items[:products] << {
+      product: 'Total',
+      amount: number_to_currency(compensations.where(department: dept).sum(:compensation_amount))
+    }
 
     by_dept = compensations.where(department: dept)
 
-    { department: dept, total: by_dept.sum(:compensation_amount) }.merge items
+    {
+      department: dept,
+      total: number_to_currency(by_dept.sum(:compensation_amount))
+    }.merge items
   end
 
   def count_total_cases(compensations)
@@ -46,13 +54,19 @@ class Domains::Compensation::Statistic::CreditsAmountByDept
     products.each do |product|
       items[:products] << {
         product: product.name,
-        amount:  compensations.where(affected_product_id: product.id).sum(:compensation_amount)
+        amount:  number_to_currency(compensations.where(affected_product_id: product.id).sum(:compensation_amount))
       }
     end
 
-    items[:products] << { product: 'Total', amount: compensations.sum(:compensation_amount) }
+    items[:products] << {
+      product: 'Total',
+      amount: number_to_currency(compensations.sum(:compensation_amount))
+    }
 
-    { department: 'Total', total: compensations.sum(:compensation_amount) }.merge items
+    {
+      department: 'Total',
+      total: number_to_currency(compensations.sum(:compensation_amount))
+    }.merge items
   end
 
 end

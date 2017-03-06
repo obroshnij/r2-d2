@@ -86,11 +86,12 @@
               td = count
       
     #free-items-count-by-product.tabs-panel
+      - depts = @free_items_count_by_product[0].depts
       table
         thead
           tr
             th
-            - for dept in @free_items_count_by_product[0].depts
+            - for dept in depts
               th = dept.name
             th
         tbody.free-items
@@ -104,14 +105,14 @@
                   icon.fa.fa-angle-double-down
             tr style="display:none"
             tr.item-detailed
-              td class='detailed-table-container' colspan='4'
+              td class='detailed-table-container' colspan="#{2 + depts.length}"
                 table
                   tbody
                     - for service in line.services
                       tr
                         td width='20%' = service.name
-                        - for dept in service.depts
-                          td width="#{(70 / service.depts.length).toFixed(2)}%" = dept.count
+                        - for dept in depts
+                          td width="#{(70 / depts.length).toFixed(2)}%" = _.find(service.depts, { name: dept.name })?.count || 0
                         td width='10%'
 
     #count-by-tiers-enabled.tabs-panel

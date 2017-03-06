@@ -26,6 +26,7 @@ gem 'spring',        group: :development
 
 gem 'responders'
 gem 'virtus'
+gem 'letter_opener'
 
 gem "slim-rails"
 gem 'rails-html-sanitizer'
@@ -78,6 +79,8 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'whenever', :require => false
 gem 'active_model_serializers'
+
+gem 'google_drive'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -20,6 +20,7 @@ class WatchDomainsJob < ActiveJob::Base
         DomainWatcherMailer.status_update(email, diff_val).deliver_later if diff.present?
       end
     end
+  ensure
     WatchDomainsJob.set(wait: 20.minutes).perform_later
   end
 

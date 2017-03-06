@@ -10,6 +10,14 @@
 
       .top-bar-right
         ul.dropdown.menu data-dropdown-menu=''
+          li.divider
+          li.has-submenu
+            a
+              i.fa.fa-bug
+              | Report bug
+            ul.submenu.menu.vertical data-submenu=''
+              li: a#jira-bug-trigger Raise a bug
+              li: a#jira-feedback-trigger Provide feedback
           - if @currentUser
             li.divider
             li.has-submenu

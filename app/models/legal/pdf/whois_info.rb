@@ -36,7 +36,13 @@ class Legal::Pdf::WhoisInfo < Legal::Pdf::Admin
       %w{ Email\ Address Phone\ Number Fax\ Number }
     ].map do |row|
       row.map do |column|
-        content = column.split(', ').map { |c| whois[c] }.join(', ')
+        content = column.split(', ').map do |c|
+          # TODO Chrome extension exports this line with key 'Street 2' :(
+          # If we decide to fix this, we'll have to update all exisiting
+          # records in the DB
+          c = 'Street 2' if c == 'Address 2'
+          whois[c]
+        end.join(', ')
         [
           { content: "#{column}:",  width: bounds.width / 6, align: :right },
           { content: content,       width: bounds.width / 6 }

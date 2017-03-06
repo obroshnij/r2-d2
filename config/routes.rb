@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     end
 
     resources :dbl_surbl_checks, only: [:create]
+    resources :link_disablers, only: [:create]
   end
 
   namespace :domains do

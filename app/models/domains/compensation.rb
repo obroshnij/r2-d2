@@ -20,12 +20,14 @@ class Domains::Compensation < ActiveRecord::Base
     :hosting_type, :issue_level, :compensation_type, :tier_pricing
   ) }
 
-  def self.submitted_by
-    User.where id: select(:submitted_by_id).distinct.pluck(:submitted_by_id)
+  def self.submitted_by ability = nil
+    compensations = ability ? accessible_by(ability) : all
+    User.order(:name).where id: compensations.select(:submitted_by_id).distinct.pluck(:submitted_by_id)
   end
 
-  def self.departments
-    select(:department).distinct.pluck(:department)
+  def self.departments ability = nil
+    compensations = ability ? accessible_by(ability) : all
+    compensations.select(:department).distinct.pluck(:department)
   end
 
   def client_satisfied= satisfied

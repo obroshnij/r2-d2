@@ -22,3 +22,7 @@
 every 1.day, at: '1:30 am' do
   rake "domains:update_domain_names"
 end
+
+every 1.day, at: '11:55 pm' do
+  rake "nc_performance:notify"
+end

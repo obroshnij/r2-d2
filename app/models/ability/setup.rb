@@ -45,8 +45,12 @@ class Ability::Setup
         }, {
           actions:      ['show', 'update'],
           conditions:   '{ submitted_by_id: user.id }',
-          description:  'Update form submissions',
+          description:  'Update form submissions created by current user',
           identifier:   'domains_compensation_update'
+        }, {
+          actions:      ['show', 'update'],
+          description:  'Update form submissions created by any user',
+          identifier:   'domains_compensation_update_all'
         }, {
           actions:      ['qa_check'],
           description:  'Check form submissions on behalf of QA',
