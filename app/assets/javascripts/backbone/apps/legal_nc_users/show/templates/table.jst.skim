@@ -1,0 +1,6 @@
+br
+h4 = @title
+
+ul.no-bullet.entities-list
+
+br
