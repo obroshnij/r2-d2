@@ -1,0 +1,15 @@
+table
+  thead
+    tr
+      th
+      - for type in @issue_types_by_product[0].types
+        th = type.name
+  tbody
+    - for line in @issue_types_by_product
+      tr
+        td = line.product
+        - for type in line.types
+          - count = if type.percent then "#{type.count} (#{type.percent} %)" else type.count
+          td = count
+
+canvas#issue-types-by-product-chart

@@ -1,0 +1,16 @@
+table
+  thead
+    tr
+      th 
+      - for line in @credits_amount_by_dept
+        th = line.department
+  tbody
+    - for product in @credits_amount_by_dept[0].products
+      tr
+        td = product.product
+        - for line in @credits_amount_by_dept
+          td = _.find(line.products, product: product.product).amount
+
+canvas#credits-amount-by-dept-one style="height:500px!important"
+br
+canvas#credits-amount-by-dept-two style="height:500px!important"

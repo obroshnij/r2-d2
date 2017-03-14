@@ -1,0 +1,12 @@
+table
+  thead
+    tr
+      th Product
+      th Amount
+  tbody
+    - for line in @amount_by_product
+      tr
+        td = line.product
+        td = line.total
+        
+canvas#amount-by-product-chart style="height:500px!important"

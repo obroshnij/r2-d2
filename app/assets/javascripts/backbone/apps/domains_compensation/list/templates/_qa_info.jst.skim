@@ -9,6 +9,10 @@
           .value = @checked_by
           
         .columns: .row.hash
+          .key Checked at
+          .value = @checked_at_formatted
+          
+        .columns: .row.hash
           .key Used Correctly
           - if @used_correctly
             .value Yes

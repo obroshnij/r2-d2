@@ -1,0 +1,32 @@
+- depts = @free_items_count_by_product[0].depts
+table
+  thead
+    tr
+      th
+      - for dept in depts
+        th = dept.name
+      th
+  tbody.free-items
+    - for line in @free_items_count_by_product
+      tr class="product-element #{'detailed-empty' if line.services.length == 0}"
+        td width='20%' = line.product
+        - for dept in line.depts
+          td width="#{(70 / line.depts.length).toFixed(2)}%" = dept.count
+        td width='10%'
+          a.toggle.float-right
+            icon.fa.fa-angle-double-down
+      tr style="display:none"
+      tr.item-detailed
+        td class='detailed-table-container' colspan="#{2 + depts.length}"
+          table
+            tbody
+              - for service in line.services
+                tr
+                  td width='20%' = service.name
+                  - for dept in depts
+                    td width="#{(70 / depts.length).toFixed(2)}%" = _.find(service.depts, { name: dept.name })?.count || 0
+                  td width='10%'
+
+canvas#free-items-count-by-product-one style="height:500px!important"
+br
+canvas#free-items-count-by-product-two style="height:500px!important"

@@ -1,0 +1,24 @@
+table
+  thead
+    tr
+      th 
+      - for line in @client_satisfaction_by_dept
+        th = line.department
+  tbody
+    tr
+      td Yes
+      - for line in @client_satisfaction_by_dept
+        - count = if line.percent.satisfied then "#{line.count.satisfied} (#{line.percent.satisfied} %)" else line.count.satisfied
+        td = count
+    tr
+      td No
+      - for line in @client_satisfaction_by_dept
+        - count = if line.percent.not_satisfied then "#{line.count.not_satisfied} (#{line.percent.not_satisfied} %)" else line.count.not_satisfied
+        td = count
+    tr
+      td Not Sure
+      - for line in @client_satisfaction_by_dept
+        - count = if line.percent.not_sure then "#{line.count.not_sure} (#{line.percent.not_sure} %)" else line.count.not_sure
+        td = count
+
+canvas#client-satisfaction-by-dept-chart

@@ -17,6 +17,7 @@
 //= require jquery.tablesorter
 //= require foundation_six
 //= require moment
+//= require chart
 //= require daterangepicker
 //= require toastr
 //= require select2

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122162157) do
+ActiveRecord::Schema.define(version: 20170314135941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20161122162157) do
     t.text     "qa_comments"
     t.string   "department"
     t.integer  "affected_product_id"
+    t.datetime "checked_at"
   end
 
   create_table "domains_nc_hosting_types", force: :cascade do |t|
@@ -620,11 +621,11 @@ ActiveRecord::Schema.define(version: 20161122162157) do
   add_index "report_assignments", ["reportable_type", "reportable_id"], name: "index_report_assignments_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_ids",      default: [], array: true
-    t.string   "permission_ids", default: [], array: true
+    t.integer  "group_ids",                  default: [], array: true
+    t.string   "permission_ids",             default: [], array: true
   end
 
   create_table "roles_users", id: false, force: :cascade do |t|
@@ -683,22 +684,22 @@ ActiveRecord::Schema.define(version: 20161122162157) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
-    t.string   "reset_password_token"
+    t.string   "name",                   limit: 255
+    t.string   "email",                  limit: 255, default: "",   null: false
+    t.string   "encrypted_password",     limit: 255, default: "",   null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",                      default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "uid"
     t.integer  "role_id"
-    t.boolean  "auto_role",              default: true
+    t.boolean  "auto_role",                          default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -714,7 +715,7 @@ ActiveRecord::Schema.define(version: 20161122162157) do
   end
 
   create_table "whitelisted_addresses", force: :cascade do |t|
-    t.string   "value"
+    t.string   "value",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
