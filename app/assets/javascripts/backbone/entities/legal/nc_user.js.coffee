@@ -26,7 +26,7 @@
          return statuses[name] = 'fa fa-diamond action'     if name == "VIP"
        statuses
 
-    resourceName: 'LaTool'
+    resourceName: 'Legal::NcUser'
 
   class Entities.NcUsersCollection extends App.Entities.Collection
     model: Entities.NcUser

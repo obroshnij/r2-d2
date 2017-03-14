@@ -84,14 +84,9 @@ class Nav
           klass:  AbuseReport
         }, {
           name:   'Namecheap Users',
-          url:    '/nc_users',
-          icon:   'fa fa-fw',
-          klass:  NcUser
-        }, {
-          name:   'Namecheap Users New',
           url:    '#/legal/nc_users',
           icon:   'fa fa-fw',
-          klass:  NcUser
+          klass:  Legal::NcUser
         }, {
           name:   'Namecheap Domains',
           url:    '/nc_domains',
@@ -174,7 +169,7 @@ class Nav
 
   def self.accessible_by_as_json ability
     navs = accessible_by ability
-    
+
     result = navs.each_with_object({}) do |nav, hash|
       hash[nav.navs_name] = nav.child_navs.map(&:json)
     end

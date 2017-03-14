@@ -9,13 +9,13 @@
   API =
 
     list: (region) ->
-      return App.execute 'legal:list', 'Namecheap Users New', { action: 'list' } if not region
+      return App.execute 'legal:list', 'Namecheap Users', { action: 'list' } if not region
 
       new LegalNcUsersApp.List.Controller
         region: region
 
     show: (id, region) ->
-      return App.execute 'legal:list', 'Namecheap Users New', { action: 'show', id: id } if not region
+      return App.execute 'legal:list', 'Namecheap Users', { action: 'show', id: id } if not region
 
       new LegalNcUsersApp.Show.Controller
         region: region
@@ -26,7 +26,7 @@
         region: region
 
   App.vent.on 'legal:nav:selected', (nav, options, region) ->
-    return if nav isnt 'Namecheap Users New'
+    return if nav isnt 'Namecheap Users'
     action = options?.action
     action ?= 'list'
 
@@ -48,4 +48,4 @@
   LegalNcUsersApp.on 'start', ->
     new LegalNcUsersApp.Router
       controller: API
-      resource:   'LaTool'
+      resource:   'Legal::NcUser'
