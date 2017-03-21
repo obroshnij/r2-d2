@@ -1,0 +1,18 @@
+table
+  thead
+    tr
+      th Department
+      th Total Amount
+      th Correct
+      th Incorrect
+      th Pending
+  tbody
+    - for line in @count_by_dept
+      tr
+        td = line.department
+        td = line.total
+        td = line.correct
+        td = line.incorrect
+        td = line.pending
+
+canvas#count-by-dept-chart

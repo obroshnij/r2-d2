@@ -6,6 +6,7 @@
         th Title
         th Last Effective URL
         th Response Code
+        th Error
     tbody
       - for data in @results
         tr
@@ -14,3 +15,4 @@
           td
             a target='_blank' href = data["Last Effective URL"] = data["Last Effective URL"]
           td = data["Response Code"]
+          td = data["Error"]

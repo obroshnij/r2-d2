@@ -1,0 +1,12 @@
+table
+  thead
+    tr
+      th Name
+      th Amount
+  tbody
+    - for line in @count_by_tiers_enabled
+      tr
+        td = line.tier
+        td = line.total
+
+canvas#count-by-tiers-enabled-chart style="height:500px!important"

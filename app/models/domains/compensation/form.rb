@@ -26,6 +26,7 @@ class Domains::Compensation::Form
   attribute :used_correctly,         Boolean
   attribute :delivered,              Boolean
   attribute :created_at,             DateTime
+  attribute :checked_at,             DateTime
 
   validates :reference_id,           presence: true
   validates :service_compensated_id, presence: true,     if: :service_compensated_required?
@@ -76,6 +77,7 @@ class Domains::Compensation::Form
   def format_attributes
     format_compensation_amount
     format_created_at
+    format_checked_at
   end
 
   def format_compensation_amount
@@ -86,6 +88,11 @@ class Domains::Compensation::Form
 
   def format_created_at
     self.created_at ||= Time.zone.now
+  end
+
+  def format_checked_at
+    return unless @compensation.checked_at.blank? && status == "_checked"
+    self.checked_at = Time.zone.now
   end
 
   def get_department

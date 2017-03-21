@@ -2,7 +2,7 @@ class Domains::CompensationSerializer < ApplicationSerializer
   attrs = Domains::Compensation.attribute_names - ['checked_by_id', 'used_correctly', 'delivered', 'qa_comments']
 
   attributes *attrs + [:created_at_formatted, :service_compensated, :product_compensated, :hosting_type,
-                       :issue_level, :tier_pricing, :affected_product, :compensation_type, :submitted_by]
+                       :issue_level, :tier_pricing, :affected_product, :compensation_type, :submitted_by, :checked_at_formatted]
 
   attribute :checked_by_id,   if: :can_check?
   attribute :checked_by,      if: :show_checked_by?
@@ -12,6 +12,10 @@ class Domains::CompensationSerializer < ApplicationSerializer
 
   def created_at_formatted
     object.created_at.strftime '%b/%d/%Y, %H:%M'
+  end
+
+  def checked_at_formatted
+    object.checked_at.try :strftime, '%b/%d/%Y, %H:%M'
   end
 
   %w{
