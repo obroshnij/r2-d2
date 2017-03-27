@@ -29,7 +29,7 @@
 
         if @get('frauded') then res.push('Frauded') else res.push('Not frauded')
 
-        relCount = @get('relations').length
+        relCount = @get('relations')?.length
         res.push("1 related user")            if relCount is 1
         res.push("#{relCount} related users") if relCount > 1
 
