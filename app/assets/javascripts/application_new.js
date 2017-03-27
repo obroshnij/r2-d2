@@ -49,3 +49,28 @@
 
 //= require_tree ./backbone/entities
 //= require_tree ./backbone/apps
+
+(function() {
+
+  var isBeingResized = false;
+  var targetTextarea = null;
+
+  $(document).on('mousedown', '.textarea-wrapper textarea', function(event) {
+    targetTextarea = $(event.target);
+    isBeingResized = true;
+  });
+
+  $(document).on('mouseup', '.textarea-wrapper textarea', function(event) {
+    targetTextarea = null;
+    isBeingResized = false;
+  });
+
+  $(document).on('mousemove', function(event) {
+    if (isBeingResized && targetTextarea) {
+      targetTextarea.parent('.textarea-wrapper').outerHeight(
+        targetTextarea.outerHeight()
+      );
+    }
+  });
+
+})();

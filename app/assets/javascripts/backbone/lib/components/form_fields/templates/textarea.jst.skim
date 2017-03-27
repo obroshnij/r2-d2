@@ -4,8 +4,9 @@
 .large-9.columns
 
   div class="#{@columnClass} columns"
-    textarea name="#{@id}" id="#{@id}"
-    span.form-error
+    div.textarea-wrapper
+      textarea name="#{@id}" id="#{@id}"
+      span.form-error
   
   - if @hasHint
     .large-7.columns
