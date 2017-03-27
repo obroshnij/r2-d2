@@ -1,6 +1,6 @@
 class NcUsersController < ApplicationController
 
-  authorize_resource class: Legal::NcUser
+  authorize_resource
 
   def index
     @search = NcUser.ransack params[:q]

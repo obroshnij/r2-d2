@@ -93,9 +93,9 @@ class Nav
           klass:  AbuseReport
         }, {
           name:   'Namecheap Users',
-          url:    '#/legal/nc_users',
+          url:    '/nc_users',
           icon:   'fa fa-fw',
-          klass:  Legal::NcUser
+          klass:  NcUser
         }, {
           name:   'Namecheap Domains',
           url:    '/nc_domains',

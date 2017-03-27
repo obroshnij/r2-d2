@@ -210,26 +210,26 @@ class Ability::Setup
         }
       ]
     }, {
-      subjects: ['Legal::NcUser'],
+      subjects: ['NcUser'],
       description: 'Legal & Abuse -> Namecheap Users',
 
       permissions: [
         {
           actions: ['index'],
           description: 'Access users list',
-          identifier: 'legal_nc_users_index'
+          identifier: 'nc_users_index'
         }, {
           actions: ['create'],
           description: 'Add new users',
-          identifier: 'legal_nc_users_create'
+          identifier: 'nc_users_create'
         }, {
           actions: ['show'],
           description: 'See detailed info about the user',
-          identifier: 'legal_nc_users_show'
+          identifier: 'nc_users_show'
         }, {
           actions: ['update'],
           description: 'Leave comments',
-          identifier: 'legal_nc_users_comment'
+          identifier: 'nc_users_comment'
         }
       ]
     }, {

@@ -32,7 +32,7 @@
         th Status
         th Abuse reports
         th Signup date
-        - if can?(:show, Legal::NcUser)
+        - if can?(:show, NcUser)
           th Actions
       tbody
         - @nc_users.each do |user| 
@@ -41,7 +41,7 @@
             td = user.status_icons
             td = ('Direct: ' + user.abuse_reports.direct.count.to_s + '<br>' + 'Related: ' + user.abuse_reports.indirect.count.to_s).html_safe
             td = user.signed_up_on.try(:strftime, "%d %B %Y")
-            - if can?(:show, Legal::NcUser)
+            - if can?(:show, user)
               td = link_to content_tag(:i, "", class: "fi-magnifying-glass action"), nc_user_path(user.id)
                           
 .row: .large-12.columns
