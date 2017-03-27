@@ -1,3 +1,5 @@
+textarea { resize: vertical; }
+
 form                                                  {
   input[type], select, textarea                       { font-size: 0.875rem; }
   fieldset                                            { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem; position: relative;
@@ -38,7 +40,7 @@ form                                                  {
   }
 
   .textarea-wrapper                                   { position: relative; margin-bottom: 16px; min-height: 50px;
-    textarea                                          { max-width: initial; position: absolute; top: 0; left: 0; }
+    textarea                                          { max-width: initial; position: absolute; top: 0; left: 0; resize: both; }
   }
 
   .stats                                              { margin-top: -1rem; font-size: 0.875rem; }

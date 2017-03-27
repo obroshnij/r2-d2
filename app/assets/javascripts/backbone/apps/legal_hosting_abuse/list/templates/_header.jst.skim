@@ -4,7 +4,7 @@
     .value: span
       span class="label #{@typeClass}"
         icon class="#{@typeIcon}"
-        == "&nbsp;&nbsp;" + @type
+        == "&nbsp;&nbsp;" + @typeLabel
   .row.hash
     .key: span Service
     - if @service_url
@@ -28,7 +28,7 @@
     .value: span = @created_at_formatted
   .row.hash
     .key: span Suggested Action
-    .value: span = @suggestion
+    .value: span class="#{@actionColor}" = @suggestion
 
 .large-3.columns
   .row.hash
