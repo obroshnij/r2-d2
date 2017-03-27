@@ -1,1 +1,1 @@
-input type='hidden' name="#{@name}" id="#{@id}" value="#{@value}" syphon='always-visible'
+input type='hidden' name="#{@id}" id="#{@id}" value="#{@value}" syphon='always-visible'

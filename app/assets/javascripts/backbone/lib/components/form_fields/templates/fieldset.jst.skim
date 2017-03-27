@@ -1,7 +1,19 @@
 fieldset
-  legend = @legend
+
+  - if @legend
+    legend = @legend
+  - else
+    legend style="padding-top:21px;"
+    
   - if @hint
     .row: .large-12.columns.fieldset-hint
       - for line in s.lines(@hint)
         p = line
-  .fields
+  .form-groups
+  
+  - if @nested
+    .row
+      .large-12.columns
+        .float-right
+          a.button.tiny.hollow.add-group.nested-fields-button Add Fields
+          

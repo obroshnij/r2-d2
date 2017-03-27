@@ -53,6 +53,10 @@ Rails.application.routes.draw do
       put :mark_dismissed,   on: :member
       get :show_attach,      on: :member
     end
+    resources :cfc_requests do
+      put :verify,         on: :member
+      put :mark_processed, on: :member
+    end
     resources :rbls
     namespace :rbl do
       resources :checkers,   only: [:create]

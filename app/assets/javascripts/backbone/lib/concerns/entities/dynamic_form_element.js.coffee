@@ -35,8 +35,13 @@
       dependency ?= @attributes.dependencies
 
       result = _.map dependency, (conditions, parent) =>
+        parentName = if this.get('nested') and this.get('identifier')
+          this.get('identifier').replace new RegExp(this.get('name')), parent
+        else
+          parent
+
         _.map conditions, (allowedValues, checker) =>
-          @checkers[checker](allowedValues, fieldValues[parent])
+          @checkers[checker](allowedValues, fieldValues[parentName])
 
       _.chain(result)
         .flatten()

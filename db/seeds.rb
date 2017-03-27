@@ -283,3 +283,24 @@ end
 end
 
 Rake::Task['products:create_affected_products'].invoke
+
+################################################################################
+
+[
+  { uid: 'uniq_pw', name: 'Unique pw' },
+  { uid: 'pw_pattern', name: 'Similar or pattern in pw' },
+  { uid: 'paypal', name: 'Same PayPal' },
+  { uid: 'cc_stripe_fp', name: 'Same cc (by Stripe fingerprint)' },
+  { uid: 'cc_num_name', name: 'Same cc (by last 4 cc digits and name on card)' },
+  { uid: 'transaction_ip', name: 'Transaction IP' },
+  { uid: 'login_ip', name: 'Login IP' },
+  { uid: 'signup_ip', name: 'Sign up IP' },
+  { uid: 'email_pattern', name: 'Pattern in account email' },
+  { uid: 'username_pattern', name: 'Pattern in username' },
+  { uid: 'name', name: 'First and last name' },
+  { uid: 'phone', name: 'Phone number' },
+  { uid: 'address', name: 'Street address' },
+  { uid: 'other', name: 'Other' }
+].each do |r|
+  Legal::UserRelationType.create uid: r[:uid], name: r[:name]
+end

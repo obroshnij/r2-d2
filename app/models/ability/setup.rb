@@ -140,6 +140,29 @@ class Ability::Setup
         }
       ]
     }, {
+      subjects:         ['Legal::CfcRequest'],
+      description:      'Legal & Abuse -> CFC Requests',
+
+      permissions:      [
+        {
+          actions:      ['index'],
+          description:  'Access requests list',
+          identifier:   'legal_cfc_requests_index'
+        }, {
+          actions:      ['create'],
+          description:  'Submit new requests',
+          identifier:   'legal_cfc_requests_create'
+        }, {
+          actions:      ['show', 'update'],
+          description:  'Edit existing requests',
+          identifier:   'legal_cfc_requests_edit'
+        }, {
+          actions:      ['show', 'process'],
+          description:  'Mark requests as processed',
+          identifier:   'legal_cfc_requests_process'
+        }
+      ]
+    }, {
       subjects:         ['AbuseReport'],
       description:      'Legal & Abuse -> Abuse Reports',
 

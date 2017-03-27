@@ -78,6 +78,11 @@ class Nav
           icon:   'fa fa-fw fa-server',
           klass:  Legal::HostingAbuse
         }, {
+          name:   'CFC Requests',
+          url:    '#/legal/cfc_requests',
+          icon:   'fa fa-fw',
+          klass:  Legal::CfcRequest
+        }, {
           name:   'Abuse Reports',
           url:    '/abuse_reports',
           icon:   'fa fa-fw',

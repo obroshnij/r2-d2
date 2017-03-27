@@ -26,26 +26,39 @@
       App.execute 'when:synced', @model, =>
 
         fields.each (fieldset) =>
-          fieldset.fields.each (field) =>
-            if field.get('type') is 'select2_ajax' and field.get('initVal')
-              id     = @model.get field.get('initVal').idAttr
-              text   = @model.get field.get('initVal').textAttr
-              option = "<option value='#{id}'>#{text}</option>"
+          if fieldset.groups.first().get('nested')
+            attrs = fieldset.groups.first().attributes
+            num = @model.get(fieldset.get('name')).length or 1
+            fieldset.groups.reset _.range(num).map(() => attrs)
 
-              _.defer ->
-                $("##{field.get('id')}").append(option).val(id).trigger('change')
-
-            else
-              val = field.get('value') or @getValueFromModel(field.get('name')) or field.get('default')
-              field.set 'value', val
-
-              if field.get('type') is 'select2'
-                _.defer -> $("##{field.get('id')}").trigger('change')
-
+          fieldset.groups.each (group, groupIndex) =>
+            group.fields.each (field) =>
+              @setFieldValue field, groupIndex
 
         fields.trigger 'field:value:changed'
 
       fields
+
+    setFieldValue: (field, groupIndex) ->
+      if field.get('type') is 'select2_ajax' and field.get('initVal')
+        id     = @getValueFromModel field.get('initVal').idAttr
+        text   = @getValueFromModel field.get('initVal').textAttr
+        option = "<option value='#{id}'>#{text}</option>"
+
+        _.defer ->
+          $("##{field.get('id')}").append(option).val(id).trigger('change')
+
+      else
+        attrName = if field.get('nested')
+          "#{field.get('nestName')}[#{groupIndex}][#{field.get('name')}]"
+        else
+          field.get('name')
+
+        val = field.get('value') or @getValueFromModel(attrName) or field.get('default')
+        field.set 'value', val
+
+        if field.get('type') is 'select2'
+          _.defer -> $("##{field.get('id')}").trigger('change')
 
     getValueFromModel: (name) ->
       path = _.compact name.split(/[\[\]]/)
@@ -72,7 +85,7 @@
         @fieldsView[proxy] = _.result @schema, proxy
 
     createListeners: ->
-      @listenTo @fieldsView, 'childview:childview:value:changed', @forwardChangeEvent
+      @listenTo @fieldsView, 'childview:childview:childview:value:changed', @forwardChangeEvent
       @listenTo @fieldsView, 'show',    -> @schema.triggerMethod 'show', @fieldsView
       @listenTo @fieldsView, 'show',    => Backbone.Syphon.deserialize @fieldsView, @formFields.getFieldValues()
       @listenTo @fieldsView, 'destroy', -> @schema.destroy()

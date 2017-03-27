@@ -1,0 +1,7 @@
+- if @nested
+  a.button.tiny.hollow.alert.remove-group.nested-fields-button Remove Fields
+
+.fields
+
+- if @markedForDestruction
+  input type='hidden' name="#{@identifier}[_destroy]" id="#{@identifier}[_destroy]" value="1" syphon='always-visible'

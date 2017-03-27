@@ -18,7 +18,7 @@
       @model.get 'tagName'
 
     getNameAttr: ->
-      @model.get 'name'
+      @model.get 'identifier'
 
     events:
       'change @ui.input' : 'updateModelValue'
@@ -91,13 +91,15 @@
 
     onShow: ->
       @$('select').select2()
-
       @$('select').on 'select2:open', =>
 
 
     onDestroy: ->
       @$('select').off()
-      @$('select').select2 'destroy'
+      try
+        @$('select').select2 'destroy'
+      catch err
+        null
 
 
   class FormFields.Select2AjaxView extends FormFields.SelectView
@@ -248,39 +250,96 @@
       @$('input').data('daterangepicker').remove()
 
 
+  class FormFields.GroupView extends App.Views.CompositeView
+    template:           'form_fields/form_group'
+    childViewContainer: '.fields'
+
+    attributes: ->
+      class: if @model.get('isFirst') then 'form-group no-border' else 'form-group'
+
+    ui:
+      'fields': '.fields'
+
+    onShow: ->
+      @ui.fields.addClass 'row large-up-4' if @model.get('isCompact')
+
+    events:
+      'click .remove-group' : 'onRemoveClick'
+
+    modelEvents:
+      'mark:for:destruction' : 'render'
+
+    onRemoveClick: (event) ->
+      @$el.hide 200, () => @model.trigger 'mark:for:destruction'
+
+    getChildView: (m) ->
+      return FormFields.TextFieldView              if m.get('tagName') is 'input'  and m.get('type') is 'text'
+      return FormFields.NumberFieldView            if m.get('tagName') is 'input'  and m.get('type') is 'number'
+      return FormFields.CollectionCheckBoxesView   if m.get('tagName') is 'input'  and m.get('type') is 'collection_check_boxes'
+      return FormFields.RadioButtonsView           if m.get('tagName') is 'input'  and m.get('type') is 'radio_buttons'
+      return FormFields.CollectionRadioButtonsView if m.get('tagName') is 'input'  and m.get('type') is 'collection_radio_buttons'
+      return FormFields.HiddenFieldView            if m.get('tagName') is 'input'  and m.get('type') is 'hidden'
+      return FormFields.Select2View                if m.get('tagName') is 'select' and m.get('type') is 'select2'
+      return FormFields.Select2AjaxView            if m.get('tagName') is 'select' and m.get('type') is 'select2_ajax'
+      return FormFields.Select2MultiView           if m.get('tagName') is 'select' and m.get('type') is 'select2_multi'
+      return FormFields.SelectView                 if m.get('tagName') is 'select'
+      return FormFields.TextAreaView               if m.get('tagName') is 'textarea'
+      return FormFields.DateRangePickerView        if m.get('tagName') is 'input'  and m.get('type') is 'date_range_picker'
+
+
   # Form fieldset views
 
   class FormFields.FieldsetView extends App.Views.CompositeView
     template:           'form_fields/fieldset'
-    childViewContainer: '.fields'
+    childView:          FormFields.GroupView
+    childViewContainer: '.form-groups'
 
     attributes: ->
       id:    @model.get('elementId')
       class: 'fieldset-wrapper'
       style: if @model.isShown() then 'display:block;' else 'display:none;'
 
-    ui:
-      'fields': '.fields'
+    buildChildView: (child, childViewClass, childViewOptions) ->
+      new FormFields.GroupView
+        model:      child
+        collection: child.fields
+
+    events:
+      'click .add-group' : 'onAddClick'
+
+    onAddClick: (event) ->
+      @model.trigger 'add:group'
 
     onShow: ->
-      @ui.fields.addClass 'row large-up-4' if @model.isCompact()
+      @updateRemoveButtons()
 
-    getChildView: (model) ->
-      return FormFields.TextFieldView              if model.get('tagName') is 'input'  and model.get('type') is 'text'
-      return FormFields.NumberFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'number'
-      return FormFields.CollectionCheckBoxesView   if model.get('tagName') is 'input'  and model.get('type') is 'collection_check_boxes'
-      return FormFields.RadioButtonsView           if model.get('tagName') is 'input'  and model.get('type') is 'radio_buttons'
-      return FormFields.CollectionRadioButtonsView if model.get('tagName') is 'input'  and model.get('type') is 'collection_radio_buttons'
-      return FormFields.HiddenFieldView            if model.get('tagName') is 'input'  and model.get('type') is 'hidden'
-      return FormFields.Select2View                if model.get('tagName') is 'select' and model.get('type') is 'select2'
-      return FormFields.Select2AjaxView            if model.get('tagName') is 'select' and model.get('type') is 'select2_ajax'
-      return FormFields.Select2MultiView           if model.get('tagName') is 'select' and model.get('type') is 'select2_multi'
-      return FormFields.SelectView                 if model.get('tagName') is 'select'
-      return FormFields.TextAreaView               if model.get('tagName') is 'textarea'
-      return FormFields.DateRangePickerView        if model.get('tagName') is 'input'  and model.get('type') is 'date_range_picker'
+    collectionEvents:
+      'mark:for:destruction' : 'updateBorders updateRemoveButtons'
+      'update'               : 'updateRemoveButtons'
+
+    updateBorders: ->
+      @$('.form-group.no-border').removeClass('no-border')
+      @$('.form-group:visible:first').addClass('no-border')
+
+    updateRemoveButtons: ->
+      if @collection.filter((g) => !g.get('markedForDestruction')).length is 1
+        @$('.remove-group.nested-fields-button').addClass('hidden')
+      else
+        @$('.remove-group.nested-fields-button').removeClass('hidden')
+
+    # attachHtml: (collectionView, childView, index) ->
+    #   if collectionView.isBuffering
+    #     collectionView._bufferedChildren.splice(index, 0, childView)
+    #     return
+    #
+    #   if !collectionView._insertBefore(childView, index)
+    #     $childEl = $(childView.el)
+    #     $childEl.hide()
+    #     { $el, $childViewContainer } = collectionView
+    #     ($childViewContainer or $el).append $childEl[0]
+    #     $childEl.show 200
 
     @include 'DynamicFormView'
-
 
   class FormFields.FieldsetCollectionView extends App.Views.CollectionView
     childView: FormFields.FieldsetView
@@ -288,4 +347,4 @@
     buildChildView: (child, childViewClass, childViewOptions) ->
       new FormFields.FieldsetView
         model:      child
-        collection: child.fields
+        collection: child.groups

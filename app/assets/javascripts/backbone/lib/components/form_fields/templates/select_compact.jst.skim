@@ -1,5 +1,5 @@
 label for="#{@id}" = @label
-select name="#{@name}" id="#{@id}"
+select name="#{@id}" id="#{@id}"
   
   option value='' Please select
   - for option in @options

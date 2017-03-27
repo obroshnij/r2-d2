@@ -30,7 +30,7 @@
 
       action  = @_getAction(route)
       ability = App.request 'get:current:ability'
-      
+
       unless ability.can(action, @resource)
         App.vent.trigger 'access:denied'
         return false
@@ -45,3 +45,4 @@
       return 'show'   if action is 'show'
       return 'update' if action is 'edit'
       return 'create' if /^new/.test action
+      action

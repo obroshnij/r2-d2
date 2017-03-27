@@ -1,9 +1,20 @@
 form                                                  {
   input[type], select, textarea                       { font-size: 0.875rem; }
-  fieldset                                            { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem;
+  fieldset                                            { border-top: 1px solid rgba($black, 0.25); margin-bottom: 1rem; position: relative;
     legend                                            { margin-left: 2rem; font-weight: normal; color: #7d7d7d; font-style: italic; }
     .fieldset-hint                                    { font-size: 1rem; color: #7d7d7d; white-space: pre-wrap; font-style: italic; margin-bottom: 1rem;
       p                                               { text-indent: 2rem; margin-bottom: 0.5rem; text-align: justify; }
+    }
+    .nested-fields-button                             { min-width: 6rem; margin-bottom: 0; }
+    .form-group                                       { position: relative; border-top: 1px solid rgba($black, 0.25); padding-top: 1rem;
+      .remove-group                                   { position: absolute; top: 1rem; right: 0; display: none; }
+      .remove-group.hidden                            { display: none !important; }
+    }
+    .form-group:hover                                 {
+      .remove-group                                   { display: block; }
+    }
+    .form-group.no-border                             { border-top: 0; padding-top: 0;
+      .remove-group                                   { top: 0; }
     }
   }
   label                                               { font-size: 1rem; color: #333333; line-height: 1.3rem; }
@@ -21,12 +32,12 @@ form                                                  {
   span.form-error                                     { margin-top: -1rem; }
   .collection > .large-12 > span.form-error           { margin-top: 0; margin-bottom: 0; }
   .button-group                                       { margin-bottom: 0; }
-  
+
   .fields.row                                         {
     label                                             { font-size: 0.875rem; }
   }
-  
+
   textarea                                            { resize: vertical; }
-  
+
   .stats                                              { margin-top: -1rem; font-size: 0.875rem; }
 }

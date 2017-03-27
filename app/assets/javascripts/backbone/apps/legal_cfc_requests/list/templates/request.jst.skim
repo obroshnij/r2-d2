@@ -1,0 +1,5 @@
+.row.header
+.row.expand style="display:none"
+  .large-12.columns
+    .row.more-info
+    .row.relations

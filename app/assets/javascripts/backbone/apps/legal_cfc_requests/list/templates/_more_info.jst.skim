@@ -1,0 +1,52 @@
+.large-12.columns
+  fieldset
+    legend More Info
+    .row.large-up-4
+        
+      .column: .row.hash
+        .key Service Type
+        .value = @serviceType
+        
+      - if @service_type is 'domain'
+        .column: .row.hash
+          .key Domain Name
+          .value = @domain_name
+      
+      - if @service_type is 'hosting'
+        .column: .row.hash
+          .key Service ID
+          .value = @service_id
+        
+      - if @service_type is 'private_email'
+        .column: .row.hash
+          .key Subscription
+          .value = @subscription
+          
+      .column: .row.hash
+        .key Service Status
+        .value = @serviceStatus
+        
+      - unless @service_status is 'active'
+        .column: .row.hash
+          .key Reference
+          .value = @service_status_reference
+          
+      .column: .row.hash
+        .key User Signup Date
+        .value = @signup_date
+        
+      .column: .row.hash
+        .key Abuse Type
+        .value = @abuseType
+
+    - if @abuse_type is 'other_abuse' and @other_description
+      br
+      .row.hash.editable
+        .key Abuse Description
+        .value = @other_description
+
+    - if @comments
+      br
+      .row.hash.editable
+        .key Comments
+        .value = @comments

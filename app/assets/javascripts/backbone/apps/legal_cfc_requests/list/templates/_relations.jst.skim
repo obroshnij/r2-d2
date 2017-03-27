@@ -1,0 +1,19 @@
+- if @relations.length
+  .large-12.columns
+    fieldset
+      legend Relations
+      .row.large-up-4
+        
+        - for r in @relations
+        
+          .column style="padding-bottom:0.5rem;"
+            .row.hash
+              .key Username
+              .value = "#{r.username} (#{r.certainty}%)"
+            .row.hash
+              .key Related by
+              .value = @relationNames r.relation_type_ids
+            - if r.comment
+              .row.hash
+                .key Comment
+                .value = r.comment

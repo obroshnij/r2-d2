@@ -5,8 +5,8 @@
   
   div class="#{@columnClass} columns radiobuttons"
     - for option in @options
-      input type='radio' name="#{@name}" value="#{option.id}" id="#{@name}_#{option.id}"
-      label for="#{@name}_#{option.id}" = option.name
+      input type='radio' name="#{@id}" value="#{option.id}" id="#{@id}_#{option.id}"
+      label for="#{@id}_#{option.id}" = option.name
   
   - if @hasHint
     .large-7.columns

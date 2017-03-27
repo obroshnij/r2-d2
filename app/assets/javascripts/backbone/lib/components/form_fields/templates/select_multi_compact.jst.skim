@@ -1,5 +1,5 @@
 label for="#{@id}" = @label
-select name="#{@name}[]" id="#{@id}" multiple='multiple'
+select name="#{@id}[]" id="#{@id}" multiple='multiple'
   
   - for option in @options
     option value="#{option.id}" = option.name

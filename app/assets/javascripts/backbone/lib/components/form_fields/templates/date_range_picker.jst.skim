@@ -4,7 +4,7 @@
 .large-9.columns
 
   .large-5.columns
-    input type="text" name="#{@name}" id="#{@id}"
+    input type="text" name="#{@id}" id="#{@id}"
     span.form-error
     
   .large-7.columns

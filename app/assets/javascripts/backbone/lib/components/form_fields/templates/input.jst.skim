@@ -4,7 +4,7 @@
 .large-9.columns
   
   div class="#{@columnClass} columns"
-    input type="#{@type}" name="#{@name}" id="#{@id}"
+    input type="#{@type}" name="#{@id}" id="#{@id}"
     span.form-error
   
   - if @hasHint

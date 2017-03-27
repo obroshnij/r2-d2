@@ -1,0 +1,57 @@
+.large-3.columns
+  .row.hash
+    .key: span Request Type
+    .value: span = @requestType
+  - if @request_type is 'find_relations'
+    .row.hash
+      .key: span Reason
+      .value: span = @findRelationsReason
+  .row.hash
+    .key: span Username
+    .value: span = @nc_username
+
+.large-3.columns
+  .row.hash
+    .key: span Submitted by
+    .value: span = @submitted_by
+  .row.hash
+    .key: span Submitted at
+    .value: span = @created_at
+  .row.hash
+    .key: span Reference
+    .value: span = @reference
+
+.large-4.columns
+  .row.hash
+    .key: span class="#{@statusColor} label" = @statusName
+    - unless @statusName is 'New'
+      .value: span = " by #{@processed_by}"
+  - unless @statusName is 'New'
+    .row.hash
+      .key: span = "#{@actionName} at"
+      .value: span = @processed_at
+  - if @statusName is 'Pending Verification'
+    .row.hash
+      .key: span Vefication Ticket
+      .value: span = @verification_ticket_id
+  - if @statusName is 'Processed'
+    .row.hash
+      .key: span Result
+      .value: span = @processedResult
+
+.large-2.columns
+  .row
+    .button-group.tiny.float-right
+      a.button.edit-request
+        icon.fi-pencil
+        |  Edit
+      a.button.verify-request.warning
+        icon.fi-mail
+        |  Verify
+      a.button.process-request.success
+        icon.fi-check
+        |  Process
+  .row
+    .text-right
+      a.toggle
+        icon.fa.fa-angle-double-down

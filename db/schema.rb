@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314135941) do
+ActiveRecord::Schema.define(version: 20170324110424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,47 @@ ActiveRecord::Schema.define(version: 20170314135941) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
+
+  create_table "legal_cfc_request_relations", force: :cascade do |t|
+    t.integer "request_id"
+    t.string  "username"
+    t.integer "certainty"
+    t.text    "comment"
+  end
+
+  create_table "legal_cfc_requests", force: :cascade do |t|
+    t.integer  "submitted_by_id"
+    t.integer  "processed_by_id"
+    t.datetime "processed_at"
+    t.integer  "status"
+    t.string   "verification_ticket_id"
+    t.string   "nc_username"
+    t.date     "signup_date"
+    t.integer  "request_type"
+    t.integer  "find_relations_reason"
+    t.string   "reference"
+    t.integer  "service_type"
+    t.string   "domain_name"
+    t.string   "service_id"
+    t.string   "pe_subscription"
+    t.integer  "abuse_type"
+    t.text     "other_description"
+    t.integer  "service_status"
+    t.string   "service_status_reference"
+    t.text     "comments"
+    t.boolean  "frauded"
+    t.integer  "relations_status"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "legal_cfc_requests_relations_types", force: :cascade do |t|
+    t.integer "relation_id"
+    t.string  "relation_type_uid"
+  end
+
+  add_index "legal_cfc_requests_relations_types", ["relation_id"], name: "index_legal_cfc_requests_relations_types_on_relation_id", using: :btree
+  add_index "legal_cfc_requests_relations_types", ["relation_type_uid"], name: "index_legal_cfc_requests_relations_types_on_relation_type_uid", using: :btree
 
   create_table "legal_eforward_servers", force: :cascade do |t|
     t.string   "name"
@@ -538,6 +579,13 @@ ActiveRecord::Schema.define(version: 20170314135941) do
   end
 
   add_index "legal_uber_services", ["identifier"], name: "index_legal_uber_services_on_identifier", using: :btree
+
+  create_table "legal_user_relation_types", force: :cascade do |t|
+    t.string "uid"
+    t.string "name"
+  end
+
+  add_index "legal_user_relation_types", ["uid"], name: "index_legal_user_relation_types_on_uid", using: :btree
 
   create_table "nc_service_types", force: :cascade do |t|
     t.string   "name"

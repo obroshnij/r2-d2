@@ -69,6 +69,10 @@
       $row = @$("[name='#{name}'], [name='#{name}[]'], [aria-labelledby='select2-#{name}-container']").addClass('is-invalid-input').closest('.form-field')
       $row.find('span.form-error').html(error).addClass('is-visible')
       $row.find('label:not(.errorless)').addClass('is-invalid-label')
+      # select2 multiple
+      sel2container = $("select[name='#{name}[]'][multiple][aria-hidden='true']").next()
+      if sel2container.hasClass('select2-container') and sel2container.find('.select2-selection--multiple')[0]
+        sel2container.find('.select2-selection--multiple').addClass('is-invalid-input')
 
     syncStart: (model) ->
       return unless @config.syncing
