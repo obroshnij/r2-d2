@@ -36,6 +36,10 @@ class Nav
           name:   'Email Verifier',
           url:    '#/tools/email_verifier',
           icon:   'fa fa-fw fa-envelope-o'
+        # }, {
+        #   name:   'Email Masker',
+        #   url:    '#/tools/email_masker',
+        #   icon:   'fa fa-fw fa-envelope'
         }
       ]
     }, {

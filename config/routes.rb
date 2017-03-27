@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     resources :lists_diffs,     only: [:create]
     resources :bulk_digs,       only: [:create]
     resources :email_verifiers, only: [:create]
+    resources :email_maskers,   only: [:create]
     resources :internal_domains
   end
 
