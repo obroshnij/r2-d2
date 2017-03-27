@@ -74,7 +74,7 @@
             service_type: value: ['hosting']
         ,
           name:    'pe_subscription'
-          label:   'Subscription'
+          label:   'Host Name'
           dependencies:
             service_type: value: ['private_email']
         ,
