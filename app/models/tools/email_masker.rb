@@ -22,9 +22,12 @@ class Tools::EmailMasker
     return errors.add(:query, 'No valid emails found') if emails.blank?
 
     emails.map do |email|
-      email.split('@').map do |part|
-        part.chars.map.with_index { |char, index| index.odd? ? '*' : char }.join
-      end.join('@')
+      index = email.index '@'
+      email.gsub '@', ''
+      
+      email.chars.map.with_index do |char, index|
+        index.odd? ? '*' : char
+      end.join.insert index, '@'
     end
   end
 
