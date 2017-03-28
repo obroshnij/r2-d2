@@ -27,7 +27,12 @@
     resultRegion: (masker) ->
       resultView = @getResultView masker
 
-      @show resultView, region: @layout.resultRegion
+      loadingType = if @layout.resultRegion.currentView then 'opacity' else 'spinner'
+
+      @show resultView,
+        region:  @layout.resultRegion
+        loading:
+          loadingType: loadingType
 
     getResultView: (masker) ->
       new New.Result

@@ -6,7 +6,7 @@
   div class="#{@columnClass} columns"
     div.textarea-wrapper
       textarea name="#{@id}" id="#{@id}"
-      span.form-error
+    span.form-error
   
   - if @hasHint
     .large-7.columns

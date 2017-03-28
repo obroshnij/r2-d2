@@ -31,3 +31,9 @@
 
   class New.Result extends App.Views.ItemView
     template: 'tools_email_masker/new/result'
+
+    modelEvents:
+      'sync:stop' : 'render'
+
+    onAttach: ->
+      @destroy() unless @model.get('mask')

@@ -1,0 +1,7 @@
+form
+  .callout.secondary
+    .fields.row
+      .large-12.columns
+        label
+          | Masked Emails
+          textarea rows='5' = @mask?.join('\n')
