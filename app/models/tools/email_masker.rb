@@ -23,11 +23,9 @@ class Tools::EmailMasker
 
     emails.map do |email|
       index = email.index '@'
-      email.gsub '@', ''
+      chars = email.gsub('@', '').chars.map.with_index { |c, i| i.odd? ? '*' : c }
       
-      email.chars.map.with_index do |char, index|
-        index.odd? ? '*' : char
-      end.join.insert index, '@'
+      chars.join.insert index, '@'
     end
   end
 
