@@ -16,6 +16,7 @@
       onBeforeSubmit:       ->
       onCancel:             ->
       onSuccess:            ->
+      onShow:               ->
 
     initialize: (options = {}) ->
       { @contentView } = options
@@ -84,8 +85,8 @@
 
     getFormLayout: (config) ->
       new Form.FormLayout
-        config: config
-        model: @model
+        config:  config
+        model:   @model
         buttons: @getButtons config.buttons
 
     getButtons: (buttons = {}) ->

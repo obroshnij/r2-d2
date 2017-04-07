@@ -12,11 +12,20 @@
         hasHints: false
 
         fields: [
-          name:    'processed_by_id'
+          name:    'verified_by_id'
           type:    'hidden'
           default: App.request('get:current:user').id
         ,
+          name:    'verifyCommentRequired'
+          type:    'hidden'
+        ,
           name:    'verification_ticket_id'
           label:   'Ticket ID'
+        ,
+          name:    'log_comments'
+          label:   'Edit Reason'
+          tagName: 'textarea'
+          dependencies:
+            verifyCommentRequired: value: ['true']
         ]
       ]

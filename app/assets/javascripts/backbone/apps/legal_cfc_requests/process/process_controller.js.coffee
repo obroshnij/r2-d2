@@ -20,6 +20,7 @@
         saveMethod: 'process'
         onSuccess:  -> App.vent.trigger 'cfc:request:created'
         onCancel:   -> App.vent.trigger 'new:cfc:request:cancelled'
+        onShow:     -> @$('.fieldset-hint > p').html("Required relations certainty is #{@model.get('certainty_threshold')}%")
 
       @show form, region: @layout.formRegion, loading: true
 

@@ -15,16 +15,17 @@ class Legal::CfcRequest::RelationForm
   attribute :id,                Integer
 
   validates :username,          presence: true
-  validates :certainty,         presence: true
-  validates :certainty,         numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 100 }
+  validates :certainty,         presence: true, if: :certainty_required?
+  validates :certainty,         numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 100 }, if: :certainty_required?
   validates :relation_type_ids, presence: true
   validates :comment,           presence: true, if: :other_relation_type?
 
-  attr_reader :cid
+  attr_reader :cid, :parent
 
-  def initialize cid, attrs
+  def initialize cid, attrs, parent
     super attrs
     @cid = cid
+    @parent = parent
   end
 
   def username= str = ""
@@ -37,6 +38,10 @@ class Legal::CfcRequest::RelationForm
 
   def other_relation_type?
     relation_type_ids.include? 'other'
+  end
+
+  def certainty_required?
+    parent.model.request_type == 'find_relations'
   end
 
   def persist!

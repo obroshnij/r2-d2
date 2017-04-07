@@ -1,5 +1,6 @@
 .clearfix
   h4.float-left CFC Requests
-  a.button.small.float-right
-    icon.fi-plus
-    |  New Request
+  - if @canCreate
+    a.button.small.float-right
+      icon.fi-plus
+      |  New Request

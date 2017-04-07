@@ -35,8 +35,8 @@
       dependency ?= @attributes.dependencies
 
       result = _.map dependency, (conditions, parent) =>
-        parentName = if this.get('nested') and this.get('identifier')
-          this.get('identifier').replace new RegExp(this.get('name')), parent
+        parentName = if this.get('nested') and this.get('identifier') and parent.indexOf("#{this.get('nestName')}.") is 0
+          this.get('identifier').replace new RegExp(this.get('name')), parent.replace(new RegExp("#{this.get('nestName')}."), '')
         else
           parent
 

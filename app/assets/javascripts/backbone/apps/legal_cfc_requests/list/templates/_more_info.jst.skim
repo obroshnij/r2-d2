@@ -2,6 +2,21 @@
   fieldset
     legend More Info
     .row.large-up-4
+      
+      - if @request_type is 'check_for_fraud'
+        .column: .row.hash
+          .key Investigate unless Fraud
+          .value = "#{if @investigate_unless_fraud then 'Yes' else 'No'}"
+          
+      - if @investigation_approved_by
+        .column: .row.hash
+          .key Agreed with
+          .value = @investigation_approved_by
+          
+      - if @certainty_threshold
+        .column: .row.hash
+          .key Certainty
+          .value = @certainty_threshold + '%'
         
       .column: .row.hash
         .key Service Type

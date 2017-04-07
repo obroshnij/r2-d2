@@ -149,17 +149,25 @@ class Ability::Setup
           description:  'Access requests list',
           identifier:   'legal_cfc_requests_index'
         }, {
-          actions:      ['create'],
+          actions:      ['create', 'show', 'update'],
           description:  'Submit new requests',
           identifier:   'legal_cfc_requests_create'
         }, {
-          actions:      ['show', 'update'],
-          description:  'Edit existing requests',
-          identifier:   'legal_cfc_requests_edit'
-        }, {
           actions:      ['show', 'process'],
-          description:  'Mark requests as processed',
+          description:  'Process requests',
           identifier:   'legal_cfc_requests_process'
+        }, {
+          actions:      ['request_relations_for_legal'],
+          description:  'Request user relations for legal request',
+          identifier:   'legal_cfc_requests_request_relations_for_legal'
+        }, {
+          actions:      ['request_relations_without_agreement'],
+          description:  'Request user relations without agreement',
+          identifier:   'legal_cfc_requests_request_relations_without_agreement'
+        }, {
+          actions:      ['approve_relation_requests'],
+          description:  'Approve user relation requests',
+          identifier:   'legal_cfc_requests_approve_relation_requests'
         }
       ]
     }, {

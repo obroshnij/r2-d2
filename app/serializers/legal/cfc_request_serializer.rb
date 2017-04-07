@@ -1,17 +1,22 @@
 class Legal::CfcRequestSerializer < ApplicationSerializer
 
   has_many :relations
+  has_many :logs
 
   attrs = Legal::CfcRequest.attribute_names + [
     :submitted_by,
-    :processed_by
+    :processed_by,
+    :verified_by,
+    :investigation_approved_by
   ]
 
   attributes *attrs
 
   methods = [
     :submitted_by,
-    :processed_by
+    :processed_by,
+    :verified_by,
+    :investigation_approved_by
   ]
 
   methods.each do |method_name|
@@ -26,6 +31,10 @@ class Legal::CfcRequestSerializer < ApplicationSerializer
 
   def processed_at
     object.processed_at.try :strftime, '%b/%d/%Y, %H:%M'
+  end
+
+  def verified_at
+    object.verified_at.try :strftime, '%b/%d/%Y, %H:%M'
   end
 
   def signup_date

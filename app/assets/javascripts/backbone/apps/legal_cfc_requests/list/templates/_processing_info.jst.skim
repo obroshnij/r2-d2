@@ -1,0 +1,24 @@
+- if @verification_ticket_id or @verified_by or @verified_at or @process_comments
+
+  .large-12.columns
+    fieldset
+      legend Processing Info
+      .row.large-up-3
+
+        .column: .row.hash
+          .key Verification Ticket
+          .value = @verification_ticket_id
+
+        .column: .row.hash
+          .key Verification Initiated by
+          .value = @verified_by
+
+        .column: .row.hash
+          .key Verification Initiated at
+          .value = @verified_at
+
+      - if @process_comments
+        br
+        .row.hash.editable
+          .key Comments
+          .value = @process_comments

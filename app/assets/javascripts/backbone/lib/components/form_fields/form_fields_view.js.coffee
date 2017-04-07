@@ -45,11 +45,11 @@
 
     enableInput: (val) ->
       @ui.input.attr('disabled', false)
-      @ui.input.val(val) if val
+      @ui.input.val(val) unless _.isUndefined(val)
 
     disableInput: (val) ->
       @ui.input.attr('disabled', true)
-      @ui.input.val(val) if val
+      @ui.input.val(val) unless _.isUndefined(val)
 
 
   class FormFields.NumberFieldView extends FormFields.BaseInputView

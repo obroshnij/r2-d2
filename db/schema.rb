@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324110424) do
+ActiveRecord::Schema.define(version: 20170407123754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,15 @@ ActiveRecord::Schema.define(version: 20170324110424) do
     t.datetime "updated_at",                      null: false
   end
 
+  create_table "legal_cfc_request_logs", force: :cascade do |t|
+    t.integer  "request_id"
+    t.integer  "user_id"
+    t.string   "action"
+    t.text     "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "legal_cfc_request_relations", force: :cascade do |t|
     t.integer "request_id"
     t.string  "username"
@@ -211,8 +220,14 @@ ActiveRecord::Schema.define(version: 20170324110424) do
     t.text     "comments"
     t.boolean  "frauded"
     t.integer  "relations_status"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "verified_by_id"
+    t.datetime "verified_at"
+    t.text     "process_comments"
+    t.integer  "investigation_approved_by_id"
+    t.boolean  "investigate_unless_fraud"
+    t.integer  "certainty_threshold"
   end
 
   create_table "legal_cfc_requests_relations_types", force: :cascade do |t|

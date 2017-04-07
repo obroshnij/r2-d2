@@ -2,18 +2,18 @@
   .large-12.columns
     fieldset
       legend Relations
-      .row.large-up-4
+      .row style="padding-bottom:0.25rem;"
         
-        - for r in @relations
+        .column.large-2 class="grey-italic" Username
+        .column.large-2 class="grey-italic" Certainty
+        .column.large-4 class="grey-italic" Related by
+        .column.large-4 class="grey-italic" = "#{if @relationsHaveComments then 'Comments' else ''}"
         
-          .column style="padding-bottom:0.5rem;"
-            .row.hash
-              .key Username
-              .value = "#{r.username} (#{r.certainty}%)"
-            .row.hash
-              .key Related by
-              .value = @relationNames r.relation_type_ids
-            - if r.comment
-              .row.hash
-                .key Comment
-                .value = r.comment
+      - for r in _.sortBy(@relations, 'certainty').reverse()
+        
+        .row style="padding-bottom:0.25rem;"
+        
+          .column.large-2 = r.username
+          .column.large-2 = r.certainty
+          .column.large-4 = @relationNames r.relation_type_ids
+          .column.large-4 = r.comment

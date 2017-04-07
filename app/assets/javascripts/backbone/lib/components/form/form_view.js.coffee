@@ -37,7 +37,8 @@
 
     onShow: ->
       _.defer =>
-        @focusFirstInput()  if @config.focusFirstInput
+        @config.onShow.call(@) if @config.onShow
+        @focusFirstInput()     if @config.focusFirstInput
 
     buttonsPlacement: ->
       @ui.buttonsContainer.addClass "float-#{@buttons.placement}"

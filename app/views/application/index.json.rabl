@@ -49,6 +49,11 @@ node :entities do
         reported_by:     Legal::HostingAbuse.reported_by.as_json(only: [:id, :name]),
         processed_by:    Legal::HostingAbuse.processed_by.as_json(only: [:id, :name])
       },
+      cfc_requests: {
+        submitted_by:                  Legal::CfcRequest.submitted_by.as_json(only: [:id, :name]),
+        processed_by:                  Legal::CfcRequest.processed_by.as_json(only: [:id, :name]),
+        may_approve_relation_requests: Legal::CfcRequest.may_approve_relation_requests.as_json(only: [:id, :name])
+      },
       user_relation_types: Legal::UserRelationType.all.as_json(only: [:id, :name]),
       rbl_status: Legal::RblStatus.all.as_json(only: [:id, :name])
     },

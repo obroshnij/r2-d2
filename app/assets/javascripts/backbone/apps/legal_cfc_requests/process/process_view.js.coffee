@@ -5,7 +5,7 @@
 
     regions:
       formRegion: '#form-region'
-
+      
 
   class Process.FormSchema extends Marionette.Object
 
@@ -19,6 +19,12 @@
           type:     'hidden'
           default:  App.request('get:current:user').id
         ,
+          name:     'request_type'
+          type:     'hidden'
+        ,
+          name:     'processCommentRequired'
+          type:     'hidden'
+        ,
           name:     'frauded'
           label:    'Frauded?'
           type:     'radio_buttons'
@@ -27,6 +33,8 @@
             { id: 'true',  name: 'Yes' }
           ]
           default: 'false'
+          dependencies:
+            request_type: value: ['check_for_fraud']
         ,
           name:     'relations_status'
           label:    'Related Accounts'
@@ -37,11 +45,18 @@
             { id: 'has_no_relations',  name: 'Not Found' }
           ]
           default: 'unknown_relations'
+          callback: (fieldValues) ->
+            _.defer =>
+              if fieldValues.request_type is 'find_relations'
+                @trigger('disable:options', 'unknown_relations')
+              else
+                @trigger('enable:options', 'unknown_relations')
         ]
       ,
         legend: 'Related Accounts'
         nested: true
         name:   'relations'
+        hint:   " "
 
         dependencies:
           relations_status: value: ['has_relations']
@@ -64,10 +79,28 @@
           label:   'Comment'
           tagName: 'textarea'
           dependencies:
-            relation_type_ids: value: ['other']
+            'relations.relation_type_ids': value: ['other']
         ,
           name:    'certainty'
           label:   'Certainty (%)'
           type:    'number'
+          dependencies:
+            request_type: value: ['find_relations']
+        ]
+      ,
+        name: 'comments'
+
+        fields: [
+          name:    'process_comments'
+          label:   'Additional Comments'
+          tagName: 'textarea'
+          hint:    'Anything you would like to add (not required)'
+        ,
+          name:    'log_comments'
+          label:   'Edit Reason'
+          tagName: 'textarea'
+          hint:    'Why is it necessary to edit the request?'
+          dependencies:
+            processCommentRequired: value: ['true']
         ]
       ]

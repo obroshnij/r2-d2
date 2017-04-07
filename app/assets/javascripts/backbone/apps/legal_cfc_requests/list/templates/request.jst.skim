@@ -2,4 +2,5 @@
 .row.expand style="display:none"
   .large-12.columns
     .row.more-info
+    .row.processing-info
     .row.relations

@@ -16,6 +16,9 @@
     triggers:
       'click a' : 'submit:request:clicked'
 
+    serializeData: ->
+      canCreate: App.ability.can 'create', 'Legal::CfcRequest'
+
 
   class List.SearchSchema extends Marionette.Object
 
@@ -34,8 +37,39 @@
         isCompact: true
 
         fields: [
-          name:     'nc_username_eq'
-          label:    'Username'
+          name:     'nc_username_cont'
+          label:    'Username contains'
+        ,
+          name:     'relations_username_eq'
+          label:    'Username (related) equals'
+        ,
+          name:     'status_eq'
+          label:    'Status'
+          tagName:  'select'
+          options:  [{ id: '0', name: 'New' }, { id: '1', name: 'Pending Verification' }, { id: '2', name: 'Processed' }]
+        ,
+          name:      'request_type_eq'
+          label:     'Request Type'
+          tagName:   'select'
+          options:   [{ id: '0', name: 'Check for Fraud' }, { id: '1', name: 'Find Relations' }]
+        ,
+          name:      'processed_by_id_eq'
+          label:     'Processed by'
+          tagName:   'select'
+          options:   App.entities.legal.cfc_requests.processed_by
+        ,
+          name:      'submitted_by_id_eq'
+          label:     'Submitted by'
+          tagName:   'select'
+          options:   App.entities.legal.cfc_requests.submitted_by
+        ,
+          name:      'created_at_datetime_between'
+          label:     'Created on'
+          type:      'date_range_picker'
+        ,
+          name:      'processed_at_datetime_between'
+          label:     'Processed on'
+          type:      'date_range_picker'
         ]
       ]
 
@@ -48,12 +82,37 @@
       'click .verify-request'  : 'verify:clicked'
       'click .process-request' : 'process:clicked'
 
+    events:
+      'click .dropdown-pane' : 'doNothing'
+
     modelEvents:
       'change' : 'render'
+
+    doNothing: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+
+    serializeData: ->
+      data = super
+      data.canEdit    = App.ability.can 'create',  @model
+      data.canVerify  = App.ability.can 'process', @model
+      data.canProcess = App.ability.can 'process', @model
+      data
+
+    @include 'HasDropdowns'
 
 
   class List.MoreInfo extends App.Views.ItemView
     template: 'legal_cfc_requests/list/_more_info'
+
+    modelEvents:
+      'change' : 'render'
+
+    @include 'HasEditableFields'
+
+
+  class List.ProcessingInfo extends App.Views.ItemView
+    template: 'legal_cfc_requests/list/_processing_info'
 
     modelEvents:
       'change' : 'render'
@@ -76,6 +135,11 @@
           .name
         .join(', ')
 
+    serializeData: ->
+      data = super
+      data.relationsHaveComments = _.some(@model.get('relations'), 'comment')
+      data
+
 
   class List.Request extends App.Views.LayoutView
     template: 'legal_cfc_requests/list/request'
@@ -83,9 +147,10 @@
     tagName:  'li'
 
     regions:
-      headerRegion:    '.header'
-      moreInfoRegion:  '.more-info'
-      relationsRegion: '.relations'
+      headerRegion:         '.header'
+      moreInfoRegion:       '.more-info'
+      relationsRegion:      '.relations'
+      processingInfoRegion: '.processing-info'
 
     triggers:
       'click .header' : 'toggle:clicked'
@@ -96,6 +161,9 @@
 
       moreInfoView = new List.MoreInfo model: @model
       @moreInfoRegion.show moreInfoView
+
+      processingInfoView = new List.ProcessingInfo model: @model
+      @processingInfoRegion.show processingInfoView
 
       relationsView = new List.Relations model: @model
       @relationsRegion.show relationsView

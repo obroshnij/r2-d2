@@ -8,7 +8,7 @@
       .value: span = @findRelationsReason
   .row.hash
     .key: span Username
-    .value: span = @nc_username
+    .value: span: strong = @nc_username
 
 .large-3.columns
   .row.hash
@@ -24,12 +24,17 @@
 .large-4.columns
   .row.hash
     .key: span class="#{@statusColor} label" = @statusName
-    - unless @statusName is 'New'
+    - if @statusName is 'Pending Verification'
+      .value: span = " by #{@verified_by}"
+    - if @statusName is 'Processed'
       .value: span = " by #{@processed_by}"
   - unless @statusName is 'New'
     .row.hash
       .key: span = "#{@actionName} at"
-      .value: span = @processed_at
+      - if @statusName is 'Pending Verification'
+        .value: span = @verified_at
+      - if @statusName is 'Processed'
+        .value: span = @processed_at
   - if @statusName is 'Pending Verification'
     .row.hash
       .key: span Vefication Ticket
@@ -37,21 +42,42 @@
   - if @statusName is 'Processed'
     .row.hash
       .key: span Result
-      .value: span = @processedResult
+      - if @requestType is 'Check for fraud'
+        .value: span
+          = @checkForFraudResult
+          |&nbsp;|&nbsp;Relations&nbsp;
+          = @findRelationsResult
+      - if @requestType is 'Find relations'
+        .value
+          span
+            |Relations&nbsp;
+            = @findRelationsResult
 
 .large-2.columns
   .row
     .button-group.tiny.float-right
-      a.button.edit-request
-        icon.fi-pencil
-        |  Edit
-      a.button.verify-request.warning
-        icon.fi-mail
-        |  Verify
-      a.button.process-request.success
-        icon.fi-check
-        |  Process
+      - if @canBeEdited and @canEdit
+        a.button.edit-request
+          icon.fi-pencil
+          |  Edit
+      - if @canBeVerified and @canVerify
+        a.button.verify-request.warning
+          icon.fi-mail
+          - if @status is '_new'
+            |  Verify
+          - else
+            |  Edit
+      - if @canBeProcessed and @canProcess
+        a.button.process-request.success
+          icon.fi-check
+          - if @status is '_processed'
+            |  Edit
+          - else
+            |  Process
   .row
     .text-right
+      - if @logs?.length
+        == @dropdown 'Log', s.lines(@editLog).join('<br>')
+        | &nbsp;&nbsp;|&nbsp;&nbsp;
       a.toggle
         icon.fa.fa-angle-double-down

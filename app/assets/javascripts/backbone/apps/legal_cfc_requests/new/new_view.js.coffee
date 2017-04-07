@@ -15,9 +15,20 @@
         id:     'new-cfc-request'
 
         fields: [
-          name:     'submitted_by_id'
-          type:     'hidden'
-          default:  App.request('get:current:user').id
+          name:    'submitted_by_id'
+          type:    'hidden'
+          default: App.request('get:current:user').id
+        ,
+          name:    'editCommentRequired'
+          type:    'hidden'
+        ,
+          name:    'canSelectLegalRequest'
+          type:    'hidden'
+          value:   App.ability.can('request_relations_for_legal', 'Legal::CfcRequest')
+        ,
+          name:    'requiresAgreedWith'
+          type:    'hidden'
+          value:   not App.ability.can('request_relations_without_agreement', 'Legal::CfcRequest')
         ,
           name:    'nc_username'
           label:   'Username'
@@ -38,16 +49,64 @@
           ]
           default: 'check_for_fraud'
         ,
+          name:    'investigate_unless_fraud'
+          label:   'Investigate unless Fraud'
+          type:    'radio_buttons'
+          options: [
+            { name: 'Yes', id: 'true' },
+            { name: 'No',  id: 'false' }
+          ]
+          default: 'false'
+          hint:    'Initiate internal investigation if user is not frauded'
+          dependencies:
+            request_type: value: ['check_for_fraud']
+        ,
           name:    'find_relations_reason'
           label:   'Reason'
           type:    'collection_radio_buttons'
           options: [
-            { name: 'Legal Request',          id: 'legal_request' },
-            { name: 'Internal Investigation', id: 'internal_investigation' }
+            { name: 'Internal Investigation', id: 'internal_investigation' },
+            { name: 'Legal Request',          id: 'legal_request' }
           ]
-          default: 'legal_request'
+          default: 'internal_investigation'
           dependencies:
             request_type: value: ['find_relations']
+          callback: (fieldValues) ->
+            _.defer =>
+              if fieldValues.canSelectLegalRequest
+                @trigger('enable:options', 'legal_request')
+              else
+                @trigger('disable:options', 'legal_request')
+        ,
+          name:    'investigation_approved_by_id'
+          label:   'Agreed with'
+          tagName: 'select'
+          options: App.entities.legal.cfc_requests.may_approve_relation_requests
+          dependencies: [
+            request_type:          value: ['find_relations']
+            find_relations_reason: value: ['internal_investigation']
+            requiresAgreedWith:    value: ['true']
+          ,
+            request_type:             value: ['check_for_fraud']
+            investigate_unless_fraud: value: ['true']
+            requiresAgreedWith:       value: ['true']
+          ]
+        ,
+          name:    'certainty_threshold'
+          label:   'Required Certainty'
+          hint:    'Relations certainty percent to look for (greater than or equal to)'
+          dependencies: [
+            request_type: value: ['find_relations']
+          ,
+            request_type:             value: ['check_for_fraud']
+            investigate_unless_fraud: value: ['true']
+          ]
+          callback: (fieldValues) ->
+            _.defer =>
+              if fieldValues.request_type is 'find_relations' and fieldValues.find_relations_reason is 'legal_request'
+                @trigger('enable:input')
+              else
+                @trigger('disable:input', '60')
         ,
           name:    'reference'
           label:   'Reference'
@@ -109,9 +168,18 @@
           label:   'Reference'
           dependencies:
             service_status: value: ['suspended', 'cancelled']
+          hint: 'Ticket or cancel request ID'
         ,
           name:    'comments'
           label:   'Additional Comments'
           tagName: 'textarea'
+          hint:    'Anything you would like to add (not required)'
+        ,
+          name:    'log_comments'
+          label:   'Edit Reason'
+          tagName: 'textarea'
+          hint:    'Why is it necessary to edit the request?'
+          dependencies:
+            editCommentRequired: value: ['true']
         ]
       ]

@@ -46,7 +46,7 @@
       @listenTo requestsView, 'childview:process:cfc:request:clicked', (child, args) ->
         App.vent.trigger 'process:cfc:request:clicked', args.model
 
-      @show requestsView, region: @layout.requestsRegion
+      @show requestsView, region: @layout.requestsRegion, loading: true
 
     paginationRegion: (requests) ->
       pagination = App.request 'pagination:component', requests

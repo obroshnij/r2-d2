@@ -8,7 +8,7 @@
 
     initialize: (options) ->
       { @schema, proxy } = options
-
+      
       @model = @getModel options
 
       @formFields = @getFormFields()

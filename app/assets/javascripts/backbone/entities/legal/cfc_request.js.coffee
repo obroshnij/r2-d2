@@ -24,16 +24,15 @@
           when '_processed' then 'Processed'
           when '_pending'   then 'Initiated'
 
-      processedResult: ->
-        res = []
+      checkForFraudResult: ->
+        return 'Frauded'  if @get('frauded')
+        return 'Verified' if @get('verification_ticket_id')
+        'Okay'
 
-        if @get('frauded') then res.push('Frauded') else res.push('Not frauded')
-
-        relCount = @get('relations')?.length
-        res.push("1 related user")            if relCount is 1
-        res.push("#{relCount} related users") if relCount > 1
-
-        res.join ', '
+      findRelationsResult: ->
+        return 'found'        if @get('relations_status') is 'has_relations'
+        return 'not searched' if @get('relations_status') is 'unknown_relations'
+        return 'not found'    if @get('relations_status') is 'has_no_relations'
 
       statusColor: ->
         switch @get('status')
@@ -49,6 +48,33 @@
 
       serviceStatus: ->
         s.humanize @get('service_status')
+
+      editCommentRequired: ->
+        not @isNew()
+
+      verifyCommentRequired: ->
+        @get('status') is '_pending'
+
+      processCommentRequired: ->
+        @get('status') is '_processed'
+
+      editLog: ->
+        return unless @get('logs')?.length
+
+        _.map @get('logs'), (log) ->
+          line = "#{s.capitalize(log.action)} by #{log.user} at #{log.created_at}"
+          line = "#{line}\nComment: #{log.comment}" if log.comment
+          line
+        .join("\n\n")
+
+      canBeEdited: ->
+        @get('status') is '_new'
+
+      canBeVerified: ->
+        _.includes ['_new', '_pending'], @get('status')
+
+      canBeProcessed: ->
+        true
 
     verify: (attributes = {}, options = {}) ->
       options.url = Routes.verify_legal_cfc_request_path(@id)
