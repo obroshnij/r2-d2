@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407123754) do
+ActiveRecord::Schema.define(version: 20170422175807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -763,10 +763,13 @@ ActiveRecord::Schema.define(version: 20170407123754) do
     t.string   "uid"
     t.integer  "role_id"
     t.boolean  "auto_role",                          default: true
+    t.string   "api_key"
   end
 
+  add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "watched_domains", force: :cascade do |t|
     t.string   "name"

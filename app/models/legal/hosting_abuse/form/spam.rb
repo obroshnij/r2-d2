@@ -38,9 +38,14 @@ class Legal::HostingAbuse::Form::Spam
   attribute :reported_ip_blacklisted,         Boolean
 
   validates :detection_method_id, presence: true
+  validates :detection_method_id, exclusion: { in: [2], message: "is not applicable for Email Forwarding" }, if: -> { service_id == 6 }
 
   with_options if: :queue? do |f|
     f.validates :queue_type_ids,                  presence: { message: 'at least one must be checked' }
+    f.validate  :queue_type_ids_must_be_valid
+
+    f.validates :content_type_id,                 presence: true
+    f.validates :experts_enabled,                 not_nil:  true
 
     f.validates :outgoing_emails_queue,           presence: true, numericality: true,    if: -> { outbound_emails? || forwarded_emails? }
     f.validates :recepients_per_email,            presence: true, numericality: true,    if: -> { outbound_emails? || forwarded_emails? }
@@ -53,12 +58,15 @@ class Legal::HostingAbuse::Form::Spam
     f.validates :sent_emails_count,               presence: true, numericality: true,    if: :emails_sent_in_the_past?
     f.validates :sent_emails_daterange,           presence: true,                        if: :emails_sent_in_the_past?
     f.validates :logs,                            presence: true,                        if: :emails_sent_in_the_past?
+    f.validates :ip_is_blacklisted,               not_nil:  true
   end
 
   with_options if: :feedback_loop? do |f|
     f.validates :example_complaint,               presence: true
     f.validates :reporting_party_ids,             presence: { message: 'at least one must be checked' }
     f.validates :reported_ip,                     presence: true, multiple_ips: true
+    f.validates :experts_enabled,                 not_nil:  true
+    f.validates :reported_ip_blacklisted,         not_nil:  true
   end
 
   validates :involved_mailboxes,                  presence: true,                     if: -> { sent_by_cpanel == false &&  low_mailboxes_count? &&  mailbox_password_reset }
@@ -66,8 +74,15 @@ class Legal::HostingAbuse::Form::Spam
   validates :involved_mailboxes_count_other,      presence: true, numericality: true, if: -> { sent_by_cpanel == false && !low_mailboxes_count? }
 
   validates :other_detection_method,              presence: true,                     if: :other_detection_method?
+  validates :ip_is_blacklisted,                   not_nil:  true,                     if: :other_detection_method?
 
   validates :blacklisted_ip,                      presence: true, multiple_ips: true, if: :blacklisted_ip_required?
+
+  def queue_type_ids_must_be_valid
+    if service_id == 6 && queue_type_ids.include?(1)
+      errors.add :queue_type_ids, "is not applicable for Email Forwarding"
+    end
+  end
 
   def name
     'spam'
