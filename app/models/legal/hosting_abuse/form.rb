@@ -6,6 +6,8 @@ class Legal::HostingAbuse::Form
   include ActiveModel::Model
   include ActiveModel::Validations
 
+  attr_accessor :api
+
   attribute :reported_by_id,          Integer
   attribute :status,                  String
   attribute :service_id,              Integer
@@ -163,7 +165,8 @@ class Legal::HostingAbuse::Form
       return
     end
     super status
-    @log_action = status == '_new' ? 'submitted' : status.gsub('_', '')
+    submit_action = api ? 'submitted via API' : 'submitted'
+    @log_action = status == '_new' ? submit_action : status.gsub('_', '')
   end
 
   def submit params

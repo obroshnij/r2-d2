@@ -71,8 +71,7 @@
       - if @uber_note and @uberNoteIsRequired
         == @dropdown 'Uber Note', s.lines(@uber_note).join('<br>')
         | &nbsp;&nbsp;|&nbsp;&nbsp;
-      - unless @statusName is 'New'
-        == @dropdown 'Log', s.lines(@editLog).join('<br>')
-        | &nbsp;&nbsp;|&nbsp;&nbsp;
+      == @dropdown 'Log', s.lines(@editLog).join('<br>')
+      | &nbsp;&nbsp;|&nbsp;&nbsp;
       a.toggle
         icon.fa.fa-angle-double-down

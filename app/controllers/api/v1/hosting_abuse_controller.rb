@@ -5,6 +5,7 @@ class Api::V1::HostingAbuseController < Api::V1::BaseController
     params[:status] = '_new'
 
     form = Legal::HostingAbuse::Form.new
+    form.api = true
     if form.submit params
       render json: {}
     else
