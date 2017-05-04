@@ -1,6 +1,7 @@
 class Whois
 
-  NEUSTAR_TLDS = %w{club bid stream win review download date science men party accountant loan menu racing webcam date trade faith mcd cricket cloud}
+  DEFINITIONS_PATH = File.join(File.dirname(__FILE__), "whois_definitions.json")
+  NEUSTAR_TLDS     = %w{club bid stream win review download date science men party accountant loan menu racing webcam date trade faith mcd cricket cloud}
 
   def self.lookup(object)
     self.new.lookup object
@@ -64,9 +65,15 @@ class Whois
         record += execute(registrar_whois, domain.name) rescue ''
       end
     end
-    raise Errno::ECONNRESET if record.include?('Your request is being rate limited') || record.include?('Looup quota exceeded') ||
-                               record.match(/Query rate of [[:digit:]]+ queries per hour exceeded for your network/)
+    raise Errno::ECONNRESET if rate_limited?(record)
     to_utf8 record
+  end
+
+  def rate_limited? record
+    return true if record.include?('Your request is being rate limited')
+    return true if record.include?('Looup quota exceeded')
+    return true if record.match(/Query rate of [[:digit:]]+ queries per hour exceeded for your network/)
+    false
   end
 
   def to_utf8(str)
@@ -102,12 +109,10 @@ class Whois
     server = definitions[tld]
     if server.nil?
       server = get_whois_server_from_whois tld
-      add_whois_server_to_cache tld, server
+      cache_whois_server tld, server
     end
     server
   end
-
-  DEFINITIONS_PATH = File.join(File.dirname(__FILE__), "whois_definitions.json")
 
   def load_definitions
     File.open(DEFINITIONS_PATH, "r") do |f|
@@ -115,12 +120,11 @@ class Whois
     end
   end
 
-  def add_whois_server_to_cache(tld, server)
-    if tld && server
-      definitions[tld] = server
-      File.open(DEFINITIONS_PATH, "w") do |f|
-        f.write JSON.generate(definitions).gsub(",", ",\n ")
-      end
+  def cache_whois_server(tld, server)
+    return unless tld && server
+    definitions[tld] = server
+    File.open(DEFINITIONS_PATH, "w") do |f|
+      f.write JSON.pretty_generate(definitions)
     end
   end
 
@@ -132,7 +136,7 @@ class Whois
   ## Socket handler
 
   def local_ips
-    @@local_ips ||= Socket.ip_address_list.collect { |addr| addr.ip_address if addr.ip_address.match(/\d+\.\d+\.\d+\.\d+/) }.compact - ['127.0.0.1']
+    @@local_ips ||= Socket.ip_address_list.select { |addr| addr.ipv4? && !addr.ipv4_loopback? }.map(&:ip_address)
   end
 
   def execute(remote, query)

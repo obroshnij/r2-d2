@@ -8,7 +8,7 @@ class Tools::BulkWhoisLookup
   def self.enqueue query, keep_retrying, user
     domains = parse_domains query
     if domains.present?
-      data    = domains.map { |name| { 'domain_name' => name } }
+      data = domains.map { |name| { 'domain_name' => name } }
 
       job = BackgroundJob.create({
         job_type: 'bulk_whois',
