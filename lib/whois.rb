@@ -1,9 +1,11 @@
 class Whois
-  
+
+  NEUSTAR_TLDS = %w{club bid stream win review download date science men party accountant loan menu racing webcam date trade faith mcd cricket cloud}
+
   def self.lookup(object)
     self.new.lookup object
   end
-  
+
   def lookup(object)
     if object.is_a? DomainName
       lookup_domain(object)
@@ -17,7 +19,7 @@ class Whois
       raise ArgumentError, "'#{object}' is not a valid entry"
     end
   end
-  
+
   def self.lookup_multiple(domains)
     whois = self.new
     threads = whois.split_by_whois_server(domains).map do |server, domains_array|
@@ -27,7 +29,7 @@ class Whois
       end
     end.each(&:join)
   end
-  
+
   def split_by_whois_server(domains)
     domains.each_with_object({}) do |domain, hash|
       server = get_whois_server(domain.tld)
@@ -35,16 +37,17 @@ class Whois
       hash[server] << domain
     end
   end
-  
+
   private
-  
+
   def lookup_domain(domain)
     whois_record = lookup_string_domain(domain.name) rescue nil
     domain.whois = WhoisRecord.new domain.name, whois_record
   end
-  
+
   def lookup_string_domain(string)
     domain = PublicSuffix.parse string
+    raise Errno::ECONNRESET if NEUSTAR_TLDS.include?(domain.tld)
     server = get_whois_server domain.tld
     # TODO create a notification if whois server is not found
     return nil if server.blank?
@@ -65,36 +68,36 @@ class Whois
                                record.match(/Query rate of [[:digit:]]+ queries per hour exceeded for your network/)
     to_utf8 record
   end
-  
+
   def to_utf8(str)
     str = str.force_encoding("UTF-8")
     return str if str.valid_encoding?
     str = str.force_encoding("BINARY")
     str.encode("UTF-8", invalid: :replace, undef: :replace)
   end
-  
+
   def lookup_string_nameserver(string)
     domain = PublicSuffix.parse string
     server = get_whois_server domain.tld
     server == "whois.verisign-grs.com" ? execute(server, "nameserver #{domain.name}") : execute(server, domain.name)
   end
-  
+
   def lookup_string_tld(string)
     domain = PublicSuffix.parse string
     execute "whois.iana.org", domain.tld
   end
-  
+
   def lookup_ip(ip_address)
     ip = IPAddress.parse(ip_address).address
     record = execute("whois.iana.org", ip)
     server = record.match(/whois:.+/).to_s.split.last
     server.present? ? execute(server, ip) : record
   end
-  
+
   def definitions
     @definitions ||= load_definitions
   end
-  
+
   def get_whois_server(tld)
     server = definitions[tld]
     if server.nil?
@@ -103,7 +106,7 @@ class Whois
     end
     server
   end
-  
+
   DEFINITIONS_PATH = File.join(File.dirname(__FILE__), "whois_definitions.json")
 
   def load_definitions
@@ -120,18 +123,18 @@ class Whois
       end
     end
   end
-  
+
   def get_whois_server_from_whois(tld)
     response = execute "whois.iana.org", tld
     response.match(/whois:.+/).to_s.split.last
   end
-  
+
   ## Socket handler
-  
+
   def local_ips
     @@local_ips ||= Socket.ip_address_list.collect { |addr| addr.ip_address if addr.ip_address.match(/\d+\.\d+\.\d+\.\d+/) }.compact - ['127.0.0.1']
   end
-  
+
   def execute(remote, query)
     addr = Addrinfo.tcp remote, 43
     Timeout::timeout(3) do
@@ -141,5 +144,5 @@ class Whois
       end
     end
   end
-  
+
 end
