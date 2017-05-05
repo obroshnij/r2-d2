@@ -1,7 +1,7 @@
 class Whois
 
   DEFINITIONS_PATH = File.join(File.dirname(__FILE__), "whois_definitions.json")
-  # NEUSTAR_TLDS     = %w{club bid stream win review download date science men party accountant loan menu racing webcam date trade faith mcd cricket cloud}
+  NEUSTAR_TLDS     = %w{club bid stream win review download date science men party accountant loan menu racing webcam date trade faith mcd cricket cloud}
 
   def self.lookup(object)
     self.new.lookup object
@@ -48,7 +48,7 @@ class Whois
 
   def lookup_string_domain(string)
     domain = PublicSuffix.parse string
-    # raise Errno::ECONNRESET if NEUSTAR_TLDS.include?(domain.tld)
+    raise Errno::ECONNRESET if NEUSTAR_TLDS.include?(domain.tld)
     server = get_whois_server domain.tld
     # TODO create a notification if whois server is not found
     return nil if server.blank?
