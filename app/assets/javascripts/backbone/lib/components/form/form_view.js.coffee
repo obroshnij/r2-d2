@@ -40,6 +40,14 @@
         @config.onShow.call(@) if @config.onShow
         @focusFirstInput()     if @config.focusFirstInput
 
+    events:
+      "click button[type='custom']": 'handleCustomButtonClick'
+
+    handleCustomButtonClick: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+      @trigger "form:#{event.target.textContent.toLowerCase()}"
+
     buttonsPlacement: ->
       @ui.buttonsContainer.addClass "float-#{@buttons.placement}"
 

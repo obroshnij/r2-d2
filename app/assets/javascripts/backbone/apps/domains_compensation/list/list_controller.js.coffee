@@ -32,6 +32,9 @@
       @listenTo formView, 'form:submit', (data) ->
         compensations.search data
 
+      @listenTo formView, 'form:export', (data) ->
+        compensations.export data
+
       @show formView, region: @layout.searchRegion
 
     compensationsRegion: (compensations) ->
@@ -55,6 +58,10 @@
 
     getSearchView: ->
       schema = new List.SearchSchema
+
+      unless App.ability.can('export', 'Domains::Compensation')
+        delete schema.form.buttons.custom
+
       App.request 'form:fields:component',
         schema:  schema
         model:   false

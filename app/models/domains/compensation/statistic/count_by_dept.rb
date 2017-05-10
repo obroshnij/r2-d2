@@ -16,7 +16,7 @@ class Domains::Compensation::Statistic::CountByDept
   end
 
   def compensations
-    Domains::Compensation.where(created_at: @start_date..@end_date)
+    Domains::Compensation.where(created_at: @start_date..@end_date).select(:reference_id).distinct
   end
 
   def count_cases dept, compensations

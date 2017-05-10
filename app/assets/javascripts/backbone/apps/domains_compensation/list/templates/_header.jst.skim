@@ -37,5 +37,8 @@
   
   .row
     .large-12.columns.text-right
+      - if @editLog.length
+        == @dropdown 'Log', @editLog.map((l) -> s.lines(l).join('<br>')).join('<hr>')
+        | &nbsp;&nbsp;|&nbsp;&nbsp;
       a.toggle
         icon.fa.fa-angle-double-down

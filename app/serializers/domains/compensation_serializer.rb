@@ -10,6 +10,8 @@ class Domains::CompensationSerializer < ApplicationSerializer
   attribute :delivered,       if: :can_check?
   attribute :qa_comments,     if: :can_check?
 
+  has_many :logs
+
   def created_at_formatted
     object.created_at.strftime '%b/%d/%Y, %H:%M'
   end

@@ -13,11 +13,13 @@ class Domains::Compensation < ActiveRecord::Base
   belongs_to :compensation_type,   class_name: 'Compensation::CompensationType',     foreign_key: 'compensation_type_id'
   belongs_to :tier_pricing,        class_name: 'Compensation::TierPricing',          foreign_key: 'tier_pricing_id'
 
+  has_many :logs, class_name: 'Compensation::Log', foreign_key: 'compensation_id', inverse_of: 'compensation'
+
   validates_presence_of :department
 
   scope :with_data, -> { includes(
     :submitted_by, :affected_product, :product_compensated, :service_compensated,
-    :hosting_type, :issue_level, :compensation_type, :tier_pricing
+    :hosting_type, :issue_level, :compensation_type, :tier_pricing, logs: :user
   ) }
 
   def self.submitted_by ability = nil

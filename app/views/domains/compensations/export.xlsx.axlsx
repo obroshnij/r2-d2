@@ -1,0 +1,72 @@
+wb = xlsx_package.workbook
+
+wb.styles do |s|
+
+  default = s.add_style border: { color: '55', style: :thin }, alignment: { horizontal: :left, vertical: :center }
+  header  = s.add_style bg_color: 'b1d8ff', border: { color: '55', style: :thin }, alignment: { horizontal: :left, vertical: :center, wrap_text: true }
+
+  wb.add_worksheet name: 'Export' do |sheet|
+    sheet.add_row [
+      'Reference ID',
+      'Affected Product',
+      'Service Compensated',
+      'Issue Level',
+      'Compensation',
+      'Client Satisfied?',
+      'Additional Comments',
+      'Submitted by',
+      'Submitted at',
+      'Used Correctly',
+      'Delivered to CS',
+      'QA Comments',
+      'Checked by',
+      'Checked at'
+    ], style: [header] * 14
+
+    @compensations.each do |c|
+      compensation = if c.compensation_type_id == 7
+        "#{c.compensation_type.name} : #{c.tier_pricing.name}"
+      elsif c.compensation_type_id == 1 && c.discount_recurring
+        "#{c.compensation_type.name} (recurring) : #{c.compensation_amount} USD"
+      else
+        "#{c.compensation_type.name} : #{c.compensation_amount} USD"
+      end
+
+      client_satisfied = if c.client_satisfied.nil?
+        "Don't know / not sure"
+      else
+        c.client_satisfied ? 'Yes' : 'No'
+      end
+
+      used_correctly = if c.used_correctly.nil?
+        ""
+      else
+        c.used_correctly ? "Yes" : "No"
+      end
+
+      delivered = if used_correctly == "No"
+        c.delivered ? "Yes" : "No"
+      else
+        ""
+      end
+
+      sheet.add_row [
+        "#{c.reference_item.capitalize} #{c.reference_id}",
+        c.affected_product.name,
+        [c.product_compensated.name, c.service_compensated.try(:name)].compact.join(" : "),
+        c.issue_level.name,
+        compensation,
+        client_satisfied,
+        c.comments,
+        c.submitted_by.name,
+        c.created_at.strftime('%d %b %Y'),
+        used_correctly,
+        delivered,
+        c.qa_comments,
+        c.checked_by.try(:name),
+        c.checked_at.try(:strftime, '%d %b %Y')
+      ], style: [default] * 14
+    end
+  end
+
+end

@@ -8,7 +8,7 @@
 
     initialize: (options) ->
       { @schema, proxy } = options
-      
+
       @model = @getModel options
 
       @formFields = @getFormFields()
@@ -45,8 +45,9 @@
         text   = @getValueFromModel field.get('initVal').textAttr
         option = "<option value='#{id}'>#{text}</option>"
 
-        _.defer ->
+        setTimeout ->
           $("##{field.get('id')}").append(option).val(id).trigger('change')
+        , 1000
 
       else
         attrName = if field.get('nested')

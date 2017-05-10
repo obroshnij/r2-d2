@@ -34,12 +34,14 @@ class Domains::Compensation::Form
   validates :compensation_amount,    numericality: true, if: :compensation_amount_required?
   validates :tier_pricing_id,        presence: true,     if: :tier_pricing_required?
 
-  def initialize compensation_id = nil
+  def initialize compensation_id = nil, current_user, log_action
     @compensation = if compensation_id.present?
       Domains::Compensation.find compensation_id
     else
       Domains::Compensation.new
     end
+    @current_user = current_user
+    @log_action = log_action
   end
 
   def service_compensated_required?
@@ -71,6 +73,9 @@ class Domains::Compensation::Form
   def persist!
     @compensation.assign_attributes attributes
     @compensation.department = get_department
+    if @compensation.persisted?
+      @compensation.logs.build(user_id: @current_user.id, action: @log_action)
+    end
     @compensation.save!
   end
 

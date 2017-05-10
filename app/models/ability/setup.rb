@@ -55,6 +55,10 @@ class Ability::Setup
           actions:      ['qa_check'],
           description:  'Check form submissions on behalf of QA',
           identifier:   'domains_compensation_qa_check'
+        }, {
+          actions:      ['export'],
+          description:  'Export forms submissions as XLSX',
+          identifier:   'domains_compensation_export'
         }
       ]
     }, {

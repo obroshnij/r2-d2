@@ -36,6 +36,13 @@
       statusColor: ->
         @statusColorLookups[@get('status')] if @get('status')
 
+      editLog: ->
+        return [] unless @get('logs')
+        @get('logs').map (log) -> [
+          "#{s.capitalize(log.action)} by #{log.user} at #{log.created_at}",
+          _.map(log.payload, (val, key) -> "#{key}: #{val.join(' => ')}").join("\n")
+        ].join("\n\n")
+
     qaCheck: (attributes = {}, options = {}) ->
       options.url = Routes.qa_check_domains_compensation_path(@id)
       @save attributes, options

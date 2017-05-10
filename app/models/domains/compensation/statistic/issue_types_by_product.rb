@@ -16,7 +16,7 @@ class Domains::Compensation::Statistic::IssueTypesByProduct
   end
 
   def compensations
-    Domains::Compensation.eager_load(:issue_level).where(created_at: @start_date..@end_date)
+    Domains::Compensation.eager_load(:issue_level).where(created_at: @start_date..@end_date).select(:reference_id).distinct
   end
 
   def percent(p1, p2)

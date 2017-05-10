@@ -37,6 +37,12 @@
       @listenTo @formLayout, 'form:submit', => @formSubmit(config)
       @listenTo @formLayout, 'form:cancel', => @formCancel(config)
 
+      return unless config.buttons?.custom
+
+      for custom in _.flatten([config.buttons.custom])
+        event = "form:#{custom.text.toLowerCase()}"
+        @listenTo @formLayout, event, => @formCustomEvent(event)
+
     formSubmit: (config) ->
       config.onBeforeSubmit()
 
@@ -44,6 +50,10 @@
       @processModelSave(data, config) unless @_saveModel is false
 
       @trigger 'form:submit', data
+
+    formCustomEvent: (event) ->
+      data = Backbone.Syphon.serialize @formLayout
+      @trigger event, data
 
     processModelSave: (data, config) ->
       @model[config.saveMethod] data,

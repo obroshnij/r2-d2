@@ -16,7 +16,7 @@ class Domains::Compensation::Statistic::ClientSatisfactionByDept
   end
 
   def compensations
-    Domains::Compensation.where(created_at: @start_date..@end_date)
+    Domains::Compensation.where(created_at: @start_date..@end_date).select(:reference_id).distinct
   end
 
   def percent(p1, p2)

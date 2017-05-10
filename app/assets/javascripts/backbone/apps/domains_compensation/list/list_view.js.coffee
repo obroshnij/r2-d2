@@ -26,6 +26,9 @@
         primary:   'Search'
         cancel:    false
         placement: 'left'
+        custom:
+          type: 'primary'
+          text: 'Export'
       syncingType: 'buttons'
       focusFirstInput: false
       search: true
@@ -46,6 +49,11 @@
           tagName:  'select'
           options:  @getProductsCompensated()
         ,
+          name:     'issue_level_id_eq'
+          label:    'Issue Level'
+          tagName:  'select'
+          options:  App.entities.domains.compensation.issue_level
+        ,
           name:     'submitted_by_id_eq'
           label:    'Submitted by'
           tagName:  'select'
@@ -62,6 +70,11 @@
           name:     'created_at_datetime_between'
           label:    'Submitted on'
           type:     'date_range_picker'
+        ,
+          name:     'client_satisfied_eq'
+          label:    'Client Satisfied'
+          tagName:  'select'
+          options:  [{ id: 'true', name: 'Yes' }, { id: 'false', name: 'No' }, { id: 'nil', name: "Don't know / not sure" }]
         ]
       ]
 
@@ -93,6 +106,8 @@
 
     modelEvents:
       change: 'render'
+
+    @include 'HasDropdowns'
 
 
   class List.AdditionalInfo extends App.Views.ItemView

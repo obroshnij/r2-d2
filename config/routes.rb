@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     resources :watched_domains
     resources :compensations do
       put :qa_check, on: :member
+      get :export,   on: :collection
     end
     resource  :compensation_stats, only: [:show]
     resources :namecheap_services, only: [:index]
