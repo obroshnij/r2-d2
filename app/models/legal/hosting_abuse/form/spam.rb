@@ -45,7 +45,7 @@ class Legal::HostingAbuse::Form::Spam
     f.validate  :queue_type_ids_must_be_valid
 
     f.validates :content_type_id,                 presence: true
-    f.validates :experts_enabled,                 not_nil:  true, if: -> { [1, 2].include?(service_id) }
+    f.validates :experts_enabled,                 not_nil:  true, if: -> { queue? && [1, 2].include?(service_id) }
 
     f.validates :outgoing_emails_queue,           presence: true, numericality: true,    if: -> { outbound_emails? || forwarded_emails? }
     f.validates :recepients_per_email,            presence: true, numericality: true,    if: -> { outbound_emails? || forwarded_emails? }
@@ -65,7 +65,7 @@ class Legal::HostingAbuse::Form::Spam
     f.validates :example_complaint,               presence: true
     f.validates :reporting_party_ids,             presence: { message: 'at least one must be checked' }
     f.validates :reported_ip,                     presence: true, multiple_ips: true
-    f.validates :experts_enabled,                 not_nil:  true, if: -> { [1, 2].include?(service_id) }
+    f.validates :experts_enabled,                 not_nil:  true, if: -> { feedback_loop? && [1, 2].include?(service_id) }
     f.validates :reported_ip_blacklisted,         not_nil:  true
   end
 

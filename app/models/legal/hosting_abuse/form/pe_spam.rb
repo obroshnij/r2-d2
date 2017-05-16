@@ -72,6 +72,7 @@ class Legal::HostingAbuse::Form::PeSpam
   end
 
   def pe_queue_type_ids_must_be_valid
+    return unless queue?
     return if pe_queue_type_ids.include?(1)
     errors.add(:pe_queue_type_ids, 'must include Emails Sent within a Time Frame')
   end
