@@ -1,6 +1,6 @@
 class Domains::CompensationsController < ApplicationController
   respond_to :json
-  before_action :format_search_params, only: [:index]
+  before_action :format_search_params, only: [:index, :export]
 
   def index
     authorize! :index, Domains::Compensation
