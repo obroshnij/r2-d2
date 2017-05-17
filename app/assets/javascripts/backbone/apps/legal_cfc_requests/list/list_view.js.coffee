@@ -135,10 +135,9 @@
           .name
         .join(', ')
 
-    serializeData: ->
-      data = super
-      data.relationsHaveComments = _.some(@model.get('relations'), 'comment')
-      data
+
+  class List.PreviousRelations extends List.Relations
+    template: 'legal_cfc_requests/list/_previous_relations'
 
 
   class List.Request extends App.Views.LayoutView
@@ -147,10 +146,11 @@
     tagName:  'li'
 
     regions:
-      headerRegion:         '.header'
-      moreInfoRegion:       '.more-info'
-      relationsRegion:      '.relations'
-      processingInfoRegion: '.processing-info'
+      headerRegion:            '.header'
+      moreInfoRegion:          '.more-info'
+      relationsRegion:         '.relations'
+      previousRelationsRegion: '.previous-relations'
+      processingInfoRegion:    '.processing-info'
 
     triggers:
       'click .header' : 'toggle:clicked'
@@ -167,6 +167,9 @@
 
       relationsView = new List.Relations model: @model
       @relationsRegion.show relationsView
+
+      previousRelationsView = new List.PreviousRelations model: @model
+      @previousRelationsRegion.show previousRelationsView
 
     onToggleClicked: ->
       @$el.toggleClass 'expanded'

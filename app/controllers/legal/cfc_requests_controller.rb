@@ -8,6 +8,12 @@ class Legal::CfcRequestsController < ApplicationController
     render_json_collection cfc_requests
   end
 
+  def check_errors
+    form = Legal::CfcRequest::SubmitForm.new nil, current_ability
+    form.submit params, false
+    render json: { errors: form.errors.messages, recheck_reason_required: form.recheck_reason_required? }
+  end
+
   def create
     authorize! :create, Legal::CfcRequest
     form = Legal::CfcRequest::SubmitForm.new nil, current_ability

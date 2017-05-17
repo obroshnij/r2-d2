@@ -2,18 +2,23 @@
   .large-12.columns
     fieldset
       legend Relations
-      .row style="padding-bottom:0.25rem;"
-        
-        .column.large-2 class="grey-italic" Username
-        .column.large-2 class="grey-italic" Certainty
-        .column.large-4 class="grey-italic" Related by
-        .column.large-4 class="grey-italic" = "#{if @relationsHaveComments then 'Comments' else ''}"
-        
-      - for r in _.sortBy(@relations, 'certainty').reverse()
-        
-        .row style="padding-bottom:0.25rem;"
-        
-          .column.large-2 = r.username
-          .column.large-2 = r.certainty
-          .column.large-4 = @relationNames r.relation_type_ids
-          .column.large-4 = r.comment
+      table.clean
+        thead
+          tr.grey-italic
+            th width="7%" Date
+            th width="5%" Username
+            th width="5%" Certainty
+            th width="44%" Related by
+            th width="44%" Comments
+          tr
+            th colspan="5"
+              hr style="margin: 0.25rem 0;"
+            
+        tbody
+          - for r in _.sortBy(@relations, 'certainty').reverse()
+            tr
+              td.border-right = @processed_at?.split(',')?[0]
+              td.border-right = r.username
+              td.border-right = r.certainty + '%'
+              td.border-right = @relationNames r.relation_type_ids
+              td = r.comment

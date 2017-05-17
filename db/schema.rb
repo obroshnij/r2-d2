@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508093438) do
+ActiveRecord::Schema.define(version: 20170517123929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,7 +237,10 @@ ActiveRecord::Schema.define(version: 20170508093438) do
     t.integer  "investigation_approved_by_id"
     t.boolean  "investigate_unless_fraud"
     t.integer  "certainty_threshold"
+    t.text     "recheck_reason"
   end
+
+  add_index "legal_cfc_requests", ["nc_username"], name: "index_legal_cfc_requests_on_nc_username", using: :btree
 
   create_table "legal_cfc_requests_relations_types", force: :cascade do |t|
     t.integer "relation_id"

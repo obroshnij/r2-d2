@@ -22,7 +22,7 @@
         onCancel:   -> App.vent.trigger 'new:cfc:request:cancelled'
         onShow:     ->
           if @model.get('request_type') is 'find_relations'
-            @$('.fieldset-hint > p').html("Required relations certainty is #{@model.get('certainty_threshold')}%")
+            @$('.fieldset-hint > p').html("Required relations certainty is ≥ #{@model.get('certainty_threshold')}%")
           else
             @$('.fieldset-hint > p').remove()
 

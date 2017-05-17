@@ -34,3 +34,33 @@ p.pagination                { padding-top: 0.25rem;
 .reveal                     { max-height: 80%; overflow: scroll; }
 
 .grey-italic                { font-style: italic; color: #666; }
+
+table.clean {
+
+  thead {
+    background: transparent;
+    border:     none;
+
+    th {
+      font-weight: normal;
+      padding:     0.25rem 1rem;
+    }
+  }
+
+  tbody {
+    border:     none;
+    background: transparent;
+
+    tr {
+      background: transparent;
+
+      td {
+        padding: 0.25rem 1rem;
+      }
+    }
+  }
+}
+
+.border-right {
+  border-right: 1px solid #ccc;
+}

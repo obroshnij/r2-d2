@@ -25,6 +25,7 @@ class Legal::CfcRequest::SubmitForm
   attribute :investigation_approved_by_id, Integer
   attribute :investigate_unless_fraud,     Boolean
   attribute :certainty_threshold,          Integer
+  attribute :recheck_reason,               String
 
   validates :submitted_by_id,              presence: true
   validates :nc_username,                  presence: true
@@ -38,8 +39,10 @@ class Legal::CfcRequest::SubmitForm
   validates :log_comments,                 presence: true, if: :log_comments_required?
   validates :investigation_approved_by_id, presence: true, if: :investigation_approved_by_id_required?
   validates :certainty_threshold,          presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 100 }, if: :certainty_threshold_required?
+  validates :recheck_reason,               presence: true, if: :recheck_reason_required?
 
   validate  :signup_date_format
+  validate  :related_requests
 
   def initialize id = nil, ability
     @cfc_request = id ? Legal::CfcRequest.find(id) : Legal::CfcRequest.new
@@ -49,6 +52,18 @@ class Legal::CfcRequest::SubmitForm
   def signup_date_format
     return if signup_date.is_a?(Date)
     errors.add :signup_date, 'is invalid'
+  end
+
+  def related_requests
+    return unless related_exists?
+
+    error = check_for_fraud? ?
+      "multiple 'Check for Fraud' requests for the same user are not allowed" :
+      "'Recheck Reason' field is required"
+
+    return if recheck_reason_required? && recheck_reason.present?
+
+    errors.add(:nc_username, "has already been reported, #{error}")
   end
 
   def domain?
@@ -98,11 +113,29 @@ class Legal::CfcRequest::SubmitForm
     @cfc_request
   end
 
-  def submit params
+  def submit params, persist = true
     self.attributes = params
     return false unless valid?
-    persist!
+    persist! if persist
     true
+  end
+
+  def related_exists?
+    return @related_exists unless @related_exists.nil?
+    @related_exists = Legal::CfcRequest.where(nc_username: nc_username, request_type: request_type).exists?
+  end
+
+  def recheck_reason_required?
+    related_exists? && find_relations?
+  end
+
+  def recheck_reason= text
+    val = recheck_reason_required? ? text : nil
+    super val
+  end
+
+  def username= username
+    super username.strip.downcase
   end
 
   private

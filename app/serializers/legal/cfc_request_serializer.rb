@@ -7,7 +7,9 @@ class Legal::CfcRequestSerializer < ApplicationSerializer
     :submitted_by,
     :processed_by,
     :verified_by,
-    :investigation_approved_by
+    :investigation_approved_by,
+    :previous_relations,
+    :previous_find_relations_requests_count
   ]
 
   attributes *attrs
@@ -39,6 +41,21 @@ class Legal::CfcRequestSerializer < ApplicationSerializer
 
   def signup_date
     object.signup_date.strftime '%b/%d/%Y'
+  end
+
+  def previous_find_relations_requests_count
+    object.previous_find_relations_requests.count
+  end
+
+  def previous_relations
+    object.previous_find_relations_requests.map do |r|
+      {
+        created_at:   r.created_at.strftime('%b/%d/%Y, %H:%M'),
+        processed_at: r.processed_at.try(:strftime, '%b/%d/%Y, %H:%M'),
+        processed_by: r.processed_by.try(:name),
+        relations:    r.relations.as_json(methods: [:relation_type_ids])
+      }
+    end
   end
 
 end

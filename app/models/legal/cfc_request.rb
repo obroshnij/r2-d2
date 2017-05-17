@@ -33,4 +33,19 @@ class Legal::CfcRequest < ActiveRecord::Base
       where(ability_permissions: { identifier: 'legal_cfc_requests_approve_relation_requests' })
   end
 
+  def previous_find_relations_requests
+    @previous_find_relations_requests ||= Legal::CfcRequest.
+      includes(:relations, :processed_by).
+      where(nc_username: nc_username).
+      where(request_type: 1).
+      where(table[:created_at].lt(created_at)).
+      order(processed_at: :desc)
+  end
+
+  private
+
+  def table
+    Legal::CfcRequest.arel_table
+  end
+
 end

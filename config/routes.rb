@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     resources :cfc_requests do
       put :verify,         on: :member
       put :mark_processed, on: :member
+      get :check_errors,   on: :collection
     end
     resources :rbls
     namespace :rbl do

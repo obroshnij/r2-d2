@@ -58,6 +58,9 @@
       processCommentRequired: ->
         @get('status') is '_processed'
 
+      requiresRecheckReason: ->
+        !!@get('recheck_reason')
+
       editLog: ->
         return unless @get('logs')?.length
 
@@ -71,7 +74,7 @@
         @get('status') is '_new'
 
       canBeVerified: ->
-        _.includes ['_new', '_pending'], @get('status')
+        _.includes(['_new', '_pending'], @get('status')) and @get('request_type') is 'check_for_fraud'
 
       canBeProcessed: ->
         true
@@ -83,6 +86,16 @@
     process: (attributes = {}, options = {}) ->
       options.url = Routes.mark_processed_legal_cfc_request_path(@id)
       @save attributes, options
+
+    setDuplicateError: (error) ->
+      { nc_username, recheck_reason } = error
+      errors = @get('_errors') or {}
+
+      if nc_username    then errors.nc_username    = nc_username    else delete errors.nc_username
+      if recheck_reason then errors.recheck_reason = recheck_reason else delete errors.recheck_reason
+
+      @set('_errors', errors)
+      @trigger('change:_errors', this, errors)
 
 
   class Entities.CfcRequestsCollection extends App.Entities.Collection

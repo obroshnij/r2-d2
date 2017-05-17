@@ -71,6 +71,7 @@
       @$('span.form-error').html('').removeClass('is-visible')
 
     addErrors: (errors = {}) ->
+      @removeErrors()
       for name, array of errors
         @addError name, array[0]
 

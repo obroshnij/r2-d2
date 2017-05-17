@@ -8,7 +8,12 @@
       .value: span = @findRelationsReason
   .row.hash
     .key: span Username
-    .value: span: strong = @nc_username
+    .value: span
+      strong = @nc_username
+      | &nbsp;
+      - count = +@previous_find_relations_requests_count + 1
+      - if count > 1
+        span class="badge alert" = count
 
 .large-3.columns
   .row.hash

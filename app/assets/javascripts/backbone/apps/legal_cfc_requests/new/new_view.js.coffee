@@ -30,6 +30,9 @@
           type:    'hidden'
           value:   not App.ability.can('request_relations_without_agreement', 'Legal::CfcRequest')
         ,
+          name:    'requiresRecheckReason'
+          type:    'hidden'
+        ,
           name:    'nc_username'
           label:   'Username'
           hint:    'Namecheap account username'
@@ -174,6 +177,12 @@
           label:   'Additional Comments'
           tagName: 'textarea'
           hint:    'Anything you would like to add (not required)'
+        ,
+          name:    'recheck_reason'
+          label:   'Recheck Reason'
+          tagName: 'textarea'
+          dependencies:
+            requiresRecheckReason: value: ['true']
         ,
           name:    'log_comments'
           label:   'Edit Reason'

@@ -16,7 +16,7 @@
       - if @certainty_threshold
         .column: .row.hash
           .key Certainty
-          .value = @certainty_threshold + '%'
+          .value = '≥ ' + @certainty_threshold + '%'
         
       .column: .row.hash
         .key Service Type
@@ -35,7 +35,7 @@
       - if @service_type is 'private_email'
         .column: .row.hash
           .key Subscription
-          .value = @subscription
+          .value = @pe_subscription
           
       .column: .row.hash
         .key Service Status
@@ -59,6 +59,12 @@
       .row.hash.editable
         .key Abuse Description
         .value = @other_description
+        
+    - if @recheck_reason
+      br
+      .row.hash.editable
+        .key Recheck Reason
+        .value = @recheck_reason
 
     - if @comments
       br
