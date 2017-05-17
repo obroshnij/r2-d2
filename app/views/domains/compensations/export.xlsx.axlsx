@@ -32,7 +32,7 @@ wb.styles do |s|
         "#{c.compensation_type.name} : #{c.compensation_amount} USD"
       end
 
-      client_satisfied = if c.client_satisfied.nil?
+      client_satisfied = if c.client_satisfied == 'n/a'
         "Don't know / not sure"
       else
         c.client_satisfied ? 'Yes' : 'No'
