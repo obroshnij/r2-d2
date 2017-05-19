@@ -16,14 +16,15 @@
             
         tbody
           - for rr, index in @previous_relations
-            - for r in _.sortBy(rr.relations, 'certainty').reverse()
-              tr
-                td.border-right = rr.processed_at?.split(',')?[0]
-                td.border-right = r.username
-                td.border-right = r.certainty + '%'
-                td.border-right = @relationNames r.relation_type_ids
-                td = r.comment
-            - if index isnt @previous_relations.length - 1
-              tr
-                td colspan="5"
-                  hr style="margin: 0.25rem 0;"
+            - if rr.relations.length
+              - for r in _.sortBy(rr.relations, 'certainty').reverse()
+                tr
+                  td.border-right = rr.processed_at?.split(',')?[0]
+                  td.border-right = r.username
+                  td.border-right = r.certainty + '%'
+                  td.border-right = @relationNames r.relation_type_ids
+                  td = r.comment
+              - if index isnt @previous_relations.length - 1
+                tr
+                  td colspan="5"
+                    hr style="margin: 0.25rem 0;"
