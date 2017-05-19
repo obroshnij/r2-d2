@@ -1,4 +1,4 @@
-- if @previous_relations.length
+- if _.chain(@previous_relations).map((r) -> r.relations).flatten().value().length
   .large-12.columns
     fieldset
       legend Previously Found Relations

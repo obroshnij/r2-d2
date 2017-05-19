@@ -57,6 +57,9 @@
           span
             |Relations&nbsp;
             = @findRelationsResult
+            - if @relations.length
+              |&nbsp;
+              span class="badge warning" = @relations.length
 
 .large-2.columns
   .row
