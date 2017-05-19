@@ -39,7 +39,6 @@
       new New.Layout
 
     findRelatedRequests: ->
-      console.log 123123
       $.ajax
         method: 'GET',
         url:    '/legal/cfc_requests/check_errors'

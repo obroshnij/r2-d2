@@ -122,7 +122,8 @@ class Legal::CfcRequest::SubmitForm
 
   def related_exists?
     return @related_exists unless @related_exists.nil?
-    @related_exists = Legal::CfcRequest.where(nc_username: nc_username, request_type: request_type).exists?
+    type = Legal::CfcRequest.request_types[request_type]
+    @related_exists = Legal::CfcRequest.where(nc_username: nc_username, request_type: type).exists?
   end
 
   def recheck_reason_required?
