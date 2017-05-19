@@ -52,6 +52,9 @@
           = @checkForFraudResult
           |&nbsp;|&nbsp;Relations&nbsp;
           = @findRelationsResult
+          - if @relations.length
+            |&nbsp;
+            span class="badge warning" = @relations.length
       - if @requestType is 'Find relations'
         .value
           span
