@@ -21,7 +21,11 @@
                 tr
                   td.border-right = rr.processed_at?.split(',')?[0]
                   td.border-right = r.username
-                  td.border-right = r.certainty + '%'
+                  td.border-right
+                    - if r.certainty
+                      = r.certainty + '%'
+                    - else
+                      |-
                   td.border-right = @relationNames r.relation_type_ids
                   td = r.comment
               - if index isnt @previous_relations.length - 1
