@@ -1,5 +1,5 @@
 class SpamProcessor
-  
+
   def self.parse_domains_info(csv_file, data)
     hash_from_csv(csv_file).each do |line|
       domain_name = to_utf8 line[:domain_name]
@@ -9,7 +9,7 @@ class SpamProcessor
     end
     data.except *data.select { |domain, val| val["extra_attr"][:username].blank? }.keys
   end
-  
+
   def self.process(job)
     domains = job.data.map { |domain, params| DomainName.new domain, params["extra_attr"], params["whois"] }
     Whois.lookup_multiple domains.select { |d| d.whois.record.blank? }
@@ -21,43 +21,43 @@ class SpamProcessor
   rescue Exception => e
     job.update_attributes status: "Failed", data: DomainName.multiple_to_hash(domains), info: e.message
   end
-  
+
   private
-  
+
   def self.hash_from_csv(csv)
     mapping = { domainname:          :domain_name,
                 lasttransaction:     :last_transaction,
                 expire_datetime:     :expiration_date,
-                email:               :email_address, 
+                email:               :email_address,
                 user_createdatetime: :signup_date,
                 lastlogin:           :last_login,
                 orderid:             :order_id }
     SmarterCSV.process(csv, strip_chars_from_headers: /'/, key_mapping: mapping).map do |hash|
-      hash[:full_name] = hash[:firstname] + " " + hash[:lastname]
+      hash[:full_name] = "#{hash[:firstname]} #{hash[:lastname]}"
       hash[:domain_name].downcase!
       hash.except(:firstname, :lastname)
     end
   end
-  
+
   def self.to_utf8(str)
     str = str.to_s.force_encoding("UTF-8")
     return str if str.valid_encoding?
     str = str.force_encoding("BINARY")
     str.encode("UTF-8", invalid: :replace, undef: :replace)
   end
-  
+
   def self.abort_if_whois_is_blank(domains)
     domains_with_no_whois = domains.select { |d| d.whois.record.blank? }
     count = domains_with_no_whois.count
     raise "Failed to get whois data for " + count.to_s + " domain".pluralize(count) + ": " + domains_with_no_whois.map(&:name).join(", ") if count > 0
   end
-  
+
   def self.suspension_bulk_check(domains)
     domains.each do |domain|
       domain.whois.properties[:status] ||= []
       status = domain.whois.properties[:status].map { |s| s.downcase.gsub(/[[:blank:]]/, '') }
       a_record = domain.extra_attr[:host_records][:a].last
-      
+
       domain.extra_attr[:suspended_by_registry] = suspended_by_registry?(status)
       domain.extra_attr[:suspended_by_enom] = status.try(:include?, "clienthold")
       domain.extra_attr[:suspended_by_namecheap] = domain.whois.properties[:nameservers].try(:include?, "dummysecondary.pleasecontactsupport.com") ||
@@ -76,12 +76,12 @@ class SpamProcessor
       domain.extra_attr[:blacklisted] = domain.extra_attr[:dbl] || domain.extra_attr[:surbl]
     end
   end
-  
+
   def self.suspended_by_registry?(status)
     return true if status.include? "hold"
     return true if status.include? "serverhold"
     return true if status.include?("serverrenewprohibited") && status.include?("serverdeleteprohibited") && status.include?("serverupdateprohibited")
     false
   end
-  
+
 end
