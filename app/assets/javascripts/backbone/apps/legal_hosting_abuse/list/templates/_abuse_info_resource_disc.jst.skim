@@ -6,7 +6,28 @@
       .column: .row.hash
         .key Resource
         .value = @resource.type
-        
-      .column: .row.hash
-        .key Details
-        .value == @truncate @resource.details, 40, true
+      
+      - if @resource.details
+        .column: .row.hash
+          .key Details
+          .value == @truncate @resource.details, 40, true
+      
+      - if @resource.disk_abuse_type
+        .column: .row.hash
+          .key Disk Abuse
+          .value = @resource.disk_abuse_type
+          
+      - if @resource.db_name
+        .column: .row.hash
+          .key DB Name
+          .value = @resource.db_name
+          
+      - if @resource.db_size
+        .column: .row.hash
+          .key DB Size
+          .value = "#{@resource.db_size} GB"
+          
+      - if @resource.upgrade_id
+        .column: .row.hash
+          .key Upgrade
+          .value = @resource.upgrade

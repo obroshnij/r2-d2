@@ -13,6 +13,9 @@
         intersection = _.intersection allowed, current
         not _.isEmpty(intersection)
 
+      func: (allowed, current, values) ->
+        allowed(current, values)
+
     initialize: ->
       @listenTo @, 'toggle:fields', @toggle
       @listenTo @, 'toggle:fields', @runCallback
@@ -41,7 +44,7 @@
           parent
 
         _.map conditions, (allowedValues, checker) =>
-          @checkers[checker](allowedValues, fieldValues[parentName])
+          @checkers[checker](allowedValues, fieldValues[parentName], fieldValues)
 
       _.chain(result)
         .flatten()

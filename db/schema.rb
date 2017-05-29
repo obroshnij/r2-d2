@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517123929) do
+ActiveRecord::Schema.define(version: 20170529125156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -389,9 +389,13 @@ ActiveRecord::Schema.define(version: 20170517123929) do
     t.text     "lve_report"
     t.text     "mysql_queries"
     t.text     "process_logs"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.text     "db_governor_logs"
+    t.string   "resource_consuming_websites", default: [],              array: true
+    t.integer  "disk_abuse_type_id"
+    t.string   "db_name"
+    t.float    "db_size"
   end
 
   create_table "legal_hosting_abuse_resource_abuse_type_assignments", force: :cascade do |t|
@@ -418,6 +422,12 @@ ActiveRecord::Schema.define(version: 20170517123929) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "legal_hosting_abuse_resource_disk_abuse_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "legal_hosting_abuse_resource_impacts", force: :cascade do |t|

@@ -1,0 +1,22 @@
+<% if suspended? -%>
+IMPORTANT: Account '<%= reseller_username %>' is suspended due to Database Abuse - <%= @abuse.server.name %>
+<% else -%>
+WARNING: Database Abuse on Account '<%= reseller_username %>' - <%= @abuse.server.name %>
+<% end -%>
+
+Hello,
+
+It has come to our attention that your account's activity affects our overall server performance and other accounts hosted thereon. The reason for it appears to be the large size of the following database assigned to your website:
+
+<%= @abuse.resource.db_name %>
+<% if @abuse.resource.db_size %><%= "#{@abuse.resource.db_size} GB" %><% end %>
+
+Please optimize the aforementioned database and provide us with the corresponding confirmation within the next <%= @abuse.suggestion.name.match(/\d+/).to_s %> hours. The following Namecheap KnowledgeBase article will help you to resolve the issue : https://www.namecheap.com/support/knowledgebase/article.aspx/9791.
+
+Additionally, you might consider upgrading your current hosting plan to a <%= @abuse.resource.upgrade.name %>. This can be performed by ordering the corresponding package from us. As all upgrades are prorated, any balance from your existing plan will be carried over to your Namecheap funds that may be used to settle the next generated invoice or pay for any other services with us.
+
+Please get back to us within the time frame specified above. If no response is received, we might be forced to suspend the account in question. We would like to emphasize that in case the impact on the server increases within the specified time-frame, there might no other option but to suspend the account immediately, to our regret.
+
+Looking forward to your reply.
+
+===============[ Please find the additional information below / attached ]===============

@@ -10,7 +10,12 @@
       .column: .row.hash
         .key Affected Resources
         .value == @truncate @resource.abuse_types.join(',\n'), 40, true
-                
+
+      - if @resource.resource_consuming_websites.length
+        .column: .row.hash
+          .key Websites
+          .value = @resource.resource_consuming_websites.split("\n").join(", ")
+
       .column: .row.hash
         .key Upgrade
         .value = @resource.upgrade

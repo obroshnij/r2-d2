@@ -84,6 +84,10 @@ end
   Legal::HostingAbuse::Resource::ResourceType.create name: name
 end
 
+['HDD Overuse', 'DB Overuse', 'DB Rapid Growth'].each do |name|
+  Legal::HostingAbuse::Resource::DiskAbuseType.create name: name
+end
+
 ['Business SSD', 'VPS 1 - XEN', 'VPS 2 - XEN', 'VPS 3 - XEN', 'Dedicated Server'].each do |name|
   Legal::HostingAbuse::Resource::Upgrade.create name: name
 end

@@ -520,16 +520,41 @@
           dependencies:
             service_id:               value: [1, 2, 3, 4]
         ,
+          name:     'resource[disk_abuse_type_id]'
+          label:    'Disk Space Abuse Type'
+          type:     'collection_radio_buttons'
+          options:  @getResourceDiskAbuseTypes()
+          default:  '1'
+          dependencies:
+            service_id:               value: [1, 2, 3, 4]
+            'resource[type_id]':      value: 1
+        ,
           name:     'resource[details]'
           label:    'Details'
           tagName:  'textarea'
           hint:     'Most valuable folders (if a mailbox reserves more than 200, it should be provided separately)',
           dependencies: [
-            service_id:               value: [1, 2, 3, 4]
-            'resource[type_id]':      value: '1'
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '1'
+            'resource[disk_abuse_type_id]': value: '1'
           ,
             service_id:               value: 5
           ]
+        ,
+          name:     'resource[db_name]'
+          label:    'Database Name'
+          dependencies:
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '1'
+            'resource[disk_abuse_type_id]': value: [2, 3]
+        ,
+          name:     'resource[db_size]'
+          label:    'Database Size'
+          hint:     '≥ 5 GB'
+          dependencies:
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '1'
+            'resource[disk_abuse_type_id]': value: [2, 3]
         ,
           name:     'resource[abuse_type_ids]'
           label:    'Affected Resources'
@@ -570,17 +595,30 @@
           label:    'Process Log'
           tagName:  'textarea'
           dependencies:
-            service_id:               value: [1, 2, 3, 4]
-            'resource[type_id]':       value: '2'
+            service_id:                 value: [1, 2, 3, 4]
+            'resource[type_id]':        value: '2'
             'resource[abuse_type_ids]': value: '6'
+        ,
+          name:     'resource[resource_consuming_websites]'
+          tagName:  'textarea'
+          label:    'Resource Consuming Websites'
+          hint:     'Domain name(s) separated by commas and/or line breaks'
+          dependencies:
+            service_id:          value: [1, 2, 3, 4]
+            'resource[type_id]': value: '2'
         ,
           name:     'resource[upgrade_id]'
           label:    'Upgrade Suggestion'
           tagName:  'select'
           options:  @getResourceUpgrades()
-          dependencies:
-            service_id:               value: [1, 2, 3, 4]
-            'resource[type_id]':       value: '2'
+          dependencies: [
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '2'
+          ,
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '1'
+            'resource[disk_abuse_type_id]': value: [2, 3]
+          ]
         ,
           name:     'resource[impact_id]'
           label:    'Severity of Impact'
@@ -715,24 +753,37 @@
           default:  3
           hint:     'Is it necessary to suspend the account or there is an amount of time to be provided?'
           callback: (fieldValues) ->
-            if fieldValues.service_id?.toString() is '6'
-              @trigger('enable:options', 6)
-              @trigger('disable:options', [1, 2, 3, 4, 5])
-            else
-              @trigger('enable:options', [1, 2, 3, 4, 5])
-              @trigger('disable:options', 6)
+            disabled = []
 
-            if fieldValues.type_id?.toString() is '3' or (fieldValues.type_id?.toString() is '2' and fieldValues['resource[type_id]']?.toString() is '3')
-              @trigger('enable:options', 8)
+            if fieldValues.service_id?.toString() is '6'
+              disabled = disabled.concat [1, 2, 3, 4, 5]
             else
-              @trigger('disable:options', 8)
+              disabled = disabled.concat [6]
+
+            unless fieldValues.type_id?.toString() is '3' or (fieldValues.type_id?.toString() is '2' and fieldValues['resource[type_id]']?.toString() is '3')
+              disabled = disabled.concat [8]
+
+            if fieldValues.type_id?.toString() is '2' and fieldValues['resource[type_id]']?.toString() is '1'
+              if fieldValues['resource[disk_abuse_type_id]']?.toString() is '2'
+                disabled = disabled.concat [4, 5, 6, 7, 8]
+              if fieldValues['resource[disk_abuse_type_id]']?.toString() is '3'
+                disabled = disabled.concat [1, 2, 3, 6, 7, 8]
+
+            enabled = _.difference [1, 2, 3, 4, 5, 6, 7, 8], disabled
+
+            @trigger 'enable:options',  enabled
+            @trigger 'disable:options', disabled
         ,
           name:     'suspension_reason'
           label:    'Reason'
           tagName:  'textarea'
           hint:     'Immediate suspension / time shortening reason'
           dependencies:
-            suggestion_id:   value: ['1', '2', '4', '5']
+            # suggestion_id:    value: ['1', '2', '4', '5']
+            suggestion_id: func: (currentVal, values) ->
+              return false if values.type_id?.toString() is '2' and values['resource[type_id]']?.toString() is '1' and values['resource[disk_abuse_type_id]']?.toString() is '3'
+              ['1', '2', '4', '5'].indexOf(currentVal.toString()) + 1
+
         ,
           name:     'scan_report_path'
           label:    'Scan Report Path'
@@ -761,31 +812,32 @@
       collection.map (item) ->
         item.attributes
 
-    getServices:              -> @getOptions 'service'
-    getAbuseTypes:            -> @getOptions 'type'
-    getSharedPlans:           -> @getOptions 'shared:plan'
-    getResellerPlans:         -> @getOptions 'reseller:plan'
-    getVpsPlans:              -> @getOptions 'vps:plan'
-    getManagementTypes:       -> @getOptions 'management:type'
-    getSuggestions:           -> @getOptions 'suggestion'
+    getServices:               -> @getOptions 'service'
+    getAbuseTypes:             -> @getOptions 'type'
+    getSharedPlans:            -> @getOptions 'shared:plan'
+    getResellerPlans:          -> @getOptions 'reseller:plan'
+    getVpsPlans:               -> @getOptions 'vps:plan'
+    getManagementTypes:        -> @getOptions 'management:type'
+    getSuggestions:            -> @getOptions 'suggestion'
 
-    getDdosBlockTypes:        -> @getOptions 'ddos:block:type'
+    getDdosBlockTypes:         -> @getOptions 'ddos:block:type'
 
-    getResourceAbuseTypes:    -> @getOptions 'resource:abuse:type'
-    getResourceTypes:         -> @getOptions 'resource:type'
-    getResourceUpgrades:      -> @getOptions 'resource:upgrade'
-    getResourceImpacts:       -> @getOptions 'resource:impact'
-    getResourceActivityTypes: -> @getOptions 'resource:activity:type'
-    getResourceMeasures:      -> @getOptions 'resource:measure'
+    getResourceAbuseTypes:     -> @getOptions 'resource:abuse:type'
+    getResourceTypes:          -> @getOptions 'resource:type'
+    getResourceDiskAbuseTypes: -> @getOptions 'resource:disk:abuse:type'
+    getResourceUpgrades:       -> @getOptions 'resource:upgrade'
+    getResourceImpacts:        -> @getOptions 'resource:impact'
+    getResourceActivityTypes:  -> @getOptions 'resource:activity:type'
+    getResourceMeasures:       -> @getOptions 'resource:measure'
 
-    getSpamReportingParties:  -> @getOptions 'spam:reporting:party'
-    getSpamDetectionMethods:  -> @getOptions 'spam:detection:method'
-    getSpamQueueTypes:        -> @getOptions 'spam:queue:type'
-    getSpamPeQueueTypes:      -> @getOptions 'spam:pe:queue:type'
-    getSpamContentTypes:      -> @getOptions 'spam:content:type'
-    getSpamPeContentTypes:    -> @getOptions 'spam:pe:content:type'
+    getSpamReportingParties:   -> @getOptions 'spam:reporting:party'
+    getSpamDetectionMethods:   -> @getOptions 'spam:detection:method'
+    getSpamQueueTypes:         -> @getOptions 'spam:queue:type'
+    getSpamPeQueueTypes:       -> @getOptions 'spam:pe:queue:type'
+    getSpamContentTypes:       -> @getOptions 'spam:content:type'
+    getSpamPeContentTypes:     -> @getOptions 'spam:pe:content:type'
 
-    getOtherAbuseTypes:       -> @getOptions 'other:abuse:type'
+    getOtherAbuseTypes:        -> @getOptions 'other:abuse:type'
 
     onShow: (view) ->
       _.defer ->

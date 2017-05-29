@@ -93,6 +93,8 @@ class Legal::HostingAbuse::Form
 
     prohibited_options += eforward? ? [1, 2, 3, 4, 5] : [6]
     prohibited_options += [8] unless ddos? || resource_abuse? && child_form.cron?
+    prohibited_options += [4, 5, 6, 7, 8]    if resource_abuse? && child_form.disc_space? && child_form.db_overuse?
+    prohibited_options += [1, 2, 3, 6, 7, 8] if resource_abuse? && child_form.disc_space? && child_form.db_rapid_growth?
 
     return unless prohibited_options.include?(suggestion_id)
 
@@ -122,7 +124,11 @@ class Legal::HostingAbuse::Form
   def ddos?()              type_id == 3                     end
   def other_abuse?()       type_id == 4                     end
 
-  def suspension_reason_required?()  [1, 2, 4, 5].include? suggestion_id   end
+  def suspension_reason_required?
+    return false if resource_abuse? && child_form.disc_space? && child_form.db_rapid_growth?
+    [1, 2, 4, 5].include? suggestion_id
+  end
+
   def full_management?()             management_type_id == 3               end
   def scan_report_path_required?
     suggestion_id == 5 && spam? && (shared? || reseller? || vps? || dedicated_server?)
