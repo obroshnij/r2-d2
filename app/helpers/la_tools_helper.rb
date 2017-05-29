@@ -71,13 +71,13 @@ module LaToolsHelper
     listing_count = (data[:dbl] && !data[:surbl] && !data[:dbl_surbl]) || (!data[:dbl] && data[:surbl] && !data[:dbl_surbl]) ? 1 : 2
 
     reply[:title] = "IMPORTANT: Spam report "
-    reply[:title] += count > 1 ? "for your domains" : "for #{data[:blacklisted].first} domain"
+    reply[:title] += count > 1 ? "about your domains" : "about #{data[:blacklisted].first} domain"
 
     reply[:body] = "Hello,\n\n"
     reply[:body] << "We regret to inform you that your " + "#{count > 1 ? "domains are" : "domain is"}" + " reported as involved in an unsolicited email activity.\n\n"
     reply[:body] << "FYI: Generally domains involved in unsolicited email activities might be spamvertised (advertised via spam emails), "
-    reply[:body] << "assigned to mailboxes or servers that are used to transmit spam emails. In other words recipients of such emails do not want to "
-    reply[:body] << "receive them and refer to service providers and anti-spam organisations in order to stop the unsolicited mailing.\n\n"
+    reply[:body] << "assigned to mailboxes or servers that are used to transmit spam emails. In other words, recipients of such emails do not want to "
+    reply[:body] << "receive them and refer to service providers and anti-spam organizations in order to stop the unsolicited mailing.\n\n"
 
     reply[:body] << "The following " + "#{count > 1 ? "domains of yours are" : "domain of yours is"}" + " marked by international trusted anti-spam " + "organisation".pluralize(listing_count) + ":\n\n"
     if data[:dbl].present?
@@ -100,12 +100,12 @@ module LaToolsHelper
     reply[:body] << "In order to monitor the reputation of your domain at SURBL please refer to the SURBL listing at http://www.surbl.org/surbl-analysis/\n" if data[:surbl].present? || data[:dbl_surbl].present?
     reply[:body] << "\n"
 
-    reply[:body] << "The fact that domains registered with Namecheap are blacklisted by the anti-spam organisations affects reputation of our company. "
+    reply[:body] << "The fact that domains registered with Namecheap are blacklisted by the anti-spam organizations affects the reputation of our company. "
     reply[:body] << "Moreover, in accordance with Registration Agreement (at https://www.namecheap.com/legal/domains/registration-agreement.aspx ) signed by all "
     reply[:body] << "our customers upon creation of an account in our system, improper use of any services provided by Namecheap may result in service interruption.\n\n"
 
     unless data[:spammer]
-      reply[:body] << "However, for you as our loyal customer we would like to provide the 48 hours grace period in order to get the " + "domain".pluralize(count)
+      reply[:body] << "However, for you as our loyal customer, we would like to provide the 48 hours grace period in order to get the " + "domain".pluralize(count)
       reply[:body] << " removed from the " + "listing".pluralize(listing_count) + ". If the " + "domain".pluralize(count) + " "
       reply[:body] << "#{count > 1 ? "remain" : "remains"}" + " blacklisted, we might be forced to suspend " + "#{count > 1 ? "them" : "it"}" + " preventing further impact on our services.\n\n"
     end
