@@ -60,7 +60,7 @@
             { name: 'No',  id: 'false' }
           ]
           default: 'false'
-          hint:    'Initiate internal investigation if user is not frauded'
+          hint:    'Initiate internal investigation if user is not locked due to fraud'
           dependencies:
             request_type: value: ['check_for_fraud']
         ,
@@ -107,9 +107,14 @@
           callback: (fieldValues) ->
             _.defer =>
               if fieldValues.request_type is 'find_relations' and fieldValues.find_relations_reason is 'legal_request'
-                @trigger('enable:input')
+                if @get('_disabled')
+                  @trigger('enable:input', 100)
+                else
+                  @trigger('enable:input')
+                @set '_disabled', false
               else
                 @trigger('disable:input', '60')
+                @set '_disabled', true
         ,
           name:    'reference'
           label:   'Reference'
@@ -145,17 +150,29 @@
           type:    'collection_radio_buttons'
           options: [
             { name: 'Phishing',        id: 'phishing' },
-            { name: 'Scam',            id: 'scam' },
+            { name: 'Fraud/Scam',      id: 'scam' },
             { name: 'Deliberate Spam', id: 'deliberate_spam' },
             { name: 'Other',           id: 'other_abuse' }
           ]
           default: 'phishing'
+          dependencies: [
+            request_type: value: 'check_for_fraud'
+          ,
+            request_type:          value: 'find_relations'
+            find_relations_reason: value: 'internal_investigation'
+          ]
         ,
           name:    'other_description'
           label:   'Description'
           tagName: 'textarea'
-          dependencies:
-            abuse_type: value: ['other_abuse']
+          dependencies: [
+            request_type: value: 'check_for_fraud'
+            abuse_type:   value: 'other_abuse'
+          ,
+            request_type:          value: 'find_relations'
+            find_relations_reason: value: 'internal_investigation'
+            abuse_type:            value: 'other_abuse'
+          ]
         ,
           name:    'service_status'
           label:   'Current Service Status'

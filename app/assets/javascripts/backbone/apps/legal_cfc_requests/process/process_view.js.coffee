@@ -5,7 +5,7 @@
 
     regions:
       formRegion: '#form-region'
-      
+
 
   class Process.FormSchema extends Marionette.Object
 
@@ -26,7 +26,7 @@
           type:     'hidden'
         ,
           name:     'frauded'
-          label:    'Frauded?'
+          label:    'Fraud?'
           type:     'radio_buttons'
           options: [
             { id: 'false', name: 'No' },

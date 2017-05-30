@@ -25,7 +25,7 @@
           when '_pending'   then 'Initiated'
 
       checkForFraudResult: ->
-        return 'Frauded'  if @get('frauded')
+        return 'Fraud'    if @get('frauded')
         return 'Verified' if @get('verification_ticket_id')
         'Okay'
 
@@ -44,6 +44,7 @@
         s.humanize @get('service_type')
 
       abuseType: ->
+        return 'Fraud/Scam' if @get('abuse_type') is 'scam'
         s.humanize @get('abuse_type')
 
       serviceStatus: ->

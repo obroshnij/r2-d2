@@ -49,10 +49,11 @@
       .column: .row.hash
         .key User Signup Date
         .value = @signup_date
-        
-      .column: .row.hash
-        .key Abuse Type
-        .value = @abuseType
+      
+      - if @abuse_type
+        .column: .row.hash
+          .key Abuse Type
+          .value = @abuseType
 
     - if @abuse_type is 'other_abuse' and @other_description
       br
