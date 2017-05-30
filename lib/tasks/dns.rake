@@ -13,6 +13,15 @@ namespace :dns do
     end
   end
 
+  desc "Pull DBL and SURBL nameservers list from production server"
+  task :pull do
+    dbl   = JSON.parse `ssh deployer@r2-d2.nmchp.com cat /var/www/apps/r2-d2/current/lib/dns/dbl_ns.json`
+    surbl = JSON.parse `ssh deployer@r2-d2.nmchp.com cat /var/www/apps/r2-d2/current/lib/dns/surbl_ns.json`
+
+    File.open('lib/dns/dbl_ns.json',   'w') { |f| f.write JSON.pretty_generate(dbl) }
+    File.open('lib/dns/surbl_ns.json', 'w') { |f| f.write JSON.pretty_generate(surbl) }
+  end
+
   def get_nameservers klass
     resolver = DNS::Resolver.new
 

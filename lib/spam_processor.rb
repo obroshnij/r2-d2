@@ -1,13 +1,18 @@
 class SpamProcessor
 
   def self.parse_domains_info(csv_file, data)
-    hash_from_csv(csv_file).each do |line|
+    csv = hash_from_csv(csv_file)
+    csv.each do |line|
       domain_name = to_utf8 line[:domain_name]
       (line.keys - [:domain_name]).each do |key|
         data[domain_name]["extra_attr"][key] = to_utf8 line[key]
       end
     end
     data.except *data.select { |domain, val| val["extra_attr"][:username].blank? }.keys
+  rescue NoMethodError
+    Rails.logger.info "\n\n\nCSV FILE:\n\n#{JSON.pretty_generate(csv)}\n"
+    Rails.logger.info "\nJOB DATA:\n\n#{JSON.pretty_generate(data)}\n\n\n"
+    raise NoMethodError, 'failed to process spam'
   end
 
   def self.process(job)

@@ -48,13 +48,17 @@
             label:    'Nameservers'
             type:     'collection_radio_buttons'
             options:  [
-              id: 'default',  name: 'Default'
-            ,
               id: 'google',   name: 'Google Public DNS'
+            ,
+              id: 'verisign', name: 'Verisign'
+            ,
+              id: 'dyn',      name: 'Dyn'
+            ,
+              id: 'comodo',   name: 'Comodo Secure DNS'
             ,
               id: 'open',     name: 'OpenDNS'
             ]
-            default:  'default'
+            default:  'google'
           ]
         }
       ]

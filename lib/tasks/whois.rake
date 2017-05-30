@@ -19,12 +19,12 @@ namespace :whois do
     diff = server_defs.keys - local_defs.keys
     puts "The following TLDs have been added:\n #{diff.map { |tld| '.' + tld.upcase }.join(', ')}" if diff.present?
   end
-  
+
   desc 'Whois test domains and store the data in a JSON file'
   task :test => :environment do
     domains, whois_data = [], {}
     File.open File.join(Rails.root, 'spec', 'models', 'whois_parser_spec.rb') do |f|
-      domains = DomainName.parse_multiple(f.read.scan(/u?n?registered\ =.+/).join(' ')).map(&:name).uniq  
+      domains = DomainName.parse_multiple(f.read.scan(/u?n?registered\ =.+/).join(' ')).map(&:name).uniq
     end
     until domains.empty? do
       domains.each do |name|
@@ -41,5 +41,5 @@ namespace :whois do
     f.write JSON.generate(whois_data).gsub("\",\"", "\",\n\"")
     f.close
   end
-  
+
 end
