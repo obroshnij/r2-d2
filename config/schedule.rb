@@ -26,3 +26,7 @@ end
 every 1.day, at: '11:55 pm' do
   rake "nc_performance:notify"
 end
+
+every 1.day, at: '2:00 am' do
+  rake "dns:update_blacklist_dns"
+end
