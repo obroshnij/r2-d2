@@ -12,7 +12,7 @@ namespace :domains do
     domain_names = domains.collect(&:name)
 
     deleted_domain_names = domain_names - domain_names_from_nc
-    deleted_domain_names = deleted_domains.delete_if { |name| name =~ /coupon code/ }
+    deleted_domain_names = deleted_domain_names.delete_if { |name| name =~ /coupon code/ }
 
     new_domain_names     = domain_names_from_nc - domain_names
 
