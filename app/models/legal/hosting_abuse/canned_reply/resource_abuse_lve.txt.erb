@@ -21,7 +21,7 @@ The server is abused by MySQL queries and the following resource limits are bein
 <% end -%>
 <% if resource_sites.count > 0 -%>
 
-According to the investigation performed by the representatives of our technical team, the following <%= 'webslite'.pluralize(resource_sites.count) %> <%= resource_sites.count == 1 ? 'is' : 'are' %> consuming too much resources which results in a poor server performance: <%= resource_sites.join(", ") %>.
+According to the investigation performed by the representatives of our technical team, the following <%= 'website'.pluralize(resource_sites.count) %> <%= resource_sites.count == 1 ? 'is' : 'are' %> consuming too much resources which results in a poor server performance: <%= resource_sites.join(", ") %>.
 <% end -%>
 
 Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. Here are the diagnostic steps generally suggested for finding the corresponding solution:
