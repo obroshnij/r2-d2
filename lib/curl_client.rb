@@ -34,6 +34,7 @@ class CurlClient
     end
 
     def to_utf8 str
+      return str unless str
       str = str.force_encoding("UTF-8")
       return str if str.valid_encoding?
       str = str.force_encoding("BINARY")
