@@ -49,11 +49,11 @@
           hint:    'Product the client had issues with'
         ,
           name:    'product_compensated_id'
-          label:   'Product Compensated'
+          label:   'Compensation'
           type:    'collection_radio_buttons'
           options: App.request('domains:compensation:product:entities').toJSON()
           default: '1'
-          hint:    'The product you gave discount for / refunded beyond the refundable period or against our refund policy / provided as a compensation. Related services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)'
+          hint:    "The product you gave discount for / refunded beyond the refundable period or against our refund policy / provided as a compensation.\n\nRelated services fees should be qualified as the product itself (e.g. for redemption fee waive select Domains, for hosting backup fee waive select Hosting, etc.)"
           onChange: () ->
             $('#service_compensated_id').val('').trigger('change')
         ,
