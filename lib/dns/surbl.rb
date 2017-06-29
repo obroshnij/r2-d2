@@ -32,5 +32,9 @@ module DNS
       :surbl
     end
 
+    def self.type
+      :surbl
+    end
+
   end
 end

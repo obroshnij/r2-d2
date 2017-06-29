@@ -22,13 +22,21 @@ module DNS
     # end
 
     def self.check_multiple domains
-      classes = [DNS::DBL, DNS::SURBL]
-      domains.map do |domain|
-        Thread.new(domain, classes) do |domain, classes|
-          checkers = classes.map(&:new)
-          checkers.each { |checker| domain.extra_attr[checker.type] = checker.listed?(domain.name) }
+      hosts = [DNS::DBL, DNS::SURBL].map do |klass|
+        domains.map { |domain| "#{domain.name}.#{klass.base_host}" }
+      end.flatten
+
+      uri = URI('https://dig-host.now.sh')
+      req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+      req.body = JSON.generate({ hosts: hosts })
+      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+      data = JSON.parse res.body
+
+      [DNS::DBL, DNS::SURBL].each do |klass|
+        domains.each do |domain|
+          domain.extra_attr[klass.type] = data["#{domain.name}.#{klass.base_host}"].present?
         end
-      end.each(&:join)
+      end
     end
 
     def initialize

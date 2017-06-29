@@ -36,5 +36,9 @@ module DNS
       :dbl
     end
 
+    def self.type
+      :dbl
+    end
+
   end
 end
