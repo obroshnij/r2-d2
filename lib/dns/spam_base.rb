@@ -3,8 +3,9 @@ module DNS
 
     def self.valid_nameserver? nameservers
       resolver = DNS::Resolver.new type: :custom, nameservers: [nameservers].flatten
-      resolver.dig("#{positive_test_host}.#{base_host}",  record: :a).present? &&
-      resolver.dig("#{negative_test_host}.#{base_host}", record: :a).blank?
+      positive = resolver.dig("#{positive_test_host}.#{base_host}",  record: :a)
+      negative = resolver.dig("#{negative_test_host}.#{base_host}", record: :a)
+      positive.present? && negative.blank? && positive.first != "No Response"
     end
 
     def self.negative_test_host
@@ -25,7 +26,8 @@ module DNS
     end
 
     def listed? domain
-      @checker.dig("#{domain}.#{self.class.base_host}", record: :a).present?
+      res = @checker.dig("#{domain}.#{self.class.base_host}", record: :a)
+      res.present? && res.first != "No Response"
     end
 
     private
