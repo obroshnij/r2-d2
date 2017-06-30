@@ -32,4 +32,24 @@ namespace :dns do
     ips.keep_if { |ip| klass.valid_nameserver?(ip) }
   end
 
+  task verify_dig_microservice: :environment do
+    hosts = {
+      "example.com.dbl.spamhaus.org"   => false,
+      "dbltest.com.dbl.spamhaus.org"   => true,
+      "example.com.multi.surbl.org"    => false,
+      "test.surbl.org.multi.surbl.org" => true
+    }
+
+    uri = URI('https://dig-host.now.sh')
+    req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    req.body = JSON.generate({ hosts: hosts.keys })
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    data = JSON.parse res.body
+
+    hosts.keys.each do |host|
+      next if hosts[host] == data[host].present?
+      raise 'Dig microservice returns false positives for DBL/SURBL checks'
+    end
+  end
+
 end
