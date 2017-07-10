@@ -34,7 +34,7 @@ class Legal::HostingAbuse < ActiveRecord::Base
 
   scope :with_data, -> { includes(
     { ddos: [:block_type] },
-    { resource: [:impact, :type, :upgrade, :abuse_types, :activity_types, :measures] },
+    { resource: [:impact, :type, :upgrade, :abuse_types, :activity_types, :measures, :file_types] },
     { spam: [:detection_method, :content_type, :queue_types, :reporting_parties] },
     { pe_spam: [:detection_method, :pe_content_type, :pe_queue_types, :reporting_parties] },
     { other: [:abuse_types] },

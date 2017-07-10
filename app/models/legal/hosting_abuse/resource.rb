@@ -16,4 +16,7 @@ class Legal::HostingAbuse::Resource < ActiveRecord::Base
 
   has_many   :measure_assignments,       class_name: 'Legal::HostingAbuse::Resource::MeasureAssignment',      foreign_key: 'resource_id'
   has_many   :measures,                  through: :measure_assignments
+
+  has_many   :file_type_assignments,     class_name: 'Legal::HostingAbuse::Resource::FileTypeAssignment',     foreign_key: 'resource_id'
+  has_many   :file_types,                through: :file_type_assignments
 end

@@ -24,6 +24,7 @@ class Legal::HostingAbuse::Form::Resource
   attribute :disk_abuse_type_id,          Integer
   attribute :db_name,                     String
   attribute :db_size,                     Float
+  attribute :file_type_ids,               Array[Integer]
 
   validates :type_id,               presence: true
   validates :type_id,               inclusion: { in: [2, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?
@@ -51,6 +52,7 @@ class Legal::HostingAbuse::Form::Resource
   with_options if: :disc_space? do |f|
     f.validates :disk_abuse_type_id, presence: true
     f.validates :details,            presence: true, if: :hdd_overuse?
+    f.validates :file_type_ids,      presence: { message: 'at least one must be checked' }, if: :hdd_overuse?
     f.validates :db_name,            presence: true, if: -> { db_overuse? || db_rapid_growth? }
     f.validates :db_size,            presence: true, if: :db_overuse?
     f.validates :db_size,            numericality: true, allow_blank: true
@@ -131,6 +133,10 @@ class Legal::HostingAbuse::Form::Resource
     super ids.present? ? ids.delete_if(&:blank?) : []
   end
 
+  def file_type_ids= ids
+    super ids.present? ? ids.delete_if(&:blank?) : []
+  end
+
   def resource_consuming_websites= domains
     return super([]) unless domains.present?
     super domains.split(/[,\n\s]+/).map(&:strip).map(&:downcase)
@@ -144,7 +150,7 @@ class Legal::HostingAbuse::Form::Resource
   private
 
   def resource_params
-    attr_names = Legal::HostingAbuse::Resource.attribute_names.map(&:to_sym) + [:abuse_type_ids, :activity_type_ids, :measure_ids]
+    attr_names = Legal::HostingAbuse::Resource.attribute_names.map(&:to_sym) + [:abuse_type_ids, :activity_type_ids, :measure_ids, :file_type_ids]
     self.attributes.slice(*attr_names).delete_if { |key, val| val.nil? }
   end
 end

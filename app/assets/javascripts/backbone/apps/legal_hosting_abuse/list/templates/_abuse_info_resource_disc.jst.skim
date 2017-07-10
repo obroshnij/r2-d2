@@ -11,6 +11,11 @@
         .column: .row.hash
           .key Details
           .value == @truncate @resource.details, 40, true
+          
+      - if @resource.file_types && @resource.file_types.length
+        .column: .row.hash
+          .key File Type
+          .value = @resource.file_types.join(", ")
       
       - if @resource.disk_abuse_type
         .column: .row.hash

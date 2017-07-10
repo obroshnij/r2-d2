@@ -100,6 +100,10 @@ end
   Legal::HostingAbuse::Resource::Measure.create name: name
 end
 
+['Media', 'Email'].each do |name|
+  Legal::HostingAbuse::Resource::FileType.create name: name
+end
+
 
 ["Queue", "Feedback loop (AOL, Microsoft, Comcast, etc.)", "Other"].each do |name|
   Legal::HostingAbuse::Spam::DetectionMethod.create name: name

@@ -541,6 +541,15 @@
             service_id:               value: 5
           ]
         ,
+          name:     'resource[file_type_ids]'
+          label:    'File Type'
+          type:     'collection_check_boxes'
+          options:  @getResourceFileTypes()
+          dependencies:
+            service_id:                     value: [1, 2, 3, 4]
+            'resource[type_id]':            value: '1'
+            'resource[disk_abuse_type_id]': value: '1'
+        ,
           name:     'resource[db_name]'
           label:    'Database Name'
           dependencies:
@@ -829,6 +838,7 @@
     getResourceImpacts:        -> @getOptions 'resource:impact'
     getResourceActivityTypes:  -> @getOptions 'resource:activity:type'
     getResourceMeasures:       -> @getOptions 'resource:measure'
+    getResourceFileTypes:      -> @getOptions 'resource:file:type'
 
     getSpamReportingParties:   -> @getOptions 'spam:reporting:party'
     getSpamDetectionMethods:   -> @getOptions 'spam:detection:method'

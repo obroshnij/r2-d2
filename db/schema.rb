@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529125156) do
+ActiveRecord::Schema.define(version: 20170710104040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -428,6 +428,15 @@ ActiveRecord::Schema.define(version: 20170529125156) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "legal_hosting_abuse_resource_file_type_assignments", force: :cascade do |t|
+    t.integer "resource_id"
+    t.integer "file_type_id"
+  end
+
+  create_table "legal_hosting_abuse_resource_file_types", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "legal_hosting_abuse_resource_impacts", force: :cascade do |t|

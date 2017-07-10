@@ -26,7 +26,8 @@ node :entities do
           type:            Legal::HostingAbuse::Resource::ResourceType.all.as_json(only: [:id, :name]),
           upgrade:         Legal::HostingAbuse::Resource::Upgrade.all.as_json(only: [:id, :name]),
           activity_type:   Legal::HostingAbuse::Resource::ActivityType.all.as_json(only: [:id, :name]),
-          measure:         Legal::HostingAbuse::Resource::Measure.all.as_json(only: [:id, :name])
+          measure:         Legal::HostingAbuse::Resource::Measure.all.as_json(only: [:id, :name]),
+          file_type:       Legal::HostingAbuse::Resource::FileType.all.as_json(only: [:id, :name])
         },
         spam: {
           detection_method: Legal::HostingAbuse::Spam::DetectionMethod.all.as_json(only: [:id, :name]),

@@ -52,7 +52,7 @@ child(:ddos) do
 end
 
 child(:resource) do
-  attributes *(Legal::HostingAbuse::Resource.attribute_names + [:abuse_type_ids, :activity_type_ids, :measure_ids])
+  attributes *(Legal::HostingAbuse::Resource.attribute_names + [:abuse_type_ids, :activity_type_ids, :measure_ids, :file_type_ids])
 
   node(:type, if: -> (r) { r.type_id }) do |r|
     r.type.name
@@ -84,6 +84,10 @@ child(:resource) do
 
   node(:resource_consuming_websites) do |r|
     r.resource_consuming_websites.join("\n")
+  end
+
+  node(:file_types, if: -> (r) { r.file_type_ids.present? }) do |r|
+    r.file_types.map(&:name)
   end
 end
 
