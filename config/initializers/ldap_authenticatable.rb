@@ -12,17 +12,37 @@ module Devise
       def authenticate!
         if params[:user]
 
-          entries = ldap.bind_as(
-            base:     Rails.application.secrets.ldap_search_base,
-            filter:   "(samaccountname=#{uid})",
-            password: password
-          ) if uid.present?
+          # entries = ldap.bind_as(
+          #   base:     Rails.application.secrets.ldap_search_base,
+          #   filter:   "(samaccountname=#{uid})",
+          #   password: password
+          # ) if uid.present?
+          #
+          # if entries
+          #   user = User.from_ldap_entry entries.first
+          #   success! user
+          # else
+          #   fail! 'Invalid user ID or password'
+          # end
 
-          if entries
-            user = User.from_ldap_entry entries.first
-            success! user
-          else
+          uri = URI Rails.application.secrets.core_auth_url
+          req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
+          payload = {
+            api_key:  Rails.application.secrets.core_api_key,
+            email:    uid,
+            password: password
+          }
+          req.body = payload.to_json
+          res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+            http.request(req)
+          end
+          res = JSON.parse res.body
+
+          if res["error"]
             fail! 'Invalid user ID or password'
+          else
+            user = User.find_by_email res["namecheap_email"]
+            user ? success!(user) : fail!('Invalid user ID or password')
           end
         end
       end
