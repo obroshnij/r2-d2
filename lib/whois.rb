@@ -2,13 +2,13 @@ class Whois
 
   DEFINITIONS_PATH = File.join(File.dirname(__FILE__), "whois_definitions.json")
 
-  def self.lookup(object)
-    self.new.lookup object
+  def self.lookup(object, options = {})
+    self.new.lookup object, options
   end
 
-  def lookup(object)
+  def lookup(object, options = {})
     if object.is_a? DomainName
-      lookup_domain(object)
+      lookup_domain(object, options)
     elsif PublicSuffix.valid?(object)
       return lookup_string_nameserver(object) if PublicSuffix.parse(object).trd.present?
       return lookup_string_domain(object)     if PublicSuffix.parse(object).sld.present?
@@ -40,12 +40,12 @@ class Whois
 
   private
 
-  def lookup_domain(domain)
-    whois_record = lookup_string_domain(domain.name) rescue nil
+  def lookup_domain(domain, options = {})
+    whois_record = lookup_string_domain(domain.name, options) rescue nil
     domain.whois = WhoisRecord.new domain.name, whois_record
   end
 
-  def lookup_string_domain(string)
+  def lookup_string_domain(string, options = {})
     domain = PublicSuffix.parse string
     server = get_whois_server domain.tld
     # TODO create a notification if whois server is not found
@@ -57,7 +57,7 @@ class Whois
     else
       execute server, domain.name
     end
-    if record.match(/whois server:.+/i)
+    if options[:follow_redirects] != false && record.match(/whois server:.+/i)
       registrar_whois = record.match(/whois server:.+/i).to_s.split(':').last.try(:strip).try(:downcase)
       if registrar_whois.present? && server != registrar_whois && registrar_whois.match(/\A[a-z\.]+\z/).present? && registrar_whois[0..3] != 'www.'
         record += execute(registrar_whois, domain.name) rescue ''

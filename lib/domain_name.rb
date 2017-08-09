@@ -37,8 +37,8 @@ class DomainName
     @whois
   end
 
-  def whois!
-    Whois.lookup(self)
+  def whois! options = {}
+    Whois.lookup(self, options)
   end
 
   def whois=(record)
