@@ -26,6 +26,7 @@ class Legal::CfcRequest::SubmitForm
   attribute :investigate_unless_fraud,     Boolean
   attribute :certainty_threshold,          Integer
   attribute :recheck_reason,               String
+  attribute :abuse_deliberate,             Boolean
 
   validates :submitted_by_id,              presence: true
   validates :nc_username,                  presence: true

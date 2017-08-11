@@ -174,6 +174,18 @@
             abuse_type:            value: 'other_abuse'
           ]
         ,
+          name:    'abuse_deliberate'
+          label:   'Deliberate?'
+          type:    'radio_buttons'
+          options: [{ name: 'No', id: 'false' }, { name: 'Yes', id: 'true' }]
+          default: 'false'
+          dependencies: [
+            request_type: value: 'check_for_fraud'
+          ,
+            request_type:          value: 'find_relations'
+            find_relations_reason: value: 'internal_investigation'
+          ]
+        ,
           name:    'service_status'
           label:   'Current Service Status'
           type:    'collection_radio_buttons'

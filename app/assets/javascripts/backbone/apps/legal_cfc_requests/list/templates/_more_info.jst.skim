@@ -54,6 +54,14 @@
         .column: .row.hash
           .key Abuse Type
           .value = @abuseType
+      
+      - unless _.isNull(@abuse_deliberate)
+        .column: .row.hash
+          .key Deliberate?
+          - if @abuse_deliberate
+            .value Yes
+          - else
+            .value No
 
     - if @abuse_type is 'other_abuse' and @other_description
       br
