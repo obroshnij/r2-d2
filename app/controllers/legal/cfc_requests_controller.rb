@@ -9,7 +9,7 @@ class Legal::CfcRequestsController < ApplicationController
   end
 
   def check_errors
-    form = Legal::CfcRequest::SubmitForm.new nil, current_ability
+    form = Legal::CfcRequest::SubmitForm.new params[:request_id], current_ability
     form.submit params, false
     render json: { errors: form.errors.messages, recheck_reason_required: form.recheck_reason_required? }
   end

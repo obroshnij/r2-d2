@@ -43,6 +43,7 @@
         method: 'GET',
         url:    '/legal/cfc_requests/check_errors'
         data:
+          request_id:     @request.get('id')
           nc_username:    $('#nc_username').val()
           request_type:   $('[name="request_type"]:checked').val()
           recheck_reason: $('#recheck_reason').val()

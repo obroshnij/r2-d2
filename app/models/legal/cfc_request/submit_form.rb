@@ -123,8 +123,7 @@ class Legal::CfcRequest::SubmitForm
 
   def related_exists?
     return @related_exists unless @related_exists.nil?
-    type = Legal::CfcRequest.request_types[request_type]
-    @related_exists = Legal::CfcRequest.where(nc_username: nc_username, request_type: type).exists?
+    @related_exists = get_related_exists
   end
 
   def recheck_reason_required?
@@ -162,6 +161,13 @@ class Legal::CfcRequest::SubmitForm
 
   def request_attrs
     attributes.except(:submitted_by_id, :log_comments)
+  end
+
+  def get_related_exists
+    type = Legal::CfcRequest.request_types[request_type]
+    query = Legal::CfcRequest.where(nc_username: nc_username, request_type: type)
+    query = query.where.not(id: model.id) if model.persisted?
+    query.exists?
   end
 
 end
