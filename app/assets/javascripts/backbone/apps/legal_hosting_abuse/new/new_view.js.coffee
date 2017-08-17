@@ -788,8 +788,8 @@
           tagName:  'textarea'
           hint:     'Immediate suspension / time shortening reason'
           dependencies:
-            # suggestion_id:    value: ['1', '2', '4', '5']
             suggestion_id: func: (currentVal, values) ->
+              return false unless currentVal
               return false if values.type_id?.toString() is '2' and values['resource[type_id]']?.toString() is '1' and values['resource[disk_abuse_type_id]']?.toString() is '3'
               ['1', '2', '4', '5'].indexOf(currentVal.toString()) + 1
 
