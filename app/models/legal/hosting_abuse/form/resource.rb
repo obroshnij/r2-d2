@@ -26,7 +26,7 @@ class Legal::HostingAbuse::Form::Resource
   attribute :db_size,                     Float
   attribute :file_type_ids,               Array[Integer]
 
-  validates :type_id,               presence: true
+  validates :type_id,               presence: true, numericality: true
   validates :type_id,               inclusion: { in: [2, 3], message: 'is not applicable for Business Expert package' }, if: :business_expert?
   validates :type_id,               inclusion: { in: [1],    message: 'is not applicable for Private Email' },           if: :private_email?
 
