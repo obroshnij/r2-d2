@@ -95,7 +95,7 @@
     - if _.contains(@spam.queue_type_ids, 1) or _.contains(@spam.queue_type_ids, 2)
       .row.hash.editable
         .key Body
-        .value = @spam.body
+        .value = _.escape(@spam.body)
       
     - if _.contains @spam.queue_type_ids, 3
       .row.hash.editable
