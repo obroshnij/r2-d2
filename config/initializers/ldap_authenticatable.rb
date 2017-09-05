@@ -10,31 +10,31 @@ module Devise
       end
 
       def authenticate!
-        # if params[:user]
-        #   entries = ldap.bind_as(
-        #     base:     Rails.application.secrets.ldap_search_base,
-        #     filter:   "(samaccountname=#{uid})",
-        #     password: password
-        #   ) if uid.present?
-        #
-        #   if entries
-        #     user = User.from_ldap_entry entries.first
-        #     success! user
-        #   else
-        #     fail! 'Invalid user ID or password'
-        #   end
-        # end
         if params[:user]
-          url = URI.parse "#{Rails.application.secrets.core_auth_url}?api_key=#{Rails.application.secrets.core_api_key}&email=#{uid}&password=#{password}"
-          response = Net::HTTP.get(url)
-          response = JSON.parse response
-          user = User.find_by email: response['namecheap_email']
-          if user
+          entries = ldap.bind_as(
+            base:     Rails.application.secrets.ldap_search_base,
+            filter:   "(samaccountname=#{uid})",
+            password: password
+          ) if uid.present?
+
+          if entries
+            user = User.from_ldap_entry entries.first
             success! user
           else
             fail! 'Invalid user ID or password'
           end
         end
+        # if params[:user]
+        #   url = URI.parse "#{Rails.application.secrets.core_auth_url}?api_key=#{Rails.application.secrets.core_api_key}&email=#{uid}&password=#{password}"
+        #   response = Net::HTTP.get(url)
+        #   response = JSON.parse response
+        #   user = User.find_by email: response['namecheap_email']
+        #   if user
+        #     success! user
+        #   else
+        #     fail! 'Invalid user ID or password'
+        #   end
+        # end
       end
 
       def ldap
