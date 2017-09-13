@@ -15,7 +15,7 @@ module Devise
             base:     Rails.application.secrets.ldap_search_base,
             filter:   "(samaccountname=#{uid})",
             password: password
-          ) if uid.present?
+          ) if uid.present? && password.present?
 
           if entries
             user = User.from_ldap_entry entries.first
