@@ -81,6 +81,15 @@
           ,
             id: 1, name: 'Processed'
           ]
+        ,
+          name:     'resource_type_id_in'
+          label:    'Resource Type'
+          tagName:  'select'
+          options:  @getResourceTypes()
+          dependencies:
+            type_id_eq: value: 2
+          callback: (fieldValues) ->
+            @trigger('unselect:current') if fieldValues.type_id_eq?.toString() isnt '2'
         ]
       ]
 
@@ -89,10 +98,11 @@
       collection.map (item) ->
         item.attributes
 
-    getServices:    -> @getOptions 'service'
-    getAbuseTypes:  -> @getOptions 'type'
-    getReportedBy:  -> App.entities.legal.hosting_abuse.reported_by
-    getProcessedBy: -> App.entities.legal.hosting_abuse.processed_by
+    getServices:      -> @getOptions 'service'
+    getAbuseTypes:    -> @getOptions 'type'
+    getReportedBy:    -> App.entities.legal.hosting_abuse.reported_by
+    getProcessedBy:   -> App.entities.legal.hosting_abuse.processed_by
+    getResourceTypes: -> App.entities.legal.hosting_abuse.resource.type
 
 
   class List.ReportHeader extends App.Views.ItemView

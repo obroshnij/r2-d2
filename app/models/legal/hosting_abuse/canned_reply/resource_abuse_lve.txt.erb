@@ -6,7 +6,7 @@ WARNING: Resource Abuse on Account '<%= reseller_username %>' - <%= @abuse.serve
 
 Hello,
 
-It has come to our attention that the '<%= reseller_username %>' hosting account is overusing limits of shared resources, affecting the server performance and other accounts hosted thereon. We would like to mention that all the limits set for shared hosting accounts are burstable in order to let every account handle load spikes, however those spikes must not be persistent not to cause impact on all accounts of the shared server. In order to obtain additional information about the limits please refer to Paragraph 10. "Additional Acceptable Use Policy for Virtual accounts" of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
+It has come to our attention that the '<%= reseller_username %>' hosting account is overusing limits of shared resources, affecting the server performance and other accounts hosted thereon. We would like to mention that all the limits set for shared hosting accounts are burstable in order to let every account handle load spikes, however, those spikes must not be persistent not to cause the impact on all accounts of the shared server. In order to obtain additional information about the limits please refer to Paragraph 10. "Additional Acceptable Use Policy for Virtual accounts" of our AUP at http://www.namecheap.com/legal/hosting/aup.aspx
 
 <% if @abuse.resource.abuse_type_ids == [5] -%>
 The server is abused by MySQL queries.
@@ -27,7 +27,7 @@ According to the investigation performed by the representatives of our technical
 Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous visitors / etc. are probable causes of the resource overuse. Here are the diagnostic steps generally suggested for finding the corresponding solution:
 
 <% if resource_sites.length == 0 -%>
-- enable caching plugins (Note: Such plugins in conjunction with other website elements might malfunction. That is why in case one of the plugins is already in use it is required to disable the plugin temporary and monitor the account’s activity.)
+- enable caching plugins (Note: Such plugins in conjunction with other website elements might malfunction. That is why in case one of the plugins is already in use it is required to disable the plugin temporarily and monitor the account’s activity.)
 <% if @abuse.resource.abuse_type_ids.include?(5) -%>
 - revise all active plugins disabling unnecessary ones (in some cases even changing the current theme might be of use)
 - make sure that all websites are well optimized and working as expected (if you are not a developer or professional in website administration, we strongly recommend reaching out to webmaster services)
@@ -51,12 +51,12 @@ Unoptimized scripts / incorrectly configured cron jobs / a lot of simultaneous v
 
 The following Namecheap KnowledgeBase category contains articles about resource limits, LVE (Lightweight Virtual Environment) statistics and measures applicable for resource overuse issues https://www.namecheap.com/support/knowledgebase/subcategory.aspx/103/lve-cloudlinux
 
-Additionally, you might consider upgrading your current hosting plan to <%= @abuse.resource.upgrade.name %>. This can be performed by ordering the corresponding package from us. As all upgrades are prorated, any balance from your existing plan will be carried over to your Namecheap funds that may be used to settle the next generated invoice or pay for any other services with us.
+Additionally, you might consider upgrading your current hosting plan to <%= @abuse.resource.upgrade.name %>. If you decide to proceed with this route, please let us know. Once your confirmation is received, this ticket will be forwarded to our Billing Department for further assistance.
 
 <% if suspended? -%>
 Unfortunately, we have been forced to suspend the reported account in order to prevent the resource abuse and its impact on other accounts located on the server. In order to have the account unsuspended it is required to confirm that all measures necessary for the issue resolving will be taken immediately after the unsuspension.
 <% else -%>
-It is required to look into the issue decreasing the resource usage and providing us with the corresponding results within the next <%= @abuse.suggestion.name.match(/\d+/).to_s %> hours. Otherwise, if the resource overuse persists after the time-frame provided and/or no response is received from your side we might be forced to suspend the account in question. We would like to emphasize that in case the impact on the server increases within the specified time-frame there might no other option but to suspend the account immediately, to our regret.
+It is required to look into the issue decreasing the resource usage and providing us with the corresponding results within the next <%= @abuse.suggestion.name.match(/\d+/).to_s %> hours. Otherwise, if the resource overuse persists after the time-frame provided and/or no response is received from your side we might be forced to suspend the account in question. We would like to emphasize that in case the impact on the server increases within the specified time-frame there might be no other option but to suspend the account immediately, to our regret.
 <% end -%>
 
 Looking forward to your reply.

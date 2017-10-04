@@ -69,9 +69,10 @@
       ui
 
     modelEvents:
-      'change:isShown'  : 'toggle'
-      'enable:options'  : 'enableOptions'
-      'disable:options' : 'disableOptions'
+      'change:isShown'   : 'toggle'
+      'enable:options'   : 'enableOptions'
+      'disable:options'  : 'disableOptions'
+      'unselect:current' : 'unselectCurrent'
 
     enableOptions: (ids) ->
       @ui[id].attr('disabled', false) for id in _.flatten([ids])
@@ -85,6 +86,9 @@
         if @$("option:selected").prop('disabled')
           @ui.input.val('')
           @updateModelValue()
+
+    unselectCurrent: ->
+      $(this.ui.input).val('')
 
 
   class FormFields.Select2View extends FormFields.SelectView

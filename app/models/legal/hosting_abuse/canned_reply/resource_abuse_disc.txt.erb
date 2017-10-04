@@ -6,7 +6,7 @@ WARNING: Disk Space Abuse on Account '<%= reseller_username %>' - <%= @abuse.ser
 
 Hello,
 
-This is to inform you that the '<%= reseller_username %>' account has reached the disk space limits specified in Paragraph 10.2. Disk Usage Provision of our Acceptable Use Policy at https://www.namecheap.com/legal/hosting/aup.aspx :
+This is to inform you that, according to the results of the recently performed audit, the '<%= reseller_username %>' account has reached the disk space limits specified in Paragraph 10.2. Disk Usage Provision of our Acceptable Use Policy at https://www.namecheap.com/legal/hosting/aup.aspx :
 <% if @abuse.resource.file_type_ids.include?(1) -%>
 
 The content on your website must be linked from an HTML or similarly coded web page with all content is freely available to the public. Your website must consist of web pages of a standard design, essentially HTML based text and graphics. Your hosting account should consist mostly of html and php files.

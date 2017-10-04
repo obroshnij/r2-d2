@@ -3,14 +3,14 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-  
+
   abuseReportForm()
 
 @updateAbuseReportFields = (sel) ->
   $.get "/update_abuse_report_form", { abuse_report_type_id: $(sel).val() }
-  
+
 @abuseReportForm = ->
-  
+
   $('form').on 'form:validate', ->
     toggleReferenceFields $('.responded-previously-buttons').find('input[type="radio"]:checked')[0]
     toggleFreeDNSFields $('.free-dns-buttons').find('input[type="radio"]:checked')[0]
@@ -18,13 +18,13 @@ $(document).ready ->
 
   $('.responded-previously-buttons').find('input[type="radio"]').change ->
     toggleReferenceFields @
-  
+
   $('.free-dns-buttons').find('input[type="radio"]').change ->
     toggleFreeDNSFields @
-  
+
   $('.cfc-related-inputs').find('input[type="radio"]').change ->
     validateCfcCommentField @
-  
+
   $('form').on 'click', '.add-virtus-fields', (event) ->
     time = (new Date).getTime()
     regexp = new RegExp($(this).data('id'), 'g')
@@ -37,14 +37,14 @@ $(document).ready ->
     $(this).closest('.virtus-fields').hide().find('[type="hidden"].destroy').val('true')
     event.preventDefault()
 
-  $('form').submit (event) ->
-    checked = true
-    $('.relation-type-check-boxes:visible').each (index, element) ->
-      checked = false if $(element).find('input[type=\'checkbox\']:checked')[0] == undefined
-      
-    if checked == false
-      event.preventDefault()
-      toastr.error 'Please make sure at least one relation type is selected'
+  # $('form').submit (event) ->
+  #   checked = true
+  #   $('.relation-type-check-boxes:visible').each (index, element) ->
+  #     checked = false if $(element).find('input[type=\'checkbox\']:checked')[0] == undefined
+  #
+  #   if checked == false
+  #     event.preventDefault()
+  #     toastr.error 'Please make sure at least one relation type is selected'
 
 @toggleReferenceFields = (radio) ->
   if $(radio).val() == 'false'
