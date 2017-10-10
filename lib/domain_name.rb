@@ -59,7 +59,7 @@ class DomainName
   private
 
   def self.extract_valid_host_names(text, remove_subdomains)
-    text.downcase.scan(DOMAIN_REGEX).map do |host|
+    format_input(text).scan(DOMAIN_REGEX).map do |host|
       begin
         name = PublicSuffix.parse SimpleIDN.to_unicode(host)
         remove_subdomains == true ? name.domain : name.subdomain || name.domain
@@ -67,6 +67,12 @@ class DomainName
         next
       end
     end
+  end
+
+  def self.format_input text
+    text.
+      downcase.
+      gsub("‐", "-") # these are different characters
   end
 
 end
