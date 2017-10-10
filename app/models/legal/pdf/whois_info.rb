@@ -18,6 +18,7 @@ class Legal::Pdf::WhoisInfo < Legal::Pdf::Admin
   end
 
   def render_whois_section whois, type
+    return unless whois[type]
     text "\n#{type} Contact", size: 7, leading: 5, style: :bold
     table get_data(whois[type]), {
       width:      bounds.width,
