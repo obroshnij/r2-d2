@@ -25,7 +25,7 @@ namespace :dns do
   def get_nameservers klass
     resolver = DNS::Resolver.new
 
-    nameservers = resolver.dig(klass.base_host, record: :ns)
+    nameservers = resolver.dig(klass.base_host, record: :ns).delete_if { |ns| ns == "No Response" }
     nameservers = klass.backup_nameservers if nameservers.blank?
 
     ips = nameservers.map { |ns| resolver.dig(ns, record: :a) }.flatten

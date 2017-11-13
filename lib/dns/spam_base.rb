@@ -13,31 +13,31 @@ module DNS
       "example.com"
     end
 
-    # def self.check_multiple domains
-    #   threads = [DNS::DBL.new, DNS::SURBL.new].map do |checker|
-    #     Thread.new(checker, domains) do |checker, domains|
-    #       domains.each { |domain| domain.extra_attr[checker.type] = checker.listed? domain.name }
-    #     end
-    #   end.each(&:join)
-    # end
-
     def self.check_multiple domains
-      hosts = [DNS::DBL, DNS::SURBL].map do |klass|
-        domains.map { |domain| "#{domain.name}.#{klass.base_host}" }
-      end.flatten
-
-      uri = URI('https://dig-host.now.sh')
-      req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-      req.body = JSON.generate({ hosts: hosts })
-      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-      data = JSON.parse res.body
-
-      [DNS::DBL, DNS::SURBL].each do |klass|
-        domains.each do |domain|
-          domain.extra_attr[klass.type] = data["#{domain.name}.#{klass.base_host}"].present?
+      threads = [DNS::DBL.new, DNS::SURBL.new].map do |checker|
+        Thread.new(checker, domains) do |checker, domains|
+          domains.each { |domain| domain.extra_attr[checker.type] = checker.listed? domain.name }
         end
-      end
+      end.each(&:join)
     end
+
+    # def self.check_multiple domains
+    #   hosts = [DNS::DBL, DNS::SURBL].map do |klass|
+    #     domains.map { |domain| "#{domain.name}.#{klass.base_host}" }
+    #   end.flatten
+    #
+    #   uri = URI('https://dig-host.now.sh')
+    #   req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    #   req.body = JSON.generate({ hosts: hosts })
+    #   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    #   data = JSON.parse res.body
+    #
+    #   [DNS::DBL, DNS::SURBL].each do |klass|
+    #     domains.each do |domain|
+    #       domain.extra_attr[klass.type] = data["#{domain.name}.#{klass.base_host}"].present?
+    #     end
+    #   end
+    # end
 
     def initialize
       initialize_resolvers
@@ -64,7 +64,7 @@ module DNS
       raise "Unable to initialize a #{type.to_s.upcase} checker" if nameservers.blank?
       @resolvers = nameservers.map do |ns|
         {
-          namserver: ns,
+          nameserver: ns,
           resolver:  DNS::Resolver.new(type: :custom, nameservers: ns)
         }
       end
