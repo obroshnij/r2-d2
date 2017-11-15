@@ -45,7 +45,7 @@ class Domains::Compensation::Form
   end
 
   def service_compensated_required?
-    ![5, 6, 8].include?(product_compensated_id)
+    ![5, 6, 8, 12].include?(product_compensated_id)
   end
 
   def compensation_amount_required?
