@@ -2,16 +2,16 @@ class Legal::Pdf
 
   LOGO = "#{Rails.root}/app/assets/images/namecheap.png"
 
-  def initialize
+  def initialize options = {}
     @pdf = Prawn::Document.new margin: [45, 35, 35]
     @pdf.font_families.update('SourceSansPro' => {
       normal: "#{Rails.root}/vendor/assets/fonts/SourceSansPro-Regular.ttf",
       bold:   "#{Rails.root}/vendor/assets/fonts/SourceSansPro-Bold.ttf"
     })
     @pdf.font 'SourceSansPro'
-    @pdf.font_size 5
+    @pdf.font_size(options[:font_size] || 5)
     @pdf.fill_color '0a0a0a'
-    add_logo
+    add_logo unless options[:logo] == false
   end
 
   def add_report_page page

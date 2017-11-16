@@ -75,6 +75,9 @@ Rails.application.routes.draw do
 
     resources :dbl_surbl_checks, only: [:create]
     resources :link_disablers, only: [:create]
+    resources :pdfiers, only: [] do
+      post :dmca, on: :collection
+    end
   end
 
   namespace :domains do
