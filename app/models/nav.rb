@@ -40,6 +40,11 @@ class Nav
           name:   'Email Masker',
           url:    '#/tools/email_masker',
           icon:   'fa fa-fw fa-envelope'
+        },
+        {
+          name:   'Canned Replies',
+          url:    '#/tools/canned_replies',
+          icon:   'fa fa-fw fa-reply'
         }
       ]
     }, {

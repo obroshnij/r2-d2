@@ -1,0 +1,5 @@
+.clearfix
+  h4.float-left Canned Replies
+  a.button.small.float-right
+    icon.fi-plus
+    |  Import
