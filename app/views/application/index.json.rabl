@@ -24,7 +24,7 @@ node :entities do
           disk_abuse_type: Legal::HostingAbuse::Resource::DiskAbuseType.all.as_json(only: [:id, :name]),
           impact:          Legal::HostingAbuse::Resource::Impact.all.as_json(only: [:id, :name]),
           type:            Legal::HostingAbuse::Resource::ResourceType.all.as_json(only: [:id, :name]),
-          upgrade:         Legal::HostingAbuse::Resource::Upgrade.all.as_json(only: [:id, :name]),
+          upgrade:         Legal::HostingAbuse::Resource::Upgrade.where(hidden: false).as_json(only: [:id, :name]),
           activity_type:   Legal::HostingAbuse::Resource::ActivityType.all.as_json(only: [:id, :name]),
           measure:         Legal::HostingAbuse::Resource::Measure.all.as_json(only: [:id, :name]),
           file_type:       Legal::HostingAbuse::Resource::FileType.all.as_json(only: [:id, :name])
