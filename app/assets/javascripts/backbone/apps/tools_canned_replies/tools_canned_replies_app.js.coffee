@@ -12,11 +12,6 @@
       new ToolsCannedRepliesApp.List.Controller
         region: region
 
-    newImport: () ->
-      new ToolsCannedRepliesApp.Import.Controller
-        region:  App.modalRegion
-
-
   App.vent.on 'tools:nav:selected', (nav, options, region) ->
     return if nav isnt 'Canned Replies'
 
@@ -27,10 +22,9 @@
       App.navigate '/tools/canned_replies'
       API.list region
 
-  App.vent.on 'import:tools:canned_replies:clicked', () ->
-    API.newImport()
-
-
   ToolsCannedRepliesApp.on 'start', ->
     new ToolsCannedRepliesApp.Router
       controller: API
+
+
+#

@@ -1,0 +1,8 @@
+div class="row leaf content" data-id="#{{@id}}" data-type="#{{@type}}"
+  .large-1.columns
+    icon.fi-folder
+  .large-11.columns
+    .row.hash
+      .value = @name
+.row.expand.children
+  ul.children.no-bullet.replies-list

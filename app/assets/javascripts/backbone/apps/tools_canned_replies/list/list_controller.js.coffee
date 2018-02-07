@@ -3,32 +3,27 @@
   class List.Controller extends App.Controllers.Application
 
     initialize: (options) ->
+      navs = App.request 'tools:canned_replies:nav:entities'
+
       @layout = @getLayoutView()
 
       @listenTo @layout, 'show', =>
-        @fileInput()
-        @repliesList()
+        @navRegion navs
+
+      @listenTo navs, 'select:one', (model, collection, options) ->
+        App.vent.trigger 'tools:canned_replies:nav:selected', model.get('name'), @layout.contentRegion
 
       @show @layout
 
-    fileInput: () ->
-      view = @getFileInputView()
+      _.defer => navs.first().select()
 
-      @listenTo view, 'import:tools:canned_replies:clicked', (args) ->
-        App.vent.trigger 'import:tools:canned_replies:clicked'
+    navRegion: (navs) ->
+      view = @getNavView navs
+      @show view, region: @layout.navRegion
 
-      @show view, region: @layout.fileInput
-
-    repliesList: () ->
-      view = @getRepliesListView()
-
-      @show view, region: @layout.repliesList
-
-    getFileInputView: ->
-      new List.FileInput
-
-    getRepliesListView: ->
-      new List.RepliesList
+    getNavView: (navs) ->
+      new List.Navigation
+        collection: navs
 
     getLayoutView: ->
       new List.Layout

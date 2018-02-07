@@ -46,6 +46,10 @@ Rails.application.routes.draw do
     resources :email_verifiers, only: [:create]
     resources :email_maskers,   only: [:create]
     resources :internal_domains
+    namespace :canned_replies do
+      resources :categories
+      resources :replies
+    end
   end
 
   namespace :legal do

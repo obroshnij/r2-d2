@@ -64,6 +64,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    ancestry (3.0.1)
+      activerecord (>= 3.2.0)
     arel (6.0.0)
     autoparse (0.3.3)
       addressable (>= 2.3.1)
@@ -430,6 +432,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  ancestry
   awesome_print
   axlsx (= 2.1.0.pre)
   axlsx_rails
@@ -498,3 +501,6 @@ DEPENDENCIES
   whenever
   will_paginate-foundation
   wkhtmltopdf-binary
+
+BUNDLED WITH
+   1.16.1

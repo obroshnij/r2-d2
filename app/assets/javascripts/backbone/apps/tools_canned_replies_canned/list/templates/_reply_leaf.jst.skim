@@ -1,0 +1,7 @@
+.row.leaf.content.reply-leaf data-id="#{{@id}}" data-type="#{{@type}}"
+  .large-1.columns
+    icon.fi-page
+  .large-11.columns
+    .row.hash
+      .value = @name
+.expand.reply-content=@content

@@ -4,14 +4,20 @@
     template: 'tools_canned_replies/list/layout'
 
     regions:
-      fileInput:    '#replies-file-input'
-      repliesList:  '#replies-list'
+      navRegion:      '#replies-nav-region'
+      contentRegion:  '#replies-content'
 
-  class List.FileInput extends App.Views.ItemView
-    template: 'tools_canned_replies/list/_file'
+  class List.Nav extends App.Views.ItemView
+    template: 'tools_canned_replies/list/_nav'
 
-    triggers:
-      'click a' : 'import:tools:canned_replies:clicked'
+    tagName: 'li'
 
-  class List.RepliesList extends App.Views.ItemView
-    template: 'tools_canned_replies/list/_list'
+    events:
+      'click a' : 'select'
+
+    @include 'Selectable'
+
+  class List.Navigation extends App.Views.CompositeView
+    template: 'tools_canned_replies/list/_navigation'
+    childView:          List.Nav
+    childViewContainer: 'ul'

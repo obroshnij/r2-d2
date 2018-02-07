@@ -1,0 +1,52 @@
+.replies-categories-roots {
+
+}
+
+.row.replies.expand.expanded {
+  display: block;
+}
+
+.row.replies.expand {
+  display: none;
+}
+
+#canned-replies-content-region {
+  .expand {
+    display: block;
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    transition: opacity 1s linear;
+  }
+
+  .expanded {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-right: 0px;
+    margin-left: 0px;
+    opacity: 1;
+  }
+
+  .replies-list               { overflow: hidden;
+
+    li                                      { border-top: 1px solid $medium-gray; padding-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
+      .hash                                 {
+        .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
+          span                              { cursor: text; }
+        }
+        .value                              { display: inline-block; word-wrap: break-word;
+          span                              { cursor: text; }
+        }
+      }
+    }
+
+    li.expanded                             { padding-top: 0;}
+
+    li .content:hover                       { background-color: #def0fc; cursor: pointer; }
+
+    li:last-child                           { border-bottom: 1px solid $medium-gray; }
+
+    .row.expand.children.expanded ul li:last-child { border-bottom: none; }
+  }
+}
