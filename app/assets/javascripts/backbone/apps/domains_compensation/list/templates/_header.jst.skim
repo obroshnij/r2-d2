@@ -5,7 +5,7 @@
   .row.hash
     .key: span Service Compensated
     .value: span = @productAndService
-        
+
 .large-3.columns
   .row.hash
     .key: span Submitted by
@@ -13,7 +13,7 @@
   .row.hash
     .key: span Submitted at
     .value: span = @created_at_formatted
-    
+
 .large-3.columns
   .row.hash
     .key: span Status
@@ -21,7 +21,7 @@
   .row.hash
     .key: span Reference
     .value: span = @reference
-    
+
 .large-2.columns
   .row
     .large-12.columns
@@ -34,7 +34,7 @@
           a.button.edit-compensation
             icon.fi-pencil
             |  Edit
-  
+
   .row
     .large-12.columns.text-right
       - if @editLog.length

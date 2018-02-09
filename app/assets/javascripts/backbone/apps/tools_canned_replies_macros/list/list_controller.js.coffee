@@ -1,4 +1,4 @@
-@Artoo.module 'ToolsCannedRepliesCannedApp.List', (List, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'ToolsCannedRepliesMacrosApp.List', (List, App, Backbone, Marionette, $, _) ->
 
   class List.Controller extends App.Controllers.Application
 
@@ -44,7 +44,7 @@
       @show childTree, region: view.childrenRegion
 
     getTreeData: ->
-      return App.request 'tools:canned_replies:canned:entities'
+      return App.request 'tools:canned_replies:macros:entities'
 
     getTreeView: (treeData)->
       new List.Tree
@@ -56,6 +56,3 @@
 
     getLayoutView: ->
       new List.Layout
-
-
-        # App.vent.trigger 'tools:canned_replies:expand:category', child, args.model

@@ -1,15 +1,14 @@
-@Artoo.module 'ToolsCannedRepliesCannedApp.List', (List, App, Backbone, Marionette, $, _) ->
+@Artoo.module 'ToolsCannedRepliesMacrosApp.List', (List, App, Backbone, Marionette, $, _) ->
 
   class List.Layout extends App.Views.LayoutView
-    template: 'tools_canned_replies_canned/list/layout'
+    template: 'tools_canned_replies_macros/list/layout'
 
     regions:
       contentRegion:  '#canned-replies-content-region'
       searchRegion:   '#canned-replies-search-region'
 
-
   class List.ReplyLeaf extends App.Views.CompositeView
-    template: 'tools_canned_replies_canned/list/_reply_leaf'
+    template: 'tools_canned_replies_macros/list/_reply_leaf'
     tagName: 'li'
 
     modelEvents:
@@ -37,7 +36,7 @@
 
 
   class List.TreeLeaf extends App.Views.CompositeView
-    template: 'tools_canned_replies_canned/list/_category_leaf'
+    template: 'tools_canned_replies_macros/list/_category_leaf'
     tagName: 'li'
 
     childView: (args)->
@@ -65,7 +64,7 @@
       $(@el).children().last().toggleClass('expanded')
 
   class List.TreeRoots extends App.Views.CollectionView
-    template: 'tools_canned_replies_canned/list/_roots'
+    template: 'tools_canned_replies_macros/list/_roots'
 
     tagName: 'ul'
     className: 'no-bullet replies-list'

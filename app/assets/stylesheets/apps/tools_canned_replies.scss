@@ -28,9 +28,23 @@
     opacity: 1;
   }
 
+  .row.leaf, .reply-category-children, .category-leaf {
+    padding-top:    1rem;
+    padding-bottom: 1rem;
+    margin-left: 0px;
+  }
+
+  .toggle                               { color: $primary-color; cursor: pointer; }
+  .toggle::before                       { content: 'Expand '; }
+  .toggle.expanded-toggle::before       { content: 'Collapse '; }
+
   .replies-list               { overflow: hidden;
 
-    li                                      { border-top: 1px solid $medium-gray; padding-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
+    .entity-type-icon {
+      margin-right: 1rem;
+    }
+
+    li                                      { border-top: 1px solid $medium-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
       .hash                                 {
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }
@@ -43,9 +57,12 @@
 
     li.expanded                             { padding-top: 0;}
 
-    li .content:hover                       { background-color: #def0fc; cursor: pointer; }
+    li .content:hover                       { background-color: #def0fc; cursor: pointer;}
 
-    li:last-child                           { border-bottom: 1px solid $medium-gray; }
+    .hoverable-reply:hover { background-color: #def0fc; cursor: pointer;}
+
+    li:last-child                           { border-bottom: 1px solid $medium-gray; padding-bottom: 0px;}
+    li:first-child                           { padding-bottom: 0px;}
 
     .row.expand.children.expanded ul li:last-child { border-bottom: none; }
   }

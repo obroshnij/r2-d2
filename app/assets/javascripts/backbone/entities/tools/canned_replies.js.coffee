@@ -28,10 +28,10 @@
 
   class Entities.CannedRepliesLeafsCollection extends App.Entities.Collection
     model: (args)->
-      if args.type == 'category'
-        return new Entities.CannedReplyCategory(args)
       if args.type == 'reply'
         return new Entities.CannedReplyReply(args)
+      else
+        return new Entities.CannedReplyCategory(args)
 
     urlRoot: -> Routes.tools_canned_replies_category_path()
 
@@ -41,7 +41,7 @@
   class Entities.CannedRepliesCategoriesCollection extends App.Entities.Collection
     model: Entities.CannedReplyCategory
 
-    url: -> Routes.tools_canned_replies_categories_path()
+    url: -> Routes.tools_canned_replies_canned_categories_path()
 
     parseRecords: (resp) ->
       roots = @_findRoots(resp.items)
@@ -65,10 +65,18 @@
       node.nodes.where({ type: 'category' }).map (n) => return @_findLeafs(items, n, index+1)
       return node
 
+  class Entities.CannedRepliesMacrosCollection extends Entities.CannedRepliesCategoriesCollection
+    url: -> Routes.tools_canned_replies_macros_categories_path()
+
   API =
 
-    getCollection: ->
+    getCannedCollection: ->
       categories = new Entities.CannedRepliesCategoriesCollection
+      categories.fetch()
+      categories
+
+    getMacrosCollection: ->
+      categories = new Entities.CannedRepliesMacrosCollection
       categories.fetch()
       categories
 
@@ -77,4 +85,7 @@
   #   new Entities.CannedReplyCategory
   #
   App.reqres.setHandler 'tools:canned_replies:canned:entities', ->
-    API.getCollection()
+    API.getCannedCollection()
+
+  App.reqres.setHandler 'tools:canned_replies:macros:entities', ->
+    API.getMacrosCollection()

@@ -6,6 +6,7 @@ class AddCannedRelies < ActiveRecord::Migration
       t.boolean :private,     null: false, default: false
       t.integer :user_id
       t.timestamps
+      t.string  :type,        null: false
     end
 
     add_index :tools_canned_replies_categories, ["ancestry"], name: "index_reply_categories_on_ancestry", using: :btree

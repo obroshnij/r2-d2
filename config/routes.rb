@@ -47,7 +47,8 @@ Rails.application.routes.draw do
     resources :email_maskers,   only: [:create]
     resources :internal_domains
     namespace :canned_replies do
-      resources :categories
+      resources :canned_categories
+      resources :macros_categories
       resources :replies
     end
   end

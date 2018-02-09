@@ -3,7 +3,7 @@ class Tools::CannedReplies::CategorySerializer < ApplicationSerializer
   attributes :id, :name, :type, :category_id
 
   def type
-    object.class.name.demodulize.downcase
+    object.class.base_class.name.demodulize.downcase
   end
 
   def category_id
