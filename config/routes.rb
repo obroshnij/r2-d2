@@ -49,7 +49,8 @@ Rails.application.routes.draw do
     namespace :canned_replies do
       resources :canned_categories
       resources :macros_categories
-      resources :replies
+      resources :canned_replies
+      resources :macros_replies
     end
   end
 

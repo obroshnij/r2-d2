@@ -34,11 +34,19 @@
     margin-left: 0px;
   }
 
+  .row.category-leaf {
+    color: $dark-gray;
+  }
+
   .toggle                               { color: $primary-color; cursor: pointer; }
   .toggle::before                       { content: 'Expand '; }
   .toggle.expanded-toggle::before       { content: 'Collapse '; }
 
   .replies-list               { overflow: hidden;
+
+    li.item-holder:hover {
+      background-color: #def0fc;
+    }
 
     .entity-type-icon {
       margin-right: 1rem;

@@ -31,6 +31,12 @@ every 1.day, at: '2:00 am' do
   rake "dns:update_blacklist_dns"
 end
 
+every 1.day, at: '00:00 am' do
+  rake "canned_replies:fetch"
+end
+
+
+
 # every 1.hour do
 #   rake "dns:verify_dig_microservice"
 # end

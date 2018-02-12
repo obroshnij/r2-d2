@@ -1,10 +1,8 @@
 .row.leaf.content.category-leaf data-id="#{{@id}}" data-type="#{{@type}}"
-  .large-10.columns
+  .large-12.columns
     .row.hash
-      icon.fi-folder.entity-type-icon
+      icon.expander.fa.fa-angle-right.size-3x style="padding-right:0.5rem"
+      icon.fa.fa-folder.fa-lg.entity-type-icon
       .key = @name
-  .large-2.columns
-    a.toggle
-      icon.fa.fa-angle-double-down
 .row.expand.children
   ul.children.no-bullet.replies-list

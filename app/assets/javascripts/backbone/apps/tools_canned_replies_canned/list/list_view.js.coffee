@@ -11,13 +11,14 @@
   class List.ReplyLeaf extends App.Views.CompositeView
     template: 'tools_canned_replies_canned/list/_reply_leaf'
     tagName: 'li'
+    className: 'item-holder'
 
     modelEvents:
       "change": "render"
 
     events: ->
       {
-        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='reply']" : 'showContent'
+        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='canned_reply']" : 'showContent'
       }
 
     showContent: (evt) ->
@@ -41,7 +42,7 @@
     tagName: 'li'
 
     childView: (args)->
-      if args.model.get('type') == 'category'
+      if args.model.get('type') == 'canned_category'
         return new List.TreeLeaf(args)
       else
         return new List.ReplyLeaf(args)
@@ -50,7 +51,7 @@
 
     events: ->
       {
-        "click .leaf[data-id=#{this.model.get('id')}][data-type='category']"      : 'expand'
+        "click .leaf[data-id=#{this.model.get('id')}][data-type='canned_category']"      : 'expand'
       }
 
     childViewOptions: (model, index) ->
@@ -61,7 +62,8 @@
 
     expand: (evt)->
       $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-      $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
+      $(@el).find('icon.expander').first().toggleClass('fa-angle-right');
+      $(@el).find('icon.expander').first().toggleClass('fa-angle-down');
       $(@el).children().last().toggleClass('expanded')
 
   class List.TreeRoots extends App.Views.CollectionView
@@ -72,6 +74,9 @@
 
     childView: List.TreeLeaf
     childViewContainer: 'div'
+
+    collectionEvents:
+      "change": "render"
 
     childViewOptions: (model, index) ->
       return {
@@ -95,7 +100,7 @@
         isCompact: true
 
         fields: [
-          name:     'content'
+          name:     'content_cont'
           label:    'Text'
         ]
       ]

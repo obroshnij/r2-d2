@@ -9,4 +9,5 @@
 .row
   .large-12.columns
     .row.hash
-      .expand.reply-content=@content
+      .expand.reply-content style="white-space: pre-wrap;"
+        div=@content

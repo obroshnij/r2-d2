@@ -16,7 +16,7 @@
 
     events: ->
       {
-        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='reply']" : 'showContent'
+        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='macros_reply']" : 'showContent'
       }
 
     showContent: (evt) ->
@@ -40,7 +40,7 @@
     tagName: 'li'
 
     childView: (args)->
-      if args.model.get('type') == 'category'
+      if args.model.get('type') == 'macros_category'
         return new List.TreeLeaf(args)
       else
         return new List.ReplyLeaf(args)
@@ -49,7 +49,7 @@
 
     events: ->
       {
-        "click .leaf[data-id=#{this.model.get('id')}][data-type='category']"      : 'expand'
+        "click .leaf[data-id=#{this.model.get('id')}][data-type='macros_category']"      : 'expand'
       }
 
     childViewOptions: (model, index) ->
@@ -68,6 +68,9 @@
 
     tagName: 'ul'
     className: 'no-bullet replies-list'
+
+    collectionEvents:
+      "change": "render"
 
     childView: List.TreeLeaf
     childViewContainer: 'div'
@@ -94,7 +97,7 @@
         isCompact: true
 
         fields: [
-          name:     'content'
+          name:     'content_cont'
           label:    'Text'
         ]
       ]

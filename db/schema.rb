@@ -771,19 +771,18 @@ ActiveRecord::Schema.define(version: 20180202082426) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tools_canned_replies_categories", force: :cascade do |t|
+  create_table "tools_canned_replies_canned_categories", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "ancestry"
     t.boolean  "private",    default: false, null: false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                       null: false
   end
 
-  add_index "tools_canned_replies_categories", ["ancestry"], name: "index_reply_categories_on_ancestry", using: :btree
+  add_index "tools_canned_replies_canned_categories", ["ancestry"], name: "index_canned_categories_on_ancestry", using: :btree
 
-  create_table "tools_canned_replies_replies", force: :cascade do |t|
+  create_table "tools_canned_replies_canned_replies", force: :cascade do |t|
     t.string   "name",                        null: false
     t.text     "content",                     null: false
     t.integer  "category_id",                 null: false
@@ -792,6 +791,33 @@ ActiveRecord::Schema.define(version: 20180202082426) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tools_canned_replies_canned_replies", ["category_id"], name: "index_tools_canned_replies_canned_replies_on_category_id", using: :btree
+  add_index "tools_canned_replies_canned_replies", ["user_id"], name: "index_tools_canned_replies_canned_replies_on_user_id", using: :btree
+
+  create_table "tools_canned_replies_macros_categories", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.string   "ancestry"
+    t.boolean  "private",    default: false, null: false
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tools_canned_replies_macros_categories", ["ancestry"], name: "index_macros_categories_on_ancestry", using: :btree
+
+  create_table "tools_canned_replies_macros_replies", force: :cascade do |t|
+    t.string   "name",                        null: false
+    t.text     "content",                     null: false
+    t.integer  "category_id",                 null: false
+    t.boolean  "private",     default: false, null: false
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tools_canned_replies_macros_replies", ["category_id"], name: "index_tools_canned_replies_macros_replies_on_category_id", using: :btree
+  add_index "tools_canned_replies_macros_replies", ["user_id"], name: "index_tools_canned_replies_macros_replies_on_user_id", using: :btree
 
   create_table "tools_internal_domains", force: :cascade do |t|
     t.string   "name"
