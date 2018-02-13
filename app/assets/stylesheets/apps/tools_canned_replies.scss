@@ -70,7 +70,7 @@
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }
         }
-        .label                              { color: $dark-gray; background-color: initial;}
+        .label                              { color: $dark-gray; background-color: initial; font-weight: bold;}
         .value                              { display: inline-block; word-wrap: break-word;
           span                              { cursor: text; }
         }
