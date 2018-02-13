@@ -5,6 +5,7 @@ class AddCannedRelies < ActiveRecord::Migration
       t.string  :ancestry
       t.boolean :private,     null: false, default: false
       t.integer :user_id
+      t.integer :origin_id,   null: false
       t.timestamps
     end
 
@@ -13,8 +14,12 @@ class AddCannedRelies < ActiveRecord::Migration
       t.string  :ancestry
       t.boolean :private,     null: false, default: false
       t.integer :user_id
+      t.integer :origin_id,   null: false
       t.timestamps
     end
+
+    add_index :tools_canned_replies_canned_categories, ["origin_id"]
+    add_index :tools_canned_replies_macros_categories, ["origin_id"]
 
     add_index :tools_canned_replies_canned_categories, ["ancestry"], name: "index_canned_categories_on_ancestry", using: :btree
     add_index :tools_canned_replies_macros_categories, ["ancestry"], name: "index_macros_categories_on_ancestry", using: :btree
@@ -25,6 +30,7 @@ class AddCannedRelies < ActiveRecord::Migration
       t.integer :category_id,   null: false
       t.boolean :private,       null: false, default: false
       t.integer :user_id
+      t.integer :origin_id,   null: false
       t.timestamps
     end
 
@@ -34,8 +40,12 @@ class AddCannedRelies < ActiveRecord::Migration
       t.integer :category_id,   null: false
       t.boolean :private,       null: false, default: false
       t.integer :user_id
+      t.integer :origin_id,   null: false
       t.timestamps
     end
+
+    add_index :tools_canned_replies_canned_replies, ["origin_id"]
+    add_index :tools_canned_replies_macros_replies, ["origin_id"]
 
     add_index :tools_canned_replies_canned_replies, ["category_id"]
     add_index :tools_canned_replies_macros_replies, ["category_id"]

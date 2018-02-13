@@ -24,7 +24,6 @@
     ui: ->
       {
         copy:     ".copy-button",
-        content:  ".content-row"
       }
 
     copyContent: (evt) ->
@@ -76,6 +75,7 @@
       }
 
     expand: (evt)->
+      # @model.set({expanded: !@model.get('expanded')});
       $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
       $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
       $(@el).children().last().toggleClass('expanded')

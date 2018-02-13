@@ -17,8 +17,23 @@
 
     events: ->
       {
-        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='macros_reply']" : 'showContent'
+        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='macros_reply']" : 'showContent',
+        "click @ui.copy" : "copyContent"
       }
+
+    ui: ->
+      {
+        copy:     ".copy-button",
+      }
+
+    copyContent: (evt) ->
+      temp = document.createElement('input');
+      temp.type = 'text'
+      temp.value = this.model.get('content');
+      document.body.append(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
 
     showContent: (evt) ->
       if @model.get('fetched')

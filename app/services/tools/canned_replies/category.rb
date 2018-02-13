@@ -1,9 +1,11 @@
 class Tools::CannedReplies::Category
+  attr_accessor :persisted_record
+
   def initialize attrs
     @attrs = attrs
   end
 
-  def _id
+  def origin_id
     @attrs['id']
   end
 
@@ -11,8 +13,9 @@ class Tools::CannedReplies::Category
     @attrs['type'] != "Public"
   end
 
-  def parent_id
-    @attrs["parent_category_id"] == 0 ? nil : @attrs["parent_category_id"]
+  def parent_id &block
+    return nil if @attrs["parent_category_id"] == 0
+    block.call @attrs["parent_category_id"]
   end
 
   def user
@@ -27,4 +30,18 @@ class Tools::CannedReplies::Category
     user && user.id
   end
 
+  def persisted?
+    persisted_record.present?
+  end
+
+  def changed?
+    persisted? && attributes_changed?
+  end
+
+  def attributes_changed?
+    [
+      private?  != persisted_record.private,
+      name      != persisted_record.name
+    ].any?
+  end
 end

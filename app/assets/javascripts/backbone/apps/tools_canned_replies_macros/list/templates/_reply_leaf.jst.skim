@@ -1,8 +1,8 @@
 .row.leaf.content.reply-leaf data-id="#{{@id}}" data-type="#{{@type}}"
   .large-10.columns
-    .row
+    .row.hash
       icon.fa.fa-file.fa-lg.entity-type-icon
-      div=@name
+      .label=@name
   .large-2.columns
     a.toggle
       icon.fa.fa-angle-double-down
@@ -11,3 +11,6 @@
     .row.hash
       .expand.reply-content style="white-space: pre-wrap;"
         div=@content
+        div
+          a.copy-button
+            icon.fa.fa-copy.fa-lg
