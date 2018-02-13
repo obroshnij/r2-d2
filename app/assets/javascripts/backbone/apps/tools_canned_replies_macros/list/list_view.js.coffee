@@ -10,6 +10,7 @@
   class List.ReplyLeaf extends App.Views.CompositeView
     template: 'tools_canned_replies_macros/list/_reply_leaf'
     tagName: 'li'
+    className: 'item-holder'
 
     modelEvents:
       "change": "render"

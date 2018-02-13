@@ -1,12 +1,13 @@
 .row.leaf.content.reply-leaf data-id="#{{@id}}" data-type="#{{@type}}"
   .large-10.columns
-    .row.hash
-      icon.fi-page.entity-type-icon
-      .label = @name
+    .row
+      icon.fa.fa-file.fa-lg.entity-type-icon
+      div=@name
   .large-2.columns
     a.toggle
       icon.fa.fa-angle-double-down
 .row
   .large-12.columns
     .row.hash
-      .expand.reply-content=@content
+      .expand.reply-content style="white-space: pre-wrap;"
+        div=@content

@@ -7,7 +7,6 @@
       contentRegion:  '#canned-replies-content-region'
       searchRegion:   '#canned-replies-search-region'
 
-
   class List.ReplyLeaf extends App.Views.CompositeView
     template: 'tools_canned_replies_canned/list/_reply_leaf'
     tagName: 'li'
@@ -18,8 +17,24 @@
 
     events: ->
       {
-        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='canned_reply']" : 'showContent'
+        "click .reply-leaf[data-id=#{this.model.get('id')}][data-type='canned_reply']" : 'showContent',
+        "click @ui.copy" : "copyContent"
       }
+
+    ui: ->
+      {
+        copy:     ".copy-button",
+        content:  ".content-row"
+      }
+
+    copyContent: (evt) ->
+      temp = document.createElement('input');
+      temp.type = 'text'
+      temp.value = this.model.get('content');
+      document.body.append(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
 
     showContent: (evt) ->
       if @model.get('fetched')
@@ -62,8 +77,7 @@
 
     expand: (evt)->
       $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-      $(@el).find('icon.expander').first().toggleClass('fa-angle-right');
-      $(@el).find('icon.expander').first().toggleClass('fa-angle-down');
+      $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
       $(@el).children().last().toggleClass('expanded')
 
   class List.TreeRoots extends App.Views.CollectionView

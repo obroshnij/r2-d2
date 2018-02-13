@@ -16,29 +16,41 @@
     width: 0px;
     height: 0px;
     opacity: 0;
-    transition: opacity 1s linear;
   }
 
   .expanded {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     margin-right: 0px;
     margin-left: 0px;
     opacity: 1;
   }
 
+  div.expand:not(.expanded) .copy-button {
+    float: initial;
+    width: 0px;
+    height: 0px;
+  }
+
+  .expand.expanded .copy-button {
+    float: right;
+    width: 10px;
+    height: 10px;
+    padding-bottom: 2rem;
+  }
+
   .row.leaf, .reply-category-children, .category-leaf {
     padding-top:    1rem;
     padding-bottom: 1rem;
-    margin-left: 0px;
+    margin-left:    0px;
   }
 
   .row.category-leaf {
     color: $dark-gray;
   }
 
-  .toggle                               { color: $primary-color; cursor: pointer; }
+  .toggle                               { color: $primary-color; cursor: pointer; float: right;}
   .toggle::before                       { content: 'Expand '; }
   .toggle.expanded-toggle::before       { content: 'Collapse '; }
 
@@ -50,6 +62,7 @@
 
     .entity-type-icon {
       margin-right: 1rem;
+      color: $dark-gray;
     }
 
     li                                      { border-top: 1px solid $medium-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
@@ -57,6 +70,7 @@
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }
         }
+        .label                              { color: $dark-gray; background-color: initial;}
         .value                              { display: inline-block; word-wrap: break-word;
           span                              { cursor: text; }
         }
