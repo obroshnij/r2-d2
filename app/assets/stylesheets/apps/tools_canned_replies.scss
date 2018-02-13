@@ -56,6 +56,10 @@
 
   .replies-list               { overflow: hidden;
 
+    .reply-leaf {
+      padding-left: 1rem;
+    }
+
     li.item-holder:hover {
       background-color: #def0fc;
     }
