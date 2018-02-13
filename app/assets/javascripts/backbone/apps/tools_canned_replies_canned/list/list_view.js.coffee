@@ -114,7 +114,7 @@
         isCompact: true
 
         fields: [
-          name:     'content_cont'
-          label:    'Text'
+          name:     'content_or_name_cont'
+          label:    'Name or Content'
         ]
       ]
