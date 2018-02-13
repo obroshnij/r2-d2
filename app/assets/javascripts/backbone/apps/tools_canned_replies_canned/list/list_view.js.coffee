@@ -57,11 +57,20 @@
 
     childView: (args)->
       if args.model.get('type') == 'canned_category'
-        return new List.TreeLeaf(args)
+        if (args.model.get('expanded') == true)
+          return new List.TreeLeaf(args)
+        else
+          return new List.TreeLeaf({model: args.model, collection: new args.model.nodes.constructor})
       else
         return new List.ReplyLeaf(args)
 
     childViewContainer: 'ul'
+
+    modelEvents:
+      "change": "render"
+
+    collectionEvents:
+      "change": "render"
 
     events: ->
       {
@@ -75,7 +84,7 @@
       }
 
     expand: (evt)->
-      # @model.set({expanded: !@model.get('expanded')});
+      @model.set({expanded: !@model.get('expanded')});
       $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
       $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
       $(@el).children().last().toggleClass('expanded')
@@ -86,7 +95,12 @@
     tagName: 'ul'
     className: 'no-bullet replies-list'
 
-    childView: List.TreeLeaf
+    childView: (args) ->
+      if (args.model.get('expanded') == true)
+        return new List.TreeLeaf(args)
+      else
+        return new List.TreeLeaf({model: args.model})
+
     childViewContainer: 'div'
 
     collectionEvents:
@@ -114,7 +128,7 @@
         isCompact: true
 
         fields: [
-          name:     'content_or_name_cont'
+          name:     'name_or_content_cont'
           label:    'Name or Content'
         ]
       ]

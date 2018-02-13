@@ -113,7 +113,7 @@
         isCompact: true
 
         fields: [
-          name:     'content_or_name_cont'
+          name:     'name_or_content_cont'
           label:    'Name or Content'
         ]
       ]

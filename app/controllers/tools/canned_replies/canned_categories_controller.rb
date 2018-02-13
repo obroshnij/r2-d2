@@ -15,7 +15,7 @@ class Tools::CannedReplies::CannedCategoriesController < ApplicationController
   private
 
   def search_params
-    params[:q]
+    params[:q] && !params[:q][:name_or_content_cont].blank? && params[:q][:name_or_content_cont]
   end
 
   def resource_collection
@@ -36,7 +36,13 @@ class Tools::CannedReplies::CannedCategoriesController < ApplicationController
   end
 
   def replies
-    @replies ||= Tools::CannedReplies::CannedReply.ransack(search_params).result
+    @replies_collection ||= search_params ? search_replies : Tools::CannedReplies::CannedReply.all
+  end
+
+  def search_replies
+    Tools::CannedReplies::CannedReply.search_by_name_or_content(
+      search_params
+    )
   end
 
 end

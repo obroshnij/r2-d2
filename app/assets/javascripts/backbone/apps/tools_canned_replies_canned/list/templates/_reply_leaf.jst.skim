@@ -8,9 +8,10 @@
       icon.fa.fa-angle-double-down
 .row
   .large-12.columns
-    .row.hash
-      .expand.reply-content style="white-space: pre-wrap;"
-        div=@content
-        div
-          a.copy-button
-            icon.fa.fa-copy.fa-lg
+    .row
+      .expand.reply-content
+    .row
+      .large-12.columns=@content
+    .row
+      a.copy-button
+        icon.fa.fa-copy.fa-lg

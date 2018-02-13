@@ -89,6 +89,9 @@ gem 'axlsx_rails'
 # build ancestry tree on back-end
 gem 'ancestry'
 
+# use postgres to search through content
+gem 'pg_search'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
