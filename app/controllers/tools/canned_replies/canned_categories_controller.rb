@@ -36,11 +36,11 @@ class Tools::CannedReplies::CannedCategoriesController < ApplicationController
   end
 
   def replies
-    @replies_collection ||= search_params ? search_replies : Tools::CannedReplies::CannedReply.all
+    @replies_collection ||= search_params ? search_replies : Tools::CannedReplies::CannedReply.visible_for(current_user.id)
   end
 
   def search_replies
-    Tools::CannedReplies::CannedReply.search_by_name_or_content(
+    Tools::CannedReplies::CannedReply.visible_for(current_user.id).search_by_name_or_content(
       search_params
     )
   end

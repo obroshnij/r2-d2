@@ -1,7 +1,7 @@
 .row.leaf.content.category-leaf data-id="#{{@id}}" data-type="#{{@type}}"
   .large-12.columns
     .row.hash
-      icon.expander.fa.fa-angle-right style="padding-right:0.5rem"
+      icon class="expander fa #{{'fa-angle-right' if !@expanded}} #{{'fa-angle-down' if @expanded}}"
       icon.fa.fa-folder.fa-lg.entity-type-icon
       .key = @name
 .row.expand.children

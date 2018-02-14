@@ -20,13 +20,8 @@
     opacity: 1;
   }
 
-  .expanded {
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin-right: 0px;
-    margin-left: 0px;
-    opacity: 1;
+  .expander {
+    padding-right:0.5rem
   }
 
   div.expand .copy-button {
@@ -56,8 +51,8 @@
   }
 
   .toggle                               { color: $primary-color; cursor: pointer; float: right; padding-right: 1rem;}
-  .toggle::before                       { content: 'Expand '; }
-  .toggle.expanded-toggle::before       { content: 'Collapse '; }
+  .toggle::before                       { content: ''; }
+  .toggle.expanded-toggle::before       { content: ''; }
 
   .replies-list               { overflow: hidden;
 
@@ -86,7 +81,7 @@
       color: $dark-gray;
     }
 
-    li                                      { border-bottom: 0px; border-top: 1px solid $medium-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
+    li                                      { border-bottom: none; border-top: 1px solid $light-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
       .hash                                 {
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }
