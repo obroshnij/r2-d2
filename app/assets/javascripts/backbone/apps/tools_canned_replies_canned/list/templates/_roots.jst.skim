@@ -1,2 +1,3 @@
 .row.leaf
-ul.no-bullet.children.replies-list
+  .large-12.columns
+    ul.no-bullet.children.replies-list

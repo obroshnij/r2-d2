@@ -4,13 +4,17 @@
       icon.fa.fa-file.fa-lg.entity-type-icon
       .label=@name
   .large-2.columns
-    a.toggle
-      icon.fa.fa-angle-double-down
-.row
-  .large-12.columns
-    .row.hash
-      .expand.reply-content style="white-space: pre-wrap;"
-        div=@content
-        div
-          a.copy-button
-            icon.fa.fa-copy.fa-lg
+    a class="toggle #{'expanded-toggle' if @expanded}"
+      icon class="fa fa-angle-double-down #{"fa-rotate-180" if @expanded}"
+-if @expanded
+  .row
+    .large-12.columns
+      .row
+        .large-12.columns.expand
+          .row
+            .large-12.columns.reply-content=@content
+          .row
+            .large-12.columns
+              .copy-container
+                a.copy-button
+                  icon.fa.fa-copy.fa-lg

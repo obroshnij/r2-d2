@@ -37,17 +37,10 @@
 
     showContent: (evt) ->
       @model.set({expanded: !@model.get('expanded')});
-      if @model.get('fetched')
-        # $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-        # $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-        # $(@el).children().last().find('.reply-content').toggleClass('expanded')
-      else
+      if !@model.get('fetched')
         @model.fetch().then(
           (() ->
             @model.set({ fetched: true });
-            # $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-            # $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-            # $(@el).children().last().find('.reply-content').toggleClass('expanded')
           ).bind(@);
         )
 
@@ -86,9 +79,6 @@
 
     expand: (evt)->
       @model.set({expanded: !@model.get('expanded')});
-      $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-      $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-      $(@el).children().last().toggleClass('expanded')
 
   class List.TreeRoots extends App.Views.CollectionView
     template: 'tools_canned_replies_canned/list/_roots'
@@ -96,16 +86,16 @@
     tagName: 'ul'
     className: 'no-bullet replies-list'
 
+    childViewContainer: 'div'
+
+    collectionEvents:
+      "change": "render"
+
     childView: (args) ->
       if (args.model.get('expanded') == true)
         return new List.TreeLeaf(args)
       else
         return new List.TreeLeaf({model: args.model})
-
-    childViewContainer: 'div'
-
-    collectionEvents:
-      "change": "render"
 
     childViewOptions: (model, index) ->
       return {

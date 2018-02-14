@@ -27,7 +27,7 @@
       }
 
     copyContent: (evt) ->
-      temp = document.createElement('input');
+      temp = document.createElement('textarea');
       temp.type = 'text'
       temp.value = this.model.get('content');
       document.body.append(temp);
@@ -36,17 +36,11 @@
       temp.remove();
 
     showContent: (evt) ->
-      if @model.get('fetched')
-        $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-        $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-        $(@el).children().last().find('.reply-content').toggleClass('expanded')
-      else
+      @model.set({expanded: !@model.get('expanded')});
+      if !@model.get('fetched')
         @model.fetch().then(
           (() ->
             @model.set({ fetched: true });
-            $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-            $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-            $(@el).children().last().find('.reply-content').toggleClass('expanded')
           ).bind(@);
         )
 
@@ -57,11 +51,20 @@
 
     childView: (args)->
       if args.model.get('type') == 'macros_category'
-        return new List.TreeLeaf(args)
+        if (args.model.get('expanded') == true)
+          return new List.TreeLeaf(args)
+        else
+          return new List.TreeLeaf({model: args.model, collection: new args.model.nodes.constructor})
       else
         return new List.ReplyLeaf(args)
 
     childViewContainer: 'ul'
+
+    modelEvents:
+      "change": "render"
+
+    collectionEvents:
+      "change": "render"
 
     events: ->
       {
@@ -75,9 +78,7 @@
       }
 
     expand: (evt)->
-      $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-      $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-      $(@el).children().last().toggleClass('expanded')
+      @model.set({expanded: !@model.get('expanded')});
 
   class List.TreeRoots extends App.Views.CollectionView
     template: 'tools_canned_replies_macros/list/_roots'
@@ -88,8 +89,13 @@
     collectionEvents:
       "change": "render"
 
-    childView: List.TreeLeaf
     childViewContainer: 'div'
+
+    childView: (args) ->
+      if (args.model.get('expanded') == true)
+        return new List.TreeLeaf(args)
+      else
+        return new List.TreeLeaf({model: args.model})
 
     childViewOptions: (model, index) ->
       return {

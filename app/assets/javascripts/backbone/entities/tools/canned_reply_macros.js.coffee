@@ -1,7 +1,6 @@
 @Artoo.module 'Entities', (Entities, App, Backbone, Marionette, $, _) ->
 
   #macro
-
   class Entities.CannedReplyMacrosCategory extends App.Entities.Model
     urlRoot: -> Routes.tools_canned_replies_macros_category_path()
 

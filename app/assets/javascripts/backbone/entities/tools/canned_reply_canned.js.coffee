@@ -26,12 +26,7 @@
   class Entities.CannedRepliesCategoriesCollection extends App.Entities.Collection
     model: Entities.CannedReplyCategory
 
-    isParsed: false
-
     url: -> Routes.tools_canned_replies_canned_categories_path()
-
-    setParsed: (parsed) ->
-      @isParsed = parsed;
 
     parseRecords: (resp) ->
       roots = @_findRoots(resp.items)

@@ -15,9 +15,6 @@
     showTree: (data) ->
       view = @getRootsTreeView(data)
 
-      @listenTo view, 'childview:expand:clicked', (child, args) ->
-        child.expand()
-
       @show view, region: @layout.contentRegion
 
     showSearch: (treeData) ->
