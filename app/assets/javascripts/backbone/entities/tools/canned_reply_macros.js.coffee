@@ -16,6 +16,7 @@
 
     defaults:
       fetched: false
+      expanded: false
       index:    0
 
     parse: (resp) ->

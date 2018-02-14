@@ -29,10 +29,13 @@
     opacity: 1;
   }
 
-  div.expand:not(.expanded) .copy-button {
-    float: initial;
-    width: 0px;
-    height: 0px;
+  div.expand .copy-button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
+    opacity: 1;
   }
 
   .expand.expanded .copy-button {
@@ -52,7 +55,7 @@
     color: $dark-gray;
   }
 
-  .toggle                               { color: $primary-color; cursor: pointer; float: right;}
+  .toggle                               { color: $primary-color; cursor: pointer; float: right; padding-right: 1rem;}
   .toggle::before                       { content: 'Expand '; }
   .toggle.expanded-toggle::before       { content: 'Collapse '; }
 
@@ -60,7 +63,14 @@
 
     .reply-content {
       white-space: pre-wrap;
-      margin-left: 0px
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .copy-container {
+      float: right;
+      padding-bottom: 1rem;
+      padding-right:  1rem;
     }
 
     .reply-leaf {
@@ -76,7 +86,7 @@
       color: $dark-gray;
     }
 
-    li                                      { border-top: 1px solid $medium-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
+    li                                      { border-bottom: 0px; border-top: 1px solid $medium-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
       .hash                                 {
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }
@@ -94,8 +104,7 @@
 
     .hoverable-reply:hover { background-color: #def0fc; cursor: pointer;}
 
-    li:last-child                           { border-bottom: 1px solid $medium-gray; padding-bottom: 0px;}
-    li:first-child                           { padding-bottom: 0px;}
+    li:first-child                          { padding-bottom: 0px;}
 
     .row.expand.children.expanded ul li:last-child { border-bottom: none; }
   }

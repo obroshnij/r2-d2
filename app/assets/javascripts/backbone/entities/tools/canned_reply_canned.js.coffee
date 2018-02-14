@@ -16,6 +16,7 @@
     defaults:
       fetched: false
       index:    0
+      expanded: false
 
     parse: (resp) ->
       resp.items

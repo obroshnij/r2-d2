@@ -27,7 +27,7 @@
       }
 
     copyContent: (evt) ->
-      temp = document.createElement('input');
+      temp = document.createElement('textarea');
       temp.type = 'text'
       temp.value = this.model.get('content');
       document.body.append(temp);
@@ -36,17 +36,18 @@
       temp.remove();
 
     showContent: (evt) ->
+      @model.set({expanded: !@model.get('expanded')});
       if @model.get('fetched')
-        $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-        $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-        $(@el).children().last().find('.reply-content').toggleClass('expanded')
+        # $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
+        # $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
+        # $(@el).children().last().find('.reply-content').toggleClass('expanded')
       else
         @model.fetch().then(
           (() ->
             @model.set({ fetched: true });
-            $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
-            $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
-            $(@el).children().last().find('.reply-content').toggleClass('expanded')
+            # $(@el).children().first().find('.toggle').toggleClass('expanded-toggle')
+            # $(@el).children().first().find('.toggle').children('icon').toggleClass('fa-rotate-180')
+            # $(@el).children().last().find('.reply-content').toggleClass('expanded')
           ).bind(@);
         )
 
