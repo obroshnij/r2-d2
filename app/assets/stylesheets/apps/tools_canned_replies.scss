@@ -58,7 +58,7 @@
 
     .reply-content {
       white-space: pre-wrap;
-      padding-left: 2rem;
+      padding-left: 4rem;
       padding-right: 2rem;
     }
 
@@ -81,7 +81,7 @@
       color: $dark-gray;
     }
 
-    li                                      { border-bottom: none; border-top: 1px solid $light-gray; margin-left: 5px; transition: background-color 0.25s ease-out; font-size: 0.875rem;
+    li                                      { padding-left:1rem;border-bottom: none; border-top: 1px solid $light-gray; transition: background-color 0.25s ease-out; font-size: 0.875rem;
       .hash                                 {
         .key                                { display: inline-block; text-align: right; font-style: italic; color: #666; vertical-align: top;
           span                              { cursor: text; }

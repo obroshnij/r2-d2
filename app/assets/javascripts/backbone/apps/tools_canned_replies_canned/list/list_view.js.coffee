@@ -49,6 +49,8 @@
     template: 'tools_canned_replies_canned/list/_category_leaf'
     tagName: 'li'
 
+    className: 'category-holder'
+
     childView: (args)->
       if args.model.get('type') == 'canned_category'
         if (args.model.get('expanded') == true)
