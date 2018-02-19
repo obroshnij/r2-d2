@@ -1,3 +1,4 @@
-a href="#{@url}"
-  i class="#{@icon}"
-  span = @name
+- if !@hidden
+  a href="#{@url}"
+    i class="#{@icon}"
+    span = @name

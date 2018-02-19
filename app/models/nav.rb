@@ -44,7 +44,8 @@ class Nav
         {
           name:   'Canned Replies',
           url:    '#/tools/canned_replies',
-          icon:   'fa fa-fw fa-reply'
+          icon:   'fa fa-fw fa-reply',
+          hidden: true
         }
       ]
     }, {
@@ -213,7 +214,7 @@ class Nav
   end
 
   def initialize options
-    @json       = options.slice :name, :url, :icon
+    @json       = options.slice :name, :url, :icon, :hidden
     @auth       = options[:auth]
     @klass      = options[:klass]
     @child_navs = init_child_navs(options[:child_navs]) if options[:child_navs]

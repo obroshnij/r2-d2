@@ -2,6 +2,9 @@
 
   class Entities.Nav extends App.Entities.Model
 
+    defaults:
+      hidden: false
+
     isDivider: -> @get('divider')
 
     isExternal: ->
