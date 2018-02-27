@@ -16,16 +16,16 @@ class Tools::CannedReplies::FetchRequest
     fetch_resource
   end
 
-  def sb_credentials
-    Rails.application.secrets.sandbox_support
+  def credentials
+    Rails.application.secrets.support
   end
 
   def fetch_resource
-    http_client.request sb_get_request
+    http_client.request get_request
   end
 
   def resource_url
-    @url ||= URI.join(sb_credentials['url'], resource_path)
+    @url ||= URI.join(credentials['url'], resource_path)
   end
 
   def http_client
@@ -35,9 +35,9 @@ class Tools::CannedReplies::FetchRequest
     http
   end
 
-  def sb_get_request
+  def get_request
     request = Net::HTTP::Get.new(resource_url.path)
-    request.basic_auth(sb_credentials['auth']['login'], sb_credentials['auth']['pass'])
+    request.basic_auth(credentials['auth']['login'], credentials['auth']['pass'])
     request
   end
 

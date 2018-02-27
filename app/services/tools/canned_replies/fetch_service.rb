@@ -1,9 +1,11 @@
 class Tools::CannedReplies::FetchService
+  CANNED_PATH = Rails.env.production? ? '/camreps' : '/canned_and_macros'
+
   RESOURCES = {
-    canned_categories: "/canned_and_macros/canned_categories.json",
-    macros_categories: "/canned_and_macros/macros_categories.json",
-    canned_replies:    "/canned_and_macros/canned.json",
-    macros_replies:    "/canned_and_macros/macros.json"
+    canned_categories: "#{CANNED_PATH}/canned_categories.json",
+    macros_categories: "#{CANNED_PATH}/macros_categories.json",
+    canned_replies:    "#{CANNED_PATH}/canned.json",
+    macros_replies:    "#{CANNED_PATH}/macros.json"
   }.freeze
 
   attr_accessor :data
